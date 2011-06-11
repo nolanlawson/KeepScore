@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal">
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="0px"
+		android:layout_weight="0.33" android:gravity="center_vertical|center_horizontal"
+		android:paddingTop="3dp" android:paddingLeft="3dp"
+		android:paddingBottom="3dp" android:paddingRight="3dp">
+
+		<FrameLayout android:orientation="vertical"
+			android:layout_width="0px" android:layout_weight="0.5"
+			android:layout_height="fill_parent">
+
+			<include layout="@layout/player_score_left" android:id="@+id/player_1" />
+		</FrameLayout>
+
+		<View android:layout_height="0px" android:layout_width="3dp" />
+		<FrameLayout android:orientation="vertical"
+			android:layout_width="0px" android:layout_weight="0.5"
+			android:layout_height="fill_parent" >
+
+			<include layout="@layout/player_score_right" android:id="@+id/player_2" />
+		</FrameLayout>
+
+	</LinearLayout>
+
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="0px"
+		android:layout_weight="0.33" android:gravity="center_vertical|center_horizontal"
+		android:paddingLeft="3dp" android:paddingBottom="3dp"
+		android:paddingRight="3dp">
+
+
+		<FrameLayout android:orientation="vertical"
+			android:layout_width="0px" android:layout_weight="0.5"
+			android:layout_height="fill_parent" >
+
+			<include layout="@layout/player_score_left" android:id="@+id/player_3" />
+		</FrameLayout>
+
+		<View android:layout_height="0px" android:layout_width="3dp" />
+
+		<FrameLayout android:orientation="vertical"
+			android:layout_width="0px" android:layout_weight="0.5"
+			android:layout_height="fill_parent" >
+
+			<include layout="@layout/player_score_right" android:id="@+id/player_4" />
+		</FrameLayout>
+
+	</LinearLayout>
+	
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="0px"
+		android:layout_weight="0.33" android:gravity="center_vertical|center_horizontal"
+		android:paddingTop="3dp" android:paddingLeft="3dp"
+		android:paddingBottom="3dp" android:paddingRight="3dp">
+
+		<FrameLayout android:orientation="vertical"
+			android:layout_width="0px" android:layout_weight="0.5"
+			android:layout_height="fill_parent">
+
+			<include layout="@layout/player_score_left" android:id="@+id/player_5" />
+		</FrameLayout>
+
+		<View android:layout_height="0px" android:layout_width="3dp" />
+		<FrameLayout android:orientation="vertical"
+			android:layout_width="0px" android:layout_weight="0.5"
+			android:layout_height="fill_parent" >
+
+			<include layout="@layout/player_score_right" android:id="@+id/player_6" />
+		</FrameLayout>
+
+	</LinearLayout>	
+
+</LinearLayout>

@@ -18,20 +18,20 @@
 			android:orientation="vertical">
 
 			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.25" />
+				android:layout_weight="0.15" />
 
 			<Button android:layout_width="fill_parent"
-				android:layout_height="0px" android:layout_weight="0.5"
+				android:layout_height="0px" android:layout_weight="0.7"
 				android:textStyle="bold" android:id="@+id/button_minus"
 				android:text="-" />
 
 			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.25" />
+				android:layout_weight="0.15" />
 
 		</LinearLayout>
 		<TextView android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="wrap_content" android:singleLine="true"
-			android:textSize="72sp" android:textStyle="bold" android:id="@+id/text_score"
+			android:layout_height="fill_parent" android:singleLine="true"
+			android:textSize="48sp" android:textStyle="bold" android:id="@+id/text_score"
 			android:text="0" android:gravity="center_horizontal|center_vertical" />
 
 
@@ -40,14 +40,14 @@
 			android:orientation="vertical">
 
 			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.25" />
+				android:layout_weight="0.15" />
 
 			<Button android:layout_width="fill_parent"
-				android:layout_height="0px" android:layout_weight="0.5"
+				android:layout_height="0px" android:layout_weight="0.7"
 				android:textStyle="bold" android:id="@+id/button_plus" android:text="+" />
 
 			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.25" />
+				android:layout_weight="0.15" />
 
 		</LinearLayout>
 

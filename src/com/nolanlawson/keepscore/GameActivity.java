@@ -31,12 +31,26 @@ public class GameActivity extends Activity {
         
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(R.layout.game_3_to_4);
+        setContentView(getContentViewResId());
         
         
         
         setUpWidgets();
     }
+
+	private int getContentViewResId() {
+		switch (numPlayers) {
+		case 2:
+			return R.layout.game_2;
+		case 3:
+		case 4:
+			return R.layout.game_3_to_4;
+		case 5:
+		case 6:
+		default:
+			return R.layout.game_5_to_6;
+		}
+	}
 
 	private void createGame() {
 
@@ -86,6 +100,16 @@ public class GameActivity extends Activity {
 			playerViews.add(playerView);
 			
 		}
+		
+		if (numPlayers == 3) {
+			// hide the "fourth" player
+			findViewById(R.id.player_4).setVisibility(View.INVISIBLE);
+		} else if (numPlayers == 5) {
+			// hide the "sixth" player
+			findViewById(R.id.player_6).setVisibility(View.INVISIBLE);
+		}
+		
+		
 
     			
 		
@@ -100,8 +124,12 @@ public class GameActivity extends Activity {
 		case 2:
 			return R.id.player_3;
 		case 3:
-		default:
 			return R.id.player_4;	
+		case 4:
+			return R.id.player_5;
+		case 5: 
+		default:
+			return R.id.player_6;
 		}
 	}
 }
