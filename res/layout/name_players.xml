@@ -32,28 +32,34 @@
 
 				<EditText android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:hint="@string/hint_player_1"
-					android:id="@+id/edit_player_1" android:singleLine="true"/>
+					android:id="@+id/edit_player_1" android:singleLine="true"
+					android:inputType="textCapWords"/>
 
 
 				<EditText android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:hint="@string/hint_player_2"
-					android:id="@+id/edit_player_2" android:singleLine="true"/>
+					android:id="@+id/edit_player_2" android:singleLine="true"
+					android:inputType="textCapWords"/>
 
 				<EditText android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:hint="@string/hint_player_3"
-					android:id="@+id/edit_player_3" android:singleLine="true"/>
+					android:id="@+id/edit_player_3" android:singleLine="true"
+					android:inputType="textCapWords"/>
 
 				<EditText android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:hint="@string/hint_player_4"
-					android:id="@+id/edit_player_4" android:singleLine="true"/>
+					android:id="@+id/edit_player_4" android:singleLine="true"
+					android:inputType="textCapWords"/>
 
 				<EditText android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:hint="@string/hint_player_5"
-					android:id="@+id/edit_player_5" android:singleLine="true"/>
+					android:id="@+id/edit_player_5" android:singleLine="true"
+					android:inputType="textCapWords"/>
 
 				<EditText android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:hint="@string/hint_player_6"
-					android:id="@+id/edit_player_6" android:singleLine="true"/>
+					android:id="@+id/edit_player_6" android:singleLine="true"
+					android:inputType="textCapWords"/>
 
 			</LinearLayout>
 
