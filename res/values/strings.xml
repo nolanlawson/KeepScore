@@ -19,7 +19,6 @@
     <string name="button_5_players">Five players</string>
     <string name="button_6_players">Six players</string>
     <string name="button_customize">Customize...</string>
-    <string name="button_cancel">Cancel</string>
     
     <string name="hint_player_1">Player 1</string>
     <string name="hint_player_2">Player 2</string>
@@ -45,5 +44,6 @@
     
     <string name="tile_add">Add Value</string>
     <string name="tile_subtract">Add Value</string>
+    <string name="tile_change_name">Change Name</string>
     
 </resources>

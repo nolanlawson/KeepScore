@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
@@ -63,16 +67,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		minusButton.setOnLongClickListener(this);
 		plusButton.setOnClickListener(this);
 		plusButton.setOnLongClickListener(this);
-		
-		
+		nameTextView.setOnClickListener(this);
+		nameTextView.setOnLongClickListener(this);
 
-    	String playerName = !TextUtils.isEmpty(playerScore.getName()) 
-    			? playerScore.getName() 
-    			: (context.getString(R.string.text_player) + " " + (playerScore.getPlayerNumber() + 1));
-    	nameTextView.setText(playerName);
-    	
-    	scoreTextView.setText(Long.toString(playerScore.getScore()));
-   		historyTextView.setText(fromHistory(playerScore.getHistory()));
+		updateTextViews();
     	
     	log.d("history is: %s", playerScore.getHistory());
 		
@@ -115,10 +113,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		case R.id.button_plus:
 			increment(1);
 			break;
+		case R.id.text_name:
+			break;
 		}
-		
-		shouldAutosave.set(true);
-		
 	}
 
 	private void increment(int delta) {
@@ -152,10 +149,18 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		// now update the history text view and the total score text view
 		updateTextViews();
+		
+		shouldAutosave.set(true);
 	}
 	
 	private void updateTextViews() {
 
+
+    	String playerName = !TextUtils.isEmpty(playerScore.getName()) 
+    			? playerScore.getName() 
+    			: (context.getString(R.string.text_player) + " " + (playerScore.getPlayerNumber() + 1));
+    	nameTextView.setText(playerName);
+		
 		scoreTextView.setText(Long.toString(playerScore.getScore()));
 		historyTextView.setText(fromHistory(playerScore.getHistory()));
 		
@@ -218,10 +223,44 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		case R.id.button_minus:
 			showAdditionalDeltasPopup(false);
 			return true;
+		case R.id.text_name:
+			showChangeNameDialog();
+			return true;
 		}
 		
 		
 		return false;
+	}
+
+	private void showChangeNameDialog() {
+		
+		final EditText editText = new EditText(context);
+		editText.setHint(context.getString(R.string.text_player) + " " + (playerScore.getPlayerNumber() + 1));
+		editText.setText(StringUtil.nullToEmpty(playerScore.getName()));
+		editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+		new AlertDialog.Builder(context)
+			.setTitle(R.string.tile_change_name)
+			.setView(editText)
+			.setCancelable(true)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					String newName = editText.getText().toString();
+					
+					playerScore.setName(newName);
+					
+					updateTextViews();
+					
+					shouldAutosave.set(true);
+					dialog.dismiss();
+					
+				}
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
+		
 	}
 
 	private void showAdditionalDeltasPopup(boolean positive) {

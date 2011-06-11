@@ -63,7 +63,7 @@ public class DialogHelper {
 					dialog.dismiss();
 				}
 			})
-			.setNegativeButton(R.string.button_cancel, null)
+			.setNegativeButton(android.R.string.cancel, null)
 			.setView(view)
 			.show();
 		

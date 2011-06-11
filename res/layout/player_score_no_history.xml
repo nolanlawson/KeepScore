@@ -6,9 +6,10 @@
 
 	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:singleLine="true"
-		android:textSize="24sp" android:textStyle="bold" android:id="@+id/text_name"
+		android:textSize="@dimen/player_name_2_to_4" android:textStyle="bold" android:id="@+id/text_name"
 		android:text="Fred" android:gravity="center_horizontal" 
-		android:ellipsize="end"/>
+		android:ellipsize="end" android:focusable="true"
+		android:clickable="true" android:background="@drawable/generic_selector"/>
 
 	<LinearLayout android:layout_height="0px"
 		android:layout_weight="1" android:layout_width="fill_parent"

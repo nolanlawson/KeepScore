@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,6 +49,8 @@ public class GameActivity extends Activity {
         setContentView(getContentViewResId());
         
         setUpWidgets();
+        
+        playerViews.get(0).getNameTextView().setSelected(false);
         
 		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, getPackageName());
@@ -237,6 +240,11 @@ public class GameActivity extends Activity {
 			
 			PlayerView playerView = new PlayerView(this, view, playerScore);
 			
+			// sometimes the text gets cut off in the 6 player view, so make the player name smaller there
+			if (numPlayers >= 5) {
+				playerView.getNameTextView().setTextSize(
+						getResources().getDimension(R.dimen.player_name_5_to_6));
+			}
 	    	
 			playerViews.add(playerView);
 			
