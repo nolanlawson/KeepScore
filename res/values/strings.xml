@@ -18,6 +18,8 @@
     <string name="button_4_players">Four players</string>
     <string name="button_5_players">Five players</string>
     <string name="button_6_players">Six players</string>
+    <string name="button_customize">Customize...</string>
+    <string name="button_cancel">Cancel</string>
     
     <string name="hint_player_1">Player 1</string>
     <string name="hint_player_2">Player 2</string>
@@ -30,4 +32,18 @@
     
     <string name="toast_saved_automatically">Game saved automatically.</string>
     <string name="toast_saved">Game saved.</string>
+    
+    <string name="pref_button_1">button1</string>
+    <string name="pref_button_2">button2</string>
+    <string name="pref_button_3">button3</string>
+    <string name="pref_button_4">button4</string>
+    
+    <string name="pref_button_1_default">-1</string>
+    <string name="pref_button_2_default">1</string>
+    <string name="pref_button_3_default">5</string>
+    <string name="pref_button_4_default">10</string>
+    
+    <string name="tile_add">Add Value</string>
+    <string name="tile_subtract">Add Value</string>
+    
 </resources>

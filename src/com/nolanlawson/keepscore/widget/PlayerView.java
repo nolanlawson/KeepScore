@@ -12,17 +12,21 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.DialogHelper;
+import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
-public class PlayerView implements OnClickListener {
+public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	public static final long LAST_INCREMENTED_WAIT_TIME = 10000;
 	
@@ -56,7 +60,10 @@ public class PlayerView implements OnClickListener {
 		plusButton = (Button) view.findViewById(R.id.button_plus);
 		
 		minusButton.setOnClickListener(this);
+		minusButton.setOnLongClickListener(this);
 		plusButton.setOnClickListener(this);
+		plusButton.setOnLongClickListener(this);
+		
 		
 
     	String playerName = !TextUtils.isEmpty(playerScore.getName()) 
@@ -144,15 +151,16 @@ public class PlayerView implements OnClickListener {
 		}
 		
 		// now update the history text view and the total score text view
-		
-		scoreTextView.setText(Long.toString(playerScore.getScore()));
-		
-		historyTextView.setText(fromHistory(playerScore.getHistory()));
-		
-		
-		
+		updateTextViews();
 	}
 	
+	private void updateTextViews() {
+
+		scoreTextView.setText(Long.toString(playerScore.getScore()));
+		historyTextView.setText(fromHistory(playerScore.getHistory()));
+		
+	}
+
 	/**
 	 * Add green color for positive entries and red color for negative entries, and convert ints to strings.
 	 */
@@ -171,10 +179,7 @@ public class PlayerView implements OnClickListener {
 
 			@Override
 			public Integer apply(Integer obj) {
-				if (obj >= 0) {
-					return obj.toString().length() + 1; // +1 for the '+' char
-				}
-				return obj.toString().length();
+				return IntegerUtil.toStringWithSign(obj).length();
 			}});
 		
 		List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
@@ -190,8 +195,7 @@ public class PlayerView implements OnClickListener {
 				int colorResId = (value >= 0) ? R.color.green : R.color.red;
 				ForegroundColorSpan colorSpan = new ForegroundColorSpan(
 						context.getResources().getColor(colorResId));
-				// add '+' to nonnegative values				
-				String str = value >= 0 ? ("+" + value) : Integer.toString(value);
+				String str = IntegerUtil.toStringWithSign(value);
 				log.d("max length is %s, str is '%s'", maxChars, str);
 				str = StringUtil.padLeft(str, ' ', maxChars);
 				Spannable spannable = new SpannableString(str);
@@ -201,5 +205,46 @@ public class PlayerView implements OnClickListener {
 			}
 			
 		};
+	}
+
+	@Override
+	public boolean onLongClick(View view) {
+		// on long click, start up the additional delta values popup
+		
+		switch (view.getId()) {
+		case R.id.button_plus:
+			showAdditionalDeltasPopup(true);
+			return true;
+		case R.id.button_minus:
+			showAdditionalDeltasPopup(false);
+			return true;
+		}
+		
+		
+		return false;
+	}
+
+	private void showAdditionalDeltasPopup(boolean positive) {
+		DialogHelper.showAdditionalDeltasDialog(positive, new ResultListener<Integer>() {
+			
+			@Override
+			public void onResult(Integer delta) {
+				
+				if (delta != 0) {
+					
+					// add the value to the player's score, considering it as its "own" history item
+					// regardless of the time since the last delta
+					lastIncremented.set(0);
+					synchronized (lock) {
+						playerScore.setScore(playerScore.getScore() + delta);
+						playerScore.getHistory().add(delta);
+						
+						updateTextViews();
+						
+					}
+				}
+				
+			}
+		}, context);
 	}
 }
