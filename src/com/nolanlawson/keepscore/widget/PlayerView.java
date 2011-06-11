@@ -162,16 +162,27 @@ public class PlayerView implements OnClickListener {
 			return new SpannableString("");
 		}
 		
-		int lineCount = historyTextView.getLineCount();
 		
 		history = CollectionUtil.reversedCopy(history);
 		
-		List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan());
+		// if e.g. there is a double-digit delta (e.g. "+10"), then all other strings need to be padded
+		// so that they line up correctly
+		int maxChars = CollectionUtil.maxValue(history, new Function<Integer, Integer>(){
+
+			@Override
+			public Integer apply(Integer obj) {
+				if (obj >= 0) {
+					return obj.toString().length() + 1; // +1 for the '+' char
+				}
+				return obj.toString().length();
+			}});
+		
+		List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
 		
 		return StringUtil.joinSpannables("\n",CollectionUtil.toArray(spannables, Spannable.class));
 	}
 	
-	private Function<Integer,Spannable> historyToSpan() {
+	private Function<Integer,Spannable> historyToSpan(final int maxChars) {
 		return new Function<Integer, Spannable>() {
 
 			@Override
@@ -179,11 +190,10 @@ public class PlayerView implements OnClickListener {
 				int colorResId = (value >= 0) ? R.color.green : R.color.red;
 				ForegroundColorSpan colorSpan = new ForegroundColorSpan(
 						context.getResources().getColor(colorResId));
-				
-				String str = Integer.toString(value);
-				if (value >= 0) { // add '+' to nonnegative values
-					str = '+' + str;
-				}
+				// add '+' to nonnegative values				
+				String str = value >= 0 ? ("+" + value) : Integer.toString(value);
+				log.d("max length is %s, str is '%s'", maxChars, str);
+				str = StringUtil.padLeft(str, ' ', maxChars);
 				Spannable spannable = new SpannableString(str);
 				spannable.setSpan(colorSpan, 0, spannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 				

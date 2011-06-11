@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore.util;
 
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 
 public class IntegerUtil {

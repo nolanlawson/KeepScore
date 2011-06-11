@@ -10,6 +10,8 @@ import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
 
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
+
 public class StringUtil {
 
 	
@@ -111,5 +113,34 @@ public class StringUtil {
 		}
 		
 		return index;
+	}
+	
+	/**
+	 * Pad a string on the left until it reaches the designated height
+	 * @param str
+	 * @param padding
+	 * @param upTo
+	 * @return
+	 */
+	public static String padLeft(String str, char padding, int upTo) {
+		
+		StringBuilder stringBuilder = new StringBuilder(str);
+		
+		while (stringBuilder.length() < upTo) {
+			stringBuilder.insert(0, padding);
+		}
+		
+		return stringBuilder.toString();
+		
+	}
+	
+	public static Function<String, Integer> lengthFunction() {
+		return new Function<String, Integer>() {
+
+			@Override
+			public Integer apply(String obj) {
+				return obj.length();
+			}
+		};
 	}
 }

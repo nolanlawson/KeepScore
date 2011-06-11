@@ -6,6 +6,41 @@ import java.util.List;
 
 public class CollectionUtil {
 
+	public static <E,T extends Comparable<T>> T maxValue(List<E> list, Function<E,T> function) {
+		
+		T max = null;
+		
+		for (E obj : list) {
+			T value = function.apply(obj);
+			if (max == null || value.compareTo(max) > 0) {
+				max = value;
+			}
+		}
+		
+		return max;
+		
+	}
+	
+	public static <E,T,K> Function<E, K> compose(final Function<E, T> function1, final Function<T, K> function2) {
+		return new Function<E,K>(){
+
+			@Override
+			public K apply(E obj) {
+				return function2.apply(function1.apply(obj));
+			}
+		};
+	}
+	
+	public static <T> Function<T, String> toStringFunction() {
+		return new Function<T, String>(){
+
+			@Override
+			public String apply(T obj) {
+				return obj.toString();
+			}
+		};
+	}
+	
 	public static List<Integer> stringsToInts(List<String> list) {
 		
 		List<Integer> result = new ArrayList<Integer>();

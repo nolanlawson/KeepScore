@@ -13,8 +13,8 @@
 	
 	
 	<com.nolanlawson.keepscore.widget.AutofitTextView android:layout_width="0px" android:layout_weight=".15" android:layout_height="fill_parent"
-		android:gravity="center_horizontal" android:id="@+id/text_history" android:paddingTop="3dp"
-		android:paddingBottom="3dp"/>
+		android:gravity="left" android:id="@+id/text_history" android:paddingTop="3dp"
+		android:paddingBottom="3dp" android:typeface="monospace" android:paddingLeft="3dp"/>
 	
 	
 
