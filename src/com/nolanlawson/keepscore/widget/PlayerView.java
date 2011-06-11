@@ -25,6 +25,7 @@ public class PlayerView implements OnClickListener {
 	private Context context;
 	
 	private AtomicLong lastIncremented = new AtomicLong(0);
+	private final Object lock = new Object();
 	
 	public PlayerView(Context context, View view, PlayerScore playerScore) {
 		this.view = view;
@@ -97,15 +98,21 @@ public class PlayerView implements OnClickListener {
 			// if it's been awhile since the last time we incremented, OR if the last "update" is set to zero
 			// somehow (because the user pressed +1 followed by -1, for instance), then
 			// add a new history item
-			playerScore.getHistory().add(delta);
+			synchronized (lock) {
+				playerScore.getHistory().add(delta);
+			}
 		} else {
 			// else just update the most recent history item
-			int lastIndex = playerScore.getHistory().size() - 1;
-			int newValue = playerScore.getHistory().get(lastIndex) + delta;
-			playerScore.getHistory().set(lastIndex, newValue);
+			synchronized (lock) {
+				int lastIndex = playerScore.getHistory().size() - 1;
+				int newValue = playerScore.getHistory().get(lastIndex) + delta;
+				playerScore.getHistory().set(lastIndex, newValue);
+			}
 		}
 		
-		playerScore.setScore(playerScore.getScore() + delta);
+		synchronized (lock) {
+			playerScore.setScore(playerScore.getScore() + delta);
+		}
 		
 		// now update the history text view and the total score text view
 		

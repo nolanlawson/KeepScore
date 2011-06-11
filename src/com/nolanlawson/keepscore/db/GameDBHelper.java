@@ -48,15 +48,15 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				+ COLUMN_ID + " integer not null primary key autoincrement, "
 				+ COLUMN_NAME + " text, "
 				+ COLUMN_DATE_STARTED + " int not null, " + COLUMN_DATE_SAVED
-				+ " int not null, " + COLUMN_AUTOSAVED + " int not null;";
+				+ " int not null, " + COLUMN_AUTOSAVED + " int not null);";
 		
 		db.execSQL(createSql1);
 		
 		String createSql2 = "create table if not exists " + TABLE_PLAYER_SCORES + " ("
 				+ COLUMN_ID + " integer not null primary key autoincrement, "
 				+ COLUMN_NAME + " text not null, " + COLUMN_SCORE
-				+ " int not null " + COLUMN_PLAYER_NUMBER + " int not null, "
-				+ COLUMN_HISTORY + " text "
+				+ " int not null, " + COLUMN_PLAYER_NUMBER + " int not null, "
+				+ COLUMN_HISTORY + " text, "
 				+ COLUMN_GAME_ID + " int not null);";
 		
 		db.execSQL(createSql2);
@@ -85,6 +85,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	public boolean saveGame(Game game, boolean autosaved) {
 		
 		long dateSaved = System.currentTimeMillis();
+		game.setDateSaved(dateSaved);
 		
 		ContentValues contentValues = new ContentValues();
 		
@@ -100,17 +101,18 @@ public class GameDBHelper extends SQLiteOpenHelper {
 			
 			if (updated != 0) {
 				savePlayerScores(game.getId(), game.getPlayerScores());
+				
 				return false;
 			}
 		}
 		// else create a new row in the table
 		
-		long rowId = db.insert(TABLE_GAMES, null, contentValues);
+		db.insert(TABLE_GAMES, null, contentValues);
 		int newId;
 		
 		Cursor cursor = null;
 		try {
-			cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, "rowid=" + rowId, null, null, null, null);
+			cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
 			cursor.moveToNext();
 			newId = cursor.getInt(0);
 		} finally {
@@ -147,7 +149,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				
 				values.put(COLUMN_ID, playerScore.getId());
 				
-				int updated = db.update(TABLE_GAMES, values, COLUMN_ID + "=" + playerScore.getId(), null);
+				int updated = db.update(TABLE_PLAYER_SCORES, values, COLUMN_ID + "=" + playerScore.getId(), null);
 				
 				if (updated != 0) {
 					continue;
@@ -156,7 +158,24 @@ public class GameDBHelper extends SQLiteOpenHelper {
 			}
 			// else create new rows in the table
 			
-			db.insert(TABLE_GAMES, null, values);
+			db.insert(TABLE_PLAYER_SCORES, null, values);
+			
+			
+			// set the new id on the PlayerScore
+			int newId;
+			
+			Cursor cursor = null;
+			try {
+				cursor = db.query(TABLE_PLAYER_SCORES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
+				cursor.moveToNext();
+				newId = cursor.getInt(0);
+			} finally {
+				if (cursor != null) {
+					cursor.close();
+				}
+			}
+			
+			playerScore.setId(newId);
 		}
 		
 	}

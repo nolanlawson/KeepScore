@@ -4,22 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.nolanlawson.keepscore.db.Game;
+import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.PlayerView;
 
 public class GameActivity extends Activity {
 	
 	public static final String EXTRA_PLAYER_NAMES = "playerNames";
 	
+	private static final UtilLogger log = new UtilLogger(GameActivity.class);
+	
 	private Game game;
 	private List<PlayerScore> playerScores;
 	private int numPlayers;
+	private PowerManager.WakeLock wakeLock;
 	
 	private List<PlayerView> playerViews;
 	
@@ -36,6 +48,9 @@ public class GameActivity extends Activity {
         
         
         setUpWidgets();
+        
+		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, getPackageName());
     }
 
 	private int getContentViewResId() {
@@ -51,12 +66,58 @@ public class GameActivity extends Activity {
 			return R.layout.game_5_to_6;
 		}
 	}
+	
+	
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		if (wakeLock.isHeld()) {
+			log.d("Releasing wakelock");
+			wakeLock.release();
+		}		
+		
+		saveGame(true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		if (!wakeLock.isHeld()) {
+			log.d("Acquiring wakelock");
+			wakeLock.acquire();
+		}
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_menu, menu);
+	    
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+	    switch (item.getItemId()) {
+	    case R.id.menu_save:
+	    	saveGame(false);
+	    	break;
+	    }
+	    return false;
+	}
+	
+	
 	private void createGame() {
 
         String[] playerNames = getIntent().getStringArrayExtra(EXTRA_PLAYER_NAMES);
         
         game = new Game();
+        
         playerScores = new ArrayList<PlayerScore>();
         
         
@@ -78,6 +139,39 @@ public class GameActivity extends Activity {
         
 	}
 
+	private void saveGame(final boolean autosaved) {
+		
+		// do in the background to avoid jankiness
+		new AsyncTask<Void, Void, Void>() {
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				
+				GameDBHelper dbHelper = null;
+				try {
+					dbHelper = new GameDBHelper(GameActivity.this);
+					dbHelper.saveGame(game, autosaved);
+				} finally {
+					if (dbHelper != null) {
+						dbHelper.close();
+					}
+				}
+				
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				int resId = autosaved ? R.string.toast_saved_automatically : R.string.toast_saved;
+				Toast.makeText(GameActivity.this, resId, Toast.LENGTH_SHORT).show();
+			}
+			
+			
+		}.execute((Void)null);
+		
+	}	
+	
 	private void setUpWidgets() {
 
 		playerViews = new ArrayList<PlayerView>();

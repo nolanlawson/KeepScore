@@ -29,6 +29,10 @@
         	android:screenOrientation="landscape" 
         	android:configChanges="orientation|keyboardHidden" 
         	android:theme="@android:style/Theme.Light"/>
+      
                 
     </application>
+    
+                    
+	<uses-permission android:name="android.permission.WAKE_LOCK" />  
 </manifest>

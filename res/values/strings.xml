@@ -26,4 +26,8 @@
     <string name="hint_player_5">Player 5</string>
     <string name="hint_player_6">Player 6</string>
     
+    <string name="menu_save">Save</string>
+    
+    <string name="toast_saved_automatically">Game saved automatically.</string>
+    <string name="toast_saved">Game saved.</string>
 </resources>
