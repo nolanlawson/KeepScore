@@ -32,7 +32,7 @@ public class PlayerView implements OnClickListener {
 	private AtomicBoolean shouldAutosave = new AtomicBoolean(false);
 	
 	private View view;
-	private TextView name, score, history;
+	private TextView nameTextView, scoreTextView, historyTextView;
 	private Button minusButton, plusButton;
 	private Context context;
 	
@@ -48,9 +48,9 @@ public class PlayerView implements OnClickListener {
 
 	private void init() {
 
-		name = (TextView) view.findViewById(R.id.text_name);
-		score = (TextView) view.findViewById(R.id.text_score);
-		history = (TextView) view.findViewById(R.id.text_history);
+		nameTextView = (TextView) view.findViewById(R.id.text_name);
+		scoreTextView = (TextView) view.findViewById(R.id.text_score);
+		historyTextView = (TextView) view.findViewById(R.id.text_history);
 		
 		minusButton = (Button) view.findViewById(R.id.button_minus);
 		plusButton = (Button) view.findViewById(R.id.button_plus);
@@ -62,10 +62,10 @@ public class PlayerView implements OnClickListener {
     	String playerName = !TextUtils.isEmpty(playerScore.getName()) 
     			? playerScore.getName() 
     			: (context.getString(R.string.text_player) + " " + (playerScore.getPlayerNumber() + 1));
-    	name.setText(playerName);
+    	nameTextView.setText(playerName);
     	
-    	score.setText(Long.toString(playerScore.getScore()));
-   		history.setText(fromHistory(playerScore.getHistory()));
+    	scoreTextView.setText(Long.toString(playerScore.getScore()));
+   		historyTextView.setText(fromHistory(playerScore.getHistory()));
     	
     	log.d("history is: %s", playerScore.getHistory());
 		
@@ -75,16 +75,16 @@ public class PlayerView implements OnClickListener {
 		return view;
 	}
 
-	public TextView getName() {
-		return name;
+	public TextView getNameTextView() {
+		return nameTextView;
 	}
 
-	public TextView getScore() {
-		return score;
+	public TextView getScoreTextView() {
+		return scoreTextView;
 	}
 
-	public TextView getHistory() {
-		return history;
+	public TextView getHistoryTextView() {
+		return historyTextView;
 	}
 
 	public Button getMinusButton() {
@@ -145,9 +145,9 @@ public class PlayerView implements OnClickListener {
 		
 		// now update the history text view and the total score text view
 		
-		score.setText(Long.toString(playerScore.getScore()));
+		scoreTextView.setText(Long.toString(playerScore.getScore()));
 		
-		history.setText(fromHistory(playerScore.getHistory()));
+		historyTextView.setText(fromHistory(playerScore.getHistory()));
 		
 		
 		
@@ -161,6 +161,8 @@ public class PlayerView implements OnClickListener {
 		if (history == null || history.isEmpty()) {
 			return new SpannableString("");
 		}
+		
+		int lineCount = historyTextView.getLineCount();
 		
 		history = CollectionUtil.reversedCopy(history);
 		

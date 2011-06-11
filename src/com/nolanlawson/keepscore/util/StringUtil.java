@@ -92,4 +92,24 @@ public class StringUtil {
 		return str == null ? "" : str;
 	}
 	
+	/**
+	 * find the nth index of a char c in a string.  returns -1 if there aren't that many chars in the string
+	 * @param c
+	 * @param n
+	 * @return
+	 */
+	public static int getNthIndexOf(char c, String str, int n) {
+		
+		if (n < 1) {
+			throw new IllegalArgumentException("n must be >= 1: " + n);
+		}
+		
+		int index = str.indexOf(c);
+		int count = 0;
+		while (index != -1 && (++count) < n) {
+			index = str.indexOf(c, index + 1);
+		}
+		
+		return index;
+	}
 }
