@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
-import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 
 public class GameDBHelper extends SQLiteOpenHelper {
 
@@ -94,33 +93,35 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	}
 	
 	public Game findGameById(int gameId) {
-		
-		Cursor cursor = null;
-		try {
-			String where = "g." + COLUMN_ID + "=" + gameId;
-			cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, where, null, null, null, null);
-			List<Game> result = convertToGames(cursor);
-			
-			return result.isEmpty() ? null : result.get(0);
-		} finally {
-			if (cursor != null) {
-				cursor.close();
+		synchronized (GameDBHelper.class) {
+			Cursor cursor = null;
+			try {
+				String where = "g." + COLUMN_ID + "=" + gameId;
+				cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, where, null, null, null, null);
+				List<Game> result = convertToGames(cursor);
+				
+				return result.isEmpty() ? null : result.get(0);
+			} finally {
+				if (cursor != null) {
+					cursor.close();
+				}
 			}
 		}
 	}
 	
 	public Game findMostRecentGame() {
-		
-		Cursor cursor = null;
-		try {
-			String orderBy = COLUMN_DATE_SAVED + " desc";
-			cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, null, null, null, null, orderBy);
-			List<Game> result = convertToGames(cursor);
-			
-			return result.isEmpty() ? null : result.get(0);
-		} finally {
-			if (cursor != null) {
-				cursor.close();
+		synchronized (GameDBHelper.class) {
+			Cursor cursor = null;
+			try {
+				String orderBy = COLUMN_DATE_SAVED + " desc";
+				cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, null, null, null, null, orderBy);
+				List<Game> result = convertToGames(cursor);
+				
+				return result.isEmpty() ? null : result.get(0);
+			} finally {
+				if (cursor != null) {
+					cursor.close();
+				}
 			}
 		}
 	}
@@ -131,95 +132,37 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	 * @return
 	 */
 	public boolean saveGame(Game game, boolean autosaved) {
-		
-		long dateSaved = System.currentTimeMillis();
-		game.setDateSaved(dateSaved);
-		game.setAutosaved(autosaved);
-		
-		ContentValues contentValues = new ContentValues();
-		
-		contentValues.put(COLUMN_DATE_STARTED, game.getDateStarted());
-		contentValues.put(COLUMN_DATE_SAVED, dateSaved);
-		contentValues.put(COLUMN_NAME, game.getName());
-		contentValues.put(COLUMN_AUTOSAVED, autosaved);
-		
-		if (game.getId() != -1) { // might be a game that was already saved, so try to overwrite
-			contentValues.put(COLUMN_ID, game.getId());
-
-			int updated = db.update(TABLE_GAMES, contentValues, COLUMN_ID + "=" + game.getId(), null);
+		synchronized (GameDBHelper.class) {
+			long dateSaved = System.currentTimeMillis();
+			game.setDateSaved(dateSaved);
+			game.setAutosaved(autosaved);
 			
-			if (updated != 0) {
-				savePlayerScores(game.getId(), game.getPlayerScores());
-				
-				return false;
-			}
-		}
-		// else create a new row in the table
-		
-		db.insert(TABLE_GAMES, null, contentValues);
-		int newId;
-		
-		Cursor cursor = null;
-		try {
-			cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
-			cursor.moveToNext();
-			newId = cursor.getInt(0);
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
-		
-		game.setId(newId);
-		
-		savePlayerScores(newId, game.getPlayerScores());
-		
-		return true;
-		
-		
-		
-	}
+			ContentValues contentValues = new ContentValues();
+			
+			contentValues.put(COLUMN_DATE_STARTED, game.getDateStarted());
+			contentValues.put(COLUMN_DATE_SAVED, dateSaved);
+			contentValues.put(COLUMN_NAME, game.getName());
+			contentValues.put(COLUMN_AUTOSAVED, autosaved);
+			
+			if (game.getId() != -1) { // might be a game that was already saved, so try to overwrite
+				contentValues.put(COLUMN_ID, game.getId());
 	
-	private void savePlayerScores(int gameId, List<PlayerScore> playerScores) {
-		
-		for (PlayerScore playerScore : playerScores) {
-			
-			ContentValues values = new ContentValues();
-			
-			values.put(COLUMN_GAME_ID, gameId);
-			if (playerScore.getHistory() != null) {
-				// don't include deltas of 0
-				List<Integer> filteredHistory = CollectionUtil.filter(playerScore.getHistory(), IntegerUtil.isNonZero());
-				values.put(COLUMN_HISTORY, TextUtils.join(",", filteredHistory));
-			} else {
-				values.put(COLUMN_HISTORY, (String)null);
-			}
-			values.put(COLUMN_NAME, playerScore.getName());
-			values.put(COLUMN_PLAYER_NUMBER, playerScore.getPlayerNumber());
-			values.put(COLUMN_SCORE, playerScore.getScore());
-			
-			if (playerScore.getId() != -1) { // try to update
-				
-				values.put(COLUMN_ID, playerScore.getId());
-				
-				int updated = db.update(TABLE_PLAYER_SCORES, values, COLUMN_ID + "=" + playerScore.getId(), null);
+				int updated = db.update(TABLE_GAMES, contentValues, COLUMN_ID + "=" + game.getId(), null);
 				
 				if (updated != 0) {
-					continue;
+					savePlayerScores(game.getId(), game.getPlayerScores());
+					
+					return false;
 				}
-				
 			}
-			// else create new rows in the table
+			// else create a new row in the table
 			
-			db.insert(TABLE_PLAYER_SCORES, null, values);
-			
-			
-			// set the new id on the PlayerScore
+			db.insert(TABLE_GAMES, null, contentValues);
 			int newId;
 			
 			Cursor cursor = null;
 			try {
-				cursor = db.query(TABLE_PLAYER_SCORES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
+				cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
 				cursor.moveToNext();
 				newId = cursor.getInt(0);
 			} finally {
@@ -228,27 +171,104 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				}
 			}
 			
-			playerScore.setId(newId);
+			game.setId(newId);
+			
+			savePlayerScores(newId, game.getPlayerScores());
+			
+			return true;
 		}
-		
+	}
+	
+	private void savePlayerScores(int gameId, List<PlayerScore> playerScores) {
+		synchronized (GameDBHelper.class) {
+			
+			for (PlayerScore playerScore : playerScores) {
+				
+				ContentValues values = new ContentValues();
+				
+				values.put(COLUMN_GAME_ID, gameId);
+				if (playerScore.getHistory() != null) {
+					// don't include deltas of 0
+					List<Integer> filteredHistory = CollectionUtil.filter(playerScore.getHistory(), IntegerUtil.isNonZero());
+					values.put(COLUMN_HISTORY, TextUtils.join(",", filteredHistory));
+				} else {
+					values.put(COLUMN_HISTORY, (String)null);
+				}
+				values.put(COLUMN_NAME, playerScore.getName());
+				values.put(COLUMN_PLAYER_NUMBER, playerScore.getPlayerNumber());
+				values.put(COLUMN_SCORE, playerScore.getScore());
+				
+				if (playerScore.getId() != -1) { // try to update
+					
+					values.put(COLUMN_ID, playerScore.getId());
+					
+					int updated = db.update(TABLE_PLAYER_SCORES, values, COLUMN_ID + "=" + playerScore.getId(), null);
+					
+					if (updated != 0) {
+						continue;
+					}
+					
+				}
+				// else create new rows in the table
+				
+				db.insert(TABLE_PLAYER_SCORES, null, values);
+				
+				
+				// set the new id on the PlayerScore
+				int newId;
+				
+				Cursor cursor = null;
+				try {
+					cursor = db.query(TABLE_PLAYER_SCORES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
+					cursor.moveToNext();
+					newId = cursor.getInt(0);
+				} finally {
+					if (cursor != null) {
+						cursor.close();
+					}
+				}
+				
+				playerScore.setId(newId);
+			}
+		}
 	}
 
 	public List<Game> findAllGames() {
-		
-		String orderBy = COLUMN_DATE_SAVED;
-		
-		Cursor cursor = null;
-		
-		try {
+			synchronized (GameDBHelper.class) {
+			String orderBy = COLUMN_DATE_SAVED;
 			
-			cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, null, null, null, null, orderBy);
+			Cursor cursor = null;
 			
-			return convertToGames(cursor);
-			
-		} finally {
-			if (cursor != null) {
-				cursor.close();
+			try {
+				
+				cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, null, null, null, null, orderBy);
+				
+				return convertToGames(cursor);
+				
+			} finally {
+				if (cursor != null) {
+					cursor.close();
+				}
 			}
+		}
+	}
+
+
+	public void deleteGame(Game game) {
+		synchronized (GameDBHelper.class) {
+			int id = game.getId();
+			
+			db.delete(TABLE_GAMES, COLUMN_ID + "=" + id, null);
+			db.delete(TABLE_PLAYER_SCORES, COLUMN_GAME_ID + "=" + id, null);
+		}
+	}
+
+	public void updateGameName(Game game, String newName) {
+		synchronized (GameDBHelper.class) {
+			ContentValues values = new ContentValues();
+			values.put(COLUMN_NAME, newName);
+			
+			db.update(TABLE_GAMES, values, COLUMN_ID + "=" + game.getId(), null);
 		}
 		
 	}
@@ -304,22 +324,4 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		
 		return result;
 	}
-
-	public void deleteGame(Game game) {
-		int id = game.getId();
-		
-		db.delete(TABLE_GAMES, COLUMN_ID + "=" + id, null);
-		db.delete(TABLE_PLAYER_SCORES, COLUMN_GAME_ID + "=" + id, null);
-		
-	}
-
-	public void updateGameName(Game game, String newName) {
-		ContentValues values = new ContentValues();
-		values.put(COLUMN_NAME, newName);
-		
-		db.update(TABLE_GAMES, values, COLUMN_ID + "=" + game.getId(), null);
-		
-		
-	}
-
 }

@@ -4,17 +4,35 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.nolanlawson.keepscore.R;
+import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.IntegerUtil;
+import com.nolanlawson.keepscore.util.StringUtil;
 
-public class PlayerScore {
+public class PlayerScore implements Parcelable {
 
 	private int id = -1;
 	private String name;
 	private long score;
 	private int playerNumber;
 	private List<Integer> history;
+	
+	public PlayerScore() {
+	}
+
+	public PlayerScore(Parcel in) {
+		id = in.readInt();
+		name = in.readString();
+		score = in.readLong();
+		playerNumber = in.readInt();
+		history = CollectionUtil.stringsToInts(StringUtil.split(in.readString(), ','));
+		
+		
+	}
 	public int getId() {
 		return id;
 	}
@@ -69,4 +87,29 @@ public class PlayerScore {
 		
 		return context.getString(R.string.text_player) + " " + (getPlayerNumber() + 1);
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeString(name);
+		dest.writeLong(score);
+		dest.writeInt(playerNumber);
+		dest.writeString(TextUtils.join(",", CollectionUtil.filter(history, IntegerUtil.isNonZero())));
+	}
+	
+	
+	public static final Parcelable.Creator<PlayerScore> CREATOR = new Parcelable.Creator<PlayerScore>() {
+		public PlayerScore createFromParcel(Parcel in) {
+			return new PlayerScore(in);
+		}
+
+		public PlayerScore[] newArray(int size) {
+			return new PlayerScore[size];
+		}
+	};	
 }

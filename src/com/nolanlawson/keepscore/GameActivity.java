@@ -110,12 +110,17 @@ public class GameActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 	    switch (item.getItemId()) {
+	    case R.id.menu_history:
+	    	Intent historyIntent = new Intent(this, HistoryActivity.class);
+	    	historyIntent.putExtra(HistoryActivity.EXTRA_GAME, game);
+	    	startActivity(historyIntent);
+	    	break;
 	    case R.id.menu_save:
 	    	saveGame(false);
 	    	break;
 	    case R.id.menu_settings:
-	    	Intent intent = new Intent(GameActivity.this, SettingsActivity.class);
-	    	startActivity(intent);
+	    	Intent settingsIntent = new Intent(GameActivity.this, SettingsActivity.class);
+	    	startActivity(settingsIntent);
 	    	break;
 	    }
 	    return false;

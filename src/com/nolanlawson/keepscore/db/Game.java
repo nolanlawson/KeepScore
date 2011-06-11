@@ -1,9 +1,14 @@
 package com.nolanlawson.keepscore.db;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Game {
+import android.os.BadParcelableException;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Game implements Parcelable {
 
 	private int id = -1;
 	private long dateStarted;
@@ -12,7 +17,25 @@ public class Game {
 	private boolean autosaved;
 	private List<PlayerScore> playerScores;
 	
-	
+	public Game() {
+	}
+
+	public Game(Parcel in) {
+		id = in.readInt();
+		dateStarted = in.readLong();
+		dateSaved = in.readLong();
+		name = in.readString();
+		autosaved = in.readInt() != 0;
+		playerScores = new ArrayList<PlayerScore>();
+		while (true) {
+ 			PlayerScore playerScore = in.readParcelable(PlayerScore.class.getClassLoader());
+ 			if (playerScore == null) {
+ 				break;
+ 			}
+			playerScores.add(playerScore);
+		}
+
+	}
 	
 	public boolean isAutosaved() {
 		return autosaved;
@@ -66,5 +89,30 @@ public class Game {
 			}
 		};
 	}
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeLong(dateStarted);
+		dest.writeLong(dateSaved);
+		dest.writeString(name);
+		dest.writeInt(autosaved ? 1 : 0);
+		
+		for (PlayerScore playerScore : playerScores) {
+			dest.writeParcelable(playerScore, 0);
+		}
+	}
 	
+	public static final Parcelable.Creator<Game> CREATOR = new Parcelable.Creator<Game>() {
+		public Game createFromParcel(Parcel in) {
+			return new Game(in);
+		}
+
+		public Game[] newArray(int size) {
+			return new Game[size];
+		}
+	};
 }

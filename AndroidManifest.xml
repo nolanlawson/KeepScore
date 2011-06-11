@@ -39,7 +39,12 @@
         	android:label="@string/menu_settings"
         	android:configChanges="orientation|keyboardHidden|keyboard" 
         	android:theme="@android:style/Theme.Light"/>  
-        	        	         
+        
+        <activity android:name=".HistoryActivity"
+        	android:label="@string/menu_history"
+        	android:configChanges="orientation|keyboardHidden|keyboard" 
+        	android:theme="@android:style/Theme.Light"/>  
+        	        	        	         
     </application>
     
                     

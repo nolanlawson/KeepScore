@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -81,7 +80,8 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		
 		CharSequence[] options = new CharSequence[]{
 				getString(R.string.text_delete), 
-				getString(R.string.text_edit_name)};
+				getString(R.string.text_edit_name),
+				getString(R.string.menu_history)};
 		
 		new AlertDialog.Builder(this)
 			.setCancelable(true)
@@ -91,14 +91,30 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
 					
-					if (which == 0) { // delete
+					switch (which) {
+					case 0: // delete
 						showDeleteDialog(position);
-					} else { // edit game name
+						break;
+					case 1: // edit name
 						showEditGameNameDialog(position);
+						break;
+					case 2: // history
+						showHistory(position);
+						break;
 					}
 				}
 			})
 			.show();
+		
+	}
+
+	protected void showHistory(int position) {
+		Game game = adapter.getItem(position);
+		
+		Intent intent = new Intent(this, HistoryActivity.class);
+		intent.putExtra(HistoryActivity.EXTRA_GAME, game);
+		
+		startActivity(intent);
 		
 	}
 

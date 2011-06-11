@@ -1,7 +1,5 @@
 package com.nolanlawson.keepscore;
 
-import com.nolanlawson.keepscore.helper.PreferenceHelper;
-
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -10,6 +8,8 @@ import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.text.TextUtils;
 import android.widget.Toast;
+
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 
 public class SettingsActivity extends PreferenceActivity {
 
