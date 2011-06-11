@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
+import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 
 public class GameDBHelper extends SQLiteOpenHelper {
@@ -229,7 +230,9 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				playerScore.setName(cursor.getString(6));
 				playerScore.setScore(cursor.getLong(7));
 				playerScore.setPlayerNumber(cursor.getInt(8));
-				playerScore.setHistory(StringUtil.split(StringUtil.nullToEmpty(cursor.getString(9)), ','));
+				playerScore.setHistory(
+						CollectionUtil.stringsToInts(
+						StringUtil.split(StringUtil.nullToEmpty(cursor.getString(9)), ',')));
 				playerScores.add(playerScore);
 				
 			} while (cursor.moveToNext());

@@ -9,7 +9,7 @@ public class PlayerScore {
 	private String name;
 	private long score;
 	private int playerNumber;
-	private List<String> history;
+	private List<Integer> history;
 	public int getId() {
 		return id;
 	}
@@ -34,10 +34,10 @@ public class PlayerScore {
 	public void setPlayerNumber(int playerNumber) {
 		this.playerNumber = playerNumber;
 	}
-	public List<String> getHistory() {
+	public List<Integer> getHistory() {
 		return history;
 	}
-	public void setHistory(List<String> history) {
+	public void setHistory(List<Integer> history) {
 		this.history = history;
 	}
 	
