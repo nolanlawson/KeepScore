@@ -41,6 +41,12 @@ public class PlayerScore {
 		this.history = history;
 	}
 	
+	@Override
+	public String toString() {
+		return "PlayerScore [history=" + history + ", id=" + id + ", name="
+				+ name + ", playerNumber=" + playerNumber + ", score=" + score
+				+ "]";
+	}
 	public static Comparator<PlayerScore> sortByPlayerNumber() {
 		return new Comparator<PlayerScore>() {
 

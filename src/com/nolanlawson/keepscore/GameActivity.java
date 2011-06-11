@@ -2,6 +2,7 @@ package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,6 +26,7 @@ import com.nolanlawson.keepscore.widget.PlayerView;
 public class GameActivity extends Activity {
 	
 	public static final String EXTRA_PLAYER_NAMES = "playerNames";
+	public static final String EXTRA_GAME_ID = "gameId";
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
 	
@@ -44,8 +46,6 @@ public class GameActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         
         setContentView(getContentViewResId());
-        
-        
         
         setUpWidgets();
         
@@ -78,7 +78,9 @@ public class GameActivity extends Activity {
 			wakeLock.release();
 		}		
 		
-		saveGame(true);
+		if (shouldAutosave()) {
+			saveGame(true);
+		}
 	}
 
 	@Override
@@ -111,8 +113,50 @@ public class GameActivity extends Activity {
 	    return false;
 	}
 	
+	private boolean shouldAutosave() {
+		// only autosave if the user has changed SOMETHING, i.e. the scores aren't all just zero
+		
+		for (PlayerView playerView : playerViews) {
+			if (playerView.getShouldAutosave().get()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	private void createGame() {
+
+		if (getIntent().hasExtra(EXTRA_PLAYER_NAMES)) {
+			// starting a new game
+			createNewGame();
+		} else {
+			// loading an existing game
+			createExistingGame();
+		}
+	}
+
+	private void createExistingGame() {
+		int gameId = getIntent().getIntExtra(EXTRA_GAME_ID, 0);
+		
+		GameDBHelper dbHelper = null;
+		try {
+			dbHelper = new GameDBHelper(this);
+			game = dbHelper.findGameById(gameId);
+			playerScores = game.getPlayerScores();
+			numPlayers = playerScores.size();
+		} finally {
+			if (dbHelper != null) {
+				dbHelper.close();
+			}
+		}
+		
+		log.d("loaded game: %s", game);
+		log.d("loaded playerScores: %s", playerScores);
+		
+	}
+
+	private void createNewGame() {
 
         String[] playerNames = getIntent().getStringArrayExtra(EXTRA_PLAYER_NAMES);
         
@@ -137,6 +181,9 @@ public class GameActivity extends Activity {
         
         numPlayers = playerNames.length;
         
+
+		log.d("created new game: %s", game);
+		log.d("created new playerScores: %s", playerScores);
 	}
 
 	private void saveGame(final boolean autosaved) {
@@ -170,6 +217,10 @@ public class GameActivity extends Activity {
 			
 		}.execute((Void)null);
 		
+		for (PlayerView playerView : playerViews) {
+			playerView.getShouldAutosave().set(false);
+		}
+		
 	}	
 	
 	private void setUpWidgets() {
@@ -186,10 +237,6 @@ public class GameActivity extends Activity {
 			
 			PlayerView playerView = new PlayerView(this, view, playerScore);
 			
-	    	String playerName = !TextUtils.isEmpty(playerScore.getName()) 
-	    			? playerScore.getName() 
-	    			: (getString(R.string.text_player) + " " + (i + 1));
-	    	playerView.getName().setText(playerName);
 	    	
 			playerViews.add(playerView);
 			

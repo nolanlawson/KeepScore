@@ -7,9 +7,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.nolanlawson.keepscore.db.Game;
+import com.nolanlawson.keepscore.db.GameDBHelper;
+
 public class MainActivity extends Activity implements OnClickListener {
 
 	private Button newGameButton, resumeGameButton, loadGameButton;
+	private Game mostRecentGame;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,29 @@ public class MainActivity extends Activity implements OnClickListener {
         
         setUpWidgets();
     }
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		fillInWidgets();
+	}
+
+	private void fillInWidgets() {
+
+		GameDBHelper dbHelper = null;
+		try {
+			dbHelper = new GameDBHelper(this);
+			mostRecentGame = dbHelper.findMostRecentGame();
+			
+			resumeGameButton.setEnabled(mostRecentGame != null);
+			
+		} finally {
+			if (dbHelper != null) {
+				dbHelper.close();
+			}
+		}
+	}
 
 	private void setUpWidgets() {
 		
@@ -39,9 +66,18 @@ public class MainActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case android.R.id.button2:
+			resumeGame();
 			break;
 		case android.R.id.button3:
 			break;
 		}
+	}
+
+	private void resumeGame() {
+		Intent intent = new Intent(this, GameActivity.class);
+		intent.putExtra(GameActivity.EXTRA_GAME_ID, mostRecentGame.getId());
+		
+		startActivity(intent);
+		
 	}
 }

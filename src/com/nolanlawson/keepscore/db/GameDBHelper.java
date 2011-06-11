@@ -32,6 +32,20 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	private static final String COLUMN_GAME_ID = "gameId";
 	private static final String COLUMN_HISTORY = "history";
 	
+	private static final String JOINED_TABLES = TABLE_GAMES + " g join " + TABLE_PLAYER_SCORES + " ps ON "
+			+ "g." + COLUMN_ID + "=ps." + COLUMN_GAME_ID;
+	private static final String[] JOINED_COLUMNS = 	new String[]{
+		"g." + COLUMN_ID, 
+		"g." + COLUMN_DATE_STARTED, 
+		"g." + COLUMN_DATE_SAVED,
+		"g." + COLUMN_AUTOSAVED, 
+		"g." + COLUMN_NAME,
+		"ps." + COLUMN_ID, 
+		"ps." + COLUMN_NAME, 
+		"ps." + COLUMN_SCORE, 
+		"ps." + COLUMN_PLAYER_NUMBER,
+		"ps." + COLUMN_HISTORY};
+	
 	
 	private Context context;
 	private SQLiteDatabase db;
@@ -77,6 +91,38 @@ public class GameDBHelper extends SQLiteOpenHelper {
 
 	}
 	
+	public Game findGameById(int gameId) {
+		
+		Cursor cursor = null;
+		try {
+			String where = "g." + COLUMN_ID + "=" + gameId;
+			cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, where, null, null, null, null);
+			List<Game> result = convertToGames(cursor);
+			
+			return result.isEmpty() ? null : result.get(0);
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+	}
+	
+	public Game findMostRecentGame() {
+		
+		Cursor cursor = null;
+		try {
+			String orderBy = COLUMN_DATE_SAVED + " desc";
+			cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, null, null, null, null, orderBy);
+			List<Game> result = convertToGames(cursor);
+			
+			return result.isEmpty() ? null : result.get(0);
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+	}
+	
 	/**
 	 * return true if a new game was saved
 	 * @param game
@@ -86,6 +132,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		
 		long dateSaved = System.currentTimeMillis();
 		game.setDateSaved(dateSaved);
+		game.setAutosaved(autosaved);
 		
 		ContentValues contentValues = new ContentValues();
 		
@@ -182,26 +229,13 @@ public class GameDBHelper extends SQLiteOpenHelper {
 
 	public List<Game> findAllGames() {
 		
-		String tables = TABLE_GAMES + " g join " + TABLE_PLAYER_SCORES + "ps";
-		String where = "ps." + COLUMN_GAME_ID + " = g." + COLUMN_ID;
-		String[] columns = new String[]{
-				"g." + COLUMN_ID, 
-				"g." + COLUMN_DATE_STARTED, 
-				"g." + COLUMN_DATE_SAVED,
-				"g." + COLUMN_AUTOSAVED, 
-				"g." + COLUMN_NAME,
-				"ps." + COLUMN_ID, 
-				"ps." + COLUMN_NAME, 
-				"ps." + COLUMN_SCORE, 
-				"ps." + COLUMN_PLAYER_NUMBER,
-				"ps." + COLUMN_HISTORY};
 		String orderBy = COLUMN_DATE_SAVED;
 		
 		Cursor cursor = null;
 		
 		try {
 			
-			cursor = db.query(tables, columns, where, null, null, null, orderBy);
+			cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, null, null, null, null, orderBy);
 			
 			return convertToGames(cursor);
 			

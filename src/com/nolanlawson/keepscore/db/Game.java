@@ -49,7 +49,11 @@ public class Game {
 	public void setPlayerScores(List<PlayerScore> playerScores) {
 		this.playerScores = playerScores;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "Game [autosaved=" + autosaved + ", dateSaved=" + dateSaved
+				+ ", dateStarted=" + dateStarted + ", id=" + id + ", name="
+				+ name + ", playerScores=" + (playerScores != null ? playerScores.size() : 0) + "]";
+	}
 	
 }

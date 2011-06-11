@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore.widget;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 import android.content.Context;
@@ -12,12 +13,16 @@ import android.widget.TextView;
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.UtilLogger;
 
 public class PlayerView implements OnClickListener {
 
 	public static final long LAST_INCREMENTED_WAIT_TIME = 10000;
 	
+	private static final UtilLogger log = new UtilLogger(PlayerView.class);
+	
 	private PlayerScore playerScore;
+	private AtomicBoolean shouldAutosave = new AtomicBoolean(false);
 	
 	private View view;
 	private TextView name, score, history;
@@ -46,6 +51,19 @@ public class PlayerView implements OnClickListener {
 		minusButton.setOnClickListener(this);
 		plusButton.setOnClickListener(this);
 		
+
+    	String playerName = !TextUtils.isEmpty(playerScore.getName()) 
+    			? playerScore.getName() 
+    			: (context.getString(R.string.text_player) + " " + (playerScore.getPlayerNumber() + 1));
+    	name.setText(playerName);
+    	
+    	score.setText(Long.toString(playerScore.getScore()));
+    	if (playerScore.getHistory() != null && !playerScore.getHistory().isEmpty()) {
+    		history.setText(TextUtils.join("\n", CollectionUtil.reversedCopy(playerScore.getHistory())));
+    	}
+    	
+    	log.d("history is: %s", playerScore.getHistory());
+		
 	}
 
 	public View getView() {
@@ -72,6 +90,10 @@ public class PlayerView implements OnClickListener {
 		return plusButton;
 	}
 
+	public AtomicBoolean getShouldAutosave() {
+		return shouldAutosave;
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -82,6 +104,8 @@ public class PlayerView implements OnClickListener {
 			increment(1);
 			break;
 		}
+		
+		shouldAutosave.set(true);
 		
 	}
 
