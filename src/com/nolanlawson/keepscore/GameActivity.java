@@ -2,15 +2,13 @@ package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +19,7 @@ import android.widget.Toast;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.PlayerView;
 
@@ -90,7 +89,9 @@ public class GameActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		
-		if (!wakeLock.isHeld()) {
+		boolean useWakeLock = PreferenceHelper.getBooleanPreference(
+				R.string.pref_use_wake_lock, R.string.pref_use_wake_lock_default, this);
+		if (useWakeLock && !wakeLock.isHeld()) {
 			log.d("Acquiring wakelock");
 			wakeLock.acquire();
 		}
@@ -100,7 +101,7 @@ public class GameActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_menu, menu);
+	    inflater.inflate(R.menu.game_menu, menu);
 	    
 	    return true;
 	}
@@ -111,6 +112,10 @@ public class GameActivity extends Activity {
 	    switch (item.getItemId()) {
 	    case R.id.menu_save:
 	    	saveGame(false);
+	    	break;
+	    case R.id.menu_settings:
+	    	Intent intent = new Intent(GameActivity.this, SettingsActivity.class);
+	    	startActivity(intent);
 	    	break;
 	    }
 	    return false;

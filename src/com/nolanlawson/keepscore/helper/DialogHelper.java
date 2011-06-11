@@ -3,6 +3,7 @@ package com.nolanlawson.keepscore.helper;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.nolanlawson.keepscore.R;
+import com.nolanlawson.keepscore.SettingsActivity;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
 /**
@@ -27,7 +29,7 @@ public class DialogHelper {
 	}
 	
 	public static void showAdditionalDeltasDialog(boolean positive, final ResultListener<Integer> resultListener, 
-			Context context) {
+			final Context context) {
 
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = layoutInflater.inflate(R.layout.delta_popup, null);
@@ -61,6 +63,9 @@ public class DialogHelper {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
+					Intent intent = new Intent(context, SettingsActivity.class);
+					context.startActivity(intent);
+					
 				}
 			})
 			.setNegativeButton(android.R.string.cancel, null)
@@ -72,10 +77,10 @@ public class DialogHelper {
 	private static void prepareDeltaView(View view, boolean positive, Context context) {
 		// set the buttons based on the preferences
 		
-		int button1Value = PreferenceHelper.getPreference(R.string.pref_button_1, R.string.pref_button_1_default, context);
-		int button2Value = PreferenceHelper.getPreference(R.string.pref_button_2, R.string.pref_button_2_default, context);
-		int button3Value = PreferenceHelper.getPreference(R.string.pref_button_3, R.string.pref_button_3_default, context);
-		int button4Value = PreferenceHelper.getPreference(R.string.pref_button_4, R.string.pref_button_4_default, context);
+		int button1Value = PreferenceHelper.getIntPreference(R.string.pref_button_1, R.string.pref_button_1_default, context);
+		int button2Value = PreferenceHelper.getIntPreference(R.string.pref_button_2, R.string.pref_button_2_default, context);
+		int button3Value = PreferenceHelper.getIntPreference(R.string.pref_button_3, R.string.pref_button_3_default, context);
+		int button4Value = PreferenceHelper.getIntPreference(R.string.pref_button_4, R.string.pref_button_4_default, context);
 		
 		if (!positive) {
 			button1Value *= -1;

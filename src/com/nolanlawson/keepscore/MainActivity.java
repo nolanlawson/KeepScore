@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,6 +35,26 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onResume();
 		
 		fillInWidgets();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_menu, menu);
+	    
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+	    switch (item.getItemId()) {
+	    case R.id.menu_settings:
+	    	Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+	    	startActivity(intent);
+	    	break;
+	    }
+	    return false;
 	}
 
 	private void fillInWidgets() {

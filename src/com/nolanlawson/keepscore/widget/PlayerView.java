@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.DialogHelper;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.IntegerUtil;
@@ -31,8 +32,6 @@ import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class PlayerView implements OnClickListener, OnLongClickListener {
-
-	public static final long LAST_INCREMENTED_WAIT_TIME = 10000;
 	
 	private static final UtilLogger log = new UtilLogger(PlayerView.class);
 	
@@ -124,7 +123,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		long lastIncrementedTime = lastIncremented.getAndSet(currentTime);
 		
-		if (currentTime - lastIncrementedTime > LAST_INCREMENTED_WAIT_TIME
+		long updateDelay = PreferenceHelper.getUpdateDelay(context) * 1000; // convert ms to s
+		
+		if (currentTime - lastIncrementedTime > updateDelay
 				&& !(
 						!playerScore.getHistory().isEmpty() 
 						&& playerScore.getHistory().get(playerScore.getHistory().size() - 1) == 0)) {
