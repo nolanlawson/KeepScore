@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal" android:layout_width="fill_parent"
+	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal">
 
-	<View android:layout_width="0px" android:layout_weight=".25"
+	<ImageView android:src="@drawable/abacus"
+		android:layout_width="wrap_content" android:layout_height="wrap_content" 
+		android:paddingTop="5dp"/>
+
+	<TextView android:layout_width="wrap_content" android:gravity="center_horizontal"
+		android:layout_height="wrap_content" android:textSize="24sp"
+		android:textStyle="bold" android:text="@string/app_name"
+		android:paddingTop="5dp" />
+
+	<View android:layout_width="0px" android:layout_weight=".05"
 		android:layout_height="0px" />
-	<LinearLayout android:orientation="vertical"
-		android:layout_width="0px" android:layout_weight=".75"
-		android:layout_height="wrap_content" android:padding="5dp">
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="0px"
+		android:layout_weight=".95" android:gravity="center_vertical|center_horizontal">
 
 
-		<Button android:id="@android:id/button1" android:text="@string/button_new_game"
-			android:textStyle="bold" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" />
-		
-		<View android:layout_width="0px" android:layout_height="1dp" />
-				
-		<Button android:id="@android:id/button2" android:text="@string/button_resume_game"
-			android:textStyle="bold" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:enabled="false"/>
-			
-		
-		<View android:layout_width="0px" android:layout_height="1dp" />
-				
-		<Button android:id="@android:id/button3" android:text="@string/button_load_game"
-			android:textStyle="bold" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" />
+		<View android:layout_width="0px" android:layout_weight=".25"
+			android:layout_height="0px" />
 
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="0px" android:layout_weight=".75"
+			android:layout_height="wrap_content" android:padding="5dp">
+
+
+			<Button android:id="@android:id/button1" android:text="@string/button_new_game"
+				android:textStyle="bold" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+
+			<View android:layout_width="0px" android:layout_height="1dp" />
+
+			<Button android:id="@android:id/button2" android:text="@string/button_resume_game"
+				android:textStyle="bold" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:enabled="false" />
+
+
+			<View android:layout_width="0px" android:layout_height="1dp" />
+
+			<Button android:id="@android:id/button3" android:text="@string/button_load_game"
+				android:textStyle="bold" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+
+		</LinearLayout>
+
+
+		<View android:layout_width="0px" android:layout_weight=".25"
+			android:layout_height="0px" />
 	</LinearLayout>
-
-
-	<View android:layout_width="0px" android:layout_weight=".25"
-		android:layout_height="0px" />
 </LinearLayout>
