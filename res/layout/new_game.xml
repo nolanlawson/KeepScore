@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal">
+
+	<View android:layout_width="0px" android:layout_weight=".05"
+		android:layout_height="0px" />
+
+	<TextView android:layout_width="fill_parent" android:gravity="center_horizontal"
+		android:layout_height="wrap_content" android:textSize="24sp"
+		android:textStyle="bold" android:text="@string/text_num_players" />
+
+	<View android:layout_width="0px" android:layout_weight=".05"
+		android:layout_height="0px" />
+
+			
+	<ScrollView android:layout_width="fill_parent" android:layout_height="0px"
+	android:layout_weight="0.9">	
+			
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center_horizontal">
+	
+			<View android:layout_width="0px" android:layout_weight=".125"
+				android:layout_height="0px" />
+	
+				
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="0px" android:layout_weight=".75"
+				android:layout_height="wrap_content" android:padding="5dp">
+	
+				<Button android:id="@+id/button_2_players" android:text="@string/button_2_players"
+					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+							
+				<View android:layout_width="0px" android:layout_height="1dp" />
+	
+				
+				<Button android:id="@+id/button_3_players" android:text="@string/button_3_players"
+					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+					
+				<View android:layout_width="0px" android:layout_height="1dp" />
+				
+				<Button android:id="@+id/button_4_players" android:text="@string/button_4_players"
+					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+					
+				<View android:layout_width="0px" android:layout_height="1dp" />
+				
+				<Button android:id="@+id/button_5_players" android:text="@string/button_5_players"
+					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+					
+				<View android:layout_width="0px" android:layout_height="1dp" />	
+				
+				<Button android:id="@+id/button_6_players" android:text="@string/button_6_players"
+					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+									
+	
+			</LinearLayout>
+	
+	
+			<View android:layout_width="0px" android:layout_weight=".125"
+				android:layout_height="0px" />
+		</LinearLayout>
+		
+	</ScrollView>
+</LinearLayout>

@@ -15,6 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name=".NewGameActivity"
+        		android:label="@string/app_name"
+        		android:theme="@android:style/Theme.Light"
+                android:configChanges="keyboard|keyboardHidden|orientation"/>
 
     </application>
 </manifest>
