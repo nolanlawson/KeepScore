@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal">
+	
+	
+	<FrameLayout android:layout_width="0px" android:layout_weight=".85" android:layout_height="fill_parent"
+		android:background="@drawable/blue_border_shape">
+	
+		<include layout="@layout/player_score_no_history"/>
+	
+	</FrameLayout>
+	
+	
+	<TextView android:layout_width="0px" android:layout_weight=".15" android:layout_height="fill_parent"
+		android:gravity="center_horizontal"/>
+	
+	
+
+</LinearLayout>
