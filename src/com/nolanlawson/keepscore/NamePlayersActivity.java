@@ -1,6 +1,7 @@
 package com.nolanlawson.keepscore;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -59,7 +60,19 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// ok button clicked
 		
+		String[] playerNames = new String[numPlayers];
 		
+		EditText[] editTexts = new EditText[]{playerOneEdit, playerTwoEdit, playerThreeEdit, playerFourEdit,
+				playerFiveEdit, playerSixEdit};
 		
+		for (int i = 0; i < numPlayers; i++) {
+			playerNames[i] = editTexts[i].getText().toString();
+		}
+		
+		Intent intent = new Intent(this, GameActivity.class);
+		
+		intent.putExtra(GameActivity.EXTRA_PLAYER_NAMES, playerNames);
+		
+		startActivity(intent);
 	}
 }

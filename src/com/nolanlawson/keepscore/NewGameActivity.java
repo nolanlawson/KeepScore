@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class NewGameActivity extends Activity implements OnClickListener {
 
-	Button twoPlayersButton, threePlayersButton, fourPlayersButton, fivePlayersButton, sixPlayersButton;
+	private Button twoPlayersButton, threePlayersButton, fourPlayersButton, fivePlayersButton, sixPlayersButton;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
