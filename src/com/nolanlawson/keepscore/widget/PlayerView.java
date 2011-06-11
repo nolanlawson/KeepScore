@@ -1,10 +1,15 @@
 package com.nolanlawson.keepscore.widget;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,7 +18,9 @@ import android.widget.TextView;
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class PlayerView implements OnClickListener {
 
@@ -58,9 +65,7 @@ public class PlayerView implements OnClickListener {
     	name.setText(playerName);
     	
     	score.setText(Long.toString(playerScore.getScore()));
-    	if (playerScore.getHistory() != null && !playerScore.getHistory().isEmpty()) {
-    		history.setText(TextUtils.join("\n", CollectionUtil.reversedCopy(playerScore.getHistory())));
-    	}
+   		history.setText(fromHistory(playerScore.getHistory()));
     	
     	log.d("history is: %s", playerScore.getHistory());
 		
@@ -142,9 +147,47 @@ public class PlayerView implements OnClickListener {
 		
 		score.setText(Long.toString(playerScore.getScore()));
 		
-		history.setText(TextUtils.join("\n", CollectionUtil.reversedCopy(playerScore.getHistory())));
+		history.setText(fromHistory(playerScore.getHistory()));
 		
 		
 		
+	}
+	
+	/**
+	 * Add green color for positive entries and red color for negative entries, and convert ints to strings.
+	 */
+	private CharSequence fromHistory(List<Integer> history) {
+				
+		if (history == null || history.isEmpty()) {
+			return new SpannableString("");
+		}
+		
+		history = CollectionUtil.reversedCopy(history);
+		
+		List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan());
+		
+		return StringUtil.joinSpannables("\n",CollectionUtil.toArray(spannables, Spannable.class));
+	}
+	
+	private Function<Integer,Spannable> historyToSpan() {
+		return new Function<Integer, Spannable>() {
+
+			@Override
+			public Spannable apply(Integer value) {
+				int colorResId = (value >= 0) ? R.color.green : R.color.red;
+				ForegroundColorSpan colorSpan = new ForegroundColorSpan(
+						context.getResources().getColor(colorResId));
+				
+				String str = Integer.toString(value);
+				if (value >= 0) { // add '+' to nonnegative values
+					str = '+' + str;
+				}
+				Spannable spannable = new SpannableString(str);
+				spannable.setSpan(colorSpan, 0, spannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+				
+				return spannable;
+			}
+			
+		};
 	}
 }

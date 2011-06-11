@@ -12,7 +12,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 
 public class GameDBHelper extends SQLiteOpenHelper {
 
@@ -186,7 +188,11 @@ public class GameDBHelper extends SQLiteOpenHelper {
 			
 			values.put(COLUMN_GAME_ID, gameId);
 			if (playerScore.getHistory() != null) {
-				values.put(COLUMN_HISTORY, TextUtils.join(",", playerScore.getHistory()));
+				// don't include deltas of 0
+				List<Integer> filteredHistory = CollectionUtil.filter(playerScore.getHistory(), IntegerUtil.isNonZero());
+				values.put(COLUMN_HISTORY, TextUtils.join(",", filteredHistory));
+			} else {
+				values.put(COLUMN_HISTORY, (String)null);
 			}
 			values.put(COLUMN_NAME, playerScore.getName());
 			values.put(COLUMN_PLAYER_NUMBER, playerScore.getPlayerNumber());
