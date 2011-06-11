@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal">
+
+	<View android:layout_width="0px" android:layout_weight=".05"
+		android:layout_height="0px" />
+
+	<TextView android:layout_width="fill_parent" android:gravity="center_horizontal"
+		android:layout_height="wrap_content" android:textSize="24sp"
+		android:textStyle="bold" android:text="@string/text_player_names" />
+
+	<View android:layout_width="0px" android:layout_weight=".05"
+		android:layout_height="0px" />
+
+
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="0px" android:layout_weight="0.85">
+
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:gravity="center_horizontal">
+
+			<View android:layout_width="0px" android:layout_weight=".125"
+				android:layout_height="0px" />
+
+
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="0px" android:layout_weight=".75"
+				android:layout_height="wrap_content" android:padding="5dp">
+
+				<EditText android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:hint="@string/hint_player_1"
+					android:id="@+id/edit_player_1" />
+
+
+				<EditText android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:hint="@string/hint_player_2"
+					android:id="@+id/edit_player_2" />
+
+				<EditText android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:hint="@string/hint_player_3"
+					android:id="@+id/edit_player_3" />
+
+				<EditText android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:hint="@string/hint_player_4"
+					android:id="@+id/edit_player_4" />
+
+				<EditText android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:hint="@string/hint_player_5"
+					android:id="@+id/edit_player_5" />
+
+				<EditText android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:hint="@string/hint_player_6"
+					android:id="@+id/edit_player_6" />
+
+			</LinearLayout>
+
+
+			<View android:layout_width="0px" android:layout_weight=".125"
+				android:layout_height="0px" />
+		</LinearLayout>
+
+	</ScrollView>
+
+	<View android:layout_width="0px" android:layout_weight=".025"
+		android:layout_height="0px" />
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:gravity="center_horizontal">
+
+		<View android:layout_width="0px" android:layout_weight=".25"
+			android:layout_height="0px" />
+
+		<Button android:id="@android:id/button1" android:text="@android:string/ok"
+			android:layout_width="0px" android:layout_weight="0.75"
+			android:minWidth="200dp" android:layout_height="wrap_content"
+			android:textStyle="bold" />
+
+		<View android:layout_width="0px" android:layout_weight=".25"
+			android:layout_height="0px" />
+
+	</LinearLayout>
+	
+	
+	<View android:layout_width="0px" android:layout_weight=".025"
+		android:layout_height="0px" />
+	
+
+</LinearLayout>

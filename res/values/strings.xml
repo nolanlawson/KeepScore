@@ -9,10 +9,20 @@
     
     <string name="text_num_players">Number of players</string>
     
+    <string name="text_player_names">Player names (optional)</string>
+    
+    
     <string name="button_2_players">Two players</string>
     <string name="button_3_players">Three players</string>
     <string name="button_4_players">Four players</string>
     <string name="button_5_players">Five players</string>
     <string name="button_6_players">Six players</string>
+    
+    <string name="hint_player_1">Player 1</string>
+    <string name="hint_player_2">Player 2</string>
+    <string name="hint_player_3">Player 3</string>
+    <string name="hint_player_4">Player 4</string>
+    <string name="hint_player_5">Player 5</string>
+    <string name="hint_player_6">Player 6</string>
     
 </resources>
