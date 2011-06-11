@@ -305,4 +305,21 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		return result;
 	}
 
+	public void deleteGame(Game game) {
+		int id = game.getId();
+		
+		db.delete(TABLE_GAMES, COLUMN_ID + "=" + id, null);
+		db.delete(TABLE_PLAYER_SCORES, COLUMN_GAME_ID + "=" + id, null);
+		
+	}
+
+	public void updateGameName(Game game, String newName) {
+		ContentValues values = new ContentValues();
+		values.put(COLUMN_NAME, newName);
+		
+		db.update(TABLE_GAMES, values, COLUMN_ID + "=" + game.getId(), null);
+		
+		
+	}
+
 }

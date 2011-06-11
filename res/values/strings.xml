@@ -11,7 +11,15 @@
     
     <string name="text_player_names">Player names (optional)</string>
     <string name="text_player">Player</string>
+    <string name="text_no_saved_games">You haven\'t saved any games yet.</string>
+    <string name="text_players">players</string>
+    <string name="text_saved_colon">Saved:</string>
+    <string name="text_autosaved_colon">Auto-saved:</string>
+    <string name="text_started_colon">Started:</string>
+    <string name="text_delete">Delete</string>
+    <string name="text_edit_name">Edit Name</string>
     
+    <string name="text_game_will_be_deleted">The game will be deleted.</string>
     
     <string name="button_2_players">Two players</string>
     <string name="button_3_players">Three players</string>
@@ -26,11 +34,13 @@
     <string name="hint_player_4">Player 4</string>
     <string name="hint_player_5">Player 5</string>
     <string name="hint_player_6">Player 6</string>
+    <string name="hint_game_name">Game Name</string>
     
     <string name="menu_save">Save</string>
     
     <string name="toast_saved_automatically">Game saved automatically.</string>
     <string name="toast_saved">Game saved.</string>
+    <string name="toast_deleted">Game deleted.</string>
     
     <string name="pref_button_1">button1</string>
     <string name="pref_button_2">button2</string>
@@ -45,5 +55,7 @@
     <string name="tile_add">Add Value</string>
     <string name="tile_subtract">Add Value</string>
     <string name="tile_change_name">Change Name</string>
+    <string name="title_edit_game_name">Edit Game Name</string>
+    <string name="title_confirm">Confirm</string>
     
 </resources>

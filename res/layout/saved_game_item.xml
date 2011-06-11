@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:padding="3dp">
+
+	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:id="@+id/relative_layout_1">
+
+	
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textSize="14sp"
+			android:textColor="@android:color/primary_text_light_nodisable"
+			android:id="@+id/text_date_started" android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true" android:singleLine="true" 
+			android:text="Started: June 12"/>
+	
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textSize="14sp"
+			android:textColor="@android:color/primary_text_light_nodisable"
+			android:id="@+id/text_date_saved" android:layout_alignParentRight="true"
+			android:layout_below="@+id/text_date_started" android:singleLine="true" 
+			android:text="Saved: June 15"/>
+	
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textSize="18sp"
+			android:textColor="@android:color/primary_text_light_nodisable"
+			android:id="@+id/text_game_name" android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true" android:singleLine="true" 
+			android:text="My Game with a really long name that is totally unrealistic but whatever"
+			android:layout_toLeftOf="@+id/text_date_started"/>
+	
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textSize="18sp"
+			android:textColor="@android:color/primary_text_light_nodisable"
+			android:id="@+id/text_num_players" android:layout_alignParentLeft="true"
+			android:layout_below="@+id/text_game_name" android:singleLine="true" 
+			android:text="4 players" android:layout_toRightOf="@+id/text_date_saved"/>
+	
+
+	
+	</RelativeLayout>	
+
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:textSize="16sp"
+		android:textColor="@android:color/secondary_text_light_nodisable"
+		android:id="@+id/text_player_names" android:layout_alignParentLeft="true"
+		android:layout_below="@+id/relative_layout_1" android:singleLine="true" 
+		android:ellipsize="end"
+		android:text="Leonardo, Michaelangelo, Donatello, Raphael"/>
+
+
+</RelativeLayout>

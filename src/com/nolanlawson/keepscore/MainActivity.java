@@ -3,6 +3,8 @@ package com.nolanlawson.keepscore;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,6 +16,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private Button newGameButton, resumeGameButton, loadGameButton;
 	private Game mostRecentGame;
+	
+	private Handler handler = new Handler(Looper.getMainLooper());
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,22 +66,34 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		switch (v.getId()) {
 		case android.R.id.button1:
-			Intent intent = new Intent(this, NewGameActivity.class);
-			startActivity(intent);
+			Intent newGameIntent = new Intent(this, NewGameActivity.class);
+			startActivity(newGameIntent);
 			break;
 		case android.R.id.button2:
 			resumeGame();
 			break;
 		case android.R.id.button3:
+			Intent loadGameIntent = new Intent(this, LoadGameActivity.class);
+			startActivity(loadGameIntent);
 			break;
 		}
 	}
 
 	private void resumeGame() {
-		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra(GameActivity.EXTRA_GAME_ID, mostRecentGame.getId());
+		// do in through the handler because it's sometimes janky loading the next activity
 		
-		startActivity(intent);
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				Intent intent = new Intent(MainActivity.this, GameActivity.class);
+				intent.putExtra(GameActivity.EXTRA_GAME_ID, mostRecentGame.getId());
+				
+				startActivity(intent);				
+			}
+		});
+		
+
 		
 	}
 }

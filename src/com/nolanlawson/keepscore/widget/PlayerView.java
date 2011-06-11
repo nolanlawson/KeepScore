@@ -156,9 +156,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private void updateTextViews() {
 
 
-    	String playerName = !TextUtils.isEmpty(playerScore.getName()) 
-    			? playerScore.getName() 
-    			: (context.getString(R.string.text_player) + " " + (playerScore.getPlayerNumber() + 1));
+    	String playerName = playerScore.toDisplayName(context);
     	nameTextView.setText(playerName);
 		
 		scoreTextView.setText(Long.toString(playerScore.getScore()));
@@ -237,6 +235,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		final EditText editText = new EditText(context);
 		editText.setHint(context.getString(R.string.text_player) + " " + (playerScore.getPlayerNumber() + 1));
 		editText.setText(StringUtil.nullToEmpty(playerScore.getName()));
+		editText.setSingleLine();
 		editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 		new AlertDialog.Builder(context)
 			.setTitle(R.string.tile_change_name)
@@ -247,9 +246,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					
-					String newName = editText.getText().toString();
+					String newName = StringUtil.nullToEmpty(editText.getText().toString());
 					
-					playerScore.setName(newName);
+					playerScore.setName(newName.trim());
 					
 					updateTextViews();
 					

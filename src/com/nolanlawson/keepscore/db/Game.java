@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore.db;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Game {
@@ -54,6 +55,16 @@ public class Game {
 		return "Game [autosaved=" + autosaved + ", dateSaved=" + dateSaved
 				+ ", dateStarted=" + dateStarted + ", id=" + id + ", name="
 				+ name + ", playerScores=" + (playerScores != null ? playerScores.size() : 0) + "]";
+	}
+	
+	public static Comparator<Game> byRecentlySaved() {
+		return new Comparator<Game>() {
+
+			@Override
+			public int compare(Game object1, Game object2) {
+				return new Long(object2.getDateSaved()).compareTo(object1.getDateSaved());
+			}
+		};
 	}
 	
 }

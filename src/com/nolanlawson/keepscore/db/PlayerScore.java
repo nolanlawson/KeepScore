@@ -3,6 +3,11 @@ package com.nolanlawson.keepscore.db;
 import java.util.Comparator;
 import java.util.List;
 
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.nolanlawson.keepscore.R;
+
 public class PlayerScore {
 
 	private int id = -1;
@@ -55,5 +60,13 @@ public class PlayerScore {
 				return left.getPlayerNumber() - right.getPlayerNumber();
 			}
 		};
+	}
+	
+	public String toDisplayName(Context context) {
+		if (!TextUtils.isEmpty(getName())) {
+			return getName();
+		}
+		
+		return context.getString(R.string.text_player) + " " + (getPlayerNumber() + 1);
 	}
 }
