@@ -294,6 +294,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			playerScore.setHistory(new ArrayList<Integer>());
 		}
 		lastIncremented.set(0);
+		shouldAutosave.set(true);
 		
 		updateTextViews();
 		

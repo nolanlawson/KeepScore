@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import android.os.BadParcelableException;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Game implements Parcelable {
+import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
+
+public class Game implements Parcelable, Cloneable {
 
 	private int id = -1;
 	private long dateStarted;
@@ -115,4 +117,22 @@ public class Game implements Parcelable {
 			return new Game[size];
 		}
 	};
+	
+	@Override
+	public Object clone() {
+		Game game = new Game();
+		game.setAutosaved(autosaved);
+		game.setDateSaved(dateSaved);
+		game.setDateStarted(dateStarted);
+		game.setId(id);
+		game.setName(name);
+		game.setPlayerScores(CollectionUtil.transform(playerScores, new Function<PlayerScore,PlayerScore>(){
+
+			@Override
+			public PlayerScore apply(PlayerScore obj) {
+				return (PlayerScore)obj.clone();
+			}
+		}));
+		return game;
+	}
 }

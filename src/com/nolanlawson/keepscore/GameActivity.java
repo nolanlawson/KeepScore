@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -81,7 +83,7 @@ public class GameActivity extends Activity {
 		}		
 		
 		if (shouldAutosave()) {
-			saveGame(true);
+			saveGame(game, true);
 		}
 	}
 
@@ -127,7 +129,7 @@ public class GameActivity extends Activity {
 	    	startActivity(historyIntent);
 	    	break;
 	    case R.id.menu_save:
-	    	saveGame(false);
+	    	saveGame(game, false);
 	    	break;
 	    case R.id.menu_settings:
 	    	Intent settingsIntent = new Intent(GameActivity.this, SettingsActivity.class);
@@ -139,7 +141,7 @@ public class GameActivity extends Activity {
 	    	startActivity(homeIntent);
 	    	break;
 	    case R.id.menu_reset_scores:
-	    	resetScores();
+	    	showResetScoresDialog();
 	    }
 	    return false;
 	}
@@ -153,11 +155,58 @@ public class GameActivity extends Activity {
 		return true;
 	}
 	
-	private void resetScores() {
+	private void showResetScoresDialog() {
 		
-		for (PlayerView playerView : playerViews) {
-			playerView.reset(this);
-		}
+		new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.title_confirm_reset)
+			.setMessage(R.string.text_reset_scores_confirm)
+			.setPositiveButton(R.string.button_overwite, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					for (PlayerView playerView : playerViews) {
+						playerView.reset(GameActivity.this);
+					}
+				}
+			})
+			.setNeutralButton(R.string.button_new_game_with_same, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					startNewGameWithSameSettings();
+				}
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
+
+	}
+
+	protected void startNewGameWithSameSettings() {
+		
+		saveGame(game, true);
+		
+		game = (Game)game.clone();
+		
+		playerScores = game.getPlayerScores();
+		numPlayers = playerScores.size();
+
+		// reset everything except the player names
+		game.setId(-1);
+		game.setDateStarted(System.currentTimeMillis());
+		game.setDateSaved(0);
+		game.setName(null);
+		
+		for (PlayerScore playerScore : playerScores) {
+			playerScore.setId(-1);
+			playerScore.setHistory(new ArrayList<Integer>());
+			playerScore.setScore(PreferenceHelper.getIntPreference(
+					R.string.pref_initial_score, R.string.pref_initial_score_default, this));
+		}		
+		
+		setUpWidgets();
 	}
 
 	private boolean shouldAutosave() {
@@ -235,7 +284,7 @@ public class GameActivity extends Activity {
 		log.d("created new playerScores: %s", playerScores);
 	}
 
-	private void saveGame(final boolean autosaved) {
+	private void saveGame(final Game gameToSave, final boolean autosaved) {
 		
 		// do in the background to avoid jankiness
 		new AsyncTask<Void, Void, Void>() {
@@ -246,7 +295,7 @@ public class GameActivity extends Activity {
 				GameDBHelper dbHelper = null;
 				try {
 					dbHelper = new GameDBHelper(GameActivity.this);
-					dbHelper.saveGame(game, autosaved);
+					dbHelper.saveGame(gameToSave, autosaved);
 				} finally {
 					if (dbHelper != null) {
 						dbHelper.close();
@@ -304,11 +353,6 @@ public class GameActivity extends Activity {
 			// hide the "sixth" player
 			findViewById(R.id.player_6).setVisibility(View.INVISIBLE);
 		}
-		
-		
-
-    			
-		
 	}
 
 	private int getPlayerViewResId(int playerNumber) {

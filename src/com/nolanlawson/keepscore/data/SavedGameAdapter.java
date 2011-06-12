@@ -62,7 +62,7 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 
 			@Override
 			public String apply(PlayerScore playerScore) {
-				return playerScore.toDisplayName(context);
+				return playerScore.toDisplayName(context) + ": "+ playerScore.getScore();
 			}
 		}));
 		

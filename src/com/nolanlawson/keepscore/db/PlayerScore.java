@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore.db;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 
-public class PlayerScore implements Parcelable {
+public class PlayerScore implements Parcelable, Cloneable {
 
 	private int id = -1;
 	private String name;
@@ -93,6 +94,17 @@ public class PlayerScore implements Parcelable {
 		}
 		
 		return context.getString(R.string.text_player) + " " + (getPlayerNumber() + 1);
+	}
+	
+	@Override
+	public Object clone() {
+		PlayerScore playerScore = new PlayerScore();
+		playerScore.setHistory(new ArrayList<Integer>(history));
+		playerScore.setId(id);
+		playerScore.setName(name);
+		playerScore.setPlayerNumber(playerNumber);
+		playerScore.setScore(score);
+		return playerScore;
 	}
 
 	@Override

@@ -20,6 +20,7 @@
     <string name="text_edit_name">Edit Name</string>
     <string name="text_reset_confirm">All settings will be reset.</string>
     <string name="text_about">About KeepScore</string>
+    <string name="text_reset_scores_confirm">Overwrite game or start new game with same players?</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     
@@ -29,6 +30,8 @@
     <string name="button_5_players">Five players</string>
     <string name="button_6_players">Six players</string>
     <string name="button_customize">Customize...</string>
+    <string name="button_overwite">Overwrite</string>
+    <string name="button_new_game_with_same">New Game</string>
     
     <string name="hint_player_1">Player 1</string>
     <string name="hint_player_2">Player 2</string>
@@ -83,12 +86,13 @@
     <string name="title_edit_game_name">Edit Game Name</string>
     <string name="title_name_game">Enter Game Name</string>
     <string name="title_confirm">Confirm</string>
+    <string name="title_confirm_reset">Confirm Reset</string>
     
     <string name="menu_settings">Settings</string>
     <string name="menu_history">History</string>
     <string name="menu_save">Save</string>
     <string name="menu_home">Home</string>
-    <string name="menu_reset_scores">Reset Scores</string>
+    <string name="menu_reset_scores">Reset</string>
     <string name="menu_about">About</string>
     
 </resources>
