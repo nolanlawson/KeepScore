@@ -83,8 +83,9 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		
 		CharSequence[] options = new CharSequence[]{
 				getString(R.string.text_delete), 
-				editTitle,
-				getString(R.string.menu_history)};
+				getString(R.string.menu_history),
+				editTitle
+				};
 		
 		new AlertDialog.Builder(this)
 			.setCancelable(true)
@@ -98,12 +99,12 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 					case 0: // delete
 						showDeleteDialog(game);
 						break;
-					case 1: // edit name
-						showEditGameNameDialog(game);
-						break;
-					case 2: // history
+					case 1: // history
 						showHistory(game);
 						break;
+					case 2: // edit name
+						showEditGameNameDialog(game);
+						break;	
 					}
 				}
 			})

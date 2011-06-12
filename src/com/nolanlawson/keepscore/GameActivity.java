@@ -106,6 +106,17 @@ public class GameActivity extends Activity {
 	    return true;
 	}
 	
+	
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+
+		MenuItem historyItem = menu.findItem(R.id.menu_reset_scores);
+		historyItem.setEnabled(!isAtDefault());
+		
+		return super.onPrepareOptionsMenu(menu);
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
@@ -122,10 +133,33 @@ public class GameActivity extends Activity {
 	    	Intent settingsIntent = new Intent(GameActivity.this, SettingsActivity.class);
 	    	startActivity(settingsIntent);
 	    	break;
+	    case R.id.menu_home:
+	    	Intent homeIntent = new Intent(GameActivity.this, MainActivity.class);
+	    	homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    	startActivity(homeIntent);
+	    	break;
+	    case R.id.menu_reset_scores:
+	    	resetScores();
 	    }
 	    return false;
 	}
 	
+	private boolean isAtDefault() {
+		for (PlayerScore playerScore : playerScores) {
+			if (!playerScore.isAtDefault(this)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private void resetScores() {
+		
+		for (PlayerView playerView : playerViews) {
+			playerView.reset(this);
+		}
+	}
+
 	private boolean shouldAutosave() {
 		// only autosave if the user has changed SOMETHING, i.e. the scores aren't all just zero
 		
@@ -254,6 +288,7 @@ public class GameActivity extends Activity {
 			
 			// sometimes the text gets cut off in the 6 player view, so make the player name smaller there
 			if (numPlayers >= 5) {
+				log.d("setting text size to be a smaller size");
 				playerView.getNameTextView().setTextSize(
 						getResources().getDimension(R.dimen.player_name_5_to_6));
 			}

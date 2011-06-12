@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -284,5 +285,17 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 				
 			}
 		}, context);
+	}
+
+	public void reset(Context context) {
+		synchronized (lock) {
+			playerScore.setScore(PreferenceHelper.getIntPreference(
+					R.string.pref_initial_score, R.string.pref_initial_score_default, context));
+			playerScore.setHistory(new ArrayList<Integer>());
+		}
+		lastIncremented.set(0);
+		
+		updateTextViews();
+		
 	}
 }

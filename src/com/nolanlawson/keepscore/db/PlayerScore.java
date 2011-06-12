@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.nolanlawson.keepscore.R;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -80,6 +81,12 @@ public class PlayerScore implements Parcelable {
 		};
 	}
 	
+	public boolean isAtDefault(Context context) {
+		return (history == null || history.isEmpty()) 
+			&& score == PreferenceHelper.getIntPreference(
+					R.string.pref_initial_score, R.string.pref_initial_score_default, context);
+	}
+	
 	public String toDisplayName(Context context) {
 		if (!TextUtils.isEmpty(getName())) {
 			return getName();
@@ -111,5 +118,5 @@ public class PlayerScore implements Parcelable {
 		public PlayerScore[] newArray(int size) {
 			return new PlayerScore[size];
 		}
-	};	
+	};		
 }

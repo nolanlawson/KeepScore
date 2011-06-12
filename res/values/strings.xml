@@ -80,12 +80,13 @@
     <string name="tile_subtract">Add Value</string>
     <string name="tile_change_name">Change Name</string>
     <string name="title_edit_game_name">Edit Game Name</string>
-    <string name="title_name_game">Name This Game</string>
+    <string name="title_name_game">Enter Game Name</string>
     <string name="title_confirm">Confirm</string>
     
     <string name="menu_settings">Settings</string>
     <string name="menu_history">History</string>
     <string name="menu_save">Save</string>
-    
+    <string name="menu_home">Home</string>
+    <string name="menu_reset_scores">Reset Scores</string>
     
 </resources>
