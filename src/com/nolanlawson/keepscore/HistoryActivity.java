@@ -68,9 +68,10 @@ public class HistoryActivity extends Activity {
 		// rather than left-to-right
 		sections = AdapterHelper.createSectionsForTwoColumnGridView(sections);
 		
-		for (int i = 0; i < sectionHeaders.size(); i++) {
+		for (int i = 0; i < sections.size(); i++) {
 			HistoryAdapter subAdapter = new HistoryAdapter(this, sections.get(i));
-			adapter.addSection(sectionHeaders.get(i), subAdapter);
+			String sectionHeader = i < sectionHeaders.size() ? sectionHeaders.get(i) : "";
+			adapter.addSection(sectionHeader, subAdapter);
 		}
 	}
 }
