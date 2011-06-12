@@ -1,0 +1,1 @@
+KeepScore is a free and open-source score-keeping app for Android.  Feel free to file bugs on the GitHub page or branch the code yourself!  Just send me a merge request and I'll try to incorporate your changes into the app on the Android Market.
