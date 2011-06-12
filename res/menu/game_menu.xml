@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-	<item android:id="@+id/menu_save" android:title="@string/menu_save"
-		android:alphabeticShortcut="@string/menu_save" android:icon="@drawable/ic_menu_save" />
-	
+	<item android:id="@+id/menu_home" android:title="@string/menu_home" 
+		android:alphabeticShortcut="@string/menu_home" android:icon="@drawable/ic_menu_home"/>	
 
 	<item android:id="@+id/menu_history" android:title="@string/menu_history"
 		android:alphabeticShortcut="@string/menu_history" android:icon="@drawable/ic_menu_recent_history" />
@@ -13,10 +11,10 @@
 	<item android:id="@+id/menu_reset_scores" android:title="@string/menu_reset_scores"
 		android:alphabeticShortcut="@string/menu_reset_scores" android:icon="@drawable/ic_menu_close_clear_cancel" />	
 	
-		
-	<item android:id="@+id/menu_home" android:title="@string/menu_home" 
-		android:alphabeticShortcut="@string/menu_home"
-		android:icon="@drawable/ic_menu_home"/>	
+	
+	<item android:id="@+id/menu_save" android:title="@string/menu_save"
+		android:alphabeticShortcut="@string/menu_save" android:icon="@drawable/ic_menu_save" />
+
 	
 	<item android:id="@+id/menu_settings" android:title="@string/menu_settings"
 		android:alphabeticShortcut="@string/menu_settings" android:icon="@drawable/ic_menu_preferences" />	

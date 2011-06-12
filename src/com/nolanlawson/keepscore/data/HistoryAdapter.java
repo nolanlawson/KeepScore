@@ -53,6 +53,15 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 		}
 		
 		
+		if (item == null) {
+			// null indicates to leave the text views empty
+			textView1.setText(null);
+			textView2.setText(null);
+			return view;			
+		}
+		
+		
+		
 		
 		Integer delta = item.getDelta();
 		Long total = item.getRunningTotal();
@@ -72,6 +81,18 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 		return view;
 	}
 	
+	
+	
+	@Override
+	public boolean areAllItemsEnabled() {
+		return false; // nothing enabled
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		return false; // nothing enabled
+	}
+
 	private static class ViewWrapper {
 		private View view;
 		private TextView textView1, textView2;
@@ -93,33 +114,5 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 			}
 			return textView2;
 		}
-	}
-	
-	/**
-	 * Create a list of displayable history items given a PlayerScore.
-	 * @param playerScore
-	 * @return
-	 */
-	public static HistoryAdapter createFromPlayerScore(PlayerScore playerScore, Context context) {
-		
-		List<Integer> history = CollectionUtil.reversedCopy(playerScore.getHistory());
-		long runningScore = playerScore.getScore();
-		
-		List<HistoryItem> historyItems = new ArrayList<HistoryItem>();
-		
-		// add an initial one to just show the current score
-		historyItems.add(new HistoryItem(0, runningScore, true));
-		
-		for (Integer historyDelta : history) {
-			runningScore -= historyDelta;
-			
-			historyItems.add(new HistoryItem(historyDelta, runningScore, false));
-		}
-		
-		return new HistoryAdapter(context, historyItems);
-		
-	}
-	
-	
-	
+	}	
 }
