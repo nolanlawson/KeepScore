@@ -287,7 +287,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				currentGame = new Game();
 				currentGame.setId(currentId);
 				currentGame.setDateStarted(cursor.getLong(1));
-				currentGame.setDateSaved(cursor.getInt(2));
+				currentGame.setDateSaved(cursor.getLong(2));
 				currentGame.setAutosaved(cursor.getInt(3) != 0);
 				currentGame.setName(cursor.getString(4));
 				result.add(currentGame);

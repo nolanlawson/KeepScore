@@ -16,10 +16,13 @@ import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class SavedGameAdapter extends ArrayAdapter<Game> {
 
+	private static UtilLogger log = new UtilLogger(SavedGameAdapter.class);
+	
 	private static final String DATE_FORMAT = "MM/dd/yy KK:mmaa";
 	
 	public SavedGameAdapter(Context context, List<Game> values) {
@@ -72,6 +75,9 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		
 		String saved = context.getString(game.isAutosaved() ? R.string.text_autosaved_colon : R.string.text_saved_colon);
 		savedTextView.setText(saved + " " + simpleDateFormat.format(new Date(game.getDateSaved())));
+		
+		log.d("saved long is: %s", game.getDateSaved());
+		log.d("started long is: %s", game.getDateStarted());
 		
 		return view;
 	}
