@@ -3,6 +3,10 @@
 
 	<item android:id="@+id/menu_settings" android:title="@string/menu_settings"
 		android:alphabeticShortcut="@string/menu_settings" android:icon="@drawable/ic_menu_preferences" />
+		
+		
+	<item android:id="@+id/menu_about" android:title="@string/menu_about"
+		android:alphabeticShortcut="@string/menu_about" android:icon="@drawable/ic_menu_info_details" />	
 </menu>
     
     

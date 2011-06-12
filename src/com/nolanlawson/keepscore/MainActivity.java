@@ -50,8 +50,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 	    switch (item.getItemId()) {
 	    case R.id.menu_settings:
-	    	Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-	    	startActivity(intent);
+	    	Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+	    	startActivity(settingsIntent);
+	    	break;
+	    case R.id.menu_about:
+	    	Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+	    	startActivity(aboutIntent);
 	    	break;
 	    }
 	    return false;
