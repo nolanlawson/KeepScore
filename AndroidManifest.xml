@@ -47,7 +47,6 @@
         	
         <activity android:name=".AboutActivity" 
         	android:theme="@android:style/Theme.Dialog"
-        	android:configChanges="orientation|keyboardHidden|keyboard"
         	/>
 			
         	        	        	         
