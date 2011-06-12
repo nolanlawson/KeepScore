@@ -188,6 +188,8 @@ public class GameActivity extends Activity {
         	playerScore.setName(playerNames[i]);
         	playerScore.setPlayerNumber(i);
         	playerScore.setHistory(new ArrayList<Integer>());
+        	playerScore.setScore(PreferenceHelper.getIntPreference(
+        			R.string.pref_initial_score, R.string.pref_initial_score_default, GameActivity.this));
         	
         	playerScores.add(playerScore);
         }

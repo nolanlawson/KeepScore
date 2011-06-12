@@ -29,6 +29,10 @@
 		android:title="@string/pref_button_4_name" android:defaultValue="@string/pref_button_4_default"
 		android:persistent="true"/>		
 	
+	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_initial_score"
+		android:title="@string/pref_initial_score_name" android:defaultValue="@string/pref_initial_score_default"
+		android:persistent="true"/>
+	
 	<PreferenceCategory android:title="@string/pref_cat_advanced"/>
 	
 	<com.nolanlawson.keepscore.widget.NonnegativeIntegerEditTextPreference android:key="@string/pref_update_delay"
@@ -37,6 +41,8 @@
 		
 	<CheckBoxPreference android:key="@string/pref_use_wake_lock"
 		android:title="@string/pref_use_wake_lock_name" android:defaultValue="@string/pref_use_wake_lock_default"
-		android:persistent="true" android:summary="@string/pref_use_wake_lock_summary"/>	
+		android:persistent="true" android:summary="@string/pref_use_wake_lock_summary"/>
+		
+	<Preference android:key="@string/pref_reset" android:title="@string/pref_reset_name"/>	
 		
 </PreferenceScreen>

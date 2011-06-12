@@ -1,5 +1,7 @@
 package com.nolanlawson.keepscore.util;
 
+import android.text.TextUtils;
+
 import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 
 public class IntegerUtil {
@@ -21,6 +23,17 @@ public class IntegerUtil {
 	 */
 	public static String toStringWithSign(int i) {
 		return i >= 0 ? "+" + i : Integer.toString(i);
+	}
+	
+	public static boolean validInt(CharSequence integer) {
+		if (!TextUtils.isEmpty(integer)) {
+			try {
+				Integer.parseInt(integer.toString());
+				return true;
+			} catch (NumberFormatException ex) {
+			}
+		}
+		return false;
 	}
 	
 }

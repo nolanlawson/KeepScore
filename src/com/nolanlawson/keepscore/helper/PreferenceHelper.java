@@ -25,17 +25,18 @@ public class PreferenceHelper {
 		
 	}
 	
-	public static void setPreference(int resId, boolean value, Context context) {
+	public static void setBooleanPreference(int resId, int valueResId, Context context) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		Editor editor = sharedPrefs.edit();
+		boolean value = Boolean.parseBoolean(context.getString(valueResId));
 		editor.putBoolean(context.getString(resId), value);
 		editor.commit();
 	}
 	
-	public static void setPreference(int resId, int value, Context context) {
+	public static void setIntPreference(int resId, int valueResId, Context context) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		Editor editor = sharedPrefs.edit();
-		editor.putInt(context.getString(resId), value);
+		editor.putString(context.getString(resId), context.getString(valueResId));
 		editor.commit();
 	}
 	

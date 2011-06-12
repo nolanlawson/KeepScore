@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -71,16 +72,18 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	@Override
 	public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
 		
-		showOptionsMenu(position);
+		showOptionsMenu(this.adapter.getItem(position));
 		
 		return true;
 	}
 
-	private void showOptionsMenu(final int position) {
+	private void showOptionsMenu(final Game game) {
+		
+		String editTitle = getString(TextUtils.isEmpty(game.getName()) ? R.string.title_name_game : R.string.title_edit_game_name);
 		
 		CharSequence[] options = new CharSequence[]{
 				getString(R.string.text_delete), 
-				getString(R.string.text_edit_name),
+				editTitle,
 				getString(R.string.menu_history)};
 		
 		new AlertDialog.Builder(this)
@@ -93,13 +96,13 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 					
 					switch (which) {
 					case 0: // delete
-						showDeleteDialog(position);
+						showDeleteDialog(game);
 						break;
 					case 1: // edit name
-						showEditGameNameDialog(position);
+						showEditGameNameDialog(game);
 						break;
 					case 2: // history
-						showHistory(position);
+						showHistory(game);
 						break;
 					}
 				}
@@ -108,8 +111,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		
 	}
 
-	protected void showHistory(int position) {
-		Game game = adapter.getItem(position);
+	protected void showHistory(Game game) {
 		
 		Intent intent = new Intent(this, HistoryActivity.class);
 		intent.putExtra(HistoryActivity.EXTRA_GAME, game);
@@ -118,9 +120,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		
 	}
 
-	private void showEditGameNameDialog(int position) {
-		final Game game = adapter.getItem(position);
-		
+	private void showEditGameNameDialog(final Game game) {
 
 		final EditText editText = new EditText(this);
 		editText.setHint(R.string.hint_game_name);
@@ -180,7 +180,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	}
 	
 	
-	private void showDeleteDialog(final int position) {
+	private void showDeleteDialog(final Game game) {
 		new AlertDialog.Builder(this)
 			.setCancelable(true)
 			.setTitle(R.string.title_confirm)
@@ -190,16 +190,13 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					deleteGame(position);
+					deleteGame(game);
 				}
 			})
 			.setNegativeButton(android.R.string.cancel, null)
 			.show();
 	}
-	private void deleteGame(final int position) {
-		
-		final Game game = adapter.getItem(position);
-
+	private void deleteGame(final Game game) {
 		
 		// do in background to avoid jankiness
 		new AsyncTask<Void, Void, Void>() {
