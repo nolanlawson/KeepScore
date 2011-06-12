@@ -47,14 +47,12 @@ public class GameActivity extends Activity {
         
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(getContentViewResId());
-        
-        setUpWidgets();
-        
-        playerViews.get(0).getNameTextView().setSelected(false);
-        
 		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, getPackageName());
+        
+        setContentView(getContentViewResId());
+        setUpWidgets();
+        
     }
 
 	private int getContentViewResId() {
