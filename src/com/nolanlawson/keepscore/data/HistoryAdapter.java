@@ -1,6 +1,5 @@
 package com.nolanlawson.keepscore.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -14,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
-import com.nolanlawson.keepscore.db.PlayerScore;
-import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
 public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
@@ -42,41 +39,41 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 		TextView textView1 = viewWrapper.getTextView1();
 		TextView textView2 = viewWrapper.getTextView2();
 		
-		
 		HistoryItem item;
 		try {
 			item = getItem(position);
 		} catch (IndexOutOfBoundsException ignore) {
-			textView1.setText(null);
-			textView2.setText(null);
+			setDummyTextView(textView1);
+			setDummyTextView(textView2);
 			return view;
 		}
 		
 		
 		if (item == null) {
 			// null indicates to leave the text views empty
-			textView1.setText(null);
-			textView2.setText(null);
+			setDummyTextView(textView1);
+			setDummyTextView(textView2);
 			return view;			
 		}
 		
+		textView2.setVisibility(View.VISIBLE);
 		
+		if (item.isHideDelta()) {
+			setDummyTextView(textView1);
+		} else {
+			int delta = item.getDelta();
+			
+			SpannableString deltaSpannable = new SpannableString(IntegerUtil.toStringWithSign(delta));
+			
+			int colorResId = delta >= 0 ? R.color.green : R.color.red;
+			ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(colorResId));
+			deltaSpannable.setSpan(colorSpan, 0, deltaSpannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			
+			textView1.setVisibility(View.VISIBLE);
+			textView1.setText(deltaSpannable);
+		}
 		
-		
-		Integer delta = item.getDelta();
-		Long total = item.getRunningTotal();
-		
-		SpannableString deltaSpannable = new SpannableString(IntegerUtil.toStringWithSign(delta));
-		
-		int colorResId = delta >= 0 ? R.color.green : R.color.red;
-		ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(colorResId));
-		deltaSpannable.setSpan(colorSpan, 0, deltaSpannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-		
-		textView1.setText(deltaSpannable);
-		
-		textView2.setText(total.toString());
-		
-		textView1.setVisibility(item.isHideDelta() ? View.INVISIBLE : View.VISIBLE);
+		textView2.setText(Long.toString(item.getRunningTotal()));
 		
 		return view;
 	}
@@ -91,6 +88,16 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 	@Override
 	public boolean isEnabled(int position) {
 		return false; // nothing enabled
+	}
+	
+	/**
+	 * For some reason, on Honeycomb tablets I have to set the text view to have a dummy value and the visibility to INVISIBLE - I can't just 
+	 * set the text to null or empty.  If I don't, the text isn't wrapped correctly vertically.
+	 * @param textView
+	 */
+	private void setDummyTextView(TextView textView) {
+		textView.setVisibility(View.INVISIBLE);
+		textView.setText("0"); // dummy value
 	}
 
 	private static class ViewWrapper {
