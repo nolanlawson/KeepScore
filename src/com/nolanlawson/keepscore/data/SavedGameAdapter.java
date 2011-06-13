@@ -23,7 +23,7 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 
 	private static UtilLogger log = new UtilLogger(SavedGameAdapter.class);
 	
-	private static final String DATE_FORMAT = "MM/dd/yy KK:mmaa";
+	private static final String DATE_FORMAT = "MMM dd hh:mmaa";
 	
 	public SavedGameAdapter(Context context, List<Game> values) {
 		super(context, R.layout.saved_game_item, values);
