@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="player_name_2_to_4">64sp</dimen>
+	<dimen name="player_name_5_to_6">48sp</dimen>
+	<dimen name="player_score">72sp</dimen>
+	<dimen name="player_score_history">24sp</dimen>
+	<dimen name="player_plus_minus_button">36sp</dimen>
+</resources>
