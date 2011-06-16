@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 
 public class PlayerScore implements Parcelable, Cloneable {
@@ -118,7 +117,7 @@ public class PlayerScore implements Parcelable, Cloneable {
 		dest.writeString(name);
 		dest.writeLong(score);
 		dest.writeInt(playerNumber);
-		dest.writeString(TextUtils.join(",", CollectionUtil.filter(history, IntegerUtil.isNonZero())));
+		dest.writeString(TextUtils.join(",", history));
 	}
 	
 	

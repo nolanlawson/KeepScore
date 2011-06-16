@@ -125,13 +125,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		long updateDelay = PreferenceHelper.getUpdateDelay(context) * 1000; // convert ms to s
 		
-		if (currentTime - lastIncrementedTime > updateDelay
-				&& !(
-						!playerScore.getHistory().isEmpty() 
-						&& playerScore.getHistory().get(playerScore.getHistory().size() - 1) == 0)) {
-			// if it's been awhile since the last time we incremented, OR if the last "update" is set to zero
-			// somehow (because the user pressed +1 followed by -1, for instance), then
-			// add a new history item
+		if (currentTime - lastIncrementedTime > updateDelay || playerScore.getHistory().isEmpty()) {
+			
+			// if it's been awhile since the last time we incremented
 			synchronized (lock) {
 				playerScore.getHistory().add(delta);
 			}
@@ -140,7 +136,13 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			synchronized (lock) {
 				int lastIndex = playerScore.getHistory().size() - 1;
 				int newValue = playerScore.getHistory().get(lastIndex) + delta;
-				playerScore.getHistory().set(lastIndex, newValue);
+				if (newValue == 0) { // don't add "0" to the list; just delete the last history item
+					playerScore.getHistory().remove(lastIndex);
+					lastIncremented.set(0); // reset the lastIncremented time so we don't update the
+					                        // previous value later
+				} else {
+					playerScore.getHistory().set(lastIndex, newValue);
+				}
 			}
 		}
 		
