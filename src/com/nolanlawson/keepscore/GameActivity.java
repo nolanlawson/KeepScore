@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +40,7 @@ public class GameActivity extends Activity {
 	private PowerManager.WakeLock wakeLock;
 	
 	private List<PlayerView> playerViews;
+	private Handler handler = new Handler(Looper.getMainLooper());
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -308,6 +311,11 @@ public class GameActivity extends Activity {
 				super.onPostExecute(result);
 				int resId = autosaved ? R.string.toast_saved_automatically : R.string.toast_saved;
 				Toast.makeText(GameActivity.this, resId, Toast.LENGTH_SHORT).show();
+				
+				// update the views just in case anything bolded needs to be unbolded
+				for (PlayerView playerView : playerViews) {
+					playerView.confirmHistory();
+				}
 			}
 			
 			
@@ -331,7 +339,7 @@ public class GameActivity extends Activity {
 			
 			View view = findViewById(resId);
 			
-			PlayerView playerView = new PlayerView(this, view, playerScore);
+			PlayerView playerView = new PlayerView(this, view, playerScore, handler);
 			
 			// sometimes the text gets cut off in the 6 player view, so make the player name smaller there
 			if (numPlayers >= 5) {

@@ -8,11 +8,13 @@ import java.util.concurrent.atomic.AtomicLong;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -23,13 +25,14 @@ import android.widget.TextView;
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.DialogHelper;
-import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
+import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class PlayerView implements OnClickListener, OnLongClickListener {
 	
@@ -42,14 +45,17 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private TextView nameTextView, scoreTextView, historyTextView;
 	private Button minusButton, plusButton;
 	private Context context;
+	private Handler handler;
 	
 	private AtomicLong lastIncremented = new AtomicLong(0);
+	private Runnable historyUpdateRunnable;
 	private final Object lock = new Object();
 	
-	public PlayerView(Context context, View view, PlayerScore playerScore) {
+	public PlayerView(Context context, View view, PlayerScore playerScore, Handler handler) {
 		this.view = view;
 		this.playerScore = playerScore;
 		this.context = context;
+		this.handler = handler;
 		init();
 	}
 
@@ -69,7 +75,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		nameTextView.setOnClickListener(this);
 		nameTextView.setOnLongClickListener(this);
 
-		updateTextViews();
+		updateViews();
     	
     	log.d("history is: %s", playerScore.getHistory());
 		
@@ -123,9 +129,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		long lastIncrementedTime = lastIncremented.getAndSet(currentTime);
 		
-		long updateDelay = PreferenceHelper.getUpdateDelay(context) * 1000; // convert ms to s
-		
-		if (currentTime - lastIncrementedTime > updateDelay || playerScore.getHistory().isEmpty()) {
+		if (currentTime - lastIncrementedTime > getUpdateDelayInMs() 
+				|| playerScore.getHistory().isEmpty()) {
 			
 			// if it's been awhile since the last time we incremented
 			synchronized (lock) {
@@ -151,12 +156,13 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		}
 		
 		// now update the history text view and the total score text view
-		updateTextViews();
+		updateViews();
 		
 		shouldAutosave.set(true);
+		createDelayedHistoryUpdateTask();
 	}
 	
-	private void updateTextViews() {
+	private void updateViews() {
 
 
     	String playerName = playerScore.toDisplayName(context);
@@ -164,13 +170,12 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		scoreTextView.setText(Long.toString(playerScore.getScore()));
 		historyTextView.setText(fromHistory(playerScore.getHistory()));
-		
 	}
 
 	/**
 	 * Add green color for positive entries and red color for negative entries, and convert ints to strings.
 	 */
-	private CharSequence fromHistory(List<Integer> history) {
+	private Spannable fromHistory(List<Integer> history) {
 				
 		if (history == null || history.isEmpty()) {
 			return new SpannableString("");
@@ -189,8 +194,21 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			}});
 		
 		List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
+
+		// if the most recent history entry is still modifiable, then make it bold
+		long currentTime = System.currentTimeMillis();
+		if (currentTime < (lastIncremented.get() + getUpdateDelayInMs())) { // still modifiable
+			// set a bold span for the first entry
+			Spannable firstSpannable = spannables.get(0);
+			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+			SpannableUtil.setWholeSpan(firstSpannable, boldSpan);
+		}
 		
-		return StringUtil.joinSpannables("\n",CollectionUtil.toArray(spannables, Spannable.class));
+		Spannable result = new SpannableString(
+				StringUtil.joinSpannables("\n",CollectionUtil.toArray(spannables, Spannable.class)));
+		
+		return result;
+		
 	}
 	
 	private Function<Integer,Spannable> historyToSpan(final int maxChars) {
@@ -205,7 +223,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 				log.d("max length is %s, str is '%s'", maxChars, str);
 				str = StringUtil.padLeft(str, ' ', maxChars);
 				Spannable spannable = new SpannableString(str);
-				spannable.setSpan(colorSpan, 0, spannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+				SpannableUtil.setWholeSpan(spannable, colorSpan);
 				
 				return spannable;
 			}
@@ -253,7 +271,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 					
 					playerScore.setName(newName.trim());
 					
-					updateTextViews();
+					updateViews();
 					
 					shouldAutosave.set(true);
 					dialog.dismiss();
@@ -280,7 +298,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 						playerScore.setScore(playerScore.getScore() + delta);
 						playerScore.getHistory().add(delta);
 						
-						updateTextViews();
+						updateViews();
 						
 					}
 				}
@@ -298,7 +316,45 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		lastIncremented.set(0);
 		shouldAutosave.set(true);
 		
-		updateTextViews();
+		updateViews();
 		
+	}
+	
+	public void confirmHistory() {
+		lastIncremented.set(0); // reset so that the history views will un-bold
+		updateViews();
+	}
+	
+	/**
+	 * creates a runnable to be run in after the update delay has completed to un-bold
+	 * any bolded history entries
+	 */
+	private void createDelayedHistoryUpdateTask() {
+		Runnable runnable = getHistoryUpdateRunnable();
+		handler.removeCallbacks(runnable);
+		handler.postDelayed(runnable, getUpdateDelayInMs());
+	}
+
+	private Runnable getHistoryUpdateRunnable() {
+		
+		if (historyUpdateRunnable == null) {
+			historyUpdateRunnable = new Runnable() {
+				
+				@Override
+				public void run() {
+					long currentTime = System.currentTimeMillis();
+					if (currentTime >= (lastIncremented.get() + getUpdateDelayInMs())
+							&& !playerScore.getHistory().isEmpty()) { 
+						// not modifiable anymore, need to unbold the last history item
+						updateViews();
+					}
+				}
+			};
+		}
+		return historyUpdateRunnable;
+	}
+	
+	private long getUpdateDelayInMs() {
+		return PreferenceHelper.getUpdateDelay(context) * 1000L;
 	}
 }
