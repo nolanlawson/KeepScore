@@ -21,6 +21,8 @@
     <string name="text_reset_confirm">All settings will be reset.</string>
     <string name="text_about">About KeepScore</string>
     <string name="text_reset_scores_confirm">Overwrite game or start new game with same players?</string>
+    <string name="text_undo_last">Undo Last</string>
+    <string name="text_confirm">Confirm</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     

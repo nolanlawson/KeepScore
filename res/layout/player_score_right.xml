@@ -8,7 +8,8 @@
 	<com.nolanlawson.keepscore.widget.AutofitTextView android:layout_width="0px" android:layout_weight=".15" android:layout_height="fill_parent"
 		android:gravity="right"  android:id="@+id/text_history" android:paddingTop="3dp"
 		android:paddingBottom="3dp" android:typeface="monospace" android:paddingRight="3dp"
-		android:textSize="@dimen/player_score_history"/>	
+		android:textSize="@dimen/player_score_history" android:focusable="true"
+		android:clickable="true" android:background="@drawable/generic_selector"/>	
 	
 	<FrameLayout android:layout_width="0px" android:layout_weight=".85" android:layout_height="fill_parent"
 		android:background="@drawable/blue_border_shape">

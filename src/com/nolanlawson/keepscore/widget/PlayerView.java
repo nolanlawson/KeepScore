@@ -74,6 +74,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		plusButton.setOnLongClickListener(this);
 		nameTextView.setOnClickListener(this);
 		nameTextView.setOnLongClickListener(this);
+		historyTextView.setOnClickListener(this);
+		historyTextView.setOnLongClickListener(this);
 
 		updateViews();
     	
@@ -119,6 +121,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			increment(1);
 			break;
 		case R.id.text_name:
+		case R.id.text_history:
+			// do nothing - just let it flash the background, so that the user
+			// knows this text view is long-clickable
 			break;
 		}
 	}
@@ -245,10 +250,66 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		case R.id.text_name:
 			showChangeNameDialog();
 			return true;
+		case R.id.text_history:
+			return showHistoryContextDialog();
 		}
 		
 		
 		return false;
+	}
+
+	private boolean showHistoryContextDialog() {
+		
+		List<Integer> history = playerScore.getHistory();
+		
+		if (history == null || history.isEmpty()) {
+			return false; // don't do anything if the history is empty
+		}
+		
+		// don't show "confirm" unless the last history entry is still modifiable
+		final boolean showConfirm = 
+			System.currentTimeMillis() < (lastIncremented.get() + getUpdateDelayInMs());
+		
+		CharSequence[] items = showConfirm
+				? new CharSequence[]{
+						context.getString(R.string.text_confirm),
+						context.getString(R.string.text_undo_last)}
+				: new CharSequence[]{context.getString(R.string.text_undo_last)};
+		
+		new AlertDialog.Builder(context)
+			.setCancelable(true)
+			.setItems(items, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (showConfirm && which == 0) {
+						// confirm
+						confirmHistory();
+					} else {
+						// undo last
+						undoLast();
+					}
+					dialog.dismiss();
+				}
+			})
+			.show();
+			
+		return true;
+		
+	}
+
+	protected void undoLast() {
+
+		synchronized (lock) {
+			List<Integer> history = playerScore.getHistory();
+			// undo the last history items
+			if (history != null && !history.isEmpty()) {
+				Integer removed = history.remove((int)(history.size() - 1));
+				playerScore.setScore(playerScore.getScore() - removed);
+			}
+		}
+		lastIncremented.set(0); // reset lastIncremented
+		updateViews();
 	}
 
 	private void showChangeNameDialog() {
