@@ -48,7 +48,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private Handler handler;
 	
 	private AtomicLong lastIncremented = new AtomicLong(0);
-	private Runnable historyUpdateRunnable;
+	private HistoryUpdateRunnable historyUpdateRunnable;
 	private final Object lock = new Object();
 	
 	public PlayerView(Context context, View view, PlayerScore playerScore, Handler handler) {
@@ -383,6 +383,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	
 	public void confirmHistory() {
 		lastIncremented.set(0); // reset so that the history views will un-bold
+		handler.removeCallbacks(getHistoryUpdateRunnable()); // remove pending runnables
+		// just to be safe, kill the runnable as well
+		getHistoryUpdateRunnable().setCanceled(true);
 		updateViews();
 	}
 	
@@ -395,27 +398,39 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		handler.removeCallbacks(runnable);
 		handler.postDelayed(runnable, getUpdateDelayInMs());
 	}
-
-	private Runnable getHistoryUpdateRunnable() {
-		
-		if (historyUpdateRunnable == null) {
-			historyUpdateRunnable = new Runnable() {
-				
-				@Override
-				public void run() {
-					long currentTime = System.currentTimeMillis();
-					if (currentTime >= (lastIncremented.get() + getUpdateDelayInMs())
-							&& !playerScore.getHistory().isEmpty()) { 
-						// not modifiable anymore, need to unbold the last history item
-						updateViews();
-					}
-				}
-			};
-		}
-		return historyUpdateRunnable;
-	}
 	
 	private long getUpdateDelayInMs() {
 		return PreferenceHelper.getUpdateDelay(context) * 1000L;
+	}
+	
+	private HistoryUpdateRunnable getHistoryUpdateRunnable() {
+		
+		if (historyUpdateRunnable == null) {
+			historyUpdateRunnable = new HistoryUpdateRunnable();
+		}
+		return historyUpdateRunnable;
+	}	
+	
+	private class HistoryUpdateRunnable implements Runnable {
+
+		private boolean canceled;
+		
+		@Override
+		public void run() {
+			
+			if (canceled) {
+				return;
+			}
+			long currentTime = System.currentTimeMillis();
+			if (currentTime >= (lastIncremented.get() + getUpdateDelayInMs())
+					&& !playerScore.getHistory().isEmpty()) { 
+				// not modifiable anymore, need to unbold the last history item
+				updateViews();
+			}
+		}
+		
+		public void setCanceled(boolean canceled) {
+			this.canceled = true;
+		}
 	}
 }

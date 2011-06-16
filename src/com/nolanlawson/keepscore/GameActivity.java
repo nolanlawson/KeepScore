@@ -311,11 +311,6 @@ public class GameActivity extends Activity {
 				super.onPostExecute(result);
 				int resId = autosaved ? R.string.toast_saved_automatically : R.string.toast_saved;
 				Toast.makeText(GameActivity.this, resId, Toast.LENGTH_SHORT).show();
-				
-				// update the views just in case anything bolded needs to be unbolded
-				for (PlayerView playerView : playerViews) {
-					playerView.confirmHistory();
-				}
 			}
 			
 			
@@ -323,6 +318,10 @@ public class GameActivity extends Activity {
 		
 		for (PlayerView playerView : playerViews) {
 			playerView.getShouldAutosave().set(false);
+			
+			// update the views just in case anything bolded needs to be unbolded
+			// also, to remove any pending delayed runnables
+			playerView.confirmHistory();
 		}
 		
 	}	
