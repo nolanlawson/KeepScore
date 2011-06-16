@@ -188,6 +188,9 @@ public class GameActivity extends Activity {
 	protected void startNewGameWithSameSettings() {
 		
 		saveGame(game, true);
+		for (PlayerView playerView : playerViews) {
+			playerView.cancelPendingUpdates();
+		}
 		
 		game = (Game)game.clone();
 		
