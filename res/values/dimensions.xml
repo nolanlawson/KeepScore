@@ -4,5 +4,5 @@
 	<dimen name="player_name_5_to_6">12sp</dimen>
 	<dimen name="player_score">48sp</dimen>
 	<dimen name="player_score_history">14sp</dimen>
-	<dimen name="player_plus_minus_button">14sp</dimen>
+	<dimen name="player_plus_minus_button">18sp</dimen>
 </resources>
