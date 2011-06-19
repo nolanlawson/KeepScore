@@ -13,17 +13,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
+import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.PlayerView;
 
@@ -31,12 +34,14 @@ public class GameActivity extends Activity {
 	
 	public static final String EXTRA_PLAYER_NAMES = "playerNames";
 	public static final String EXTRA_GAME_ID = "gameId";
+	public static final String EXTRA_GAME = "game";
+	
+	private static final int MAX_NUM_PLAYERS = 6;
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
 	
 	private Game game;
 	private List<PlayerScore> playerScores;
-	private int numPlayers;
 	private PowerManager.WakeLock wakeLock;
 	
 	private List<PlayerView> playerViews;
@@ -59,7 +64,7 @@ public class GameActivity extends Activity {
     }
 
 	private int getContentViewResId() {
-		switch (numPlayers) {
+		switch (playerScores.size()) {
 		case 2:
 			return R.layout.game_2;
 		case 3:
@@ -117,6 +122,9 @@ public class GameActivity extends Activity {
 		MenuItem historyItem = menu.findItem(R.id.menu_reset_scores);
 		historyItem.setEnabled(!isAtDefault());
 		
+		MenuItem addPlayerItem = menu.findItem(R.id.menu_add_player);
+		addPlayerItem.setEnabled(playerScores.size() < MAX_NUM_PLAYERS);
+		
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -143,10 +151,61 @@ public class GameActivity extends Activity {
 	    	break;
 	    case R.id.menu_reset_scores:
 	    	showResetScoresDialog();
+	    	break;
+	    case R.id.menu_add_player:
+	    	showAddPlayerDialog();
+	    	break;
 	    }
 	    return false;
 	}
 	
+	private void showAddPlayerDialog() {
+		final EditText editText = new EditText(this);
+		editText.setHint(getString(R.string.text_player) + " " + (playerScores.size() + 1));
+		editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+		editText.setSingleLine();
+		new AlertDialog.Builder(this)
+			.setTitle(R.string.title_add_player)
+			.setView(editText)
+			.setCancelable(true)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					dialog.dismiss();
+					addNewPlayer(editText.getText());
+					
+				}
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
+		
+	}
+
+	protected void addNewPlayer(CharSequence name) {
+		PlayerScore playerScore = new PlayerScore();
+		
+		playerScore.setId(-1);
+		playerScore.setName(StringUtil.nullToEmpty(name));
+		playerScore.setPlayerNumber(playerScores.size());
+		playerScore.setScore(PreferenceHelper.getIntPreference(
+				R.string.pref_initial_score, R.string.pref_initial_score_default, this));
+		playerScore.setHistory(new ArrayList<Integer>());
+		
+		playerScores.add(playerScore);
+		
+		saveGame(game, true); // automatically save the game
+		
+		// start a new activity so that the layout can refresh correctly
+		
+		Intent intent = new Intent(this, GameActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra(EXTRA_GAME, game);
+		
+		startActivity(intent);
+	}
+
 	private boolean isAtDefault() {
 		for (PlayerScore playerScore : playerScores) {
 			if (!playerScore.isAtDefault(this)) {
@@ -195,7 +254,6 @@ public class GameActivity extends Activity {
 		game = (Game)game.clone();
 		
 		playerScores = game.getPlayerScores();
-		numPlayers = playerScores.size();
 
 		// reset everything except the player names
 		game.setId(-1);
@@ -230,13 +288,20 @@ public class GameActivity extends Activity {
 		if (getIntent().hasExtra(EXTRA_PLAYER_NAMES)) {
 			// starting a new game
 			createNewGame();
-		} else {
+		} else if (getIntent().hasExtra(EXTRA_GAME_ID)) {
 			// loading an existing game
-			createExistingGame();
+			createExistingGameFromId();
+		} else {
+			// game object parceled into intent
+			game = getIntent().getParcelableExtra(EXTRA_GAME);
+			playerScores = game.getPlayerScores();
 		}
+		
+		log.d("loaded game: %s", game);
+		log.d("loaded playerScores: %s", playerScores);
 	}
 
-	private void createExistingGame() {
+	private void createExistingGameFromId() {
 		int gameId = getIntent().getIntExtra(EXTRA_GAME_ID, 0);
 		
 		GameDBHelper dbHelper = null;
@@ -244,16 +309,11 @@ public class GameActivity extends Activity {
 			dbHelper = new GameDBHelper(this);
 			game = dbHelper.findGameById(gameId);
 			playerScores = game.getPlayerScores();
-			numPlayers = playerScores.size();
 		} finally {
 			if (dbHelper != null) {
 				dbHelper.close();
 			}
 		}
-		
-		log.d("loaded game: %s", game);
-		log.d("loaded playerScores: %s", playerScores);
-		
 	}
 
 	private void createNewGame() {
@@ -281,9 +341,6 @@ public class GameActivity extends Activity {
         	playerScores.add(playerScore);
         }
         
-        numPlayers = playerNames.length;
-        
-
 		log.d("created new game: %s", game);
 		log.d("created new playerScores: %s", playerScores);
 	}
@@ -333,7 +390,7 @@ public class GameActivity extends Activity {
 
 		playerViews = new ArrayList<PlayerView>();
 		
-		for (int i = 0; i < numPlayers; i++) {
+		for (int i = 0; i < playerScores.size(); i++) {
 			
 			PlayerScore playerScore = playerScores.get(i);
 			
@@ -344,7 +401,7 @@ public class GameActivity extends Activity {
 			PlayerView playerView = new PlayerView(this, view, playerScore, handler);
 			
 			// sometimes the text gets cut off in the 6 player view, so make the player name smaller there
-			if (numPlayers >= 5) {
+			if (playerScores.size() >= 5) {
 				log.d("setting text size to be a smaller size");
 				playerView.getNameTextView().setTextSize(
 						getResources().getDimension(R.dimen.player_name_5_to_6));
@@ -354,10 +411,10 @@ public class GameActivity extends Activity {
 			
 		}
 		
-		if (numPlayers == 3) {
+		if (playerScores.size() == 3) {
 			// hide the "fourth" player
 			findViewById(R.id.player_4).setVisibility(View.INVISIBLE);
-		} else if (numPlayers == 5) {
+		} else if (playerScores.size() == 5) {
 			// hide the "sixth" player
 			findViewById(R.id.player_6).setVisibility(View.INVISIBLE);
 		}

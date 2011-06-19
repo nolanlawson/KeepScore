@@ -7,6 +7,9 @@
 	<item android:id="@+id/menu_history" android:title="@string/menu_history"
 		android:alphabeticShortcut="@string/menu_history" android:icon="@drawable/ic_menu_recent_history" />
 	
+	<item android:id="@+id/menu_add_player" android:title="@string/menu_add_player"
+		android:alphabeticShortcut="@string/menu_add_player" android:icon="@drawable/ic_menu_add_user" />	
+	
 	
 	<item android:id="@+id/menu_reset_scores" android:title="@string/menu_reset_scores"
 		android:alphabeticShortcut="@string/menu_reset_scores" android:icon="@drawable/ic_menu_close_clear_cancel" />	

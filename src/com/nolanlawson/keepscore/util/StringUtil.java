@@ -90,8 +90,8 @@ public class StringUtil {
         return new SpannedString(ss);
     }
 	
-	public static String nullToEmpty(String str) {
-		return str == null ? "" : str;
+	public static String nullToEmpty(CharSequence str) {
+		return str == null ? "" : str.toString();
 	}
 	
 	/**
@@ -142,5 +142,9 @@ public class StringUtil {
 				return obj.length();
 			}
 		};
+	}
+
+	public static String emptyToNull(CharSequence name) {
+		return TextUtils.isEmpty(name) ? null : name.toString();
 	}
 }
