@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,13 +35,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        List<Game> games = getAllGames();
-        
-        Collections.sort(games, Game.byRecentlySaved());
-        
-        log.d("loaded games %s", games);
-        
-        adapter = new SavedGameAdapter(this, games);
+        adapter = new SavedGameAdapter(this, new ArrayList<Game>());
         
         setListAdapter(adapter);
         
@@ -48,6 +43,27 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         
         getListView().setOnItemLongClickListener(this);
 	}
+	
+	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+        List<Game> games = getAllGames();
+        Collections.sort(games, Game.byRecentlySaved());
+        
+        adapter.clear();
+        for (Game game : games) {
+        	adapter.add(game);
+        }
+        
+        adapter.notifyDataSetChanged();
+        
+        log.d("loaded games %s", games);
+	}
+
+
 
 	private List<Game> getAllGames() {
 		GameDBHelper dbHelper = null;
