@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:padding="3dp">
+	android:paddingBottom="3dp"	android:paddingTop="3dp"
+	android:paddingLeft="5dp" android:paddingRight="7dp">
 
 	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:id="@+id/relative_layout_1">
