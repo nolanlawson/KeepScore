@@ -196,20 +196,28 @@ public class GameActivity extends Activity {
 		
 		playerScores.add(playerScore);
 		
-		saveGame(game, true); // automatically save the game
-		
-		// start a new activity so that the layout can refresh correctly
-		// TODO: don't start a new activity; just refresh the layout
-		
-		Intent intent = new Intent(this, GameActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra(EXTRA_GAME, game);
-		
-		startActivity(intent);
-		finish();
+		Runnable onFinished = new Runnable() {
 
-		CompatibilityHelper.overridePendingTransition(this, android.R.anim.fade_in, android.R.anim.fade_out);
+			@Override
+			public void run() {
+				log.d("game to parcel is: %s", game);
+				
+				// start a new activity so that the layout can refresh correctly
+				// TODO: don't start a new activity; just refresh the layout
+				
+				Intent intent = new Intent(GameActivity.this, GameActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.putExtra(EXTRA_GAME, game);
+				
+				startActivity(intent);
+
+				CompatibilityHelper.overridePendingTransition(
+						GameActivity.this, android.R.anim.fade_in, android.R.anim.fade_out);
+			}
+			
+		};
 		
+		saveGame(game, true, onFinished); // automatically save the game
 	}
 
 	private boolean isAtDefault() {
@@ -301,6 +309,7 @@ public class GameActivity extends Activity {
 			// game object parceled into intent
 			game = getIntent().getParcelableExtra(EXTRA_GAME);
 			playerScores = game.getPlayerScores();
+			log.d("unparceled game is: %s", game);
 		}
 		
 		log.d("loaded game: %s", game);
@@ -350,11 +359,27 @@ public class GameActivity extends Activity {
 		log.d("created new game: %s", game);
 		log.d("created new playerScores: %s", playerScores);
 	}
+	
+	private void saveGame(Game gameToSave, boolean autosaved) {
+		saveGame(gameToSave, autosaved, null);
+	}
 
-	private void saveGame(final Game gameToSave, final boolean autosaved) {
+	private void saveGame(final Game gameToSave, final boolean autosaved, final Runnable onFinished) {
 		
 		// do in the background to avoid jankiness
 		new AsyncTask<Void, Void, Void>() {
+			
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				for (PlayerView playerView : playerViews) {
+					playerView.getShouldAutosave().set(false);
+					
+					// update the views just in case anything bolded needs to be unbolded
+					// also, to remove any pending delayed runnables
+					playerView.confirmHistory();
+				}			
+			}
 
 			@Override
 			protected Void doInBackground(Void... params) {
@@ -363,6 +388,7 @@ public class GameActivity extends Activity {
 				try {
 					dbHelper = new GameDBHelper(GameActivity.this);
 					dbHelper.saveGame(gameToSave, autosaved);
+					log.d("saved game: %s", gameToSave);
 				} finally {
 					if (dbHelper != null) {
 						dbHelper.close();
@@ -377,19 +403,13 @@ public class GameActivity extends Activity {
 				super.onPostExecute(result);
 				int resId = autosaved ? R.string.toast_saved_automatically : R.string.toast_saved;
 				Toast.makeText(GameActivity.this, resId, Toast.LENGTH_SHORT).show();
+				if (onFinished != null) {
+					onFinished.run();
+				}
 			}
 			
 			
 		}.execute((Void)null);
-		
-		for (PlayerView playerView : playerViews) {
-			playerView.getShouldAutosave().set(false);
-			
-			// update the views just in case anything bolded needs to be unbolded
-			// also, to remove any pending delayed runnables
-			playerView.confirmHistory();
-		}
-		
 	}	
 	
 	private void setUpWidgets() {

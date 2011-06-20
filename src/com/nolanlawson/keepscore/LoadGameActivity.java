@@ -13,18 +13,21 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.nolanlawson.keepscore.data.SavedGameAdapter;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.util.StringUtil;
+import com.nolanlawson.keepscore.util.UtilLogger;
 
 public class LoadGameActivity extends ListActivity implements OnItemLongClickListener {
 
+	private static UtilLogger log = new UtilLogger(LoadGameActivity.class);
+	
 	private SavedGameAdapter adapter;
 	
 	@Override
@@ -34,6 +37,8 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         List<Game> games = getAllGames();
         
         Collections.sort(games, Game.byRecentlySaved());
+        
+        log.d("loaded games %s", games);
         
         adapter = new SavedGameAdapter(this, games);
         

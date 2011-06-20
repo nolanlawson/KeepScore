@@ -13,9 +13,12 @@ import android.text.TextUtils;
 
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
+import com.nolanlawson.keepscore.util.UtilLogger;
 
 public class GameDBHelper extends SQLiteOpenHelper {
 
+	private static UtilLogger log = new UtilLogger(GameDBHelper.class);
+	
 	private static final String DB_NAME = "games.db";
 	private static final int DB_VERSION = 1;
 
@@ -169,6 +172,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 			}
 			
 			game.setId(newId);
+			log.d("new game id is %s", newId);
 			
 			savePlayerScores(newId, game.getPlayerScores());
 			
@@ -208,7 +212,6 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				
 				db.insert(TABLE_PLAYER_SCORES, null, values);
 				
-				
 				// set the new id on the PlayerScore
 				int newId;
 				
@@ -224,6 +227,8 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				}
 				
 				playerScore.setId(newId);
+				
+				log.d("new playerScore id is %s", newId);
 			}
 		}
 	}

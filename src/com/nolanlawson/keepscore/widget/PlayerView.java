@@ -385,7 +385,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	public void confirmHistory() {
 		lastIncremented.set(0); // reset so that the history views will un-bold
 		handler.removeCallbacks(getHistoryUpdateRunnable()); // remove pending runnables
-		shouldAutosave.set(true);
 		updateViews();
 	}
 
