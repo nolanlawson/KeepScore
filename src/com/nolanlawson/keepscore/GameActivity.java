@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.CompatibilityHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
@@ -198,12 +199,17 @@ public class GameActivity extends Activity {
 		saveGame(game, true); // automatically save the game
 		
 		// start a new activity so that the layout can refresh correctly
+		// TODO: don't start a new activity; just refresh the layout
 		
 		Intent intent = new Intent(this, GameActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.putExtra(EXTRA_GAME, game);
 		
 		startActivity(intent);
+		finish();
+
+		CompatibilityHelper.overridePendingTransition(this, android.R.anim.fade_in, android.R.anim.fade_out);
+		
 	}
 
 	private boolean isAtDefault() {
