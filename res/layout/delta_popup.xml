@@ -5,32 +5,32 @@
 
 
 	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="wrap_content" android:minWidth="400dp"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:minWidth="@dimen/delta_popup_width"
 		android:paddingTop="5dp" android:paddingBottom="5dp" android:gravity="center_vertical">
 
 		<EditText android:id="@android:id/edit" android:layout_width="0px"
-			android:layout_weight="0.33" android:layout_height="wrap_content"
+			android:layout_weight="0.2" android:layout_height="wrap_content"
 			android:singleLine="true" android:inputType="numberSigned"
-			android:text="0" android:textSize="@dimen/delta_popup"/>
+			android:text="0" android:textSize="@dimen/delta_popup_text"/>
 
 		<Button android:id="@android:id/button1" android:layout_width="0px"
-			android:layout_weight="0.165" android:layout_height="wrap_content"
-			android:text="+1" android:textSize="@dimen/delta_popup"
+			android:layout_weight="0.2" android:layout_height="wrap_content"
+			android:text="+1" android:textSize="@dimen/delta_popup_text"
 			android:typeface="monospace"/>
 
 		<Button android:id="@android:id/button2" android:layout_width="0px"
-			android:layout_weight="0.165" android:layout_height="wrap_content"
-			android:text="+5" android:textSize="@dimen/delta_popup"
+			android:layout_weight="0.2" android:layout_height="wrap_content"
+			android:text="+5" android:textSize="@dimen/delta_popup_text"
 			android:typeface="monospace"/>
 
 		<Button android:id="@android:id/button3" android:layout_width="0px"
-			android:layout_weight="0.165" android:layout_height="wrap_content"
-			android:text="+10" android:textSize="@dimen/delta_popup" 
+			android:layout_weight="0.2" android:layout_height="wrap_content"
+			android:text="+10" android:textSize="@dimen/delta_popup_text" 
 			android:typeface="monospace"/>
 
 		<Button android:id="@+id/button4" android:layout_width="0px"
-			android:layout_weight="0.165" android:layout_height="wrap_content"
-			android:text="+20" android:textSize="@dimen/delta_popup"
+			android:layout_weight="0.2" android:layout_height="wrap_content"
+			android:text="+20" android:textSize="@dimen/delta_popup_text"
 			android:typeface="monospace"/>
 	</LinearLayout>
 
