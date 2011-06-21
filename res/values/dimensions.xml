@@ -7,4 +7,5 @@
 	<dimen name="player_plus_minus_button">18sp</dimen>
 	<dimen name="player_badge_2_to_4">21sp</dimen>
 	<dimen name="player_badge_5_to_6">18sp</dimen>
+	<dimen name="delta_popup">24sp</dimen>
 </resources>
