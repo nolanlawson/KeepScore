@@ -25,7 +25,8 @@
 			<Button android:layout_width="fill_parent"
 				android:layout_height="0px" android:layout_weight="0.7"
 				android:textStyle="bold" android:id="@+id/button_minus"
-				android:text="-" android:textSize="@dimen/player_plus_minus_button"/>
+				android:text="-" android:textSize="@dimen/player_plus_minus_button"
+				android:typeface="monospace"/>
 
 			<View android:layout_width="0px" android:layout_height="0px"
 				android:layout_weight="0.15" />
@@ -68,7 +69,7 @@
 			<Button android:layout_width="fill_parent"
 				android:layout_height="0px" android:layout_weight="0.7"
 				android:textStyle="bold" android:id="@+id/button_plus" android:text="+" 
-				android:textSize="@dimen/player_plus_minus_button"/>
+				android:textSize="@dimen/player_plus_minus_button" android:typeface="monospace"/>
 
 			<View android:layout_width="0px" android:layout_height="0px"
 				android:layout_weight="0.15" />
