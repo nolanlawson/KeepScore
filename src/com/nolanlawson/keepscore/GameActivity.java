@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.text.InputType;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -429,10 +430,17 @@ public class GameActivity extends Activity {
 			// sometimes the text gets cut off in the 6 player view, so make the player name smaller there
 			if (playerScores.size() >= 5) {
 				log.d("setting text size to be a smaller size");
-				playerView.getNameTextView().setTextSize(
-						getResources().getDimension(R.dimen.player_name_5_to_6));
-				playerView.getBadgeTextView().setTextSize(
-						getResources().getDimension(R.dimen.player_name_5_to_6));
+				playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						getResources().getDimensionPixelSize(R.dimen.player_name_5_to_6));
+				playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						getResources().getDimensionPixelSize(R.dimen.player_badge_5_to_6));
+			} else {
+				log.d("setting text size to be a larger size");
+				playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						getResources().getDimensionPixelSize(R.dimen.player_name_2_to_4));
+				playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						getResources().getDimensionPixelSize(R.dimen.player_badge_2_to_4));
+				
 			}
 	    	
 			playerViews.add(playerView);

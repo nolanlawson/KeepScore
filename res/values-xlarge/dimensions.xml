@@ -6,7 +6,7 @@
 	<dimen name="player_score_history">24sp</dimen>
 	<dimen name="player_plus_minus_button">36sp</dimen>
 	<dimen name="player_badge_2_to_4">36sp</dimen>
-	<dimen name="player_badge_5_to_6">28sp</dimen>
+	<dimen name="player_badge_5_to_6">36sp</dimen>
 	<dimen name="delta_popup_text">48sp</dimen>
 	<dimen name="delta_popup_width">800dp</dimen>
 </resources>
