@@ -378,17 +378,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			public void onResult(Integer delta) {
 				
 				if (delta != 0) {
-					
-					// add the value to the player's score, considering it as its "own" history item
-					// regardless of the time since the last delta
-					lastIncremented.set(0);
-					synchronized (lock) {
-						playerScore.setScore(playerScore.getScore() + delta);
-						playerScore.getHistory().add(delta);
-						
-						updateViews();
-						
-					}
+					// add the value to the player's score, while still considering it a 
+					// "modifiable" history item
+					increment(delta);
 				}
 				
 			}
