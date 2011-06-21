@@ -31,11 +31,31 @@
 				android:layout_weight="0.15" />
 
 		</LinearLayout>
-		<TextView android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent" android:singleLine="true"
-			android:textStyle="bold" android:id="@+id/text_score"
-			android:text="0" android:gravity="center_horizontal|center_vertical" 
-			android:textSize="@dimen/player_score"/>
+		<RelativeLayout android:layout_width="0px" android:layout_weight="0.5" 
+				 android:layout_height="fill_parent">
+				<TextView android:layout_width="fill_parent"
+					android:layout_height="fill_parent" android:singleLine="true"
+					android:textStyle="bold" android:id="@+id/text_score"
+					android:text="0" android:gravity="center_horizontal|center_vertical" 
+					android:textSize="@dimen/player_score"/>
+					
+				<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:paddingRight="3dp" android:paddingTop="3dp" 
+					android:background="@drawable/circle_shape_green"
+					android:layout_alignParentRight="true" android:id="@+id/linear_layout_badge">
+					
+					<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+							 android:text="+1" android:textSize="@dimen/player_badge_2_to_4"
+							android:paddingLeft="7dp" android:paddingRight="7dp"
+							android:paddingTop="3dp" android:paddingBottom="3dp"
+							android:textStyle="bold" android:typeface="monospace"
+							android:textColor="@android:color/primary_text_dark_nodisable"
+							 android:id="@+id/text_badge"	/>
+						
+				</LinearLayout>
+		
+		</RelativeLayout>
+
 
 
 		<LinearLayout android:layout_width="0px"

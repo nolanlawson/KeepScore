@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
@@ -42,7 +43,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private AtomicBoolean shouldAutosave = new AtomicBoolean(false);
 	
 	private View view;
-	private TextView nameTextView, scoreTextView, historyTextView;
+	private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
+	private LinearLayout badgeLinearLayout;
 	private Button minusButton, plusButton;
 	private Context context;
 	private Handler handler;
@@ -64,6 +66,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		nameTextView = (TextView) view.findViewById(R.id.text_name);
 		scoreTextView = (TextView) view.findViewById(R.id.text_score);
 		historyTextView = (TextView) view.findViewById(R.id.text_history);
+		badgeTextView = (TextView) view.findViewById(R.id.text_badge);
+		
+		badgeLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_badge);
 		
 		minusButton = (Button) view.findViewById(R.id.button_minus);
 		plusButton = (Button) view.findViewById(R.id.button_plus);
@@ -89,6 +94,14 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	public TextView getNameTextView() {
 		return nameTextView;
+	}
+	
+	public TextView getBadgeTextView() {
+		return badgeTextView;
+	}
+
+	public LinearLayout getBadgeLinearLayout() {
+		return badgeLinearLayout;
 	}
 
 	public TextView getScoreTextView() {
@@ -169,18 +182,32 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	
 	private void updateViews() {
 
+		long currentTime = System.currentTimeMillis();
 
     	String playerName = playerScore.toDisplayName(context);
     	nameTextView.setText(playerName);
 		
 		scoreTextView.setText(Long.toString(playerScore.getScore()));
-		historyTextView.setText(fromHistory(playerScore.getHistory()));
+		historyTextView.setText(fromHistory(playerScore.getHistory(), currentTime));
+		
+		if (currentTime < (lastIncremented.get() + getUpdateDelayInMs()) && !playerScore.getHistory().isEmpty()) { // still modifiable
+			// show badge (blibbet)
+			badgeLinearLayout.setVisibility(View.VISIBLE);
+			Integer lastDelta = playerScore.getHistory().get(playerScore.getHistory().size() - 1);
+			badgeTextView.setText(IntegerUtil.toStringWithSign(lastDelta));
+			badgeLinearLayout.setBackgroundResource(lastDelta >= 0 ? R.drawable.circle_shape_green : R.drawable.circle_shape_red);
+			
+		} else {
+			// hide badge (blibbet)
+			badgeLinearLayout.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	/**
 	 * Add green color for positive entries and red color for negative entries, and convert ints to strings.
+	 * @param currentTime 
 	 */
-	private Spannable fromHistory(List<Integer> history) {
+	private Spannable fromHistory(List<Integer> history, long currentTime) {
 				
 		if (history == null || history.isEmpty()) {
 			return new SpannableString("");
@@ -201,7 +228,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
 
 		// if the most recent history entry is still modifiable, then make it bold
-		long currentTime = System.currentTimeMillis();
 		if (currentTime < (lastIncremented.get() + getUpdateDelayInMs())) { // still modifiable
 			// set a bold span for the first entry
 			Spannable firstSpannable = spannables.get(0);

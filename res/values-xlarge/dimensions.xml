@@ -5,4 +5,6 @@
 	<dimen name="player_score">72sp</dimen>
 	<dimen name="player_score_history">24sp</dimen>
 	<dimen name="player_plus_minus_button">36sp</dimen>
+	<dimen name="player_badge_2_to_4">36sp</dimen>
+	<dimen name="player_badge_5_to_6">32sp</dimen>
 </resources>

@@ -431,6 +431,8 @@ public class GameActivity extends Activity {
 				log.d("setting text size to be a smaller size");
 				playerView.getNameTextView().setTextSize(
 						getResources().getDimension(R.dimen.player_name_5_to_6));
+				playerView.getBadgeTextView().setTextSize(
+						getResources().getDimension(R.dimen.player_name_5_to_6));
 			}
 	    	
 			playerViews.add(playerView);
