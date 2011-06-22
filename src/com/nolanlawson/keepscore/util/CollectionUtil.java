@@ -8,7 +8,12 @@ public class CollectionUtil {
 
 	public static <E,T extends Comparable<T>> T maxValue(List<E> list, Function<E,T> function) {
 		
-		T max = null;
+		return maxValue(list, function, null);
+	}
+	
+	public static <E,T extends Comparable<T>> T maxValue(List<E> list, Function<E,T> function, T defaultValue) {
+		
+		T max = defaultValue;
 		
 		for (E obj : list) {
 			T value = function.apply(obj);
@@ -19,7 +24,7 @@ public class CollectionUtil {
 		
 		return max;
 		
-	}
+	}	
 	
 	public static <E,T,K> Function<E, K> compose(final Function<E, T> function1, final Function<T, K> function2) {
 		return new Function<E,K>(){

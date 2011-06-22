@@ -10,14 +10,16 @@
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:singleLine="true"
 		android:padding="3dp" android:textSize="14sp" android:id="@android:id/text1"
-		android:layout_alignParentLeft="true" android:layout_alignParentTop="true">
+		android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+		android:typeface="monospace">
 
 	</TextView>
 
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:singleLine="true"
 		android:padding="3dp" android:textSize="14sp" android:id="@android:id/text2"
-		android:layout_alignParentRight="true" android:layout_alignParentTop="true">
+		android:layout_alignParentRight="true" android:layout_alignParentTop="true"
+		android:typeface="monospace">
 
 	</TextView>
 </RelativeLayout>

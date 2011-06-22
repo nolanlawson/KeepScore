@@ -13,12 +13,33 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
+import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.StringUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
 public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 
+	private int maxNumDigits;
+	
 	public HistoryAdapter(Context context, List<HistoryItem> items) {
 		super(context, R.layout.simple_small_list_item, items);
+		init(items);
+	}
+
+	private void init(List<HistoryItem> items) {
+		// ensure that the delta textviews all line up correctly
+		maxNumDigits = CollectionUtil.maxValue(items, new Function<HistoryItem, Integer>() {
+
+			@Override
+			public Integer apply(HistoryItem obj) {
+				if (obj != null && !obj.isHideDelta()) {
+					return IntegerUtil.toStringWithSign(obj.getDelta()).length();
+				}
+				return 0;
+			}
+		}, 0);
+		
 	}
 
 	@Override
@@ -63,7 +84,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 		} else {
 			int delta = item.getDelta();
 			
-			SpannableString deltaSpannable = new SpannableString(IntegerUtil.toStringWithSign(delta));
+			SpannableString deltaSpannable = new SpannableString(StringUtil.padLeft(IntegerUtil.toStringWithSign(delta), ' ', maxNumDigits));
 			
 			int colorResId = delta >= 0 ? R.color.green : R.color.red;
 			ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(colorResId));
