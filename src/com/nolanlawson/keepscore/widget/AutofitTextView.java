@@ -38,13 +38,14 @@ public class AutofitTextView extends TextView {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
 	    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	    
-	    int numLines = (getHeight() / getLineHeight());
+	    int height = getHeight() - getPaddingBottom() - getPaddingTop();
+	    int numLines = (height / getLineHeight());
 	    
 	    log.d("numLines is %s", numLines);
 	    
 	    if (numLines >= 2) {
 	    
-		    int newLineIndex = StringUtil.getNthIndexOf('\n', getText().toString(), numLines - 1);
+		    int newLineIndex = StringUtil.getNthIndexOf('\n', getText().toString(), numLines);
 		    
 		    log.d("newLineIndex is %s", newLineIndex);
 		    
