@@ -8,13 +8,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -209,10 +207,17 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	 */
 	private Spannable fromHistory(List<Integer> history, long currentTime) {
 				
-		if (history == null || history.isEmpty()) {
+		boolean stillModifiable = currentTime < (lastIncremented.get() + getUpdateDelayInMs());
+		
+		
+		if (history == null || history.isEmpty() || (stillModifiable && history.size() < 2)) {
 			return new SpannableString("");
 		}
 		
+		if (stillModifiable) {
+			// last element is shown as the badge, so don't show it here
+			history = history.subList(0, history.size() - 1);
+		}
 		
 		history = CollectionUtil.reversedCopy(history);
 		
@@ -223,17 +228,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			@Override
 			public Integer apply(Integer obj) {
 				return IntegerUtil.toStringWithSign(obj).length();
-			}});
+			}
+		});
 		
 		List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
-
-		// if the most recent history entry is still modifiable, then make it bold
-		if (currentTime < (lastIncremented.get() + getUpdateDelayInMs())) { // still modifiable
-			// set a bold span for the first entry
-			Spannable firstSpannable = spannables.get(0);
-			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
-			SpannableUtil.setWholeSpan(firstSpannable, boldSpan);
-		}
 		
 		Spannable result = new SpannableString(
 				StringUtil.joinSpannables("\n",CollectionUtil.toArray(spannables, Spannable.class)));
@@ -401,7 +399,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	}
 	
 	public void confirmHistory() {
-		lastIncremented.set(0); // reset so that the history views will un-bold
+		lastIncremented.set(0); // reset so that the history views will refresh
 		handler.removeCallbacks(getHistoryUpdateRunnable()); // remove pending runnables
 		updateViews();
 	}
@@ -411,8 +409,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	}
 	
 	/**
-	 * creates a runnable to be run in after the update delay has completed to un-bold
-	 * any bolded history entries
+	 * creates a runnable to be run in after the update delay has completed to move from
+	 * the "badge" to the history entries
 	 */
 	private void createDelayedHistoryUpdateTask() {
 		Runnable runnable = getHistoryUpdateRunnable();
