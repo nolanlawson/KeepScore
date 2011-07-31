@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<PreferenceCategory android:title="@string/pref_cat_basic"/>
+	<PreferenceCategory android:title="@string/pref_cat_appearance"/>
 	
 	<ListPreference android:key="@string/pref_color_scheme" android:title="@string/pref_color_scheme_name"
 		android:defaultValue="@string/pref_color_scheme_default" android:persistent="true"
 		android:entries="@array/pref_color_scheme_entries" 
 		android:entryValues="@array/pref_color_scheme_entry_values"/>
+
+	<PreferenceCategory android:title="@string/pref_cat_config"/>
 
 	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_button_1"
 		android:title="@string/pref_button_1_name" android:defaultValue="@string/pref_button_1_default"
