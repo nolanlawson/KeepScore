@@ -23,15 +23,16 @@ import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.DialogHelper;
-import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
+import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
 import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class PlayerView implements OnClickListener, OnLongClickListener {
 	
@@ -39,6 +40,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	
 	private PlayerScore playerScore;
 	private AtomicBoolean shouldAutosave = new AtomicBoolean(false);
+	
+	private int positiveTextColor = R.color.green;
+	private int negativeTextColor = R.color.red;
 	
 	private View view;
 	private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
@@ -80,6 +84,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		historyTextView.setOnClickListener(this);
 		historyTextView.setOnLongClickListener(this);
 
+		ColorScheme colorScheme = PreferenceHelper.getColorScheme(context);
+		positiveTextColor = colorScheme.getPositiveColorResId();
+		negativeTextColor = colorScheme.getNegativeColorResId();
+		
 		updateViews();
     	
     	log.d("history is: %s", playerScore.getHistory());
@@ -120,6 +128,14 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	public AtomicBoolean getShouldAutosave() {
 		return shouldAutosave;
+	}
+	
+	public void setPositiveTextColor(int positiveTextColor) {
+		this.positiveTextColor = positiveTextColor;
+	}
+
+	public void setNegativeTextColor(int negativeTextColor) {
+		this.negativeTextColor = negativeTextColor;
 	}
 
 	@Override
@@ -178,7 +194,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		createDelayedHistoryUpdateTask();
 	}
 	
-	private void updateViews() {
+	public  void updateViews() {
 
 		long currentTime = System.currentTimeMillis();
 
@@ -245,7 +261,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 			@Override
 			public Spannable apply(Integer value) {
-				int colorResId = (value >= 0) ? R.color.green : R.color.red;
+				int colorResId = (value >= 0) ? positiveTextColor : negativeTextColor;
 				ForegroundColorSpan colorSpan = new ForegroundColorSpan(
 						context.getResources().getColor(colorResId));
 				String str = IntegerUtil.toStringWithSign(value);

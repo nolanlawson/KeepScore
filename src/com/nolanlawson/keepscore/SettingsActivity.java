@@ -1,15 +1,19 @@
 package com.nolanlawson.keepscore;
 
+import java.util.Arrays;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
@@ -17,9 +21,14 @@ import com.nolanlawson.keepscore.util.IntegerUtil;
 
 public class SettingsActivity extends PreferenceActivity {
 
+	public static final String COLOR_SCHEME_CHANGED = "colorSchemeChanged";
+	
+	private boolean colorSchemeChanged = false;
+	
 	private EditTextPreference button1Pref, button2Pref, button3Pref, button4Pref, updateDelayPref, initialScorePref;
 	private CheckBoxPreference useWakeLockPref;
 	private Preference resetPref;
+	private ListPreference colorSchemePref;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +48,7 @@ public class SettingsActivity extends PreferenceActivity {
 		updateDelayPref = (EditTextPreference) findPreferenceById(R.string.pref_update_delay);
 		initialScorePref = (EditTextPreference) findPreferenceById(R.string.pref_initial_score);
 		resetPref = findPreferenceById(R.string.pref_reset);
+		colorSchemePref = (ListPreference) findPreferenceById(R.string.pref_color_scheme);
 		
 		// update the preference's summary with whatever the value is, as it's changed
 		for (EditTextPreference pref : new EditTextPreference[]{
@@ -106,7 +116,7 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		useWakeLockPref = (CheckBoxPreference) findPreferenceById(R.string.pref_use_wake_lock);
 		
-		
+		setDynamicColorSchemeSummary(colorSchemePref);
 	}
 	
 	private void resetPreferences() {
@@ -164,10 +174,48 @@ public class SettingsActivity extends PreferenceActivity {
 				return true;
 			}
 		});
-		
-		
 	}
-
 	
+	private void setDynamicColorSchemeSummary(ListPreference preference) {
+		// set the summary to be whatever the value is, and change it if necessary
+		
+		CharSequence entryValue = preference.getValue();
+		int idx = Arrays.asList(preference.getEntryValues()).indexOf(entryValue);
+		CharSequence entry = preference.getEntries()[idx];
+		
+		preference.setSummary(entry);
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				
+				CharSequence entryValue = (CharSequence) newValue;
+				int idx = Arrays.asList(((ListPreference)preference).getEntryValues()).indexOf(entryValue);
+				CharSequence entry = ((ListPreference)preference).getEntries()[idx];
+				
+				preference.setSummary(entry);
+				
+				if (!newValue.equals(((ListPreference)preference).getValue())) {
+					colorSchemeChanged = true;
+				}
+				
+				PreferenceHelper.resetCache();
+				return true;
+			}
+		});
+	}	
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)  {
+		
+	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
+	    	
+	    	// set result and finish
+	    	Intent data = new Intent();
+	    	data.putExtra(COLOR_SCHEME_CHANGED, colorSchemeChanged);
+	    	setResult(RESULT_OK, data);
+	    	finish();
+	    	return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}	
 }

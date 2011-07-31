@@ -59,6 +59,7 @@
     <string name="pref_use_wake_lock">use_wake_lock</string>
     <string name="pref_initial_score">initial_score</string>
     <string name="pref_reset">reset</string>
+    <string name="pref_color_scheme">color_scheme</string>
     
     <string name="pref_button_1_default">-1</string>
     <string name="pref_button_2_default">1</string>
@@ -67,6 +68,7 @@
     <string name="pref_update_delay_default">10</string>
     <string name="pref_use_wake_lock_default">true</string>
     <string name="pref_initial_score_default">0</string>
+	<string name="pref_color_scheme_default">@string/pref_color_scheme_choice_light</string>
     
     <string name="pref_button_1_name">Increment Button 1</string>
     <string name="pref_button_2_name">Increment Button 2</string>
@@ -76,11 +78,21 @@
     <string name="pref_use_wake_lock_name">Keep Screen Awake</string>
     <string name="pref_initial_score_name">Starting Score</string>
     <string name="pref_reset_name">Reset to Defaults</string>
+    <string name="pref_color_scheme_name">Color Scheme</string>
     
     <string name="pref_update_delay_summary">Seconds to wait before adding a new history value (default: 10)</string>
     <string name="pref_use_wake_lock_summary">Lock screen while playing</string>
     <string name="pref_cat_basic">Basic</string>
     <string name="pref_cat_advanced">Advanced</string>
+    
+    <string name="pref_color_scheme_choice_dark">dark</string>
+    <string name="pref_color_scheme_choice_light">light</string>
+    <string name="pref_color_scheme_choice_android">android</string>
+    
+    <string name="pref_color_scheme_choice_dark_name">Dark</string>
+    <string name="pref_color_scheme_choice_light_name">Light</string>
+    <string name="pref_color_scheme_choice_android_name">Android</string>
+    
     
     <string name="tile_add">Add Value</string>
     <string name="tile_subtract">Subtract Value</string>

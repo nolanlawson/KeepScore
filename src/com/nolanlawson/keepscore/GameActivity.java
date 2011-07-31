@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.CompatibilityHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -41,6 +42,8 @@ public class GameActivity extends Activity {
 	private static final int MAX_NUM_PLAYERS = 6;
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
+	
+	private View rootLayout;
 	
 	private Game game;
 	private List<PlayerScore> playerScores;
@@ -62,7 +65,6 @@ public class GameActivity extends Activity {
         
         setContentView(getContentViewResId());
         setUpWidgets();
-        
     }
 
 	private int getContentViewResId() {
@@ -105,8 +107,9 @@ public class GameActivity extends Activity {
 			log.d("Acquiring wakelock");
 			wakeLock.acquire();
 		}
+		
+		setOrUpdateColorScheme();
 	}
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -144,7 +147,7 @@ public class GameActivity extends Activity {
 	    	break;
 	    case R.id.menu_settings:
 	    	Intent settingsIntent = new Intent(GameActivity.this, SettingsActivity.class);
-	    	startActivity(settingsIntent);
+	    	startActivityForResult(settingsIntent, 0);
 	    	break;
 	    case R.id.menu_home:
 	    	Intent homeIntent = new Intent(GameActivity.this, MainActivity.class);
@@ -161,6 +164,28 @@ public class GameActivity extends Activity {
 	    return false;
 	}
 	
+	
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		// settings activity returned
+		if (data != null && data.hasExtra(SettingsActivity.COLOR_SCHEME_CHANGED) 
+				&& data.getBooleanExtra(SettingsActivity.COLOR_SCHEME_CHANGED, false)) {
+			for (PlayerView playerView : playerViews) {
+				
+				ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
+				
+				playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
+				playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
+				
+				// reset the color scheme so that the red and green letters can be correct
+				playerView.updateViews();
+			}
+		}
+	}
+
 	private void showAddPlayerDialog() {
 		final EditText editText = new EditText(this);
 		editText.setHint(getString(R.string.text_player) + " " + (playerScores.size() + 1));
@@ -185,7 +210,30 @@ public class GameActivity extends Activity {
 		
 	}
 
-	protected void addNewPlayer(CharSequence name) {
+	
+
+	private void setOrUpdateColorScheme() {
+		
+		ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
+		
+		int foregroundColor = getResources().getColor(colorScheme.getForegroundColorResId());
+		int backgroundColor = getResources().getColor(colorScheme.getBackgroundColorResId());
+
+		rootLayout.setBackgroundColor(backgroundColor);
+		for (PlayerView playerView : playerViews) {
+			playerView.getNameTextView().setTextColor(foregroundColor);
+			playerView.getScoreTextView().setTextColor(foregroundColor);
+			playerView.getPlusButton().setBackgroundDrawable(
+					getResources().getDrawable(colorScheme.getButtonBackgroundDrawableResId()));
+			playerView.getMinusButton().setBackgroundDrawable(
+					getResources().getDrawable(colorScheme.getButtonBackgroundDrawableResId()));
+			playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
+			playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
+		}
+		
+	}
+	
+	private void addNewPlayer(CharSequence name) {
 		PlayerScore playerScore = new PlayerScore();
 		
 		playerScore.setId(-1);
@@ -415,6 +463,8 @@ public class GameActivity extends Activity {
 	
 	private void setUpWidgets() {
 
+		rootLayout = findViewById(R.id.game_root_layout);
+		
 		playerViews = new ArrayList<PlayerView>();
 		
 		for (int i = 0; i < playerScores.size(); i++) {
