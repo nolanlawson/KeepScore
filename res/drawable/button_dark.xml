@@ -11,12 +11,14 @@
 		<shape android:shape="rectangle">
 			<gradient android:startColor="@color/yellow_1"
 				android:endColor="@color/yellow_2" android:angle="270" />
+			<corners android:radius="3dp" />	
 		</shape>
 	</item>
 	<item android:state_focused="true">
 		<shape android:shape="rectangle">
 			<gradient android:startColor="@color/orange_1"
 				android:endColor="@color/orange_2" android:angle="270" />
+			<corners android:radius="3dp" />	
 		</shape>
 	</item>
 </selector>
