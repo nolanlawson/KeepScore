@@ -173,14 +173,15 @@ public class GameActivity extends Activity {
 		// settings activity returned
 		if (data != null && data.hasExtra(SettingsActivity.COLOR_SCHEME_CHANGED) 
 				&& data.getBooleanExtra(SettingsActivity.COLOR_SCHEME_CHANGED, false)) {
+			// color scheme changed while the user was in the SettingsActivity
+
 			for (PlayerView playerView : playerViews) {
+				// reset the color scheme so that the red and green letters can be correct
 				
 				ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
 				
 				playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
 				playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
-				
-				// reset the color scheme so that the red and green letters can be correct
 				playerView.updateViews();
 			}
 		}
@@ -229,6 +230,8 @@ public class GameActivity extends Activity {
 					getResources().getDrawable(colorScheme.getButtonBackgroundDrawableResId()));
 			playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
 			playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
+			playerView.getHistoryTextView().setBackgroundDrawable(
+					getResources().getDrawable(colorScheme.getHistoryBackgroundResId()));
 		}
 		
 	}

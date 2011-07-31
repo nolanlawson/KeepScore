@@ -7,29 +7,29 @@ import com.nolanlawson.keepscore.R;
 public enum ColorScheme {
 
 	Light (android.R.color.background_light, android.R.color.primary_text_light_nodisable,
-			R.color.green, R.color.red, R.color.light_blue, android.R.drawable.btn_default),
+			R.color.green, R.color.red, android.R.drawable.btn_default, R.drawable.history_background_light),
 	Dark  (android.R.color.background_dark, android.R.color.secondary_text_dark_nodisable,
-			R.color.green_4, R.color.red_4, R.color.light_blue, R.drawable.button_dark),
+			R.color.green_4, R.color.red_4, R.drawable.button_dark, R.drawable.history_background_dark),
 	Android  (R.color.android_color, android.R.color.primary_text_light_nodisable,
-			R.color.green_5, R.color.red, R.color.light_blue, android.R.drawable.btn_default),
+			R.color.green_5, R.color.red, android.R.drawable.btn_default, R.drawable.history_background_android),
 	;
 	
 	private int backgroundColorResId;
 	private int foregroundColorResId;
 	private int positiveColorResId;
 	private int negativeColorResId;
-	private int borderColorResId;
 	private int buttonBackgroundDrawableResId;
+	private int historyBackgroundResId;
 	
 	private ColorScheme(int backgroundColorResId, int foregroundColorResId,
-			int positiveColorResId, int negativeColorResId, int borderColorResId,
-			int buttonBackgroundDrawableResId) {
+			int positiveColorResId, int negativeColorResId,
+			int buttonBackgroundDrawableResId, int historyBackgroundResId) {
 		this.backgroundColorResId = backgroundColorResId;
 		this.foregroundColorResId = foregroundColorResId;
 		this.positiveColorResId = positiveColorResId;
 		this.negativeColorResId = negativeColorResId;
-		this.borderColorResId = borderColorResId;
 		this.buttonBackgroundDrawableResId = buttonBackgroundDrawableResId;
+		this.historyBackgroundResId = historyBackgroundResId;
 	}
 
 	public int getBackgroundColorResId() {
@@ -48,12 +48,12 @@ public enum ColorScheme {
 		return negativeColorResId;
 	}
 
-	public int getBorderColorResId() {
-		return borderColorResId;
-	}
-	
 	public int getButtonBackgroundDrawableResId() {
 		return buttonBackgroundDrawableResId;
+	}
+
+	public int getHistoryBackgroundResId() {
+		return historyBackgroundResId;
 	}
 
 	public static ColorScheme findByPreference(String preference, Context context) {
