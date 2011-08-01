@@ -230,8 +230,6 @@ public class GameActivity extends Activity {
 					getResources().getDrawable(colorScheme.getButtonBackgroundDrawableResId()));
 			playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
 			playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
-			playerView.getHistoryTextView().setBackgroundDrawable(
-					getResources().getDrawable(colorScheme.getHistoryBackgroundResId()));
 		}
 		
 	}
