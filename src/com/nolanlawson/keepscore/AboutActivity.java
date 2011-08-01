@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,7 +62,11 @@ public class AboutActivity extends Activity implements OnClickListener {
 	
 	public void initializeWebView() {
 		
-		aboutWebView.loadData(loadTextFile(R.raw.about_body), "text/html", "utf-8");
+		String text = loadTextFile(R.raw.about_body);
+		
+		text = String.format(text, getVersionName());
+		
+		aboutWebView.loadData(text, "text/html", "utf-8");
 	}
 
 
@@ -97,6 +102,16 @@ public class AboutActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		finish();
+	}
+	
+	private String getVersionName() {
+		try {
+			return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
+			// should never happen
+			log.d(e, "unexpected exception");
+			return "";
+		}
 	}
 	
 	private class AboutWebClient extends WebViewClient {
