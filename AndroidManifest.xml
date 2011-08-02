@@ -15,8 +15,7 @@
         
         <activity android:name=".NewGameActivity"
         		android:label="@string/app_name"
-        		android:theme="@android:style/Theme.Light"
-                android:configChanges="keyboard|keyboardHidden|orientation"/>
+        		android:theme="@android:style/Theme.Light"/>
         
         <activity android:name=".NamePlayersActivity"
         		android:label="@string/app_name"

@@ -24,15 +24,17 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
 
 		// prevents the soft keyboard from immediately popping up
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
+		numPlayers = getIntent().getIntExtra(EXTRA_NUM_PLAYERS, 0);
         
-        setContentView(R.layout.name_players);
-        
-        numPlayers = getIntent().getIntExtra(EXTRA_NUM_PLAYERS, 0);
+		int contentResId = numPlayers < 7 
+				? R.layout.name_players_2_to_6 
+				: R.layout.name_players_7_to_8;
+		
+        setContentView(contentResId);
         
         setUpWidgets();
     }
@@ -52,6 +54,9 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 		
 		for (int i = 0; i < playerEditTexts.size(); i++) {
 			EditText playerEditText = playerEditTexts.get(i);
+			if (playerEditText == null) {
+				continue;
+			}
 			String hint = getString(R.string.text_player) + ' ' + (i + 1);
 			playerEditText.setHint(hint);
 			
