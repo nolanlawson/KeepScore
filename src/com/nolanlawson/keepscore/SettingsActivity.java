@@ -4,16 +4,14 @@ import java.util.Arrays;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.view.KeyEvent;
+import android.preference.PreferenceActivity;
 import android.widget.Toast;
 
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
@@ -22,8 +20,6 @@ import com.nolanlawson.keepscore.util.IntegerUtil;
 public class SettingsActivity extends PreferenceActivity {
 
 	public static final String COLOR_SCHEME_CHANGED = "colorSchemeChanged";
-	
-	private boolean colorSchemeChanged = false;
 	
 	private EditTextPreference button1Pref, button2Pref, button3Pref, button4Pref, updateDelayPref, initialScorePref;
 	private CheckBoxPreference useWakeLockPref;
@@ -153,7 +149,6 @@ public class SettingsActivity extends PreferenceActivity {
 				Arrays.asList(colorSchemePref.getEntryValues()).indexOf(
 				getString(R.string.pref_color_scheme_default))]);
 		colorSchemePref.setValue(getString(R.string.pref_color_scheme_default));
-		colorSchemeChanged = true;
 		
 		updateDelayPref.setText(getString(R.string.pref_update_delay_default));
 		
@@ -204,28 +199,9 @@ public class SettingsActivity extends PreferenceActivity {
 				
 				preference.setSummary(entry);
 				
-				if (!newValue.equals(((ListPreference)preference).getValue())) {
-					colorSchemeChanged = true;
-				}
-				
 				PreferenceHelper.resetCache();
 				return true;
 			}
 		});
-	}	
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)  {
-		
-	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-	    	
-	    	// set result and finish
-	    	Intent data = new Intent();
-	    	data.putExtra(COLOR_SCHEME_CHANGED, colorSchemeChanged);
-	    	setResult(RESULT_OK, data);
-	    	finish();
-	    	return true;
-	    }
-	    return super.onKeyDown(keyCode, event);
 	}	
 }
