@@ -96,7 +96,11 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			Button button = deltaButtons[i];
 			if (button != null) {
 				button.setOnClickListener(this);
-				button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getDeltaButtonValue(i, context)));
+				if (i < 2) { // 2 negative buttons
+					button.setText(IntegerUtil.toStringWithSign(-PreferenceHelper.getDeltaButtonValue(3 - i, context)));
+				} else { // 2 positive buttons
+					button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getDeltaButtonValue(i, context)));
+				}
 			}
 		}
 
@@ -176,16 +180,16 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			// do nothing - just let it flash the background, so that the user
 			// knows this text view is long-clickable
 			break;
-		case android.R.id.button1:
-			increment(PreferenceHelper.getDeltaButtonValue(0, context));
+		case android.R.id.button1: // negative button #1
+			increment(-PreferenceHelper.getDeltaButtonValue(3, context));
 			break;
-		case android.R.id.button2:
-			increment(PreferenceHelper.getDeltaButtonValue(1, context));
+		case android.R.id.button2:  // negative button #2
+			increment(-PreferenceHelper.getDeltaButtonValue(2, context));
 			break;
-		case android.R.id.button3:	
+		case android.R.id.button3:  // positive button #1
 			increment(PreferenceHelper.getDeltaButtonValue(2, context));
 			break;
-		case R.id.button4:	
+		case R.id.button4:	 // positive button #2
 			increment(PreferenceHelper.getDeltaButtonValue(3, context));
 			break;
 		}
