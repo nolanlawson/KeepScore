@@ -141,31 +141,37 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	public Button getMinusButton() {
 		return minusButton;
 	}
-
 	public Button getPlusButton() {
 		return plusButton;
 	}
-
 	public AtomicBoolean getShouldAutosave() {
 		return shouldAutosave;
 	}
-	
 	public void setPositiveTextColor(int positiveTextColor) {
 		this.positiveTextColor = positiveTextColor;
 	}
-
 	public void setNegativeTextColor(int negativeTextColor) {
 		this.negativeTextColor = negativeTextColor;
 	}
-	
 	public View getDivider1() {
 		return divider1;
 	}
-
 	public View getDivider2() {
 		return divider2;
 	}	
-	
+	public Button getDeltaButton1() {
+		return deltaButton1;
+	}
+	public Button getDeltaButton2() {
+		return deltaButton2;
+	}
+	public Button getDeltaButton3() {
+		return deltaButton3;
+	}
+	public Button getDeltaButton4() {
+		return deltaButton4;
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

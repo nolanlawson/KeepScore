@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -200,16 +201,29 @@ public class GameActivity extends Activity {
 		for (PlayerView playerView : playerViews) {
 			playerView.getNameTextView().setTextColor(foregroundColor);
 			playerView.getScoreTextView().setTextColor(foregroundColor);
-			playerView.getPlusButton().setBackgroundDrawable(
-					getResources().getDrawable(colorScheme.getButtonBackgroundDrawableResId()));
-			playerView.getMinusButton().setBackgroundDrawable(
-					getResources().getDrawable(colorScheme.getButtonBackgroundDrawableResId()));
+			
 			playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
 			playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
+			
 			playerView.getDivider1().setBackgroundColor(dividerColor); 
 			if (playerView.getDivider2() != null) {
 				playerView.getDivider2().setBackgroundColor(dividerColor);
 			}
+			
+			for (Button button : new Button[]{
+					playerView.getPlusButton(), 
+					playerView.getMinusButton(), 
+					playerView.getDeltaButton1(),
+					playerView.getDeltaButton2(),
+					playerView.getDeltaButton3(),
+					playerView.getDeltaButton4(),
+					}) {
+				if (button != null) {
+					button.setBackgroundDrawable(getResources().getDrawable(
+							colorScheme.getButtonBackgroundDrawableResId()));
+				}
+			}
+			
 			playerView.updateViews();
 		}
 	}
