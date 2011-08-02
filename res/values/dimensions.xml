@@ -14,7 +14,7 @@
 	
 	<dimen name="player_badge_2_to_4">21sp</dimen>
 	<dimen name="player_badge_5_to_6">16sp</dimen>
-	<dimen name="player_badge_7_to_8">12sp</dimen>
+	<dimen name="player_badge_7_to_8">14sp</dimen>
 	
 	<dimen name="player_badge_padding_left_right_2_to_4">7dp</dimen>
 	<dimen name="player_badge_padding_top_bottom_2_to_4">3dp</dimen>
