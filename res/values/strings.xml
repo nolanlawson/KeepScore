@@ -26,13 +26,13 @@
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     
-    <string name="button_2_players">Two players</string>
-    <string name="button_3_players">Three players</string>
-    <string name="button_4_players">Four players</string>
-    <string name="button_5_players">Five players</string>
-    <string name="button_6_players">Six players</string>
-    <string name="button_7_players">Seven players</string>
-    <string name="button_8_players">Eight players</string>
+    <string name="button_2_players">2</string>
+    <string name="button_3_players">3</string>
+    <string name="button_4_players">4</string>
+    <string name="button_5_players">5</string>
+    <string name="button_6_players">6</string>
+    <string name="button_7_players">7</string>
+    <string name="button_8_players">8</string>
     <string name="button_customize">Customize...</string>
     <string name="button_overwite">Overwrite</string>
     <string name="button_new_game_with_same">New Game</string>
