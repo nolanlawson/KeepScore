@@ -218,6 +218,7 @@ public class GameActivity extends Activity {
 		
 		int foregroundColor = getResources().getColor(colorScheme.getForegroundColorResId());
 		int backgroundColor = getResources().getColor(colorScheme.getBackgroundColorResId());
+		int dividerColor = getResources().getColor(colorScheme.getDividerColorResId());
 
 		rootLayout.setBackgroundColor(backgroundColor);
 		for (PlayerView playerView : playerViews) {
@@ -229,6 +230,7 @@ public class GameActivity extends Activity {
 					getResources().getDrawable(colorScheme.getButtonBackgroundDrawableResId()));
 			playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
 			playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
+			playerView.getDivider().setBackgroundColor(dividerColor);
 		}
 		
 	}

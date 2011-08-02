@@ -44,7 +44,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private int positiveTextColor = R.color.green;
 	private int negativeTextColor = R.color.red;
 	
-	private View view;
+	private View view, divider;
 	private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
 	private LinearLayout badgeLinearLayout;
 	private Button minusButton, plusButton;
@@ -65,6 +65,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	private void init() {
 
+		divider = view.findViewById(R.id.player_score_divider);
 		nameTextView = (TextView) view.findViewById(R.id.text_name);
 		scoreTextView = (TextView) view.findViewById(R.id.text_score);
 		historyTextView = (TextView) view.findViewById(R.id.text_history);
@@ -136,6 +137,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	public void setNegativeTextColor(int negativeTextColor) {
 		this.negativeTextColor = negativeTextColor;
+	}
+	
+	public View getDivider() {
+		return divider;
 	}
 
 	@Override
