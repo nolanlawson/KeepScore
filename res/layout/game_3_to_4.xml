@@ -14,7 +14,7 @@
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent">
 
-			<include layout="@layout/player_score_left" android:id="@+id/player_1" />
+			<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_1" />
 		</FrameLayout>
 
 		<View android:layout_height="0px" android:layout_width="3dp" />
@@ -22,7 +22,7 @@
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent" >
 
-			<include layout="@layout/player_score_left" android:id="@+id/player_2" />
+			<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_2" />
 		</FrameLayout>
 
 	</LinearLayout>
@@ -39,7 +39,7 @@
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent" >
 
-			<include layout="@layout/player_score_left" android:id="@+id/player_3" />
+			<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_3" />
 		</FrameLayout>
 
 		<View android:layout_height="0px" android:layout_width="3dp" />
@@ -48,7 +48,7 @@
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent" >
 
-			<include layout="@layout/player_score_left" android:id="@+id/player_4" />
+			<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_4" />
 		</FrameLayout>
 
 	</LinearLayout>

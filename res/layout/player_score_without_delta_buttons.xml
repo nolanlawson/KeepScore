@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
+	android:background="@drawable/blue_border_shape">
+	
+	<include layout="@layout/player_score_bare" 
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent"/>
+
+</LinearLayout>
