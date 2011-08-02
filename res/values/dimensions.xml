@@ -2,11 +2,20 @@
 <resources>
 	<dimen name="player_name_2_to_4">24sp</dimen>
 	<dimen name="player_name_5_to_6">16sp</dimen>
-	<dimen name="player_score">48sp</dimen>
+	<dimen name="player_name_7_to_8">14sp</dimen>
+	
+	<dimen name="player_score_2_to_6">48sp</dimen>
+	<dimen name="player_score_7_to_8">32sp</dimen>
+	
 	<dimen name="player_score_history">14sp</dimen>
-	<dimen name="player_plus_minus_button">18sp</dimen>
+	
+	<dimen name="player_plus_minus_button_2_to_6">18sp</dimen>
+	<dimen name="player_plus_minus_button_7_to_8">16sp</dimen>
+	
 	<dimen name="player_badge_2_to_4">21sp</dimen>
 	<dimen name="player_badge_5_to_6">16sp</dimen>
+	<dimen name="player_badge_7_to_8">12sp</dimen>
+	
 	<dimen name="delta_popup_text">24sp</dimen>
 	<dimen name="delta_popup_width">400dp</dimen>
 	<dimen name="delta_non_popup">19sp</dimen>

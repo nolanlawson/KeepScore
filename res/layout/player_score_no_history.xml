@@ -20,16 +20,16 @@
 			android:orientation="vertical">
 
 			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.15" />
+				android:layout_weight="0.15" android:id="@+id/plus_minus_button_margin_1" />
 
 			<Button android:layout_width="fill_parent"
 				android:layout_height="0px" android:layout_weight="0.7"
 				android:textStyle="bold" android:id="@+id/button_minus"
-				android:text="-" android:textSize="@dimen/player_plus_minus_button"
+				android:text="-"
 				android:typeface="monospace"/>
 
 			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.15" />
+				android:layout_weight="0.15" android:id="@+id/plus_minus_button_margin_2"/>
 
 		</LinearLayout>
 		<RelativeLayout android:layout_width="0px" android:layout_weight="0.5" 
@@ -38,7 +38,7 @@
 					android:layout_height="fill_parent" android:singleLine="true"
 					android:textStyle="bold" android:id="@+id/text_score"
 					android:text="0" android:gravity="center_horizontal|center_vertical" 
-					android:textSize="@dimen/player_score"/>
+					/>
 					
 				<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:paddingRight="3dp" android:paddingTop="3dp" 
@@ -64,15 +64,15 @@
 			android:orientation="vertical">
 
 			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.15" />
+				android:layout_weight="0.15" android:id="@+id/plus_minus_button_margin_3"/>
 
 			<Button android:layout_width="fill_parent"
 				android:layout_height="0px" android:layout_weight="0.7"
 				android:textStyle="bold" android:id="@+id/button_plus" android:text="+" 
-				android:textSize="@dimen/player_plus_minus_button" android:typeface="monospace"/>
+				android:typeface="monospace"/>
 
 			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.15" />
+				android:layout_weight="0.15" android:id="@+id/plus_minus_button_margin_4"/>
 
 		</LinearLayout>
 

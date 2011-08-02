@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.nolanlawson.keepscore.db.Game;
@@ -29,6 +30,7 @@ import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.CompatibilityHelper;
+import com.nolanlawson.keepscore.helper.PlayerTextFormat;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
@@ -40,7 +42,7 @@ public class GameActivity extends Activity {
 	public static final String EXTRA_GAME_ID = "gameId";
 	public static final String EXTRA_GAME = "game";
 	
-	private static final int MAX_NUM_PLAYERS = 6;
+	private static final int MAX_NUM_PLAYERS = 8;
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
 	
@@ -77,8 +79,11 @@ public class GameActivity extends Activity {
 			return R.layout.game_3_to_4;
 		case 5:
 		case 6:
-		default:
 			return R.layout.game_5_to_6;
+		case 7:
+		case 8:
+		default:
+			return R.layout.game_7_to_8;
 		}
 	}
 	
@@ -472,24 +477,28 @@ public class GameActivity extends Activity {
 			
 			PlayerView playerView = new PlayerView(this, view, playerScore, handler);
 			
-			// sometimes the text gets cut off in the 6 player view, so make the player name smaller there
-			if (playerScores.size() >= 5) {
-				log.d("setting text size to be a smaller size");
-				playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						getResources().getDimensionPixelSize(R.dimen.player_name_5_to_6));
-				playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						getResources().getDimensionPixelSize(R.dimen.player_badge_5_to_6));
-			} else {
-				log.d("setting text size to be a larger size");
-				playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						getResources().getDimensionPixelSize(R.dimen.player_name_2_to_4));
-				playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						getResources().getDimensionPixelSize(R.dimen.player_badge_2_to_4));
-				
+			// sometimes the text gets cut off in the 6 or 8 player view, 
+			// so make the text smaller
+			
+			PlayerTextFormat textFormat = PlayerTextFormat.forNumPlayers(playerScores.size());
+			
+
+			playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));
+			playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					getResources().getDimensionPixelSize(textFormat.getBadgeTextSize()));	
+			playerView.getScoreTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					getResources().getDimensionPixelSize(textFormat.getPlayerScoreTextSize()));
+			playerView.getPlusButton().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
+			playerView.getMinusButton().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
+			for (View plusMinusButtonMargin : playerView.getPlusMinusButtonMargins()) {
+				plusMinusButtonMargin.setLayoutParams(
+						new LinearLayout.LayoutParams(0, 0, textFormat.getPlusMinusButtonMargin()));
 			}
 	    	
 			playerViews.add(playerView);
-			
 		}
 		
 		if (playerScores.size() == 3) {
@@ -498,6 +507,9 @@ public class GameActivity extends Activity {
 		} else if (playerScores.size() == 5) {
 			// hide the "sixth" player
 			findViewById(R.id.player_6).setVisibility(View.INVISIBLE);
+		} else if (playerScores.size() == 7) {
+			// hide the "eighth" player
+			findViewById(R.id.player_8).setVisibility(View.INVISIBLE);
 		}
 	}
 
@@ -514,8 +526,13 @@ public class GameActivity extends Activity {
 		case 4:
 			return R.id.player_5;
 		case 5: 
-		default:
 			return R.id.player_6;
+		case 6:
+			return R.id.player_7;
+		case 7:
+		default:
+			return R.id.player_8;
+			
 		}
 	}
 }

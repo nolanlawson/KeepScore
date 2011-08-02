@@ -33,7 +33,6 @@
 					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
 							
 				<View android:layout_width="0px" android:layout_height="1dp" />
-	
 				
 				<Button android:id="@+id/button_3_players" android:text="@string/button_3_players"
 					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
@@ -53,7 +52,15 @@
 				<Button android:id="@+id/button_6_players" android:text="@string/button_6_players"
 					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
 									
-	
+				<View android:layout_width="0px" android:layout_height="1dp" />	
+				
+				<Button android:id="@+id/button_7_players" android:text="@string/button_7_players"
+					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+					
+				<View android:layout_width="0px" android:layout_height="1dp" />	
+				
+				<Button android:id="@+id/button_8_players" android:text="@string/button_8_players"
+					android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>						
 			</LinearLayout>
 	
 	
