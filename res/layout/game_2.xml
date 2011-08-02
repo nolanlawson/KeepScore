@@ -12,25 +12,18 @@
 		android:paddingTop="3dp" android:paddingLeft="3dp"
 		android:paddingBottom="3dp" android:paddingRight="3dp">
 
-		<FrameLayout android:orientation="vertical"
+		<include layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_1" 
 			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent">
-
-			<include layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_1" />
-		</FrameLayout>
+			android:layout_height="fill_parent"/>
 
 		<View android:layout_height="0px" android:layout_width="3dp" />
-		<FrameLayout android:orientation="vertical"
+		
+		<include layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_2" 
 			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent" >
-
-			<include layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_2" />
-		</FrameLayout>
+			android:layout_height="fill_parent"/>
 
 	</LinearLayout>
 	
 	<View android:layout_width="0px" android:layout_height="0px" android:layout_weight="0.25"/>
-
-
 
 </LinearLayout>
