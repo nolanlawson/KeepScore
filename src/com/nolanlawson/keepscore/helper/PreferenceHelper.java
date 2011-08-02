@@ -42,6 +42,14 @@ public class PreferenceHelper {
 		editor.commit();
 	}
 	
+	public static void setStringPreference(int resId, int valueResId, Context context) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor editor = sharedPrefs.edit();
+		String value = context.getString(valueResId);
+		editor.putString(context.getString(resId), value);
+		editor.commit();		
+	}
+	
 	public static void setIntPreference(int resId, int valueResId, Context context) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		Editor editor = sharedPrefs.edit();

@@ -179,7 +179,6 @@ public class GameActivity extends Activity {
 				// reset the color scheme so that the red and green letters can be correct
 				
 				ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
-				
 				playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
 				playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
 				playerView.updateViews();

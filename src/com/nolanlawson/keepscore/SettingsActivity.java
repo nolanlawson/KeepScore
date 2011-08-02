@@ -127,8 +127,9 @@ public class SettingsActivity extends PreferenceActivity {
 		PreferenceHelper.setIntPreference(R.string.pref_button_4, R.string.pref_button_4_default, this);
 		PreferenceHelper.setIntPreference(R.string.pref_initial_score, R.string.pref_initial_score_default, this);
 		PreferenceHelper.setIntPreference(R.string.pref_update_delay, R.string.pref_update_delay_default, this);
-		
 		PreferenceHelper.setBooleanPreference(R.string.pref_use_wake_lock, R.string.pref_use_wake_lock_default, this);
+		PreferenceHelper.setStringPreference(R.string.pref_color_scheme, R.string.pref_color_scheme_default, this);
+		PreferenceHelper.resetCache();
 		
 		button1Pref.setSummary(R.string.pref_button_1_default);
 		button1Pref.setText(getString(R.string.pref_button_1_default));
@@ -144,6 +145,15 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		initialScorePref.setSummary(R.string.pref_initial_score_default);
 		initialScorePref.setText(getString(R.string.pref_initial_score_default));
+		
+		
+		
+		colorSchemePref.setSummary(
+				colorSchemePref.getEntries()[
+				Arrays.asList(colorSchemePref.getEntryValues()).indexOf(
+				getString(R.string.pref_color_scheme_default))]);
+		colorSchemePref.setValue(getString(R.string.pref_color_scheme_default));
+		colorSchemeChanged = true;
 		
 		updateDelayPref.setText(getString(R.string.pref_update_delay_default));
 		
