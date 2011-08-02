@@ -467,12 +467,12 @@ public class GameActivity extends Activity {
 		
 		playerViews = new ArrayList<PlayerView>();
 		
+		PlayerTextFormat textFormat = PlayerTextFormat.forNumPlayers(playerScores.size());
+		
 		for (int i = 0; i < playerScores.size(); i++) {
 			
 			PlayerScore playerScore = playerScores.get(i);
-			
 			int resId = getPlayerViewResId(i);
-			
 			View view = findViewById(resId);
 			
 			PlayerView playerView = new PlayerView(this, view, playerScore, handler);
@@ -480,9 +480,6 @@ public class GameActivity extends Activity {
 			// sometimes the text gets cut off in the 6 or 8 player view, 
 			// so make the text smaller
 			
-			PlayerTextFormat textFormat = PlayerTextFormat.forNumPlayers(playerScores.size());
-			
-
 			playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));
 			playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -497,6 +494,20 @@ public class GameActivity extends Activity {
 				plusMinusButtonMargin.setLayoutParams(
 						new LinearLayout.LayoutParams(0, 0, textFormat.getPlusMinusButtonMargin()));
 			}
+			
+			playerView.getBadgeTextView().setPadding(
+					getResources().getDimensionPixelSize(textFormat.getBadgePaddingLeftRight()), // left
+					getResources().getDimensionPixelSize(textFormat.getBadgePaddingTopBottom()), // top
+					getResources().getDimensionPixelSize(textFormat.getBadgePaddingLeftRight()), // right
+					getResources().getDimensionPixelSize(textFormat.getBadgePaddingTopBottom()) // bottom
+					);
+			
+			// the offset is from the top right corner only
+			playerView.getBadgeLinearLayout().setPadding(
+					0, 
+					getResources().getDimensionPixelSize(textFormat.getBadgeOffset()), 
+					getResources().getDimensionPixelSize(textFormat.getBadgeOffset()), 
+					0);
 	    	
 			playerViews.add(playerView);
 		}

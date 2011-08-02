@@ -16,6 +16,17 @@
 	<dimen name="player_badge_5_to_6">16sp</dimen>
 	<dimen name="player_badge_7_to_8">12sp</dimen>
 	
+	<dimen name="player_badge_padding_left_right_2_to_4">7dp</dimen>
+	<dimen name="player_badge_padding_top_bottom_2_to_4">3dp</dimen>
+	<dimen name="player_badge_offset_2_to_4">3dp</dimen>
+	<dimen name="player_badge_padding_left_right_5_to_6">7dp</dimen>
+	<dimen name="player_badge_padding_top_bottom_5_to_6">3dp</dimen>
+	<dimen name="player_badge_offset_5_to_6">1dp</dimen>
+	<dimen name="player_badge_padding_left_right_7_to_8">4dp</dimen>		
+	<dimen name="player_badge_padding_top_bottom_7_to_8">1dp</dimen>
+	<dimen name="player_badge_offset_7_to_8">0dp</dimen>
+	
+	
 	<dimen name="delta_popup_text">24sp</dimen>
 	<dimen name="delta_popup_width">400dp</dimen>
 	<dimen name="delta_non_popup">19sp</dimen>

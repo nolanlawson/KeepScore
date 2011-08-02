@@ -9,18 +9,27 @@ public enum PlayerTextFormat {
 			R.dimen.player_plus_minus_button_2_to_6, 
 			R.dimen.player_name_2_to_4,
 			R.dimen.player_badge_2_to_4,
+			R.dimen.player_badge_padding_left_right_2_to_4,
+			R.dimen.player_badge_padding_top_bottom_2_to_4,
+			R.dimen.player_badge_offset_2_to_4,
 			0.15F), 
 	FiveToSixPlayers (
 			R.dimen.player_score_2_to_6, 
 			R.dimen.player_plus_minus_button_2_to_6, 
 			R.dimen.player_name_5_to_6,
 			R.dimen.player_badge_5_to_6,
+			R.dimen.player_badge_padding_left_right_5_to_6,
+			R.dimen.player_badge_padding_top_bottom_5_to_6,	
+			R.dimen.player_badge_offset_5_to_6,
 			0.05F), 
 	SevenToEightPlayers (
 			R.dimen.player_score_7_to_8, 
 			R.dimen.player_plus_minus_button_7_to_8, 
 			R.dimen.player_name_7_to_8,
 			R.dimen.player_badge_7_to_8,
+			R.dimen.player_badge_padding_left_right_7_to_8,
+			R.dimen.player_badge_padding_top_bottom_7_to_8,		
+			R.dimen.player_badge_offset_7_to_8,
 			0F), 
 	;
 	
@@ -28,14 +37,20 @@ public enum PlayerTextFormat {
 	private int plusMinusTextSize;
 	private int playerNameTextSize;
 	private int badgeTextSize;
+	private int badgePaddingLeftRight;
+	private int badgePaddingTopBottom;
+	private int badgeOffset;
 	private float plusMinusButtonMargin;
 
 	private PlayerTextFormat(int playerScoreTextSize, int plusMinusTextSize, int playerNameTextSize, int badgeTextSize,
-			float plusMinusButtonMargin) {
+			int badgePaddingLeftRight, int badgePaddingTopBottom, int badgeOffset, float plusMinusButtonMargin) {
 		this.playerScoreTextSize = playerScoreTextSize;
 		this.plusMinusTextSize = plusMinusTextSize;
 		this.playerNameTextSize = playerNameTextSize;
 		this.badgeTextSize = badgeTextSize;
+		this.badgePaddingLeftRight = badgePaddingLeftRight;
+		this.badgePaddingTopBottom = badgePaddingTopBottom;
+		this.badgeOffset = badgeOffset;
 		this.plusMinusButtonMargin = plusMinusButtonMargin;
 	}
 	public int getPlayerScoreTextSize() {
@@ -52,6 +67,15 @@ public enum PlayerTextFormat {
 	}
 	public float getPlusMinusButtonMargin() {
 		return plusMinusButtonMargin;
+	}
+	public int getBadgePaddingLeftRight() {
+		return badgePaddingLeftRight;
+	}
+	public int getBadgePaddingTopBottom() {
+		return badgePaddingTopBottom;
+	}
+	public int getBadgeOffset() {
+		return badgeOffset;
 	}
 	public static PlayerTextFormat forNumPlayers(int numPlayers) {
 		switch (numPlayers) {
