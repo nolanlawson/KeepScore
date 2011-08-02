@@ -44,10 +44,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private int positiveTextColor = R.color.green;
 	private int negativeTextColor = R.color.red;
 	
-	private View view, divider;
+	private View view, divider1, divider2;
 	private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
 	private LinearLayout badgeLinearLayout;
-	private Button minusButton, plusButton;
+	private Button minusButton, plusButton, deltaButton1, deltaButton2, deltaButton3, deltaButton4;
 	private Context context;
 	private Handler handler;
 	
@@ -65,7 +65,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	private void init() {
 
-		divider = view.findViewById(R.id.player_score_divider);
+		divider1 = view.findViewById(R.id.player_score_divider_1);
+		divider2 = view.findViewById(R.id.player_score_divider_2);
 		nameTextView = (TextView) view.findViewById(R.id.text_name);
 		scoreTextView = (TextView) view.findViewById(R.id.text_score);
 		historyTextView = (TextView) view.findViewById(R.id.text_history);
@@ -75,6 +76,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		minusButton = (Button) view.findViewById(R.id.button_minus);
 		plusButton = (Button) view.findViewById(R.id.button_plus);
+		deltaButton1 = (Button) view.findViewById(android.R.id.button1);
+		deltaButton2 = (Button) view.findViewById(android.R.id.button2);
+		deltaButton3 = (Button) view.findViewById(android.R.id.button3);
+		deltaButton4 = (Button) view.findViewById(R.id.button4);
 		
 		minusButton.setOnClickListener(this);
 		minusButton.setOnLongClickListener(this);
@@ -84,6 +89,16 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		nameTextView.setOnLongClickListener(this);
 		historyTextView.setOnClickListener(this);
 		historyTextView.setOnLongClickListener(this);
+		
+		Button[] deltaButtons = new Button[]{deltaButton1, deltaButton2, deltaButton3, deltaButton4};
+		
+		for (int i = 0; i < deltaButtons.length; i++) {
+			Button button = deltaButtons[i];
+			if (button != null) {
+				button.setOnClickListener(this);
+				button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getDeltaButtonValue(i, context)));
+			}
+		}
 
 		ColorScheme colorScheme = PreferenceHelper.getColorScheme(context);
 		positiveTextColor = colorScheme.getPositiveColorResId();
@@ -139,10 +154,14 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		this.negativeTextColor = negativeTextColor;
 	}
 	
-	public View getDivider() {
-		return divider;
+	public View getDivider1() {
+		return divider1;
 	}
 
+	public View getDivider2() {
+		return divider2;
+	}	
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -156,6 +175,18 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		case R.id.text_history:
 			// do nothing - just let it flash the background, so that the user
 			// knows this text view is long-clickable
+			break;
+		case android.R.id.button1:
+			increment(PreferenceHelper.getDeltaButtonValue(0, context));
+			break;
+		case android.R.id.button2:
+			increment(PreferenceHelper.getDeltaButtonValue(1, context));
+			break;
+		case android.R.id.button3:	
+			increment(PreferenceHelper.getDeltaButtonValue(2, context));
+			break;
+		case R.id.button4:	
+			increment(PreferenceHelper.getDeltaButtonValue(3, context));
 			break;
 		}
 	}

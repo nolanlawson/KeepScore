@@ -16,6 +16,20 @@ public class PreferenceHelper {
 		cachedUpdateDelay = -1;
 		cachedColorScheme = null;
 	}
+
+	public static int getDeltaButtonValue(int index, Context context) {
+		switch (index) {
+			case 0:
+				return getIntPreference(R.string.pref_button_1, R.string.pref_button_1_default, context);
+			case 1:
+				return getIntPreference(R.string.pref_button_2, R.string.pref_button_2_default, context);
+			case 2:
+				return getIntPreference(R.string.pref_button_3, R.string.pref_button_3_default, context);
+			case 3:
+			default:
+				return getIntPreference(R.string.pref_button_4, R.string.pref_button_4_default, context);
+		}		
+	}
 	
 	public static ColorScheme getColorScheme(Context context) {
 		if (cachedColorScheme == null) {

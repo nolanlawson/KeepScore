@@ -206,7 +206,10 @@ public class GameActivity extends Activity {
 					getResources().getDrawable(colorScheme.getButtonBackgroundDrawableResId()));
 			playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
 			playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
-			playerView.getDivider().setBackgroundColor(dividerColor); 
+			playerView.getDivider1().setBackgroundColor(dividerColor); 
+			if (playerView.getDivider2() != null) {
+				playerView.getDivider2().setBackgroundColor(dividerColor);
+			}
 			playerView.updateViews();
 		}
 	}

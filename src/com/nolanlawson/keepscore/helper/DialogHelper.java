@@ -77,10 +77,10 @@ public class DialogHelper {
 	private static void prepareDeltaView(View view, boolean positive, Context context) {
 		// set the buttons based on the preferences
 		
-		int button1Value = PreferenceHelper.getIntPreference(R.string.pref_button_1, R.string.pref_button_1_default, context);
-		int button2Value = PreferenceHelper.getIntPreference(R.string.pref_button_2, R.string.pref_button_2_default, context);
-		int button3Value = PreferenceHelper.getIntPreference(R.string.pref_button_3, R.string.pref_button_3_default, context);
-		int button4Value = PreferenceHelper.getIntPreference(R.string.pref_button_4, R.string.pref_button_4_default, context);
+		int button1Value = PreferenceHelper.getDeltaButtonValue(0, context);
+		int button2Value = PreferenceHelper.getDeltaButtonValue(1, context);
+		int button3Value = PreferenceHelper.getDeltaButtonValue(2, context);
+		int button4Value = PreferenceHelper.getDeltaButtonValue(3, context);
 		
 		if (!positive) {
 			button1Value *= -1;
