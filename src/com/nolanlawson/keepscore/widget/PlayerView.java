@@ -94,20 +94,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		historyTextView.setOnClickListener(this);
 		historyTextView.setOnLongClickListener(this);
 		
-		Button[] deltaButtons = new Button[]{deltaButton1, deltaButton2, deltaButton3, deltaButton4};
-		
-		for (int i = 0; i < deltaButtons.length; i++) {
-			Button button = deltaButtons[i];
-			if (button != null) {
-				button.setOnClickListener(this);
-				if (i < 2) { // 2 negative buttons
-					button.setText(IntegerUtil.toStringWithSign(-PreferenceHelper.getDeltaButtonValue(3 - i, context)));
-				} else { // 2 positive buttons
-					button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getDeltaButtonValue(i, context)));
-				}
-			}
-		}
-
 		ColorScheme colorScheme = PreferenceHelper.getColorScheme(context);
 		positiveTextColor = colorScheme.getPositiveColorResId();
 		negativeTextColor = colorScheme.getNegativeColorResId();
@@ -267,6 +253,21 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		} else {
 			// hide badge (blibbet)
 			badgeLinearLayout.setVisibility(View.INVISIBLE);
+		}
+		
+		// set values for delta buttons
+		Button[] deltaButtons = new Button[]{deltaButton1, deltaButton2, deltaButton3, deltaButton4};
+		
+		for (int i = 0; i < deltaButtons.length; i++) {
+			Button button = deltaButtons[i];
+			if (button != null) {
+				button.setOnClickListener(this);
+				if (i < 2) { // 2 negative buttons
+					button.setText(IntegerUtil.toStringWithSign(-PreferenceHelper.getDeltaButtonValue(3 - i, context)));
+				} else { // 2 positive buttons
+					button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getDeltaButtonValue(i, context)));
+				}
+			}
 		}
 	}
 
