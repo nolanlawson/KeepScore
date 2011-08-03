@@ -2,6 +2,7 @@ package com.nolanlawson.keepscore.data;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
 import android.view.View;
@@ -15,25 +16,26 @@ import com.nolanlawson.keepscore.R;
 
 public class SeparatedListAdapter extends BaseAdapter {
 
-	public final Map<String,BaseAdapter> sections = new LinkedHashMap<String,BaseAdapter>();
-	public final TypeCheckingArrayAdapter<String> headers;
+	public final Map<SectionHeader,BaseAdapter> sections = new LinkedHashMap<SectionHeader,BaseAdapter>();
+	public final TypeCheckingArrayAdapter<SectionHeader> headers;
 	public final static int TYPE_SECTION_HEADER = 0;
 
 	public SeparatedListAdapter(Context context) {
-		headers = new TypeCheckingArrayAdapter<String>(context, R.layout.list_header);
+		headers = new TypeCheckingArrayAdapter<SectionHeader>(context, R.layout.list_header);
 	}
 	
 	public BaseAdapter getSection(int position) {
 		return sections.get(headers.getItem(position));
 	}
 	
-	public void addSection(String section, BaseAdapter adapter) {
-		this.headers.add(section);
-		this.sections.put(section, adapter);
+	public void addSection(String sectionName, BaseAdapter adapter) {
+		SectionHeader sectionHeader = new SectionHeader(sectionName);
+		this.headers.add(sectionHeader);
+		this.sections.put(sectionHeader, adapter);
 	}
 
 	public Object getItem(int position) {
-		for(Object section : this.sections.keySet()) {
+		for(SectionHeader section : this.sections.keySet()) {
 			Adapter adapter = sections.get(section);
 			int size = adapter.getCount() + 1;
 
@@ -65,7 +67,7 @@ public class SeparatedListAdapter extends BaseAdapter {
 
 	public int getItemViewType(int position) {
 		int type = 1;
-		for(Object section : this.sections.keySet()) {
+		for(SectionHeader section : this.sections.keySet()) {
 			Adapter adapter = sections.get(section);
 			int size = adapter.getCount() + 1;
 
@@ -89,7 +91,7 @@ public class SeparatedListAdapter extends BaseAdapter {
 		if (getItemViewType(position) == TYPE_SECTION_HEADER) {
 			return false;
 		} else {
-			for(Object section : this.sections.keySet()) {
+			for(SectionHeader section : this.sections.keySet()) {
 				BaseAdapter adapter = sections.get(section);
 				int size = adapter.getCount() + 1;
 
@@ -107,7 +109,7 @@ public class SeparatedListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		int sectionnum = 0;
-		for(Object section : this.sections.keySet()) {
+		for(SectionHeader section : this.sections.keySet()) {
 			Adapter adapter = sections.get(section);
 			int size = adapter.getCount() + 1;
 
@@ -122,7 +124,7 @@ public class SeparatedListAdapter extends BaseAdapter {
 		return null;
 	}
 	
-	public Map<String, BaseAdapter> getSections() {
+	public Map<SectionHeader, BaseAdapter> getSections() {
 		return sections;
 	}
 
@@ -130,5 +132,43 @@ public class SeparatedListAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
-
+	
+	public static class SectionHeader {
+		
+		private static final AtomicInteger ID_COUNTER = new AtomicInteger(-1);
+		
+		private int id = ID_COUNTER.incrementAndGet();
+		private String header;
+		
+		private SectionHeader(String header) {
+			this.header = header;
+		}
+		public int getId() {
+			return id;
+		}
+		public String getHeader() {
+			return header;
+		}
+		@Override
+		public int hashCode() {
+			return id;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SectionHeader other = (SectionHeader) obj;
+			if (id != other.id)
+				return false;
+			return true;
+		}
+		@Override
+		public String toString() {
+			return header;
+		}
+	}
 }
