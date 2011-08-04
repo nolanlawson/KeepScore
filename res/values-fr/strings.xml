@@ -4,7 +4,7 @@
     
     
     <string name="button_new_game">Nouveau Jeu</string>
-    <string name="button_resume_game">Continuer le Dernier Jeu</string>
+    <string name="button_resume_game">Continuer Dernier Jeu</string>
     <string name="button_load_game">Jeux Sauvegardés</string>
     
     <string name="text_num_players">Nombre de joueurs</string>
@@ -20,7 +20,7 @@
     <string name="text_edit_name">Editer le Nom</string>
     <string name="text_reset_confirm">Tous les paramètres seront réinitialisés.</string>
     <string name="text_about">A propos de KeepScore</string>
-    <string name="text_reset_scores_confirm">Remplacer ce jeux ou commencer un nouveau jeux avec les mêmes joueurs?</string>
+    <string name="text_reset_scores_confirm">Remplacer ce jeu ou commencer un nouveau jeu avec les mêmes joueurs?</string>
     <string name="text_undo_last">Annuler Dernier</string>
     <string name="text_confirm">Confirmer</string>
     
