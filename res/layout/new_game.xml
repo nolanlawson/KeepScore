@@ -16,7 +16,7 @@
 
 
 	<ScrollView android:layout_width="fill_parent"
-		android:layout_height="0px" android:layout_weight="0.9">
+		android:layout_height="0px" android:layout_weight="0.85">
 
 		<LinearLayout android:orientation="horizontal"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
@@ -81,4 +81,7 @@
 		</LinearLayout>
 
 	</ScrollView>
+	
+		<View android:layout_width="0px" android:layout_weight=".05"
+		android:layout_height="0px" />
 </LinearLayout>

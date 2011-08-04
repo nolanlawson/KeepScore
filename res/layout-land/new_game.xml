@@ -4,14 +4,14 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal">
 
-	<View android:layout_width="0px" android:layout_weight=".05"
+	<View android:layout_width="0px" android:layout_weight=".025"
 		android:layout_height="0px" />
 
 	<TextView android:layout_width="fill_parent" android:gravity="center_horizontal"
 		android:layout_height="wrap_content" android:textSize="24sp"
 		android:textStyle="bold" android:text="@string/text_num_players" />
 
-	<View android:layout_width="0px" android:layout_weight=".05"
+	<View android:layout_width="0px" android:layout_weight=".025"
 		android:layout_height="0px" />
 
 	<ScrollView android:layout_width="fill_parent"
@@ -71,4 +71,7 @@
 		</LinearLayout>
 
 	</ScrollView>
+	
+		<View android:layout_width="0px" android:layout_weight=".05"
+		android:layout_height="0px" />
 </LinearLayout>
