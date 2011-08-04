@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KeepScore</string>
+    
+    
+    <string name="button_new_game">Nouveau Jeu</string>
+    <string name="button_resume_game">Continuer le Dernier Jeu</string>
+    <string name="button_load_game">Jeux Sauvegardés</string>
+    
+    <string name="text_num_players">Nombre de joueurs</string>
+    
+    <string name="text_player_names">Noms des joueurs (optionel)</string>
+    <string name="text_player">Joueur</string>
+    <string name="text_no_saved_games">Aucun jeu sauvegardés.</string>
+    <string name="text_players">%s joueurs</string>
+    <string name="text_saved_colon">Sauvegardé:</string>
+    <string name="text_autosaved_colon">Sauvegardé (auto):</string>
+    <string name="text_started_colon">Commencé:</string>
+    <string name="text_delete">Supprimer</string>
+    <string name="text_edit_name">Editer le Nom</string>
+    <string name="text_reset_confirm">Tous les paramètres seront réinitialisés.</string>
+    <string name="text_about">A propos de KeepScore</string>
+    <string name="text_reset_scores_confirm">Remplacer ce jeux ou commencer un nouveau jeux avec les mêmes joueurs?</string>
+    <string name="text_undo_last">Annuler Dernier</string>
+    <string name="text_confirm">Confirmer</string>
+    
+    <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
+    
+    <string name="button_customize">Personnaliser...</string>
+    <string name="button_overwite">Remplacer</string>
+    <string name="button_new_game_with_same">Nouveau Jeu</string>
+    
+    <string name="hint_game_name">Nom de Jeu</string>
+    
+    <string name="toast_saved_automatically">Jeu sauvegardé automatiquement.</string>
+    <string name="toast_saved">Jeu sauvegardé.</string>
+    <string name="toast_deleted">Jeu supprimé.</string>
+    <string name="toast_no_zeroes">Il faut entrer un numéro valable non nulle.</string>
+    <string name="toast_valid_update_delay_values">Il faut entrer un numéro valable entre 1 et 600.</string>
+    <string name="toast_valid_initial_score">Il faut entrer un numéro valable.</string>
+    <string name="toast_settings_reset">Paramètres réinitialisés.</string>
+    
+    <string name="pref_button_1_name">Bouton d\'Incrément 1</string>
+    <string name="pref_button_2_name">Bouton d\'Incrément 2</string>
+    <string name="pref_button_3_name">Bouton d\'Incrément 3</string>
+    <string name="pref_button_4_name">Bouton d\'Incrément 4</string>
+    <string name="pref_update_delay_name">Délai de Mise à Jour</string>
+    <string name="pref_use_wake_lock_name">Garder l\'Ecran Eveillé</string>
+    <string name="pref_initial_score_name">Point Initial</string>
+    <string name="pref_reset_name">Réinitialiser au Défauts</string>
+    <string name="pref_color_scheme_name">Arrangement de Couleur</string>
+    
+    <string name="pref_update_delay_summary">Secondes à attendre avant d\'ajouter une nouvelle valeur d\'histoire (défaut: 10)</string>
+    <string name="pref_use_wake_lock_summary">Verrouiller l\'écran lorsqu\'on joue</string>
+    
+    <string name="pref_cat_appearance">Affichage</string>
+    <string name="pref_cat_config">Configuration</string>
+    <string name="pref_cat_advanced">Avancé</string>
+    
+    <string name="pref_color_scheme_choice_dark_name">Foncé</string>
+    <string name="pref_color_scheme_choice_light_name">Clair</string>
+    <string name="pref_color_scheme_choice_android_name">Android</string>
+    
+    <string name="tile_add">Additionner</string>
+    <string name="tile_subtract">Soustraire</string>
+    <string name="tile_change_name">Changer de Nom</string>
+    <string name="title_edit_game_name">Editer Nom du Jeu</string>
+    <string name="title_name_game">Entrer Nom du Jeu</string>
+    <string name="title_confirm">Confirmer</string>
+    <string name="title_confirm_reset">Confirmer Réinitialisation</string>
+    <string name="title_add_player">Entrer Nom du Joueur</string>
+    
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_history">Histoire</string>
+    <string name="menu_save">Sauvegarder</string>
+    <string name="menu_home">Accueil</string>
+    <string name="menu_reset_scores">Réinitialiser</string>
+    <string name="menu_about">A propos</string>
+    <string name="menu_add_player">Ajouter joueur</string>
+    
+</resources>

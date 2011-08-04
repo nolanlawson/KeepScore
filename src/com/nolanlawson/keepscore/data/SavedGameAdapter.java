@@ -55,7 +55,9 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		nameTextView.setText(game.getName());
 		nameTextView.setVisibility(TextUtils.isEmpty(game.getName()) ? View.GONE : View.VISIBLE);
 		
-		numPlayersTextView.setText(game.getPlayerScores().size() + " " + context.getString(R.string.text_players));
+		String numPlayers = String.format(context.getString(R.string.text_players),game.getPlayerScores().size());
+		
+		numPlayersTextView.setText(numPlayers);
 		
 		String players = TextUtils.join(", ", CollectionUtil.transform(game.getPlayerScores(), 
 				new Function<PlayerScore,String>(){

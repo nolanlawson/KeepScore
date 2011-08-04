@@ -12,7 +12,7 @@
     <string name="text_player_names">Player names (optional)</string>
     <string name="text_player">Player</string>
     <string name="text_no_saved_games">You haven\'t saved any games yet.</string>
-    <string name="text_players">players</string>
+    <string name="text_players">%s players</string>
     <string name="text_saved_colon">Saved:</string>
     <string name="text_autosaved_colon">Auto-saved:</string>
     <string name="text_started_colon">Started:</string>
