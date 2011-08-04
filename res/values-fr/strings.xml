@@ -11,7 +11,7 @@
     
     <string name="text_player_names">Noms des joueurs (optionel)</string>
     <string name="text_player">Joueur</string>
-    <string name="text_no_saved_games">Aucun jeu sauvegardés.</string>
+    <string name="text_no_saved_games">Aucun jeu sauvegardé.</string>
     <string name="text_players">%s joueurs</string>
     <string name="text_saved_colon">Sauvegardé:</string>
     <string name="text_autosaved_colon">Sauvegardé (auto):</string>
