@@ -4,7 +4,7 @@
     
     
     <string name="button_new_game">Nouveau Jeu</string>
-    <string name="button_resume_game">Continuer Dernier Jeu</string>
+    <string name="button_resume_game">Dernier Jeu</string>
     <string name="button_load_game">Jeux Sauvegardés</string>
     
     <string name="text_num_players">Nombre de joueurs</string>
@@ -21,7 +21,7 @@
     <string name="text_reset_confirm">Tous les paramètres seront réinitialisés.</string>
     <string name="text_about">A propos de KeepScore</string>
     <string name="text_reset_scores_confirm">Remplacer ce jeu ou commencer un nouveau jeu avec les mêmes joueurs?</string>
-    <string name="text_undo_last">Annuler Dernier</string>
+    <string name="text_undo_last">Annuler la Derniere Valeur</string>
     <string name="text_confirm">Confirmer</string>
     
     <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
@@ -30,7 +30,7 @@
     <string name="button_overwite">Remplacer</string>
     <string name="button_new_game_with_same">Nouveau Jeu</string>
     
-    <string name="hint_game_name">Nom de Jeu</string>
+    <string name="hint_game_name">Nom du Jeu</string>
     
     <string name="toast_saved_automatically">Jeu sauvegardé automatiquement.</string>
     <string name="toast_saved">Jeu sauvegardé.</string>
@@ -44,14 +44,14 @@
     <string name="pref_button_2_name">Bouton d\'Incrément 2</string>
     <string name="pref_button_3_name">Bouton d\'Incrément 3</string>
     <string name="pref_button_4_name">Bouton d\'Incrément 4</string>
-    <string name="pref_update_delay_name">Délai de Mise à Jour</string>
+    <string name="pref_update_delay_name">Délai de la Mise à Jour</string>
     <string name="pref_use_wake_lock_name">Garder l\'Ecran Eveillé</string>
     <string name="pref_initial_score_name">Point Initial</string>
-    <string name="pref_reset_name">Réinitialiser au Défauts</string>
+    <string name="pref_reset_name">Réinitialiser aux Défauts</string>
     <string name="pref_color_scheme_name">Arrangement de Couleur</string>
     
     <string name="pref_update_delay_summary">Secondes à attendre avant d\'ajouter une nouvelle valeur d\'histoire (défaut: 10)</string>
-    <string name="pref_use_wake_lock_summary">Verrouiller l\'écran lorsqu\'on joue</string>
+    <string name="pref_use_wake_lock_summary">Verrouiller l\'écran lorsque le jeu est en cours</string>
     
     <string name="pref_cat_appearance">Affichage</string>
     <string name="pref_cat_config">Configuration</string>
@@ -64,11 +64,11 @@
     <string name="tile_add">Additionner</string>
     <string name="tile_subtract">Soustraire</string>
     <string name="tile_change_name">Changer de Nom</string>
-    <string name="title_edit_game_name">Editer Nom du Jeu</string>
-    <string name="title_name_game">Entrer Nom du Jeu</string>
+    <string name="title_edit_game_name">Editer le Nom du Jeu</string>
+    <string name="title_name_game">Entrer le Nom du Jeu</string>
     <string name="title_confirm">Confirmer</string>
     <string name="title_confirm_reset">Confirmer Réinitialisation</string>
-    <string name="title_add_player">Entrer Nom du Joueur</string>
+    <string name="title_add_player">Entrer le Nom du Joueur</string>
     
     <string name="menu_settings">Paramètres</string>
     <string name="menu_history">Histoire</string>
