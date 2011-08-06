@@ -48,7 +48,7 @@
     <string name="pref_use_wake_lock_name">Garder l\'Ecran Eveillé</string>
     <string name="pref_initial_score_name">Point Initial</string>
     <string name="pref_reset_name">Réinitialiser aux Défauts</string>
-    <string name="pref_color_scheme_name">Arrangement de Couleur</string>
+    <string name="pref_color_scheme_name">Arrangement de Couleurs</string>
     
     <string name="pref_update_delay_summary">Secondes à attendre avant d\'ajouter une nouvelle valeur d\'histoire (défaut: 10)</string>
     <string name="pref_use_wake_lock_summary">Verrouiller l\'écran lorsque le jeu est en cours</string>
@@ -76,6 +76,6 @@
     <string name="menu_home">Accueil</string>
     <string name="menu_reset_scores">Réinitialiser</string>
     <string name="menu_about">A propos</string>
-    <string name="menu_add_player">Ajouter joueur</string>
+    <string name="menu_add_player">Nouveau joueur</string>
     
 </resources>

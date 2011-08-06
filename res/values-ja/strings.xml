@@ -32,8 +32,8 @@
 
 	<string name="hint_game_name">ゲームの名</string>
 
-	<string name="toast_saved_automatically">ゲームは自動的にセーブしました。</string>
-	<string name="toast_saved">ゲームはセーブしました。</string>
+	<string name="toast_saved_automatically">ゲームは自動的にセーブされました。</string>
+	<string name="toast_saved">ゲームはセーブされました。</string>
 	<string name="toast_deleted">ゲームは削除されました。</string>
 	<string name="toast_no_zeroes">ゼロじゃない妥当な数を入力してください。</string>
 	<string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>
