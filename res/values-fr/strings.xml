@@ -9,7 +9,7 @@
     
     <string name="text_num_players">Nombre de joueurs</string>
     
-    <string name="text_player_names">Noms des joueurs (optionel)</string>
+    <string name="text_player_names">Noms des joueurs (optionnel)</string>
     <string name="text_player">Joueur</string>
     <string name="text_no_saved_games">Aucun jeu sauvegardé.</string>
     <string name="text_players">%s joueurs</string>

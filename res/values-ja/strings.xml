@@ -45,7 +45,7 @@
 	<string name="pref_button_3_name">３番目の増加のボタン</string>
 	<string name="pref_button_4_name">４番目の増加野ボタン</string>
 	<string name="pref_update_delay_name">アップデートの遅れ</string>
-	<string name="pref_use_wake_lock_name">画面を起こし続く</string>
+	<string name="pref_use_wake_lock_name">画面を起こし続ける</string>
 	<string name="pref_initial_score_name">最初の点</string>
 	<string name="pref_reset_name">デフォルトにリセット</string>
 	<string name="pref_color_scheme_name">配色</string>
