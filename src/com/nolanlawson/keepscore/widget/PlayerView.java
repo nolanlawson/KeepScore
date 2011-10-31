@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Handler;
 import android.text.InputType;
 import android.text.Spannable;
@@ -16,6 +17,9 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,16 +29,18 @@ import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.DialogHelper;
-import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class PlayerView implements OnClickListener, OnLongClickListener {
+	
+	private static final int ANIMATION_TIME = 1000;
 	
 	private static final UtilLogger log = new UtilLogger(PlayerView.class);
 	
@@ -241,18 +247,29 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     	nameTextView.setText(playerName);
 		
 		scoreTextView.setText(Long.toString(playerScore.getScore()));
-		historyTextView.setText(fromHistory(playerScore.getHistory(), currentTime));
 		
+		final Spannable newHistoryTextViewValue = fromHistory(playerScore.getHistory(), currentTime);
 		if (currentTime < (lastIncremented.get() + getUpdateDelayInMs()) && !playerScore.getHistory().isEmpty()) { // still modifiable
 			// show badge (blibbet)
-			badgeLinearLayout.setVisibility(View.VISIBLE);
+			makeBadgeVisible();
 			Integer lastDelta = playerScore.getHistory().get(playerScore.getHistory().size() - 1);
 			badgeTextView.setText(IntegerUtil.toStringWithSign(lastDelta));
-			badgeLinearLayout.setBackgroundResource(lastDelta >= 0 ? R.drawable.circle_shape_green : R.drawable.circle_shape_red);
+			badgeLinearLayout.setBackgroundResource(lastDelta >= 0 ? R.drawable.badge_green_fade_out : R.drawable.badge_red_fade_out);
 			
+			// update history text view now rather than later
+			historyTextView.setText(newHistoryTextViewValue);
 		} else {
 			// hide badge (blibbet)
-			badgeLinearLayout.setVisibility(View.INVISIBLE);
+			
+			// update history text view later
+			Runnable updateHistoryRunnable = new Runnable(){
+
+				@Override
+				public void run() {
+					historyTextView.setText(newHistoryTextViewValue);
+					
+				}};
+			fadeOutBadge(updateHistoryRunnable);
 		}
 		
 		// set values for delta buttons
@@ -270,6 +287,70 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			}
 		}
 	}
+	
+	private void makeBadgeVisible() {
+		synchronized (lock) {
+			// show the badge, canceling the "fade out" animation if necessary
+			TransitionDrawable transitionDrawable = (TransitionDrawable) badgeLinearLayout.getBackground();
+			transitionDrawable.resetTransition();
+			if (badgeTextView.getAnimation() != null) {
+				badgeTextView.getAnimation().cancel();
+			}
+			badgeTextView.setVisibility(View.VISIBLE);
+			badgeLinearLayout.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void fadeOutBadge(final Runnable onAnimationComplete) {
+		synchronized (lock) {
+			boolean animationRunning = badgeTextView.getAnimation() != null 
+					&& badgeTextView.getAnimation().hasStarted() 
+					&& !badgeTextView.getAnimation().hasEnded();
+			
+			if (!animationRunning && badgeTextView.getVisibility() == View.VISIBLE) {
+				// animation isn't already showing, and the badge is visible
+				
+				badgeLinearLayout.setVisibility(View.VISIBLE);
+				// show an animation for the badge with the textview and the background linearlayout fading out
+				Animation fadeOutAnimation = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+				fadeOutAnimation.setDuration(ANIMATION_TIME);
+				fadeOutAnimation.setAnimationListener(new AnimationListener() {
+					
+					@Override
+					public void onAnimationStart(Animation animation) {
+					}
+					
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+					}
+					
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						badgeTextView.setVisibility(View.INVISIBLE);
+						
+						// necessary to update again to set the history text view correctly
+						onAnimationComplete.run();
+					}
+				});
+				badgeTextView.setAnimation(fadeOutAnimation);
+				fadeOutAnimation.start();
+				TransitionDrawable transitionDrawable = (TransitionDrawable) badgeLinearLayout.getBackground();
+				transitionDrawable.setCrossFadeEnabled(true);
+				transitionDrawable.startTransition(ANIMATION_TIME);
+			} else {
+				// just don't show it - the animation might already be showing, or maybe the badge is
+				// already invisible
+				badgeLinearLayout.setVisibility(View.INVISIBLE);
+				badgeTextView.setVisibility(View.INVISIBLE);
+				
+				// this ensures that the history text view gets updated properly, even if the user
+				// exits the activity while the animation is in progress (e.g. by going to the Settings)
+				onAnimationComplete.run();
+			}
+		}
+	}
+	
+	
 
 	/**
 	 * Add green color for positive entries and red color for negative entries, and convert ints to strings.

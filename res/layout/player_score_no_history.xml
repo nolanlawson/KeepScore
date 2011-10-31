@@ -42,8 +42,9 @@
 					
 				<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:paddingRight="3dp" android:paddingTop="3dp" 
-					android:background="@drawable/circle_shape_green"
-					android:layout_alignParentRight="true" android:id="@+id/linear_layout_badge">
+					android:background="@drawable/badge_green_fade_out"
+					android:layout_alignParentRight="true" android:id="@+id/linear_layout_badge"
+					android:visibility="invisible">
 					
 					<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
 							 android:text="+1" android:textSize="@dimen/player_badge_2_to_4"
@@ -51,7 +52,7 @@
 							android:paddingTop="3dp" android:paddingBottom="3dp"
 							android:textStyle="bold" android:typeface="monospace"
 							android:textColor="@android:color/primary_text_dark_nodisable"
-							 android:id="@+id/text_badge"	/>
+							 android:id="@+id/text_badge" android:visibility="invisible"/>
 						
 				</LinearLayout>
 		
