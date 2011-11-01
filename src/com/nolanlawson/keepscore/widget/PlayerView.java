@@ -61,6 +61,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private AtomicLong lastIncremented = new AtomicLong(0);
 	private HistoryUpdateRunnable historyUpdateRunnable;
 	private final Object lock = new Object();
+	private boolean animationRunning;
 	
 	public PlayerView(Context context, View view, PlayerScore playerScore, Handler handler) {
 		this.view = view;
@@ -303,12 +304,13 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	private void fadeOutBadge(final Runnable onAnimationComplete) {
 		synchronized (lock) {
-			boolean animationRunning = badgeTextView.getAnimation() != null 
-					&& badgeTextView.getAnimation().hasStarted() 
-					&& !badgeTextView.getAnimation().hasEnded();
 			
-			if (!animationRunning && badgeTextView.getVisibility() == View.VISIBLE) {
+			if (!animationRunning // animation is already running, so shouldn't start a new one 
+					&& lastIncremented.get() != 0 // counter was reset, in which case it would be unintuitive for the badge to fade
+					&& badgeTextView.getVisibility() == View.VISIBLE) {
 				// animation isn't already showing, and the badge is visible
+				animationRunning = true;
+				
 				
 				badgeLinearLayout.setVisibility(View.VISIBLE);
 				// show an animation for the badge with the textview and the background linearlayout fading out
@@ -326,10 +328,13 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 					
 					@Override
 					public void onAnimationEnd(Animation animation) {
-						badgeTextView.setVisibility(View.INVISIBLE);
-						
-						// necessary to update again to set the history text view correctly
-						onAnimationComplete.run();
+						synchronized (lock) {
+							badgeTextView.setVisibility(View.INVISIBLE);
+							
+							// necessary to update again to set the history text view correctly
+							onAnimationComplete.run();
+							animationRunning = false;
+						}
 					}
 				});
 				badgeTextView.setAnimation(fadeOutAnimation);
