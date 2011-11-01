@@ -295,7 +295,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			TransitionDrawable transitionDrawable = (TransitionDrawable) badgeLinearLayout.getBackground();
 			transitionDrawable.resetTransition();
 			if (badgeTextView.getAnimation() != null) {
-				badgeTextView.getAnimation().cancel();
+				badgeTextView.clearAnimation();
 			}
 			badgeTextView.setVisibility(View.VISIBLE);
 			badgeLinearLayout.setVisibility(View.VISIBLE);
