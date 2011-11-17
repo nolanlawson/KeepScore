@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.Context;
 
 import com.nolanlawson.keepscore.db.PlayerScore;
-import com.nolanlawson.keepscore.util.CollectionUtil;
 
 /**
  * Simple class for showing the full history of a user's score
@@ -44,28 +43,36 @@ public class HistoryItem {
 	}
 	
 	/**
-	 * Create a list of displayable history items given a PlayerScore.
+	 * Create a list of displayable history items given a PlayerScore.  Entries should be listed from past to future.
 	 * @param playerScore
 	 * @return
 	 */
 	public static List<HistoryItem> createFromPlayerScore(PlayerScore playerScore, Context context) {
 		
-		List<Integer> history = CollectionUtil.reversedCopy(playerScore.getHistory());
-		long runningScore = playerScore.getScore();
+		List<Integer> history = playerScore.getHistory();
+		long runningScore = getStartingScore(playerScore);
 		
 		List<HistoryItem> historyItems = new ArrayList<HistoryItem>();
 		
-		// add an initial one to just show the current score
+		// add an initial one to just show the starting score
 		historyItems.add(new HistoryItem(0, runningScore, true));
 		
 		for (Integer historyDelta : history) {
-			runningScore -= historyDelta;
+			runningScore += historyDelta;
 			
 			historyItems.add(new HistoryItem(historyDelta, runningScore, false));
 		}
 		
 		return historyItems;
 		
+	}
+	private static long getStartingScore(PlayerScore playerScore) {
+		// figure out what the starting score was by just subtracting everything
+		long result = playerScore.getScore();
+		for (Integer delta : playerScore.getHistory()) {
+			result -= delta;
+		}
+		return result;
 	}	
 	
 }

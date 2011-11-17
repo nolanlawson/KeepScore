@@ -440,34 +440,35 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	private boolean showHistoryContextDialog() {
 		
-		List<Integer> history = playerScore.getHistory();
-		
-		if (history == null || history.isEmpty()) {
-			return false; // don't do anything if the history is empty
-		}
+		final List<CharSequence> items = new ArrayList<CharSequence>();
 		
 		// don't show "confirm" unless the last history entry is still modifiable
-		final boolean showConfirm = 
-			System.currentTimeMillis() < (lastIncremented.get() + getUpdateDelayInMs());
-		
-		CharSequence[] items = showConfirm
-				? new CharSequence[]{
-						context.getString(R.string.text_confirm),
-						context.getString(R.string.text_undo_last)}
-				: new CharSequence[]{context.getString(R.string.text_undo_last)};
+		boolean showConfirm = System.currentTimeMillis() < (lastIncremented.get() + getUpdateDelayInMs());
+			
+		if (showConfirm) {
+			items.add(context.getString(R.string.text_confirm));
+		}
+		if (playerScore.getHistory() != null && !playerScore.getHistory().isEmpty()) {
+			// can't undo last if there's no history
+			items.add(context.getString(R.string.text_undo_last));
+		}
+		items.add(context.getString(R.string.text_add_zero));
 		
 		new AlertDialog.Builder(context)
 			.setCancelable(true)
-			.setItems(items, new DialogInterface.OnClickListener() {
+			.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					if (showConfirm && which == 0) {
+					if (items.get(which).equals(context.getString(R.string.text_confirm))) {
 						// confirm
 						confirmHistory();
-					} else {
+					} else if (items.get(which).equals(context.getString(R.string.text_undo_last))) {
 						// undo last
 						undoLast();
+					} else {
+						// add zero
+						addZero();
 					}
 					dialog.dismiss();
 				}
@@ -478,7 +479,21 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 	}
 
-	protected void undoLast() {
+	private void addZero() {
+		// add zero, i.e. just add a history entry with zero in it
+		// this is designed for people playing a game like hearts, where there may be a round 
+		// with no points for a particular player
+		synchronized (lock) {
+			playerScore.getHistory().add(0);
+		}
+		
+		lastIncremented.set(0); // reset last incremented
+		shouldAutosave.set(true);
+		updateViews();
+		
+	}
+
+	private void undoLast() {
 
 		synchronized (lock) {
 			List<Integer> history = playerScore.getHistory();

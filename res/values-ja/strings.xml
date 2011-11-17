@@ -6,6 +6,8 @@
 	<string name="button_new_game">新しいゲーム</string>
 	<string name="button_resume_game">最後のゲームを続ける</string>
 	<string name="button_load_game">セーブしたゲーム</string>
+	<string name="button_by_player">選手で</string>
+    <string name="button_by_round">ラウンドで</string>
 
 	<string name="text_num_players">選手の数</string>
 
@@ -23,6 +25,7 @@
 	<string name="text_reset_scores_confirm">このゲームをリセットするか同じ選手で新しいゲームを始めるかどっちしたいんですか。</string>
 	<string name="text_undo_last">最後の点をアンドゥ</string>
 	<string name="text_confirm">確認</string>
+	<string name="text_add_zero">ゼロを増加</string>
 
 	<string name="text_game_will_be_deleted">ゲームは削除されます。</string>
 

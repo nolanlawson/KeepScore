@@ -14,18 +14,31 @@ import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
+import com.nolanlawson.keepscore.util.StringUtil;
 
 public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 
-	private int maxNumDigits;
+	private static final int MAX_COLUMNS_FOR_WIDE_LIST_LAYOUT = 4;
 	
-	public HistoryAdapter(Context context, List<HistoryItem> items) {
-		super(context, R.layout.simple_small_list_item, items);
+	private int maxNumDigits;
+	private int layoutResId;
+	private int numColumns;
+	
+	private HistoryAdapter(Context context, List<HistoryItem> items, int layoutResId, int numColumns) {
+		super(context, layoutResId, items);
+		this.layoutResId = layoutResId;
+		this.numColumns = numColumns;
 		init(items);
 	}
+	
+	public static HistoryAdapter create(Context context, List<HistoryItem> items, int numColumns) {
+		int layoutResId = getLayoutResIdForAdapter(numColumns);
+		return new HistoryAdapter(context, items, layoutResId, numColumns);
+	}
+	
+	
 
 	private void init(List<HistoryItem> items) {
 		// ensure that the delta textviews all line up correctly
@@ -50,12 +63,16 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 		ViewWrapper viewWrapper;
 		if (view == null) {
 			LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = vi.inflate(R.layout.simple_small_list_item, parent, false);
+			view = vi.inflate(layoutResId, parent, false);
 			viewWrapper = new ViewWrapper(view);
 			view.setTag(viewWrapper);
 		} else {
 			viewWrapper = (ViewWrapper)view.getTag();
 		}
+		
+		// alternating colors for the background, from gray to white
+		view.setBackgroundColor(context.getResources().getColor(
+				(position / numColumns) % 2 == 0 ? android.R.color.background_light : R.color.light_gray));
 		
 		TextView textView1 = viewWrapper.getTextView1();
 		TextView textView2 = viewWrapper.getTextView2();
@@ -81,6 +98,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 		
 		if (item.isHideDelta()) {
 			setDummyTextView(textView1);
+			textView1.setVisibility(View.GONE); // set as gone to ensure that the first line isn't too tall when we use history_item_tall.xml
 		} else {
 			int delta = item.getDelta();
 			
@@ -143,4 +161,11 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 			return textView2;
 		}
 	}	
+	
+	
+	private static int getLayoutResIdForAdapter(int numColumns) {
+		// if there are more than 4 columns, the text gets squished together.  So I use a different layout depending on how many
+		// columns there are
+		return numColumns <= MAX_COLUMNS_FOR_WIDE_LIST_LAYOUT ? R.layout.history_item_wide : R.layout.history_item_tall;
+	}
 }

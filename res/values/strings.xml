@@ -23,6 +23,7 @@
     <string name="text_reset_scores_confirm">Overwrite game or start new game with same players?</string>
     <string name="text_undo_last">Undo Last</string>
     <string name="text_confirm">Confirm</string>
+    <string name="text_add_zero">Add Zero</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     
@@ -36,6 +37,8 @@
     <string name="button_customize">Customize...</string>
     <string name="button_overwite">Overwrite</string>
     <string name="button_new_game_with_same">New Game</string>
+    <string name="button_by_player">By Player</string>
+    <string name="button_by_round">By Round</string>
     
     <string name="hint_game_name">Game Name</string>
     

@@ -82,7 +82,10 @@ public class SeparatedListAdapter extends BaseAdapter {
 		return -1;
 	}
 
-	public boolean areAllItemsSelectable() {
+	
+	
+	@Override
+	public boolean areAllItemsEnabled() {
 		return false;
 	}
 

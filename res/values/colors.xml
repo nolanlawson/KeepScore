@@ -29,7 +29,9 @@
 	<color name="gray_5">#FFF9F9F9</color>
 	<color name="gray_6">#FFE9E9E9</color>	
 	<color name="gray_7">#FF191919</color>
-	<color name="gray_8">#FF090909</color>	
+	<color name="gray_8">#FF090909</color>
+	
+	<color name="light_gray">#FFE9F3F9</color>	
 	
 	
 	<color name="orange_1">#FFf26700</color>

@@ -6,6 +6,8 @@
     <string name="button_new_game">Nouveau Jeu</string>
     <string name="button_resume_game">Dernier Jeu</string>
     <string name="button_load_game">Jeux Sauvegardés</string>
+    <string name="button_by_player">Par Joueur</string>
+    <string name="button_by_round">Par Partie</string>
     
     <string name="text_num_players">Nombre de joueurs</string>
     
@@ -23,6 +25,7 @@
     <string name="text_reset_scores_confirm">Remplacer ce jeu ou commencer un nouveau jeu avec les mêmes joueurs?</string>
     <string name="text_undo_last">Annuler la Derniere Valeur</string>
     <string name="text_confirm">Confirmer</string>
+    <string name="text_add_zero">Additionner Zéro</string>
     
     <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
     

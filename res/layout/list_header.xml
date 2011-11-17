@@ -6,4 +6,6 @@
 	android:paddingTop="2dip"
 	android:paddingBottom="2dip"
 	android:paddingLeft="5dip"
+	android:ellipsize="marquee"
+	android:singleLine="true"
 	style="?android:attr/listSeparatorTextViewStyle" />
