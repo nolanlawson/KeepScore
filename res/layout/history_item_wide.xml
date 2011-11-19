@@ -10,7 +10,7 @@
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:singleLine="true"
 		android:paddingLeft="2dp" android:paddingTop="1dp" android:paddingBottom="1dp" 
-		android:textSize="14sp" android:id="@android:id/text1"
+		android:textSize="@dimen/history_text_normal" android:id="@android:id/text1"
 		android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
 		android:typeface="monospace">
 
@@ -19,7 +19,7 @@
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:singleLine="true"
 		android:paddingRight="2dp" android:paddingTop="1dp" android:paddingBottom="1dp"
-		android:textSize="14sp" android:id="@android:id/text2"
+		android:textSize="@dimen/history_text_normal" android:id="@android:id/text2"
 		android:layout_alignParentRight="true" android:layout_alignParentTop="true"
 		android:typeface="monospace">
 

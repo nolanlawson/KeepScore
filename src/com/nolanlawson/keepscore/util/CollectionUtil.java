@@ -106,4 +106,5 @@ public class CollectionUtil {
 		
 		public boolean apply(T obj);
 	}
+	
 }

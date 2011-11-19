@@ -40,24 +40,28 @@
 	    android:layout_weight="1.0"
 	    android:background="@android:color/darker_gray">
 	    <TableLayout    
-	        android:id="@+id/by_round_list"
+	        android:id="@+id/by_round_table"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
 	        >
 	    </TableLayout>
     </ScrollView>
     
-    <GridView
-        android:id="@+id/by_player_list"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="1.0"
-        android:background="@android:color/darker_gray"
-        android:cacheColorHint="#00000000"
-        android:horizontalSpacing="2dp"
-        android:numColumns="2" 
-        android:visibility="gone"
-        android:scrollingCache="false">
-    </GridView>    
+    <ScrollView
+        android:id="@+id/by_player_scroll_view"
+	    android:layout_width="fill_parent"
+	    android:layout_height="0px"
+	    android:layout_weight="1.0"
+	    android:background="@android:color/darker_gray"
+	    android:visibility="gone">
+	    <TableLayout    
+	        android:id="@+id/by_player_table"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:stretchColumns="0,2"
+	        android:shrinkColumns="0,2"
+	        >
+	    </TableLayout>
+    </ScrollView>
 
 </LinearLayout>

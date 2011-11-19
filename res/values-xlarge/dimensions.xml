@@ -19,4 +19,7 @@
 	<dimen name="delta_popup_text">48sp</dimen>
 	<dimen name="delta_popup_width">800dp</dimen>
 	<dimen name="delta_non_popup">36sp</dimen>
+	
+	<dimen name="history_text_normal">24sp</dimen>
+	<dimen name="history_text_small">21sp</dimen>    
 </resources>

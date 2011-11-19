@@ -8,4 +8,7 @@
 	android:paddingLeft="5dip"
 	android:ellipsize="marquee"
 	android:singleLine="true"
-	style="?android:attr/listSeparatorTextViewStyle" />
+	android:textStyle="bold"
+	android:textSize="@dimen/history_text_normal"
+	android:background="@drawable/light_header_dither"
+	android:textColor="@android:color/primary_text_dark_nodisable" />
