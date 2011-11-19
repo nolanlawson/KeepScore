@@ -3,9 +3,9 @@ package com.nolanlawson.keepscore.helper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.nolanlawson.keepscore.util.UtilLogger;
-
 import android.app.Activity;
+
+import com.nolanlawson.keepscore.util.UtilLogger;
 
 public class CompatibilityHelper {
 

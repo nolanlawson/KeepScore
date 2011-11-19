@@ -14,10 +14,10 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.nolanlawson.keepscore.data.SavedGameAdapter;
 import com.nolanlawson.keepscore.db.Game;

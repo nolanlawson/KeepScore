@@ -18,8 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -29,14 +29,14 @@ import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.DialogHelper;
-import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
+import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
 import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class PlayerView implements OnClickListener, OnLongClickListener {
 	

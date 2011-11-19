@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 
@@ -134,7 +134,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 	 * set the text to null or empty.  If I don't, the text isn't wrapped correctly vertically.
 	 * @param textView
 	 */
-	private void setDummyTextView(TextView textView) {
+	private static void setDummyTextView(TextView textView) {
 		textView.setVisibility(View.INVISIBLE);
 		textView.setText("0"); // dummy value
 	}
@@ -167,5 +167,49 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 		// if there are more than 4 columns, the text gets squished together.  So I use a different layout depending on how many
 		// columns there are
 		return numColumns <= MAX_COLUMNS_FOR_WIDE_LIST_LAYOUT ? R.layout.history_item_wide : R.layout.history_item_tall;
+	}
+	
+	public static View createView(Context context, HistoryItem historyItem, int numColumns, int rowId) {
+		
+		int layoutResId = getLayoutResIdForAdapter(numColumns);
+		
+		LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = vi.inflate(layoutResId, null, false);
+		
+		// alternating colors for the background, from gray to white
+		view.setBackgroundColor(context.getResources().getColor(
+				rowId % 2 == 0 ? android.R.color.background_light : R.color.light_gray));
+		
+		TextView textView1 = (TextView) view.findViewById(android.R.id.text1);
+		TextView textView2 = (TextView) view.findViewById(android.R.id.text2);
+		
+		if (historyItem == null) {
+			// null indicates to leave the text views empty
+			setDummyTextView(textView1);
+			setDummyTextView(textView2);
+			return view;			
+		}
+		
+		textView2.setVisibility(View.VISIBLE);
+		
+		if (historyItem.isHideDelta()) {
+			setDummyTextView(textView1);
+			textView1.setVisibility(View.GONE); // set as gone to ensure that the first line isn't too tall when we use history_item_tall.xml
+		} else {
+			int delta = historyItem.getDelta();
+			
+			SpannableString deltaSpannable = new SpannableString(IntegerUtil.toStringWithSign(delta));
+			
+			int colorResId = delta >= 0 ? R.color.green : R.color.red;
+			ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(colorResId));
+			deltaSpannable.setSpan(colorSpan, 0, deltaSpannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			
+			textView1.setVisibility(View.VISIBLE);
+			textView1.setText(deltaSpannable);
+		}
+		
+		textView2.setText(Long.toString(historyItem.getRunningTotal()));
+		
+		return view;		
 	}
 }

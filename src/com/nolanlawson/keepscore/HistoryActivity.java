@@ -1,18 +1,24 @@
 package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.GridView;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.ToggleButton;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.nolanlawson.keepscore.data.HistoryAdapter;
 import com.nolanlawson.keepscore.data.HistoryItem;
@@ -38,9 +44,11 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 	
 	private RadioGroup radioGroup;
 	private ToggleButton byRoundButton, byPlayerButton;
-	private GridView byRoundGridView, byPlayerGridView;
+	private GridView byPlayerGridView;
+	private ScrollView byRoundScrollView;
+	private TableLayout byRoundTableLayout;
 	
-	private SeparatedListAdapter byPlayerAdapter, byRoundAdapter;
+	private SeparatedListAdapter byPlayerAdapter;
 	private Game game;
 	
 	@Override
@@ -57,14 +65,12 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		setUpWidgets();
 		
 		createByPlayerAdapter();
-		createByRoundAdapter();
-		byRoundGridView.setAdapter(byRoundAdapter);
-		byRoundGridView.setNumColumns(game.getPlayerScores().size());
+		createByRoundTableLayout();
+
 		byPlayerGridView.setAdapter(byPlayerAdapter);
 		// due to issue 3830 (http://code.google.com/p/android/issues/detail?id=3830), gridView does not properly
 		// disable highlighting by trackball.  So I have to manually set the selector to transparent, which is non-optimal
 		// but works OK
-		byRoundGridView.setSelector(android.R.color.transparent);
 		byPlayerGridView.setSelector(android.R.color.transparent);
 		
 
@@ -79,7 +85,8 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		byRoundButton.setOnClickListener(this);
 		byPlayerButton.setOnClickListener(this);
 		
-		byRoundGridView = (GridView) findViewById(R.id.by_round_list);
+		byRoundTableLayout = (TableLayout) findViewById(R.id.by_round_list);
+		byRoundScrollView = (ScrollView) findViewById(R.id.by_round_scroll_view);
 		byPlayerGridView = (GridView) findViewById(R.id.by_player_list);
 		
 	}
@@ -108,8 +115,15 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		}
 	}
 	
-	private void createByRoundAdapter() {
-		byRoundAdapter = new SeparatedListAdapter(this);
+	private void createByRoundTableLayout() {
+		
+		// make all the columns that contain history information stretchable and shrinkable,
+		// i.e. not the "divider" or "row header" columns
+		for (int i = 0; i < game.getPlayerScores().size(); i++) {
+			byRoundTableLayout.setColumnShrinkable((i * 2) + 2, true);
+			byRoundTableLayout.setColumnStretchable((i * 2) + 2, true);
+		}
+		
 		// the 'by round' adapter simply needs each player name as a first header row, and then after that you just go round-by-round
 		// summing up the values and displaying the diff, e.g.:
 		// p1,  p2,  p3,  p4
@@ -118,22 +132,50 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		// 5,   3,   2,   10
 		// etc.
 		
-		// add in all the section headers first, so they can be laid out across as the first row
 		List<PlayerScore> playerScores = game.getPlayerScores();
-		for (int i = 0; i < playerScores.size(); i++) {
-			PlayerScore playerScore = playerScores.get(i);
+		int numColumns = playerScores.size() + 1; // +1 for the round number column
+		
+		// create the first row
+		TableRow headerRow = new TableRow(this);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		TextView emptyView = (TextView) inflater.inflate(R.layout.list_header, headerRow, false);
+		emptyView.setText(" ");
+		headerRow.addView(emptyView);
+		
+		// add in all the section headers first, so they can be laid out across as the first row
+		
+		for (PlayerScore playerScore : playerScores) {
+			TextView playerNameView = (TextView) inflater.inflate(R.layout.list_header, headerRow, false);
+			playerNameView.setText(playerScore.toDisplayName(this));
+			headerRow.addView(createDividerView(headerRow));
+			headerRow.addView(playerNameView);
+		}
+		byRoundTableLayout.addView(headerRow);
+		
+		List<HistoryItem> collatedHistoryItems = getCollatedHistoryItems();
+		
+		for (int i = 0; i < collatedHistoryItems.size(); i += playerScores.size()) {
 			
-			List<HistoryItem> historyItems;
-			if (i < game.getPlayerScores().size() - 1) {
-				historyItems = Collections.emptyList();
-			} else {
-				// the final header needs to hold all the items, because it's left-to-right
-				// so we need to collate all the items
-				historyItems = getCollatedHistoryItems();
-				
+			int rowId = (i / playerScores.size());
+			
+			TableRow tableRow = new TableRow(this);
+			
+			// add a column for the round number
+			View roundView = inflater.inflate(R.layout.row_header, tableRow, false);
+			TextView roundTextView = (TextView) roundView.findViewById(android.R.id.text1);
+			String roundName = (i == 0) ? "" : Integer.toString(rowId); // first row is just the starting score
+			roundTextView.setText(roundName);
+			
+			tableRow.addView(roundView);
+			
+			// add in all the history items from this round
+			for (int j = i; j < i + playerScores.size(); j++) {
+				HistoryItem historyItem = collatedHistoryItems.get(j);
+				View historyItemAsView = HistoryAdapter.createView(this, historyItem, numColumns - 1, rowId);
+				tableRow.addView(createDividerView(tableRow));
+				tableRow.addView(historyItemAsView);
 			}
-			HistoryAdapter section = HistoryAdapter.create(this, historyItems, playerScores.size());
-			byRoundAdapter.addSection(playerScore.toDisplayName(this), section);
+			byRoundTableLayout.addView(tableRow);
 		}
 		
 	}
@@ -188,8 +230,13 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 	    // switch from round view to player view or vice versa
 	    boolean isByRound = (view.getId() == R.id.by_round_button);
 	    
-	    byRoundGridView.setVisibility(isByRound ? View.VISIBLE : View.GONE);
+	    byRoundScrollView.setVisibility(isByRound ? View.VISIBLE : View.GONE);
 	    byPlayerGridView.setVisibility(isByRound ? View.GONE : View.VISIBLE);
 	    
+	}
+	
+	private View createDividerView(ViewGroup parent) {
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.column_divider, parent, false);
 	}
 }
