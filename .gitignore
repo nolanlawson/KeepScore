@@ -1,2 +1,5 @@
 gen
 bin
+proguard/dump.txt
+proguard/seeds.txt
+proguard/usage.txt
