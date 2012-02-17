@@ -93,6 +93,7 @@
     <string name="pref_color_scheme_choice_dark_name">Dark</string>
     <string name="pref_color_scheme_choice_light_name">Light</string>
     <string name="pref_color_scheme_choice_android_name">Android</string>
+    <string name="pref_player_names">PlayerNames</string>
     
     
     <string name="tile_add">Add Value</string>
