@@ -30,51 +30,59 @@
 
 				<TableRow>
 
-					<EditText android:layout_width="fill_parent"
+					<AutoCompleteTextView android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:id="@+id/edit_player_1"
-						android:singleLine="true" android:inputType="textCapWords" />
+						android:singleLine="true" android:inputType="textCapWords"
+						android:imeOptions="actionNext" />
 
 
-					<EditText android:layout_width="fill_parent"
+					<AutoCompleteTextView android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:id="@+id/edit_player_2"
-						android:singleLine="true" android:inputType="textCapWords" />
+						android:singleLine="true" android:inputType="textCapWords"
+						android:imeOptions="actionNext" />
 
 
 				</TableRow>
 
 				<TableRow android:paddingTop="3dp">
 
-					<EditText android:layout_width="fill_parent"
+					<AutoCompleteTextView android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:id="@+id/edit_player_3"
-						android:singleLine="true" android:inputType="textCapWords" />
+						android:singleLine="true" android:inputType="textCapWords"
+						android:imeOptions="actionNext" />
 
-					<EditText android:layout_width="fill_parent"
+					<AutoCompleteTextView android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:id="@+id/edit_player_4"
-						android:singleLine="true" android:inputType="textCapWords" />
+						android:singleLine="true" android:inputType="textCapWords"
+						android:imeOptions="actionNext" />
 
 				</TableRow>
 
 				<TableRow android:paddingTop="3dp">
 
-					<EditText android:layout_width="fill_parent"
+					<AutoCompleteTextView android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:id="@+id/edit_player_5"
-						android:singleLine="true" android:inputType="textCapWords" />
+						android:singleLine="true" android:inputType="textCapWords"
+						android:imeOptions="actionNext" />
 
-					<EditText android:layout_width="fill_parent"
+					<AutoCompleteTextView android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:id="@+id/edit_player_6"
-						android:singleLine="true" android:inputType="textCapWords" />
+						android:singleLine="true" android:inputType="textCapWords"
+						android:imeOptions="actionNext" />
 				</TableRow>
 
 				<TableRow android:paddingTop="3dp">
 
 
-					<EditText android:layout_width="fill_parent"
+					<AutoCompleteTextView android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:id="@+id/edit_player_7"
-						android:singleLine="true" android:inputType="textCapWords" />
+						android:singleLine="true" android:inputType="textCapWords"
+						android:imeOptions="actionNext" />
 
-					<EditText android:layout_width="fill_parent"
+					<AutoCompleteTextView android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:id="@+id/edit_player_8"
-						android:singleLine="true" android:inputType="textCapWords" />
+						android:singleLine="true" android:inputType="textCapWords"
+						android:imeOptions="actionDone" />
 				</TableRow>
 
 			</TableLayout>

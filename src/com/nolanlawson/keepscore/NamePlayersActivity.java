@@ -7,16 +7,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
+
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 
 public class NamePlayersActivity extends Activity implements OnClickListener {
 	
 	public static final String EXTRA_NUM_PLAYERS = "numPlayers";
 	
-	private List<EditText> playerEditTexts = new ArrayList<EditText>();
+	private String[] playerHistory = new String[] {};
+	private List<AutoCompleteTextView> playerEditTexts = new ArrayList<AutoCompleteTextView>();
 	private Button okButton;
 	
 	private int numPlayers;
@@ -27,7 +32,6 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 
 		// prevents the soft keyboard from immediately popping up
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		
 		numPlayers = getIntent().getIntExtra(EXTRA_NUM_PLAYERS, 0);
         
 		int contentResId = numPlayers < 7 
@@ -40,20 +44,22 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
     }
 
 	private void setUpWidgets() {
-		
+
+		// get player name history to populate autocomplete
+		playerHistory = PreferenceHelper.getPlayerHistory(this);
 		okButton = (Button) findViewById(android.R.id.button1);
 		
-		playerEditTexts.add((EditText) findViewById(R.id.edit_player_1));
-		playerEditTexts.add((EditText) findViewById(R.id.edit_player_2));
-		playerEditTexts.add((EditText) findViewById(R.id.edit_player_3));
-		playerEditTexts.add((EditText) findViewById(R.id.edit_player_4));
-		playerEditTexts.add((EditText) findViewById(R.id.edit_player_5));
-		playerEditTexts.add((EditText) findViewById(R.id.edit_player_6));
-		playerEditTexts.add((EditText) findViewById(R.id.edit_player_7));
-		playerEditTexts.add((EditText) findViewById(R.id.edit_player_8));
+		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_1));
+		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_2));
+		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_3));
+		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_4));
+		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_5));
+		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_6));
+		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_7));
+		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_8));
 		
 		for (int i = 0; i < playerEditTexts.size(); i++) {
-			EditText playerEditText = playerEditTexts.get(i);
+			AutoCompleteTextView playerEditText = playerEditTexts.get(i);
 			if (playerEditText == null) {
 				continue;
 			}
@@ -62,6 +68,11 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 			
 			// get rid of any edit texts that don't fit given the number of players
 			playerEditText.setVisibility(i >= numPlayers ? View.GONE : View.VISIBLE);
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_players, playerHistory);
+			playerEditText.setAdapter(adapter);
+			if (i == numPlayers-1) {
+				playerEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+			}
 		}
 		okButton.setOnClickListener(this);
 	}
@@ -74,6 +85,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 		
 		for (int i = 0; i < numPlayers; i++) {
 			playerNames[i] = playerEditTexts.get(i).getText().toString();
+			PreferenceHelper.setPlayerHistory(this, playerNames[i]);
 		}
 		
 		Intent intent = new Intent(this, GameActivity.class);
