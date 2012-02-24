@@ -180,51 +180,64 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	 */
 	public boolean saveGame(Game game, boolean autosaved) {
 		synchronized (GameDBHelper.class) {
-			long dateSaved = System.currentTimeMillis();
-			game.setDateSaved(dateSaved);
-			game.setAutosaved(autosaved);
-			
-			ContentValues contentValues = new ContentValues();
-			
-			contentValues.put(COLUMN_DATE_STARTED, game.getDateStarted());
-			contentValues.put(COLUMN_DATE_SAVED, dateSaved);
-			contentValues.put(COLUMN_NAME, game.getName());
-			contentValues.put(COLUMN_AUTOSAVED, autosaved);
-			
-			if (game.getId() != -1) { // might be a game that was already saved, so try to overwrite
-				contentValues.put(COLUMN_ID, game.getId());
-	
-				int updated = db.update(TABLE_GAMES, contentValues, COLUMN_ID + "=" + game.getId(), null);
-				
-				if (updated != 0) {
-					savePlayerScores(game.getId(), game.getPlayerScores());
-					
-					return false;
-				}
-			}
-			// else create a new row in the table
-			
-			db.insert(TABLE_GAMES, null, contentValues);
-			int newId;
-			
-			Cursor cursor = null;
+			db.beginTransaction();
 			try {
-				cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
-				cursor.moveToNext();
-				newId = cursor.getInt(0);
+				boolean result = saveGameWithinTransaction(game, autosaved);
+				db.setTransactionSuccessful();
+				return result;
 			} finally {
-				if (cursor != null) {
-					cursor.close();
-				}
+				db.endTransaction();
 			}
-			
-			game.setId(newId);
-			log.d("new game id is %s", newId);
-			
-			savePlayerScores(newId, game.getPlayerScores());
-			
-			return true;
 		}
+	}
+	
+	private boolean saveGameWithinTransaction(Game game, boolean autosaved) {
+
+		long dateSaved = System.currentTimeMillis();
+		game.setDateSaved(dateSaved);
+		game.setAutosaved(autosaved);
+		
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(COLUMN_DATE_STARTED, game.getDateStarted());
+		contentValues.put(COLUMN_DATE_SAVED, dateSaved);
+		contentValues.put(COLUMN_NAME, game.getName());
+		contentValues.put(COLUMN_AUTOSAVED, autosaved);
+		
+		if (game.getId() != -1) { // might be a game that was already saved, so try to overwrite
+			contentValues.put(COLUMN_ID, game.getId());
+
+			int updated = db.update(TABLE_GAMES, contentValues, COLUMN_ID + "=" + game.getId(), null);
+			
+			if (updated != 0) {
+				savePlayerScores(game.getId(), game.getPlayerScores());
+				
+				return false;
+			}
+		}
+		// else create a new row in the table
+		
+		db.insert(TABLE_GAMES, null, contentValues);
+		int newId;
+		
+		Cursor cursor = null;
+		try {
+			cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
+			cursor.moveToNext();
+			newId = cursor.getInt(0);
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		
+		game.setId(newId);
+		log.d("new game id is %s", newId);
+		
+		savePlayerScores(newId, game.getPlayerScores());
+		
+		return true;
+
 	}
 	
 	private void savePlayerScores(int gameId, List<PlayerScore> playerScores) {
@@ -303,10 +316,17 @@ public class GameDBHelper extends SQLiteOpenHelper {
 
 	public void deleteGame(Game game) {
 		synchronized (GameDBHelper.class) {
-			int id = game.getId();
-			
-			db.delete(TABLE_GAMES, COLUMN_ID + "=" + id, null);
-			db.delete(TABLE_PLAYER_SCORES, COLUMN_GAME_ID + "=" + id, null);
+			try {
+				db.beginTransaction();
+				
+				int id = game.getId();
+				db.delete(TABLE_GAMES, COLUMN_ID + "=" + id, null);
+				db.delete(TABLE_PLAYER_SCORES, COLUMN_GAME_ID + "=" + id, null);
+				
+				db.setTransactionSuccessful();
+			} finally {
+				db.endTransaction();
+			}			
 		}
 	}
 
@@ -317,9 +337,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 			
 			db.update(TABLE_GAMES, values, COLUMN_ID + "=" + game.getId(), null);
 		}
-		
 	}
-	
 
 	public List<String> findDistinctPlayerNames() {
 		synchronized (GameDBHelper.class) {
