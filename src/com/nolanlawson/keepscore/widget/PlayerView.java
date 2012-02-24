@@ -401,7 +401,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 				ForegroundColorSpan colorSpan = new ForegroundColorSpan(
 						context.getResources().getColor(colorResId));
 				String str = IntegerUtil.toStringWithSign(value);
-				log.d("max length is %s, str is '%s'", maxChars, str);
+				//log.v("max length is %s, str is '%s'", maxChars, str);
 				str = StringUtil.padLeft(str, ' ', maxChars);
 				Spannable spannable = new SpannableString(str);
 				SpannableUtil.setWholeSpan(spannable, colorSpan);

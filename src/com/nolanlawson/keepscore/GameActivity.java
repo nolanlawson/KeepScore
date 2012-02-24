@@ -2,6 +2,7 @@ package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +34,7 @@ import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.CompatibilityHelper;
 import com.nolanlawson.keepscore.helper.PlayerTextFormat;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
+import com.nolanlawson.keepscore.util.StopWatch;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.PlayerView;
@@ -44,6 +46,7 @@ public class GameActivity extends Activity {
 	public static final String EXTRA_GAME = "game";
 	
 	private static final int MAX_NUM_PLAYERS = 8;
+	private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS.toMillis(60);
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
 	
@@ -55,6 +58,7 @@ public class GameActivity extends Activity {
 	
 	private List<PlayerView> playerViews;
 	private Handler handler = new Handler(Looper.getMainLooper());
+	private boolean paused = true;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,8 @@ public class GameActivity extends Activity {
 			wakeLock.release();
 		}		
 		
+		paused = true;
+		
 		if (shouldAutosave()) {
 			saveGame(game, true);
 		}
@@ -116,6 +122,36 @@ public class GameActivity extends Activity {
 		}
 		
 		setOrUpdateColorScheme();
+		
+		startPeriodicSave();
+		
+		paused = false;
+	}
+
+	private void startPeriodicSave() {
+		handler.postDelayed(new Runnable(){
+
+			@Override
+			public void run() {
+				if (shouldAutosave()) {
+					saveGame(game, true, new Runnable() {
+						
+						@Override
+						public void run() {
+							if (!paused) {
+								startPeriodicSave();
+							}
+						}
+					});
+				} else {
+					log.d("no need to do periodic save");
+					if (!paused) {
+						startPeriodicSave();
+					}
+				}
+			}
+		}, PERIODIC_SAVE_PERIOD);
+		
 	}
 
 	@Override
@@ -414,36 +450,43 @@ public class GameActivity extends Activity {
 		saveGame(gameToSave, autosaved, null);
 	}
 
-	private void saveGame(final Game gameToSave, final boolean autosaved, final Runnable onFinished) {
+	private synchronized void saveGame(Game gameToSave, final boolean autosaved, 
+			final Runnable onFinished) {
+
+		StopWatch stopWatch = new StopWatch("clone game");
+		
+		
+		for (PlayerView playerView : playerViews) {
+			playerView.getShouldAutosave().set(false);
+			// update the views just in case anything bolded needs to be unbolded
+			// also, to remove any pending delayed runnables
+			if (!autosaved) {
+				playerView.confirmHistory();
+			}
+		}
+		final Game clonedGame = (Game) gameToSave.clone();
+		stopWatch.log(log);
 		
 		// do in the background to avoid jankiness
 		new AsyncTask<Void, Void, Void>() {
-			
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				for (PlayerView playerView : playerViews) {
-					playerView.getShouldAutosave().set(false);
-					
-					// update the views just in case anything bolded needs to be unbolded
-					// also, to remove any pending delayed runnables
-					playerView.confirmHistory();
-				}			
-			}
 
 			@Override
 			protected Void doInBackground(Void... params) {
 				
+				StopWatch stopWatch = new StopWatch("save in background");
+				
 				GameDBHelper dbHelper = null;
 				try {
 					dbHelper = new GameDBHelper(GameActivity.this);
-					dbHelper.saveGame(gameToSave, autosaved);
-					log.d("saved game: %s", gameToSave);
+					dbHelper.saveGame(clonedGame, autosaved);
+					log.d("saved game: %s", clonedGame);
 				} finally {
 					if (dbHelper != null) {
 						dbHelper.close();
 					}
 				}
+				
+				stopWatch.log(log);
 				
 				return null;
 			}
@@ -451,8 +494,9 @@ public class GameActivity extends Activity {
 			@Override
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
-				int resId = autosaved ? R.string.toast_saved_automatically : R.string.toast_saved;
-				Toast.makeText(GameActivity.this, resId, Toast.LENGTH_SHORT).show();
+				if (!autosaved) {
+					Toast.makeText(GameActivity.this, R.string.toast_saved, Toast.LENGTH_SHORT).show();
+				}
 				if (onFinished != null) {
 					onFinished.run();
 				}

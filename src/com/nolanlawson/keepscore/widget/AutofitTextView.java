@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.util.StringUtil;
-import com.nolanlawson.keepscore.util.UtilLogger;
 
 /**
  * TextView that cuts off additional lines of text if the text is getting cut off vertically.
@@ -14,8 +13,6 @@ import com.nolanlawson.keepscore.util.UtilLogger;
  */
 public class AutofitTextView extends TextView {
 
-	private static UtilLogger log = new UtilLogger(AutofitTextView.class);
-	
 	public AutofitTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init();
@@ -41,19 +38,13 @@ public class AutofitTextView extends TextView {
 	    int height = getHeight() - getPaddingBottom() - getPaddingTop();
 	    int numLines = (height / getLineHeight());
 	    
-	    log.d("numLines is %s", numLines);
-	    
 	    if (numLines >= 2) {
 	    
 		    int newLineIndex = StringUtil.getNthIndexOf('\n', getText().toString(), numLines);
 		    
-		    log.d("newLineIndex is %s", newLineIndex);
-		    
 		    if (newLineIndex != -1) {
 		    	setText(getText().subSequence(0, newLineIndex));
 		    }
-		    
 	    }
 	}
-	
 }
