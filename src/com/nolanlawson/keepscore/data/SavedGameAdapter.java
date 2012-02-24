@@ -75,7 +75,7 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		String started = context.getString(R.string.text_started_colon);
 		startedTextView.setText(started + " " + simpleDateFormat.format(new Date(game.getDateStarted())));
 		
-		String saved = context.getString(game.isAutosaved() ? R.string.text_autosaved_colon : R.string.text_saved_colon);
+		String saved = context.getString(R.string.text_saved_colon);
 		savedTextView.setText(saved + " " + simpleDateFormat.format(new Date(game.getDateSaved())));
 		
 		log.d("saved long is: %s", game.getDateSaved());

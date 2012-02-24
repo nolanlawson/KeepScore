@@ -16,7 +16,6 @@
     <string name="text_no_saved_games">Aucun jeu sauvegardé.</string>
     <string name="text_players">%s joueurs</string>
     <string name="text_saved_colon">Sauvegardé:</string>
-    <string name="text_autosaved_colon">Sauvegardé (auto):</string>
     <string name="text_started_colon">Commencé:</string>
     <string name="text_delete">Supprimer</string>
     <string name="text_edit_name">Editer le Nom</string>
@@ -36,8 +35,6 @@
     
     <string name="hint_game_name">Nom du Jeu</string>
     
-    <string name="toast_saved_automatically">Jeu sauvegardé automatiquement.</string>
-    <string name="toast_saved">Jeu sauvegardé.</string>
     <string name="toast_deleted">Jeu supprimé.</string>
     <string name="toast_no_zeroes">Il faut entrer un numéro valable non nulle.</string>
     <string name="toast_valid_update_delay_values">Il faut entrer un numéro valable entre 1 et 600.</string>

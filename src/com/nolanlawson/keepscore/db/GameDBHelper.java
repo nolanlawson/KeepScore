@@ -28,7 +28,6 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	private static final String COLUMN_ID = "_id";
 	private static final String COLUMN_DATE_STARTED = "dateStarted";
 	private static final String COLUMN_DATE_SAVED = "dateSaved";
-	private static final String COLUMN_AUTOSAVED = "autosaved";
 	private static final String COLUMN_NAME = "name";
 	private static final String COLUMN_SCORE = "score";
 	private static final String COLUMN_PLAYER_NUMBER = "playerNumber";
@@ -41,7 +40,6 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		"g." + COLUMN_ID, 
 		"g." + COLUMN_DATE_STARTED, 
 		"g." + COLUMN_DATE_SAVED,
-		"g." + COLUMN_AUTOSAVED, 
 		"g." + COLUMN_NAME,
 		"ps." + COLUMN_ID, 
 		"ps." + COLUMN_NAME, 
@@ -63,7 +61,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				+ COLUMN_ID + " integer not null primary key autoincrement, "
 				+ COLUMN_NAME + " text, "
 				+ COLUMN_DATE_STARTED + " int not null, " + COLUMN_DATE_SAVED
-				+ " int not null, " + COLUMN_AUTOSAVED + " int not null);";
+				+ " int not null);";
 		
 		db.execSQL(createSql1);
 		
@@ -80,11 +78,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				+ " (" + COLUMN_GAME_ID + ");";
 		
 		db.execSQL(indexSql1);
-		
-		String indexSql2 = "create index if not exists index_autosaved on " + TABLE_GAMES 
-				+ "(" + COLUMN_AUTOSAVED + ");";
-		
-		db.execSQL(indexSql2);
+
 	}
 
 	@Override
@@ -178,11 +172,11 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	 * @param game
 	 * @return
 	 */
-	public boolean saveGame(Game game, boolean autosaved) {
+	public boolean saveGame(Game game) {
 		synchronized (GameDBHelper.class) {
 			db.beginTransaction();
 			try {
-				boolean result = saveGameWithinTransaction(game, autosaved);
+				boolean result = saveGameWithinTransaction(game);
 				db.setTransactionSuccessful();
 				return result;
 			} finally {
@@ -191,18 +185,16 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		}
 	}
 	
-	private boolean saveGameWithinTransaction(Game game, boolean autosaved) {
+	private boolean saveGameWithinTransaction(Game game) {
 
 		long dateSaved = System.currentTimeMillis();
 		game.setDateSaved(dateSaved);
-		game.setAutosaved(autosaved);
 		
 		ContentValues contentValues = new ContentValues();
 		
 		contentValues.put(COLUMN_DATE_STARTED, game.getDateStarted());
 		contentValues.put(COLUMN_DATE_SAVED, dateSaved);
 		contentValues.put(COLUMN_NAME, game.getName());
-		contentValues.put(COLUMN_AUTOSAVED, autosaved);
 		
 		if (game.getId() != -1) { // might be a game that was already saved, so try to overwrite
 			contentValues.put(COLUMN_ID, game.getId());
@@ -373,8 +365,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				currentGame.setId(currentId);
 				currentGame.setDateStarted(cursor.getLong(1));
 				currentGame.setDateSaved(cursor.getLong(2));
-				currentGame.setAutosaved(cursor.getInt(3) != 0);
-				currentGame.setName(cursor.getString(4));
+				currentGame.setName(cursor.getString(3));
 				result.add(currentGame);
 			}
 			
@@ -390,13 +381,13 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				
 				PlayerScore playerScore = new PlayerScore();
 				
-				playerScore.setId(cursor.getInt(5));
-				playerScore.setName(cursor.getString(6));
-				playerScore.setScore(cursor.getLong(7));
-				playerScore.setPlayerNumber(cursor.getInt(8));
+				playerScore.setId(cursor.getInt(4));
+				playerScore.setName(cursor.getString(5));
+				playerScore.setScore(cursor.getLong(6));
+				playerScore.setPlayerNumber(cursor.getInt(7));
 				playerScore.setHistory(
 						CollectionUtil.stringsToInts(
-						StringUtil.split(StringUtil.nullToEmpty(cursor.getString(9)), ',')));
+						StringUtil.split(StringUtil.nullToEmpty(cursor.getString(8)), ',')));
 				playerScores.add(playerScore);
 				
 			} while (cursor.moveToNext());

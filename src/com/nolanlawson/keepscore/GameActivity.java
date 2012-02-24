@@ -25,7 +25,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
@@ -106,7 +105,7 @@ public class GameActivity extends Activity {
 		paused = true;
 		
 		if (shouldAutosave()) {
-			saveGame(game, true);
+			saveGame(game, null);
 		}
 	}
 
@@ -134,7 +133,7 @@ public class GameActivity extends Activity {
 			@Override
 			public void run() {
 				if (shouldAutosave()) {
-					saveGame(game, true, new Runnable() {
+					saveGame(game, new Runnable() {
 						
 						@Override
 						public void run() {
@@ -184,9 +183,6 @@ public class GameActivity extends Activity {
 	    	Intent historyIntent = new Intent(this, HistoryActivity.class);
 	    	historyIntent.putExtra(HistoryActivity.EXTRA_GAME, game);
 	    	startActivity(historyIntent);
-	    	break;
-	    case R.id.menu_save:
-	    	saveGame(game, false);
 	    	break;
 	    case R.id.menu_settings:
 	    	Intent settingsIntent = new Intent(GameActivity.this, SettingsActivity.class);
@@ -303,7 +299,7 @@ public class GameActivity extends Activity {
 			
 		};
 		
-		saveGame(game, true, onFinished); // automatically save the game
+		saveGame(game, onFinished); // automatically save the game
 	}
 
 	private boolean isAtDefault() {
@@ -346,7 +342,7 @@ public class GameActivity extends Activity {
 
 	protected void startNewGameWithSameSettings() {
 		
-		saveGame(game, true);
+		saveGame(game, null);
 		for (PlayerView playerView : playerViews) {
 			playerView.cancelPendingUpdates();
 		}
@@ -445,24 +441,14 @@ public class GameActivity extends Activity {
 		log.d("created new game: %s", game);
 		log.d("created new playerScores: %s", playerScores);
 	}
-	
-	private void saveGame(Game gameToSave, boolean autosaved) {
-		saveGame(gameToSave, autosaved, null);
-	}
 
-	private synchronized void saveGame(Game gameToSave, final boolean autosaved, 
-			final Runnable onFinished) {
+	private synchronized void saveGame(Game gameToSave, final Runnable onFinished) {
 
 		StopWatch stopWatch = new StopWatch("clone game");
 		
 		
 		for (PlayerView playerView : playerViews) {
 			playerView.getShouldAutosave().set(false);
-			// update the views just in case anything bolded needs to be unbolded
-			// also, to remove any pending delayed runnables
-			if (!autosaved) {
-				playerView.confirmHistory();
-			}
 		}
 		final Game clonedGame = (Game) gameToSave.clone();
 		stopWatch.log(log);
@@ -478,7 +464,7 @@ public class GameActivity extends Activity {
 				GameDBHelper dbHelper = null;
 				try {
 					dbHelper = new GameDBHelper(GameActivity.this);
-					dbHelper.saveGame(clonedGame, autosaved);
+					dbHelper.saveGame(clonedGame);
 					log.d("saved game: %s", clonedGame);
 				} finally {
 					if (dbHelper != null) {
@@ -494,9 +480,6 @@ public class GameActivity extends Activity {
 			@Override
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
-				if (!autosaved) {
-					Toast.makeText(GameActivity.this, R.string.toast_saved, Toast.LENGTH_SHORT).show();
-				}
 				if (onFinished != null) {
 					onFinished.run();
 				}

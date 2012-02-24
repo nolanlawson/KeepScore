@@ -15,9 +15,8 @@
 	<string name="text_player">選手</string>
 	<string name="text_no_saved_games">セーブしたゲームがありません。</string>
 	<string name="text_players">選手%s人</string>
-	<string name="text_saved_colon">セーブした:</string>
-	<string name="text_autosaved_colon">自動的にセーブした:</string>
-	<string name="text_started_colon">始めた:</string>
+	<string name="text_saved_colon">保存:</string>
+	<string name="text_started_colon">開始:</string>
 	<string name="text_delete">削除</string>
 	<string name="text_edit_name">名をエディット</string>
 	<string name="text_reset_confirm">全部の設定はリセットします。</string>
@@ -36,8 +35,6 @@
 
 	<string name="hint_game_name">ゲームの名</string>
 
-	<string name="toast_saved_automatically">ゲームは自動的にセーブされました。</string>
-	<string name="toast_saved">ゲームはセーブされました。</string>
 	<string name="toast_deleted">ゲームは削除されました。</string>
 	<string name="toast_no_zeroes">ゼロじゃない妥当な数を入力してください。</string>
 	<string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>

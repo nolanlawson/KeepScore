@@ -14,7 +14,6 @@
     <string name="text_no_saved_games">You haven\'t saved any games yet.</string>
     <string name="text_players">%s players</string>
     <string name="text_saved_colon">Saved:</string>
-    <string name="text_autosaved_colon">Auto-saved:</string>
     <string name="text_started_colon">Started:</string>
     <string name="text_delete">Delete</string>
     <string name="text_edit_name">Edit Name</string>
@@ -43,8 +42,6 @@
     
     <string name="hint_game_name">Game Name</string>
     
-    <string name="toast_saved_automatically">Game saved automatically.</string>
-    <string name="toast_saved">Game saved.</string>
     <string name="toast_deleted">Game deleted.</string>
     <string name="toast_no_zeroes">You must enter a valid nonzero number.</string>
     <string name="toast_valid_update_delay_values">You must enter a number between 1 and 600.</string>

@@ -16,7 +16,6 @@ public class Game implements Parcelable, Cloneable {
 	private long dateStarted;
 	private long dateSaved;
 	private String name;
-	private boolean autosaved;
 	private List<PlayerScore> playerScores;
 	
 	public Game() {
@@ -27,7 +26,6 @@ public class Game implements Parcelable, Cloneable {
 		dateStarted = in.readLong();
 		dateSaved = in.readLong();
 		name = in.readString();
-		autosaved = in.readInt() != 0;
 		playerScores = new ArrayList<PlayerScore>();
 		while (true) {
  			PlayerScore playerScore = in.readParcelable(PlayerScore.class.getClassLoader());
@@ -39,12 +37,6 @@ public class Game implements Parcelable, Cloneable {
 
 	}
 	
-	public boolean isAutosaved() {
-		return autosaved;
-	}
-	public void setAutosaved(boolean autosaved) {
-		this.autosaved = autosaved;
-	}
 	public String getName() {
 		return name;
 	}
@@ -77,7 +69,7 @@ public class Game implements Parcelable, Cloneable {
 	}
 	@Override
 	public String toString() {
-		return "Game [autosaved=" + autosaved + ", dateSaved=" + dateSaved
+		return "Game [dateSaved=" + dateSaved
 				+ ", dateStarted=" + dateStarted + ", id=" + id + ", name="
 				+ name + ", playerScores=" + (playerScores != null ? playerScores.size() : 0) + "]";
 	}
@@ -101,7 +93,6 @@ public class Game implements Parcelable, Cloneable {
 		dest.writeLong(dateStarted);
 		dest.writeLong(dateSaved);
 		dest.writeString(name);
-		dest.writeInt(autosaved ? 1 : 0);
 		
 		for (PlayerScore playerScore : playerScores) {
 			dest.writeParcelable(playerScore, 0);
@@ -121,7 +112,6 @@ public class Game implements Parcelable, Cloneable {
 	@Override
 	public Object clone() {
 		Game game = new Game();
-		game.setAutosaved(autosaved);
 		game.setDateSaved(dateSaved);
 		game.setDateStarted(dateStarted);
 		game.setId(id);
