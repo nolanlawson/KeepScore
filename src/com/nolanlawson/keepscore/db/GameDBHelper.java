@@ -109,12 +109,59 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		}
 	}
 	
-	public Game findMostRecentGame() {
+	public int findGameCount() {
+		synchronized (GameDBHelper.class) {
+			String[] columns = {"count(" + COLUMN_ID +")"};
+			Cursor cursor = null;
+			try {
+				cursor = db.query(TABLE_GAMES, columns, null, null, null, null, null);
+				if (cursor.moveToNext()) {
+					return cursor.getInt(0);
+				}
+			} finally {
+				if (cursor != null) {
+					cursor.close();
+				}
+			}
+			return 0;
+		}
+	}
+	
+	public int findMostRecentGameId() {
 		synchronized (GameDBHelper.class) {
 			Cursor cursor = null;
 			try {
 				String orderBy = COLUMN_DATE_SAVED + " desc";
-				cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, null, null, null, null, orderBy);
+				cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, null, null, null, null, orderBy);
+				
+				if (cursor.moveToNext()) {
+					return cursor.getInt(0);
+				}
+			} finally {
+				if (cursor != null) {
+					cursor.close();
+				}
+			}
+		}
+		return -1;
+	}
+	
+	public Game findMostRecentGame() {
+		synchronized (GameDBHelper.class) {
+			Cursor cursor = null;
+			try {
+				
+				String sql = new StringBuilder("select ")
+					.append(TextUtils.join(",", JOINED_COLUMNS))
+					.append(" from ")
+					.append(JOINED_TABLES)
+					.append(" order by ")
+					.append(COLUMN_DATE_SAVED)
+					.append(" desc ")
+					.append(" limit 1")
+					.toString();
+				
+				cursor = db.rawQuery(sql, null);
 				List<Game> result = convertToGames(cursor);
 				
 				return result.isEmpty() ? null : result.get(0);

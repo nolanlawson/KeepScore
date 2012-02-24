@@ -2,9 +2,8 @@ package com.nolanlawson.keepscore;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,15 +11,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
+import com.nolanlawson.keepscore.util.UtilLogger;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-	private Button newGameButton, resumeGameButton, loadGameButton;
-	private Game mostRecentGame;
+	private static UtilLogger log = new UtilLogger(MainActivity.class);
 	
-	private Handler handler = new Handler(Looper.getMainLooper());
+	private Button newGameButton, resumeGameButton, loadGameButton;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,14 +60,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void fillInWidgets() {
-
+					
 		GameDBHelper dbHelper = null;
 		try {
-			dbHelper = new GameDBHelper(this);
-			mostRecentGame = dbHelper.findMostRecentGame();
-			
-			resumeGameButton.setEnabled(mostRecentGame != null);
-			
+			dbHelper = new GameDBHelper(MainActivity.this);
+			int gameCount = dbHelper.findGameCount();
+			log.d("found game count: %d", gameCount);
+			resumeGameButton.setEnabled(gameCount != 0);
 		} finally {
 			if (dbHelper != null) {
 				dbHelper.close();
@@ -97,7 +94,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			startActivity(newGameIntent);
 			break;
 		case android.R.id.button2:
-			resumeGame();
+			resumeMostRecentGame();
 			break;
 		case android.R.id.button3:
 			Intent loadGameIntent = new Intent(this, LoadGameActivity.class);
@@ -106,21 +103,32 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private void resumeGame() {
-		// do in through the handler because it's sometimes janky loading the next activity
+	private void resumeMostRecentGame() {
+		// do in through an asynctask to avoid jank
 		
-		handler.post(new Runnable() {
-			
-			@Override
-			public void run() {
-				Intent intent = new Intent(MainActivity.this, GameActivity.class);
-				intent.putExtra(GameActivity.EXTRA_GAME_ID, mostRecentGame.getId());
-				
-				startActivity(intent);				
-			}
-		});
-		
+		new AsyncTask<Void, Void, Integer>(){
 
-		
+			@Override
+			protected Integer doInBackground(Void... params) {
+				GameDBHelper dbHelper = null;
+				try {
+					dbHelper = new GameDBHelper(MainActivity.this);
+					return dbHelper.findMostRecentGameId();
+				} finally {
+					if (dbHelper != null) {
+						dbHelper.close();
+					}
+				}
+			}
+
+			@Override
+			protected void onPostExecute(Integer mostRecentGameId) {
+				super.onPostExecute(mostRecentGameId);
+				Intent intent = new Intent(MainActivity.this, GameActivity.class);
+				
+				intent.putExtra(GameActivity.EXTRA_GAME_ID, mostRecentGameId);
+				startActivity(intent);	
+			}
+		}.execute((Void)null);
 	}
 }
