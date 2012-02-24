@@ -10,6 +10,10 @@
 
 	<PreferenceCategory android:title="@string/pref_cat_config"/>
 
+	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_initial_score"
+		android:title="@string/pref_initial_score_name" android:defaultValue="@string/pref_initial_score_default"
+		android:persistent="true"/>
+	
 	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_button_1"
 		android:title="@string/pref_button_1_name" android:defaultValue="@string/pref_button_1_default"
 		android:persistent="true"/>
@@ -26,10 +30,21 @@
 		android:title="@string/pref_button_4_name" android:defaultValue="@string/pref_button_4_default"
 		android:persistent="true"/>		
 	
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_initial_score"
-		android:title="@string/pref_initial_score_name" android:defaultValue="@string/pref_initial_score_default"
+	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_2p_button_1"
+		android:title="@string/pref_2p_button_1_name" android:defaultValue="@string/pref_2p_button_1_default"
+		android:persistent="true"/>
+
+	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_2p_button_2"
+		android:title="@string/pref_2p_button_2_name" android:defaultValue="@string/pref_2p_button_2_default"
+		android:persistent="true"/>	
+		
+	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_2p_button_3"
+		android:title="@string/pref_2p_button_3_name" android:defaultValue="@string/pref_2p_button_3_default"
 		android:persistent="true"/>
 	
+	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_2p_button_4"
+		android:title="@string/pref_2p_button_4_name" android:defaultValue="@string/pref_2p_button_4_default"
+		android:persistent="true"/>		
 	<PreferenceCategory android:title="@string/pref_cat_advanced"/>
 	
 	<com.nolanlawson.keepscore.widget.NonnegativeIntegerEditTextPreference android:key="@string/pref_update_delay"

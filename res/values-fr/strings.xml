@@ -43,10 +43,15 @@
     <string name="toast_valid_initial_score">Il faut entrer un numéro valable.</string>
     <string name="toast_settings_reset">Paramètres réinitialisés.</string>
     
-    <string name="pref_button_1_name">Bouton d\'Incrément 1</string>
-    <string name="pref_button_2_name">Bouton d\'Incrément 2</string>
-    <string name="pref_button_3_name">Bouton d\'Incrément 3</string>
-    <string name="pref_button_4_name">Bouton d\'Incrément 4</string>
+    <string name="pref_button_1_name">Bouton Pop-up #1</string>
+    <string name="pref_button_2_name">Bouton Pop-up #2</string>
+    <string name="pref_button_3_name">Bouton Pop-up #3</string>
+    <string name="pref_button_4_name">Bouton Pop-up #4</string>
+    <string name="pref_2p_button_1_name">Bouton 2-Joueurs #1</string>
+    <string name="pref_2p_button_2_name">Bouton 2-Joueurs #2</string>
+    <string name="pref_2p_button_3_name">Bouton 2-Joueurs #3</string>
+    <string name="pref_2p_button_4_name">Bouton 2-Joueurs #4</string>
+    
     <string name="pref_update_delay_name">Délai de la Mise à Jour</string>
     <string name="pref_use_wake_lock_name">Garder l\'Ecran Eveillé</string>
     <string name="pref_initial_score_name">Point Initial</string>

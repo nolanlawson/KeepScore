@@ -54,6 +54,12 @@
     <string name="pref_button_2">button2</string>
     <string name="pref_button_3">button3</string>
     <string name="pref_button_4">button4</string>
+    <string name="pref_2p_button_1">2p_button1</string>
+    <string name="pref_2p_button_2">2p_button2</string>
+    <string name="pref_2p_button_3">2p_button3</string>
+    <string name="pref_2p_button_4">2p_button4</string>
+    
+    
     <string name="pref_update_delay">update_delay</string>
     <string name="pref_use_wake_lock">use_wake_lock</string>
     <string name="pref_initial_score">initial_score</string>
@@ -64,15 +70,26 @@
     <string name="pref_button_2_default">1</string>
     <string name="pref_button_3_default">5</string>
     <string name="pref_button_4_default">10</string>
+    <string name="pref_2p_button_1_default">-10</string>
+    <string name="pref_2p_button_2_default">-5</string>
+    <string name="pref_2p_button_3_default">5</string>
+    <string name="pref_2p_button_4_default">10</string>
+    
     <string name="pref_update_delay_default">10</string>
     <string name="pref_use_wake_lock_default">true</string>
     <string name="pref_initial_score_default">0</string>
 	<string name="pref_color_scheme_default">@string/pref_color_scheme_choice_light</string>
     
-    <string name="pref_button_1_name">Increment Button 1</string>
-    <string name="pref_button_2_name">Increment Button 2</string>
-    <string name="pref_button_3_name">Increment Button 3</string>
-    <string name="pref_button_4_name">Increment Button 4</string>
+    <string name="pref_button_1_name">Popup Button #1</string>
+    <string name="pref_button_2_name">Popup Button #2</string>
+    <string name="pref_button_3_name">Popup Button #3</string>
+    <string name="pref_button_4_name">Popup Button #4</string>
+    <string name="pref_2p_button_1_name">2-Player Button #1</string>
+    <string name="pref_2p_button_2_name">2-Player Button #2</string>
+    <string name="pref_2p_button_3_name">2-Player Button #3</string>
+    <string name="pref_2p_button_4_name">2-Player Button #4</string>
+    
+    
     <string name="pref_update_delay_name">Update Delay</string>
     <string name="pref_use_wake_lock_name">Keep Screen Awake</string>
     <string name="pref_initial_score_name">Starting Score</string>

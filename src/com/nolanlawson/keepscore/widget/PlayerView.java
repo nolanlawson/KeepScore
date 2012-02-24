@@ -18,8 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -29,14 +29,14 @@ import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.DialogHelper;
-import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class PlayerView implements OnClickListener, OnLongClickListener {
 	
@@ -186,17 +186,17 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			// do nothing - just let it flash the background, so that the user
 			// knows this text view is long-clickable
 			break;
-		case android.R.id.button1: // negative button #1
-			increment(-PreferenceHelper.getDeltaButtonValue(3, context));
+		case android.R.id.button1: // 2p-mode button #1
+			increment(PreferenceHelper.getTwoPlayerDeltaButtonValue(0, context));
 			break;
-		case android.R.id.button2:  // negative button #2
-			increment(-PreferenceHelper.getDeltaButtonValue(2, context));
+		case android.R.id.button2:  // 2p-mode button #2
+			increment(PreferenceHelper.getTwoPlayerDeltaButtonValue(1, context));
 			break;
-		case android.R.id.button3:  // positive button #1
-			increment(PreferenceHelper.getDeltaButtonValue(2, context));
+		case android.R.id.button3:  // 2p-mode button #3
+			increment(PreferenceHelper.getTwoPlayerDeltaButtonValue(2, context));
 			break;
-		case R.id.button4:	 // positive button #2
-			increment(PreferenceHelper.getDeltaButtonValue(3, context));
+		case R.id.button4:	 // 2p-mode button #4
+			increment(PreferenceHelper.getTwoPlayerDeltaButtonValue(3, context));
 			break;
 		}
 	}
@@ -280,11 +280,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			Button button = deltaButtons[i];
 			if (button != null) {
 				button.setOnClickListener(this);
-				if (i < 2) { // 2 negative buttons
-					button.setText(IntegerUtil.toStringWithSign(-PreferenceHelper.getDeltaButtonValue(3 - i, context)));
-				} else { // 2 positive buttons
-					button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getDeltaButtonValue(i, context)));
-				}
+				button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getTwoPlayerDeltaButtonValue(i, context)));
 			}
 		}
 	}

@@ -17,7 +17,7 @@ public class PreferenceHelper {
 		cachedColorScheme = null;
 	}
 
-	public static int getDeltaButtonValue(int index, Context context) {
+	public static int getPopupDeltaButtonValue(int index, Context context) {
 		switch (index) {
 			case 0:
 				return getIntPreference(R.string.pref_button_1, R.string.pref_button_1_default, context);
@@ -29,6 +29,20 @@ public class PreferenceHelper {
 			default:
 				return getIntPreference(R.string.pref_button_4, R.string.pref_button_4_default, context);
 		}		
+	}
+	
+	public static int getTwoPlayerDeltaButtonValue(int index, Context context) {
+		switch (index) {
+		case 0:
+			return getIntPreference(R.string.pref_2p_button_1, R.string.pref_2p_button_1_default, context);
+		case 1:
+			return getIntPreference(R.string.pref_2p_button_2, R.string.pref_2p_button_2_default, context);
+		case 2:
+			return getIntPreference(R.string.pref_2p_button_3, R.string.pref_2p_button_3_default, context);
+		case 3:
+		default:
+			return getIntPreference(R.string.pref_2p_button_4, R.string.pref_2p_button_4_default, context);
+	}				
 	}
 	
 	public static ColorScheme getColorScheme(Context context) {
