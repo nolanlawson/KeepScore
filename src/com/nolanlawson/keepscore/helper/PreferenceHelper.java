@@ -1,5 +1,7 @@
 package com.nolanlawson.keepscore.helper;
 
+import java.util.Map;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -39,6 +41,21 @@ public class PreferenceHelper {
 		return cachedColorScheme;
 	}
 
+	public static String[] getPlayerHistory(Context context) {
+		SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.pref_player_names), 0);
+		Map<String,?> allPrefs = sharedPrefs.getAll();
+		Object[] playerKeys = allPrefs.keySet().toArray();
+		String[] playerHistory = new String[playerKeys.length];
+		System.arraycopy(playerKeys, 0, playerHistory, 0, playerKeys.length);
+		return playerHistory;
+	}
+	
+	public static void setPlayerHistory(Context context, String playerName) {
+		SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.pref_player_names), 0);
+		Editor editor = sharedPrefs.edit();
+		editor.putString(playerName, playerName);
+		editor.commit();
+	}
 
 	public static int getUpdateDelay(Context context) {
 		
@@ -92,5 +109,4 @@ public class PreferenceHelper {
 		String defaultValue = context.getString(defaultValueResId);
 		return sharedPrefs.getString(context.getString(resId), defaultValue);
 	}
-	
 }
