@@ -26,10 +26,11 @@
     <string name="text_undo_last">Annuler la Derniere Valeur</string>
     <string name="text_confirm">Confirmer</string>
     <string name="text_add_zero">Additionner Zéro</string>
+    <string name="text_version_number">Version %s</string>
     
     <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
     
-    <string name="button_customize">Personnaliser...</string>
+    <string name="button_customize">Personnaliser&#8230;</string>
     <string name="button_overwite">Remplacer</string>
     <string name="button_new_game_with_same">Nouveau Jeu</string>
     
@@ -47,10 +48,10 @@
     <string name="pref_button_2_name">Bouton Pop-up #2</string>
     <string name="pref_button_3_name">Bouton Pop-up #3</string>
     <string name="pref_button_4_name">Bouton Pop-up #4</string>
-    <string name="pref_2p_button_1_name">Bouton 2-Joueurs #1</string>
-    <string name="pref_2p_button_2_name">Bouton 2-Joueurs #2</string>
-    <string name="pref_2p_button_3_name">Bouton 2-Joueurs #3</string>
-    <string name="pref_2p_button_4_name">Bouton 2-Joueurs #4</string>
+    <string name="pref_2p_button_1_name">Bouton sur l\'Ecran #1</string>
+    <string name="pref_2p_button_2_name">Bouton sur l\'Ecran #2</string>
+    <string name="pref_2p_button_3_name">Bouton sur l\'Ecran #3</string>
+    <string name="pref_2p_button_4_name">Bouton sur l\'Ecran #4</string>
     
     <string name="pref_update_delay_name">Délai de la Mise à Jour</string>
     <string name="pref_use_wake_lock_name">Garder l\'Ecran Eveillé</string>
@@ -64,6 +65,7 @@
     <string name="pref_cat_appearance">Affichage</string>
     <string name="pref_cat_config">Configuration</string>
     <string name="pref_cat_advanced">Avancé</string>
+    <string name="pref_cat_about">A Propos</string>
     
     <string name="pref_color_scheme_choice_dark_name">Foncé</string>
     <string name="pref_color_scheme_choice_light_name">Clair</string>

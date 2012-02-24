@@ -7,19 +7,19 @@ import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
 public class AboutActivity extends Activity implements OnClickListener {
@@ -63,7 +63,7 @@ public class AboutActivity extends Activity implements OnClickListener {
 	public void initializeWebView() {
 		
 		String text = loadTextFile(R.raw.version_and_credits) + loadTextFile(R.raw.changelog);
-		text = String.format(text, getVersionName());
+		text = String.format(text, PackageHelper.getVersionName(this));
 		
 		aboutWebView.loadData(text, "text/html", "utf-8");
 	}
@@ -102,17 +102,7 @@ public class AboutActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		finish();
 	}
-	
-	private String getVersionName() {
-		try {
-			return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-		} catch (NameNotFoundException e) {
-			// should never happen
-			log.d(e, "unexpected exception");
-			return "";
-		}
-	}
-	
+
 	private class AboutWebClient extends WebViewClient {
 
 		

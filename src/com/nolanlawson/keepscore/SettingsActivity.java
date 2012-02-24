@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -14,6 +15,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.widget.Toast;
 
+import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
@@ -26,7 +28,7 @@ public class SettingsActivity extends PreferenceActivity {
 			twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref,
 			initialScorePref;
 	private CheckBoxPreference useWakeLockPref;
-	private Preference resetPref;
+	private Preference resetPref, aboutPref;
 	private ListPreference colorSchemePref;
 
 	@Override
@@ -52,6 +54,7 @@ public class SettingsActivity extends PreferenceActivity {
 		updateDelayPref = (EditTextPreference) findPreferenceById(R.string.pref_update_delay);
 		initialScorePref = (EditTextPreference) findPreferenceById(R.string.pref_initial_score);
 		resetPref = findPreferenceById(R.string.pref_reset);
+		aboutPref = findPreferenceById(R.string.pref_about);
 		colorSchemePref = (ListPreference) findPreferenceById(R.string.pref_color_scheme);
 
 		// update the preference's summary with whatever the value is, as it's
@@ -64,8 +67,7 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		// do a special check for the update delay value
-		updateDelayPref
-				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+		updateDelayPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
 					@Override
 					public boolean onPreferenceChange(Preference preference,
@@ -86,8 +88,7 @@ public class SettingsActivity extends PreferenceActivity {
 		// do another special check for the initial score value
 
 		initialScorePref.setSummary(initialScorePref.getText());
-		initialScorePref
-				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+		initialScorePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
 					@Override
 					public boolean onPreferenceChange(Preference preference,
@@ -133,6 +134,22 @@ public class SettingsActivity extends PreferenceActivity {
 		useWakeLockPref = (CheckBoxPreference) findPreferenceById(R.string.pref_use_wake_lock);
 
 		setDynamicColorSchemeSummary(colorSchemePref);
+		
+		// show the version number in the "about" summary text
+		String version = String.format(getString(R.string.text_version_number), 
+				PackageHelper.getVersionName(this));
+		aboutPref.setSummary(version);
+		
+		// go to the about activity if the about pref is pressed
+		aboutPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
 	}
 
 	private void resetPreferences() {

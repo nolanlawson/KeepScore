@@ -26,10 +26,11 @@
 	<string name="text_undo_last">最後の点をアンドゥ</string>
 	<string name="text_confirm">確認</string>
 	<string name="text_add_zero">ゼロを増加</string>
+	<string name="text_version_number">バージョン%s</string>
 
 	<string name="text_game_will_be_deleted">ゲームは削除されます。</string>
 
-	<string name="button_customize">カスタマイズ</string>
+	<string name="button_customize">カスタマイズ&#8230;</string>
 	<string name="button_overwite">リセット</string>
 	<string name="button_new_game_with_same">新しいゲーム</string>
 
@@ -47,10 +48,10 @@
 	<string name="pref_button_2_name">ポップアップのボタン＃２</string>
 	<string name="pref_button_3_name">ポップアップのボタン＃３</string>
 	<string name="pref_button_4_name">ポップアップのボタン＃４</string>
-	<string name="pref_2p_button_1_name">二人の選手のボタン＃１</string>
-	<string name="pref_2p_button_2_name">二人の選手のボタン＃２</string>
-	<string name="pref_2p_button_3_name">二人の選手のボタン＃３</string>
-	<string name="pref_2p_button_4_name">二人の選手のボタン＃４</string>
+	<string name="pref_2p_button_1_name">オンスクリーンボタン＃１</string>
+	<string name="pref_2p_button_2_name">オンスクリーンボタン＃２</string>
+	<string name="pref_2p_button_3_name">オンスクリーンボタン＃３</string>
+	<string name="pref_2p_button_4_name">オンスクリーンボタン＃４</string>
 	
 	<string name="pref_update_delay_name">アップデートの遅れ</string>
 	<string name="pref_use_wake_lock_name">画面を起こし続ける</string>
@@ -64,6 +65,7 @@
 	<string name="pref_cat_appearance">表示</string>
 	<string name="pref_cat_config">コンフィギュレーション</string>
 	<string name="pref_cat_advanced">アドバンスド</string>
+    <string name="pref_cat_about">情報</string>
 
 	<string name="pref_color_scheme_choice_dark_name">暗い</string>
 	<string name="pref_color_scheme_choice_light_name">明るい</string>

@@ -24,6 +24,7 @@
     <string name="text_undo_last">Undo Last</string>
     <string name="text_confirm">Confirm</string>
     <string name="text_add_zero">Add Zero</string>
+    <string name="text_version_number">Version %s</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     
@@ -34,7 +35,7 @@
     <string name="button_6_players">6</string>
     <string name="button_7_players">7</string>
     <string name="button_8_players">8</string>
-    <string name="button_customize">Customize...</string>
+    <string name="button_customize">Customize&#8230;</string>
     <string name="button_overwite">Overwrite</string>
     <string name="button_new_game_with_same">New Game</string>
     <string name="button_by_player">By Player</string>
@@ -84,10 +85,10 @@
     <string name="pref_button_2_name">Popup Button #2</string>
     <string name="pref_button_3_name">Popup Button #3</string>
     <string name="pref_button_4_name">Popup Button #4</string>
-    <string name="pref_2p_button_1_name">2-Player Button #1</string>
-    <string name="pref_2p_button_2_name">2-Player Button #2</string>
-    <string name="pref_2p_button_3_name">2-Player Button #3</string>
-    <string name="pref_2p_button_4_name">2-Player Button #4</string>
+    <string name="pref_2p_button_1_name">On-Screen Button #1</string>
+    <string name="pref_2p_button_2_name">On-Screen Button #2</string>
+    <string name="pref_2p_button_3_name">On-Screen Button #3</string>
+    <string name="pref_2p_button_4_name">On-Screen Button #4</string>
     
     
     <string name="pref_update_delay_name">Update Delay</string>
@@ -102,6 +103,9 @@
     <string name="pref_cat_appearance">Appearance</string>
     <string name="pref_cat_config">Configuration</string>
     <string name="pref_cat_advanced">Advanced</string>
+    <string name="pref_cat_about">About</string>
+    
+    <string name="pref_about">about</string>
     
     <string name="pref_color_scheme_choice_dark">dark</string>
     <string name="pref_color_scheme_choice_light">light</string>
