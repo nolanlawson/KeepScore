@@ -272,6 +272,26 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		}
 		
 	}
+	
+
+	public List<String> findDistinctPlayerNames() {
+		synchronized (GameDBHelper.class) {
+			List<String> result = new ArrayList<String>();
+			String[] columns = {"distinct " + COLUMN_NAME};
+			Cursor cursor = null;
+			try {
+				cursor = db.query(TABLE_PLAYER_SCORES, columns, null, null, null, null, null);
+				while (cursor.moveToNext()) {
+					result.add(cursor.getString(0));
+				}
+			} finally {
+				if (cursor != null) {
+					cursor.close();
+				}
+			}
+			return result;
+		}
+	}
 
 	private List<Game> convertToGames(Cursor cursor) {
 		List<Game> result = new ArrayList<Game>();

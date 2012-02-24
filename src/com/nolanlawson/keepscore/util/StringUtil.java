@@ -15,6 +15,18 @@ import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 public class StringUtil {
 
 	
+	public static boolean isEmptyOrWhitespace(String str) {
+		if (TextUtils.isEmpty(str)) {
+			return true;
+		}
+		for (int i = 0; i < str.length(); i++) {
+			if (!Character.isWhitespace(str.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public static List<String> split(String str, char delimiter) {
 		
 		if (TextUtils.isEmpty(str)) {
