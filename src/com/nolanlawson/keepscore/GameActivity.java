@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -476,6 +477,13 @@ public class GameActivity extends Activity {
 			View view = findViewById(resId);
 			
 			PlayerView playerView = new PlayerView(this, view, playerScore, handler);
+			
+			// set to autosave if the player names are filled in.  This feels intuitive to me.  There's no point
+			// in saving an empty game, but if the player names are included, the game feels non-empty and therefore
+			// worth saving.  This only applies for newly created games.
+			if (game.getId() == -1 && !TextUtils.isEmpty(playerScore.getName())) {
+				playerView.getShouldAutosave().set(true);
+			}
 			
 			// sometimes the text gets cut off in the 6 or 8 player view, 
 			// so make the text smaller
