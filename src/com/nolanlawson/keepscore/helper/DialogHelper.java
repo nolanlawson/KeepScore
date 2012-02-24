@@ -34,7 +34,7 @@ public class DialogHelper {
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = layoutInflater.inflate(R.layout.delta_popup, null);
 		
-		prepareDeltaView(view, positive, context);
+		prepareDeltaView(view, context);
 		
 		final EditText editText = (EditText) view.findViewById(android.R.id.edit);
 		
@@ -74,20 +74,13 @@ public class DialogHelper {
 		
 	}
 
-	private static void prepareDeltaView(View view, boolean positive, Context context) {
+	private static void prepareDeltaView(View view, Context context) {
 		// set the buttons based on the preferences
 		
 		int button1Value = PreferenceHelper.getPopupDeltaButtonValue(0, context);
 		int button2Value = PreferenceHelper.getPopupDeltaButtonValue(1, context);
 		int button3Value = PreferenceHelper.getPopupDeltaButtonValue(2, context);
 		int button4Value = PreferenceHelper.getPopupDeltaButtonValue(3, context);
-		
-		if (!positive) {
-			button1Value *= -1;
-			button2Value *= -1;
-			button3Value *= -1;
-			button4Value *= -1;
-		}
 		
 		Button button1 = (Button) view.findViewById(android.R.id.button1);
 		Button button2 = (Button) view.findViewById(android.R.id.button2);

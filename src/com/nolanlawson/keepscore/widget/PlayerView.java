@@ -536,7 +536,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 	}
 
-	private void showAdditionalDeltasPopup(boolean positive) {
+	private void showAdditionalDeltasPopup(final boolean positive) {
 		DialogHelper.showAdditionalDeltasDialog(positive, new ResultListener<Integer>() {
 			
 			@Override
@@ -545,7 +545,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 				if (delta != 0) {
 					// add the value to the player's score, while still considering it a 
 					// "modifiable" history item
-					increment(delta);
+					increment(positive ? delta : -delta);
 				}
 				
 			}
