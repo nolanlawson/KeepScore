@@ -26,6 +26,7 @@
 	<string name="text_confirm">確認</string>
 	<string name="text_add_zero">ゼロを増加</string>
 	<string name="text_version_number">バージョン%s</string>
+	<string name="text_copy">複写</string>
 
 	<string name="text_game_will_be_deleted">ゲームは削除されます。</string>
 

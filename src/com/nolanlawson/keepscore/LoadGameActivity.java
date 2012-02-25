@@ -14,10 +14,10 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.nolanlawson.keepscore.data.SavedGameAdapter;
 import com.nolanlawson.keepscore.db.Game;
@@ -100,10 +100,13 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 
 	private void showOptionsMenu(final Game game) {
 		
-		String editTitle = getString(TextUtils.isEmpty(game.getName()) ? R.string.title_name_game : R.string.title_edit_game_name);
+		String editTitle = getString(TextUtils.isEmpty(game.getName()) 
+				? R.string.title_name_game 
+				: R.string.title_edit_game_name);
 		
 		CharSequence[] options = new CharSequence[]{
 				getString(R.string.text_delete), 
+				getString(R.string.text_copy),
 				getString(R.string.menu_history),
 				editTitle
 				};
@@ -120,10 +123,13 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 					case 0: // delete
 						showDeleteDialog(game);
 						break;
-					case 1: // history
+					case 1: // copy
+						copyGame(game);
+						break;
+					case 2: // history
 						showHistory(game);
 						break;
-					case 2: // edit name
+					case 3: // edit name
 						showEditGameNameDialog(game);
 						break;	
 					}
@@ -133,7 +139,41 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		
 	}
 
-	protected void showHistory(Game game) {
+	private void copyGame(Game game) {
+
+		final Game newGame = game.makeCleanCopy();
+		
+		new AsyncTask<Void, Void, Void>() {
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				GameDBHelper dbHelper = null;
+				try {
+					dbHelper = new GameDBHelper(LoadGameActivity.this);
+					dbHelper.saveGame(newGame);
+				} finally {
+					if (dbHelper != null) {
+						dbHelper.close();
+					}
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				Toast.makeText(LoadGameActivity.this, R.string.toast_game_copied, Toast.LENGTH_SHORT).show();
+				adapter.insert(newGame, 0);
+			}
+			
+			
+			
+		}.execute((Void)null);
+	}
+
+
+
+	private void showHistory(Game game) {
 		
 		Intent intent = new Intent(this, HistoryActivity.class);
 		intent.putExtra(HistoryActivity.EXTRA_GAME, game);

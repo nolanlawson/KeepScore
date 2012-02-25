@@ -343,19 +343,8 @@ public class GameActivity extends Activity {
 			playerView.cancelPendingUpdates();
 		}
 		
-		game = (Game)game.clone();
-		
+		game = game.makeCleanCopy();
 		playerScores = game.getPlayerScores();
-
-		// reset everything except the player names
-		game.setId(-1);
-		game.setDateStarted(System.currentTimeMillis());
-		game.setDateSaved(0);
-		game.setName(null);
-		
-		for (PlayerScore playerScore : playerScores) {
-			playerScore.setId(-1);
-		}		
 		
 		setUpWidgets();
 		

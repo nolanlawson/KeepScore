@@ -24,6 +24,7 @@
     <string name="text_confirm">Confirm</string>
     <string name="text_add_zero">Add Zero</string>
     <string name="text_version_number">Version %s</string>
+    <string name="text_copy">Copy</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     

@@ -295,7 +295,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				
 				// set the new id on the PlayerScore
 				playerScore.setId(newId);
-				
+								
 				log.d("new playerScore id is %s", newId);
 			}
 		}

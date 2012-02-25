@@ -125,4 +125,25 @@ public class Game implements Parcelable, Cloneable {
 		}));
 		return game;
 	}
+	
+	/**
+	 * Make a clone of this Game that can be saved cleanly to the database as a new game.
+	 * @return
+	 */
+	public Game makeCleanCopy() {
+		
+		Game newGame = (Game) clone();
+		
+		// reset everything except the player names
+		newGame.setId(-1);
+		newGame.setDateStarted(System.currentTimeMillis());
+		newGame.setDateSaved(0);
+		newGame.setName(null);
+		
+		for (PlayerScore playerScore : newGame.getPlayerScores()) {
+			playerScore.setId(-1);
+		}	
+		
+		return newGame;
+	}
 }
