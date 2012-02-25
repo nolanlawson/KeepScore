@@ -46,7 +46,7 @@ public class GameActivity extends Activity {
 	public static final String EXTRA_GAME = "game";
 	
 	private static final int MAX_NUM_PLAYERS = 8;
-	private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS.toMillis(30);
+	private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS.toMillis(120);
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
 	
@@ -464,7 +464,7 @@ public class GameActivity extends Activity {
 		}
 	}	
 	
-	private void saveGame(Game gameToSave) {
+	private synchronized void saveGame(Game gameToSave) {
 		StopWatch stopWatch = new StopWatch("saveGame()");
 		
 		GameDBHelper dbHelper = null;
