@@ -9,19 +9,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.os.Handler;
-import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.DialogHelper;
 import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
+import com.nolanlawson.keepscore.helper.PlayerNameHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
@@ -506,11 +509,14 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	private void showChangeNameDialog() {
 		
-		final EditText editText = new EditText(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		final AutoCompleteTextView editText = (AutoCompleteTextView) 
+				inflater.inflate(R.layout.change_player_name, null, false);
 		editText.setHint(context.getString(R.string.text_player) + " " + (playerScore.getPlayerNumber() + 1));
 		editText.setText(StringUtil.nullToEmpty(playerScore.getName()));
-		editText.setSingleLine();
-		editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+
+		
 		new AlertDialog.Builder(context)
 			.setTitle(R.string.tile_change_name)
 			.setView(editText)
@@ -533,6 +539,26 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			})
 			.setNegativeButton(android.R.string.cancel, null)
 			.show();
+		
+		// fetch suggestions in the background to avoid jankiness
+		new AsyncTask<Void, Void, List<String>>(){
+
+			@Override
+			protected List<String> doInBackground(Void... params) {
+				return PlayerNameHelper.getPlayerNameSuggestions(context);
+			}
+
+			@Override
+			protected void onPostExecute(List<String> result) {
+				super.onPostExecute(result);
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, 
+						R.layout.simple_dropdown_small, result);
+				editText.setAdapter(adapter);
+			}
+			
+			
+			
+		}.execute((Void)null);
 		
 	}
 

@@ -1,7 +1,6 @@
 package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
@@ -16,8 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
-import com.nolanlawson.keepscore.db.GameDBHelper;
-import com.nolanlawson.keepscore.util.StringUtil;
+import com.nolanlawson.keepscore.helper.PlayerNameHelper;
 
 public class NamePlayersActivity extends Activity implements OnClickListener {
 	
@@ -87,7 +85,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 
 			@Override
 			protected List<String> doInBackground(Void... arg0) {
-				return getPlayerNameSuggestions();
+				return PlayerNameHelper.getPlayerNameSuggestions(NamePlayersActivity.this);
 			}
 
 			@Override
@@ -106,35 +104,6 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 			
 		}.execute((Void)null);
 		
-	}
-
-	private List<String> getPlayerNameSuggestions() {
-		// populate player name suggestions from previous games by grabbing the
-		// names from the database
-		GameDBHelper dbHelper = null;
-		try {
-			dbHelper = new GameDBHelper(this);
-			List<String> suggestions = dbHelper.findDistinctPlayerNames();
-			
-			List<String> filteredSuggestions = new ArrayList<String>();
-			
-			// filter out null/empty/whitespace names
-			for (String suggestion : suggestions) {
-				if (StringUtil.isEmptyOrWhitespace(suggestion)) {
-					continue;
-				}
-				filteredSuggestions.add(suggestion.trim());
-			}
-			
-			// sort, case insensitive
-			Collections.sort(filteredSuggestions, String.CASE_INSENSITIVE_ORDER);
-			
-			return filteredSuggestions;
-		} finally {
-			if (dbHelper != null) {
-				dbHelper.close();
-			}
-		}
 	}
 
 	@Override
