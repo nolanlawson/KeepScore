@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 
 import com.nolanlawson.keepscore.util.CollectionUtil;
@@ -48,6 +49,32 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		"ps." + COLUMN_PLAYER_NUMBER,
 		"ps." + COLUMN_HISTORY};
 	
+	private ThreadLocal<SQLiteStatement> updateGame = new ThreadLocal<SQLiteStatement>(){
+
+		@Override
+		protected SQLiteStatement initialValue() {
+			String sql = "update " + TABLE_GAMES + " set " 
+					+ COLUMN_DATE_STARTED + "=?,"
+					+ COLUMN_DATE_SAVED + "=?,"
+					+ COLUMN_NAME + "=? "
+					+ "where " + COLUMN_ID + "=?";
+			return db.compileStatement(sql);
+		}
+	};
+	
+	private ThreadLocal<SQLiteStatement> updatePlayerScore = new ThreadLocal<SQLiteStatement>(){
+
+		@Override
+		protected SQLiteStatement initialValue() {
+			String sql = "update " + TABLE_PLAYER_SCORES + " set " 
+					+ COLUMN_NAME + "=?,"
+					+ COLUMN_SCORE + "=?,"
+					+ COLUMN_PLAYER_NUMBER + "=?,"
+					+ COLUMN_HISTORY + "=? "
+					+ "where " + COLUMN_ID + "=?";
+			return db.compileStatement(sql);
+		}
+	};	
 	
 	private SQLiteDatabase db;
 
@@ -174,57 +201,48 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	 * @param game
 	 * @return
 	 */
-	public boolean saveGame(Game game) {
+	public void saveGame(Game game) {
 		synchronized (GameDBHelper.class) {
 			db.beginTransaction();
 			try {
-				boolean result = saveGameWithinTransaction(game);
+				saveGameWithinTransaction(game);
 				db.setTransactionSuccessful();
-				return result;
 			} finally {
 				db.endTransaction();
 			}
 		}
 	}
 	
-	private boolean saveGameWithinTransaction(Game game) {
+	private void saveGameWithinTransaction(Game game) {
 
 		long dateSaved = System.currentTimeMillis();
 		game.setDateSaved(dateSaved);
 		
-		ContentValues contentValues = new ContentValues();
-		
-		contentValues.put(COLUMN_DATE_STARTED, game.getDateStarted());
-		contentValues.put(COLUMN_DATE_SAVED, dateSaved);
-		contentValues.put(COLUMN_NAME, game.getName());
-		
-		if (game.getId() != -1) { // might be a game that was already saved, so try to overwrite
-			contentValues.put(COLUMN_ID, game.getId());
-
-			int updated = db.update(TABLE_GAMES, contentValues, COLUMN_ID + "=" + game.getId(), null);
+		if (game.getId() != -1) {
+			// game was already saved, so try to overwrite
 			
-			if (updated != 0) {
-				savePlayerScores(game.getId(), game.getPlayerScores());
-				
-				return false;
-			}
+			updateGame(game.getId(), game.getDateStarted(), game.getDateSaved(), game.getName());
+		} else {
+			// else create a new row in the table
+			
+			int newGameId = getMaxGameId() + 1;
+			
+			ContentValues contentValues = new ContentValues();
+			
+			contentValues.put(COLUMN_DATE_STARTED, game.getDateStarted());
+			contentValues.put(COLUMN_DATE_SAVED, dateSaved);
+			contentValues.put(COLUMN_NAME, game.getName());		
+			contentValues.put(COLUMN_ID, newGameId);
+			contentValues.put(COLUMN_AUTOSAVED, 1); // legacy "autosaved" column that must be specified
+			
+			db.insert(TABLE_GAMES, null, contentValues);
+			
+			game.setId(newGameId);
+			log.d("new game id is %s", newGameId);
 		}
-		// else create a new row in the table
 		
-		int newGameId = getMaxGameId() + 1;
+		savePlayerScores(game.getId(), game.getPlayerScores());
 		
-		contentValues.put(COLUMN_ID, newGameId);
-		contentValues.put(COLUMN_AUTOSAVED, 1); // legacy "autosaved" column that must be specified
-		
-		db.insert(TABLE_GAMES, null, contentValues);
-		
-		game.setId(newGameId);
-		log.d("new game id is %s", newGameId);
-		
-		savePlayerScores(newGameId, game.getPlayerScores());
-		
-		return true;
-
 	}
 	
 	private int getMaxPlayerScoreId() {
@@ -260,43 +278,45 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	private void savePlayerScores(int gameId, List<PlayerScore> playerScores) {
 		synchronized (GameDBHelper.class) {
 			
-			int newId = getMaxPlayerScoreId() + 1;
+			int newId = -1;
 			
 			for (PlayerScore playerScore : playerScores) {
 				
-				ContentValues values = new ContentValues();
+				String historyAsString = playerScore.getHistory() != null
+						? TextUtils.join(",", playerScore.getHistory())
+						: null;
+
 				
-				values.put(COLUMN_GAME_ID, gameId);
-				if (playerScore.getHistory() != null) {
-					values.put(COLUMN_HISTORY, TextUtils.join(",", playerScore.getHistory()));
+				if (playerScore.getId() != -1) {
+					// already exists; update
+					
+					updatePlayerScore(playerScore.getId(), playerScore.getName(), playerScore.getScore(), 
+							playerScore.getPlayerNumber(), historyAsString);
+					
 				} else {
-					values.put(COLUMN_HISTORY, (String)null);
-				}
-				values.put(COLUMN_NAME, playerScore.getName());
-				values.put(COLUMN_PLAYER_NUMBER, playerScore.getPlayerNumber());
-				values.put(COLUMN_SCORE, playerScore.getScore());
-				
-				if (playerScore.getId() != -1) { // try to update
+					// else insert new rows in the table
 					
-					values.put(COLUMN_ID, playerScore.getId());
-					
-					int updated = db.update(TABLE_PLAYER_SCORES, values, COLUMN_ID + "=" + playerScore.getId(), null);
-					
-					if (updated != 0) {
-						continue;
+					if (newId == -1) {
+						newId = getMaxPlayerScoreId() + 1;
+					} else {
+						newId++;
 					}
 					
+					
+					ContentValues values = new ContentValues();
+					values.put(COLUMN_ID, newId);
+					values.put(COLUMN_GAME_ID, gameId);
+					values.put(COLUMN_HISTORY, historyAsString);
+					values.put(COLUMN_NAME, playerScore.getName());
+					values.put(COLUMN_PLAYER_NUMBER, playerScore.getPlayerNumber());
+					values.put(COLUMN_SCORE, playerScore.getScore());
+					db.insert(TABLE_PLAYER_SCORES, null, values);
+					
+					// set the new id on the PlayerScore
+					playerScore.setId(newId);
+									
+					log.d("new playerScore id is %s", newId);
 				}
-				// else create new rows in the table
-				
-				newId++;
-				values.put(COLUMN_ID, newId);
-				db.insert(TABLE_PLAYER_SCORES, null, values);
-				
-				// set the new id on the PlayerScore
-				playerScore.setId(newId);
-								
-				log.d("new playerScore id is %s", newId);
 			}
 		}
 	}
@@ -415,5 +435,44 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * convenience method for updating games, using prepared statements for performance boosts.
+	 * @param id
+	 * @param dateStarted
+	 * @param dateSaved
+	 * @param name
+	 * @return
+	 */
+	private void updateGame(int id, long dateStarted, long dateSaved, String name) {
+		SQLiteStatement statement = updateGame.get();
+		
+		statement.bindLong(1, dateStarted);
+		statement.bindLong(2, dateSaved);
+		bindStringOrNull(statement, 3, name);
+		statement.bindLong(4, id);
+		
+		statement.execute();
+	}
+	
+	private void updatePlayerScore(int id, String name, long score, int playerNumber, String history) {
+		SQLiteStatement statement = updatePlayerScore.get();
+		
+		bindStringOrNull(statement, 1, name);
+		statement.bindLong(2, score);
+		statement.bindLong(3, playerNumber);
+		bindStringOrNull(statement, 4, history);
+		statement.bindLong(5, id);
+		
+		statement.execute();
+	}
+	
+	private void bindStringOrNull(SQLiteStatement statement, int index, String str) {
+		if (str == null) {
+			statement.bindNull(index);
+		} else {
+			statement.bindString(index, str);
+		}
 	}
 }
