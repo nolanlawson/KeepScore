@@ -25,6 +25,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
@@ -199,6 +200,9 @@ public class GameActivity extends Activity {
 	    case R.id.menu_add_player:
 	    	showAddPlayerDialog();
 	    	break;
+	    case R.id.menu_copy:
+	    	cloneGame();
+	    	break;
 	    }
 	    return false;
 	}
@@ -317,7 +321,7 @@ public class GameActivity extends Activity {
 			.setCancelable(true)
 			.setTitle(R.string.title_confirm_reset)
 			.setMessage(R.string.text_reset_scores_confirm)
-			.setPositiveButton(R.string.button_overwite, new DialogInterface.OnClickListener() {
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -327,20 +331,12 @@ public class GameActivity extends Activity {
 					}
 				}
 			})
-			.setNeutralButton(R.string.button_new_game_with_same, new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					startNewGameWithSameSettings();
-				}
-			})
 			.setNegativeButton(android.R.string.cancel, null)
 			.show();
 
 	}
 
-	protected void startNewGameWithSameSettings() {
+	private void cloneGame() {
 		
 		saveGame(game, null);
 		for (PlayerView playerView : playerViews) {
@@ -359,12 +355,11 @@ public class GameActivity extends Activity {
 		
 		for (PlayerScore playerScore : playerScores) {
 			playerScore.setId(-1);
-			playerScore.setHistory(new ArrayList<Integer>());
-			playerScore.setScore(PreferenceHelper.getIntPreference(
-					R.string.pref_initial_score, R.string.pref_initial_score_default, this));
 		}		
 		
 		setUpWidgets();
+		
+		Toast.makeText(this, R.string.toast_game_copied, Toast.LENGTH_SHORT).show();
 	}
 
 	private boolean shouldAutosave() {

@@ -30,6 +30,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	private static final String COLUMN_DATE_SAVED = "dateSaved";
 	private static final String COLUMN_NAME = "name";
 	private static final String COLUMN_SCORE = "score";
+	private static final String COLUMN_AUTOSAVED = "autosaved"; // legacy
 	private static final String COLUMN_PLAYER_NUMBER = "playerNumber";
 	private static final String COLUMN_GAME_ID = "gameId";
 	private static final String COLUMN_HISTORY = "history";
@@ -60,6 +61,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		String createSql1 = "create table if not exists " + TABLE_GAMES + " ("
 				+ COLUMN_ID + " integer not null primary key autoincrement, "
 				+ COLUMN_NAME + " text, "
+				+ COLUMN_AUTOSAVED + " int not null, "
 				+ COLUMN_DATE_STARTED + " int not null, " + COLUMN_DATE_SAVED
 				+ " int not null);";
 		
@@ -209,31 +211,56 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		}
 		// else create a new row in the table
 		
+		int newGameId = getMaxGameId() + 1;
+		
+		contentValues.put(COLUMN_ID, newGameId);
+		contentValues.put(COLUMN_AUTOSAVED, 1); // legacy "autosaved" column that must be specified
+		
 		db.insert(TABLE_GAMES, null, contentValues);
-		int newId;
 		
-		Cursor cursor = null;
-		try {
-			cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
-			cursor.moveToNext();
-			newId = cursor.getInt(0);
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
+		game.setId(newGameId);
+		log.d("new game id is %s", newGameId);
 		
-		game.setId(newId);
-		log.d("new game id is %s", newId);
-		
-		savePlayerScores(newId, game.getPlayerScores());
+		savePlayerScores(newGameId, game.getPlayerScores());
 		
 		return true;
 
 	}
 	
+	private int getMaxPlayerScoreId() {
+		Cursor cursor = null;
+		try {
+			cursor = db.query(TABLE_PLAYER_SCORES, new String[]{"max(" + COLUMN_ID + ")"}, null, null, null, null, null);
+			if (cursor.moveToNext()) {
+				return cursor.getInt(0);
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		return 0;
+	}
+	
+	private int getMaxGameId() {
+		Cursor cursor = null;
+		try {
+			cursor = db.query(TABLE_GAMES, new String[]{"max(" + COLUMN_ID + ")"}, null, null, null, null, null);
+			if (cursor.moveToNext()) {
+				return cursor.getInt(0);
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		return 0;
+	}
+
 	private void savePlayerScores(int gameId, List<PlayerScore> playerScores) {
 		synchronized (GameDBHelper.class) {
+			
+			int newId = getMaxPlayerScoreId() + 1;
 			
 			for (PlayerScore playerScore : playerScores) {
 				
@@ -262,22 +289,11 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				}
 				// else create new rows in the table
 				
+				newId++;
+				values.put(COLUMN_ID, newId);
 				db.insert(TABLE_PLAYER_SCORES, null, values);
 				
 				// set the new id on the PlayerScore
-				int newId;
-				
-				Cursor cursor = null;
-				try {
-					cursor = db.query(TABLE_PLAYER_SCORES, new String[]{COLUMN_ID}, "rowid=last_insert_rowid()", null, null, null, null);
-					cursor.moveToNext();
-					newId = cursor.getInt(0);
-				} finally {
-					if (cursor != null) {
-						cursor.close();
-					}
-				}
-				
 				playerScore.setId(newId);
 				
 				log.d("new playerScore id is %s", newId);

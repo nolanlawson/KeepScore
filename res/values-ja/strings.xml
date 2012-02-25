@@ -21,7 +21,7 @@
 	<string name="text_edit_name">名をエディット</string>
 	<string name="text_reset_confirm">全部の設定はリセットします。</string>
 	<string name="text_about">KeepScoreについて</string>
-	<string name="text_reset_scores_confirm">このゲームをリセットするか同じ選手で新しいゲームを始めるかどっちしたいんですか。</string>
+	<string name="text_reset_scores_confirm">点は全部リセットします。</string>
 	<string name="text_undo_last">最後の点をアンドゥ</string>
 	<string name="text_confirm">確認</string>
 	<string name="text_add_zero">ゼロを増加</string>
@@ -30,8 +30,6 @@
 	<string name="text_game_will_be_deleted">ゲームは削除されます。</string>
 
 	<string name="button_customize">カスタマイズ&#8230;</string>
-	<string name="button_overwite">リセット</string>
-	<string name="button_new_game_with_same">新しいゲーム</string>
 
 	<string name="hint_game_name">ゲームの名</string>
 
@@ -40,7 +38,8 @@
 	<string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>
 	<string name="toast_valid_initial_score">妥当な数を入力してください。</string>
 	<string name="toast_settings_reset">設定はリセットされました。</string>
-
+	<string name="toast_game_copied">ゲーム複写されました。</string>
+	
 	<string name="pref_button_1_name">ポップアップのボタン＃１</string>
 	<string name="pref_button_2_name">ポップアップのボタン＃２</string>
 	<string name="pref_button_3_name">ポップアップのボタン＃３</string>
@@ -84,6 +83,6 @@
 	<string name="menu_reset_scores">リセット</string>
 	<string name="menu_about">KeepScoreについて</string>
 	<string name="menu_add_player">新しい選手</string>
-
+	<string name="menu_copy">ゲーム複写</string>
 
 </resources>

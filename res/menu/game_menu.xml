@@ -10,10 +10,12 @@
 	<item android:id="@+id/menu_add_player" android:title="@string/menu_add_player"
 		android:alphabeticShortcut="@string/menu_add_player" android:icon="@drawable/ic_menu_add_user" />	
 	
-	
 	<item android:id="@+id/menu_reset_scores" android:title="@string/menu_reset_scores"
 		android:alphabeticShortcut="@string/menu_reset_scores" android:icon="@drawable/ic_menu_close_clear_cancel" />	
-		
+
+	<item android:id="@+id/menu_copy" android:title="@string/menu_copy"
+	    android:alphabeticShortcut="@string/menu_copy" android:icon="@drawable/ic_menu_copy" />
+			
 	<item android:id="@+id/menu_settings" android:title="@string/menu_settings"
 		android:alphabeticShortcut="@string/menu_settings" android:icon="@drawable/ic_menu_preferences" />	
 		

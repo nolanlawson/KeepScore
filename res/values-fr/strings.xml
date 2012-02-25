@@ -21,7 +21,7 @@
     <string name="text_edit_name">Editer le Nom</string>
     <string name="text_reset_confirm">Tous les paramètres seront réinitialisés.</string>
     <string name="text_about">A propos de KeepScore</string>
-    <string name="text_reset_scores_confirm">Remplacer ce jeu ou commencer un nouveau jeu avec les mêmes joueurs?</string>
+    <string name="text_reset_scores_confirm">Toutes les valeurs seront réinitisialisées.</string>
     <string name="text_undo_last">Annuler la Derniere Valeur</string>
     <string name="text_confirm">Confirmer</string>
     <string name="text_add_zero">Additionner Zéro</string>
@@ -30,8 +30,6 @@
     <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
     
     <string name="button_customize">Personnaliser&#8230;</string>
-    <string name="button_overwite">Remplacer</string>
-    <string name="button_new_game_with_same">Nouveau Jeu</string>
     
     <string name="hint_game_name">Nom du Jeu</string>
     
@@ -40,6 +38,7 @@
     <string name="toast_valid_update_delay_values">Il faut entrer un numéro valable entre 1 et 600.</string>
     <string name="toast_valid_initial_score">Il faut entrer un numéro valable.</string>
     <string name="toast_settings_reset">Paramètres réinitialisés.</string>
+    <string name="toast_game_copied">Jeu copié.</string>
     
     <string name="pref_button_1_name">Bouton Pop-up #1</string>
     <string name="pref_button_2_name">Bouton Pop-up #2</string>
@@ -83,6 +82,7 @@
     <string name="menu_home">Accueil</string>
     <string name="menu_reset_scores">Réinitialiser</string>
     <string name="menu_about">A propos</string>
-    <string name="menu_add_player">Nouveau joueur</string>
+    <string name="menu_add_player">Nouveau Joueur</string>
+    <string name="menu_copy">Copier Jeu</string>
     
 </resources>
