@@ -359,6 +359,7 @@ public class GameActivity extends Activity {
 		
 		setUpWidgets();
 		
+		saveGame(game, null);
 		Toast.makeText(this, R.string.toast_game_copied, Toast.LENGTH_SHORT).show();
 	}
 
@@ -437,16 +438,11 @@ public class GameActivity extends Activity {
 		log.d("created new playerScores: %s", playerScores);
 	}
 
-	private synchronized void saveGame(Game gameToSave, final Runnable onFinished) {
+	private synchronized void saveGame(final Game gameToSave, final Runnable onFinished) {
 
-		StopWatch stopWatch = new StopWatch("clone game");
-		
-		
 		for (PlayerView playerView : playerViews) {
 			playerView.getShouldAutosave().set(false);
 		}
-		final Game clonedGame = (Game) gameToSave.clone();
-		stopWatch.log(log);
 		
 		// do in the background to avoid jankiness
 		new AsyncTask<Void, Void, Void>() {
@@ -459,8 +455,8 @@ public class GameActivity extends Activity {
 				GameDBHelper dbHelper = null;
 				try {
 					dbHelper = new GameDBHelper(GameActivity.this);
-					dbHelper.saveGame(clonedGame);
-					log.d("saved game: %s", clonedGame);
+					dbHelper.saveGame(gameToSave);
+					log.d("saved game: %s", gameToSave);
 				} finally {
 					if (dbHelper != null) {
 						dbHelper.close();
