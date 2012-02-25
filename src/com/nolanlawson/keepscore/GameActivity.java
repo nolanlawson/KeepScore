@@ -106,7 +106,7 @@ public class GameActivity extends Activity {
 		paused = true;
 		
 		if (shouldAutosave()) {
-			saveGame(game, null);
+			saveGame(game, false, null);
 		}
 	}
 
@@ -134,7 +134,7 @@ public class GameActivity extends Activity {
 			@Override
 			public void run() {
 				if (shouldAutosave()) {
-					saveGame(game, new Runnable() {
+					saveGame(game, true, new Runnable() {
 						
 						@Override
 						public void run() {
@@ -303,7 +303,7 @@ public class GameActivity extends Activity {
 			
 		};
 		
-		saveGame(game, onFinished); // automatically save the game
+		saveGame(game, true, onFinished); // automatically save the game
 	}
 
 	private boolean isAtDefault() {
@@ -338,7 +338,7 @@ public class GameActivity extends Activity {
 
 	private void cloneGame() {
 		
-		saveGame(game, null);
+		saveGame(game, true, null);
 		for (PlayerView playerView : playerViews) {
 			playerView.cancelPendingUpdates();
 		}
@@ -348,7 +348,7 @@ public class GameActivity extends Activity {
 		
 		setUpWidgets();
 		
-		saveGame(game, null);
+		saveGame(game, true, null);
 		Toast.makeText(this, R.string.toast_game_copied, Toast.LENGTH_SHORT).show();
 	}
 
@@ -427,48 +427,60 @@ public class GameActivity extends Activity {
 		log.d("created new playerScores: %s", playerScores);
 	}
 
-	private synchronized void saveGame(final Game gameToSave, final Runnable onFinished) {
+	private synchronized void saveGame(final Game gameToSave, boolean inBackground, final Runnable onFinished) {
 
 		for (PlayerView playerView : playerViews) {
 			playerView.getShouldAutosave().set(false);
 		}
 		
-		// do in the background to avoid jankiness
-		new AsyncTask<Void, Void, Void>() {
-
-			@Override
-			protected Void doInBackground(Void... params) {
-				
-				StopWatch stopWatch = new StopWatch("save in background");
-				
-				GameDBHelper dbHelper = null;
-				try {
-					dbHelper = new GameDBHelper(GameActivity.this);
-					dbHelper.saveGame(gameToSave);
-					log.d("saved game: %s", gameToSave);
-				} finally {
-					if (dbHelper != null) {
-						dbHelper.close();
+		if (inBackground) {
+			// do in the background to avoid jankiness
+			new AsyncTask<Void, Void, Void>() {
+	
+				@Override
+				protected Void doInBackground(Void... params) {
+					
+					saveGame(gameToSave);
+					
+					return null;
+				}
+	
+				@Override
+				protected void onPostExecute(Void result) {
+					super.onPostExecute(result);
+					if (onFinished != null) {
+						onFinished.run();
 					}
 				}
 				
-				stopWatch.log(log);
 				
-				return null;
+			}.execute((Void)null);
+		} else {
+			// do in foreground to ensure the game gets saved before the activity finishes
+			saveGame(gameToSave);
+			if (onFinished != null) {
+				onFinished.run();
 			}
-
-			@Override
-			protected void onPostExecute(Void result) {
-				super.onPostExecute(result);
-				if (onFinished != null) {
-					onFinished.run();
-				}
-			}
-			
-			
-		}.execute((Void)null);
+		}
 	}	
 	
+	private void saveGame(Game gameToSave) {
+		StopWatch stopWatch = new StopWatch("saveGame()");
+		
+		GameDBHelper dbHelper = null;
+		try {
+			dbHelper = new GameDBHelper(GameActivity.this);
+			dbHelper.saveGame(gameToSave);
+			log.d("saved game: %s", gameToSave);
+		} finally {
+			if (dbHelper != null) {
+				dbHelper.close();
+			}
+		}
+		
+		stopWatch.log(log);		
+	}
+
 	private void setUpWidgets() {
 
 		rootLayout = findViewById(R.id.game_root_layout);
