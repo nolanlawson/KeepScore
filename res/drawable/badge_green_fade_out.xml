@@ -7,8 +7,8 @@
             android:shape="oval" >
             <gradient
                 android:angle="270"
-                android:endColor="@color/blue_3"
-                android:startColor="@color/blue_2" />
+                android:endColor="@color/green_3"
+                android:startColor="@color/green_2" />
         </shape>
     </item>
     <item android:drawable="@android:color/transparent"/>
