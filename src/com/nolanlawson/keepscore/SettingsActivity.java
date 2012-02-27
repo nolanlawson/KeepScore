@@ -188,6 +188,8 @@ public class SettingsActivity extends PreferenceActivity {
 				R.string.pref_use_wake_lock_default, this);
 		PreferenceHelper.setStringPreference(R.string.pref_color_scheme,
 				R.string.pref_color_scheme_default, this);
+		PreferenceHelper.setBooleanPreference(R.string.pref_green_text, 
+				R.string.pref_green_text_default, this);
 		PreferenceHelper.resetCache();
 
 		button1Pref.setSummary(R.string.pref_button_1_default);
@@ -228,6 +230,8 @@ public class SettingsActivity extends PreferenceActivity {
 		useWakeLockPref.setChecked(Boolean
 				.parseBoolean(getString(R.string.pref_use_wake_lock_default)));
 
+		greenTextPref.setChecked(Boolean.parseBoolean(getString(R.string.pref_green_text_default)));
+		
 		Toast.makeText(this, R.string.toast_settings_reset, Toast.LENGTH_SHORT)
 				.show();
 	}
