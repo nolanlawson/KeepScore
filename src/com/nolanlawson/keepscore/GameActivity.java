@@ -46,7 +46,7 @@ public class GameActivity extends Activity {
 	public static final String EXTRA_GAME = "game";
 	
 	private static final int MAX_NUM_PLAYERS = 8;
-	private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS.toMillis(120);
+	private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS.toMillis(30);
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
 	
@@ -59,6 +59,7 @@ public class GameActivity extends Activity {
 	private List<PlayerView> playerViews;
 	private Handler handler = new Handler(Looper.getMainLooper());
 	private boolean paused = true;
+	private GameDBHelper dbHelper;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,11 @@ public class GameActivity extends Activity {
 		if (shouldAutosave()) {
 			saveGame(game, false, null);
 		}
+		
+		if (dbHelper != null) {
+			dbHelper.close();
+			dbHelper = null;
+		}
 	}
 
 	@Override
@@ -126,6 +132,13 @@ public class GameActivity extends Activity {
 		startPeriodicSave();
 		
 		paused = false;
+	}
+	
+	private GameDBHelper getDbHelper() {
+		if (dbHelper == null) {
+			dbHelper = new GameDBHelper(this);
+		}
+		return dbHelper;
 	}
 
 	private void startPeriodicSave() {
@@ -386,16 +399,8 @@ public class GameActivity extends Activity {
 	private void createExistingGameFromId() {
 		int gameId = getIntent().getIntExtra(EXTRA_GAME_ID, 0);
 		
-		GameDBHelper dbHelper = null;
-		try {
-			dbHelper = new GameDBHelper(this);
-			game = dbHelper.findGameById(gameId);
-			playerScores = game.getPlayerScores();
-		} finally {
-			if (dbHelper != null) {
-				dbHelper.close();
-			}
-		}
+		game = getDbHelper().findGameById(gameId);
+		playerScores = game.getPlayerScores();
 	}
 
 	private void createNewGame() {
@@ -467,16 +472,8 @@ public class GameActivity extends Activity {
 	private synchronized void saveGame(Game gameToSave) {
 		StopWatch stopWatch = new StopWatch("saveGame()");
 		
-		GameDBHelper dbHelper = null;
-		try {
-			dbHelper = new GameDBHelper(GameActivity.this);
-			dbHelper.saveGame(gameToSave);
-			log.d("saved game: %s", gameToSave);
-		} finally {
-			if (dbHelper != null) {
-				dbHelper.close();
-			}
-		}
+		getDbHelper().saveGame(gameToSave);
+		log.d("saved game: %s", gameToSave);
 		
 		stopWatch.log(log);		
 	}
