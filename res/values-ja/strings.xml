@@ -5,7 +5,7 @@
 
 	<string name="button_new_game">新しいゲーム</string>
 	<string name="button_resume_game">最後のゲームを続ける</string>
-	<string name="button_load_game">セーブしたゲーム</string>
+	<string name="button_load_game">保存したゲーム</string>
 	<string name="button_by_player">選手で</string>
     <string name="button_by_round">ラウンドで</string>
 
@@ -13,7 +13,7 @@
 
 	<string name="text_player_names">選手の名 （随意）</string>
 	<string name="text_player">選手</string>
-	<string name="text_no_saved_games">セーブしたゲームがありません。</string>
+	<string name="text_no_saved_games">保存したゲームがありません。</string>
 	<string name="text_players">選手%s人</string>
 	<string name="text_saved_colon">保存:</string>
 	<string name="text_started_colon">開始:</string>
@@ -82,7 +82,6 @@
 
 	<string name="menu_settings">設定</string>
 	<string name="menu_history">歴史</string>
-	<string name="menu_save">セーブ</string>
 	<string name="menu_home">ホーム</string>
 	<string name="menu_reset_scores">リセット</string>
 	<string name="menu_about">KeepScoreについて</string>
