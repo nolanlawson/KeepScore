@@ -7,11 +7,14 @@ import com.nolanlawson.keepscore.R;
 public enum ColorScheme {
 
 	Light (android.R.color.background_light, android.R.color.primary_text_light_nodisable,
-			R.color.green, R.color.red, android.R.drawable.btn_default, R.color.light_blue_2),
+			R.color.green, R.color.red, android.R.drawable.btn_default, R.color.light_blue_2,
+			R.drawable.blue_border_shape_with_gradient),
 	Dark  (android.R.color.background_dark, android.R.color.secondary_text_dark_nodisable,
-			R.color.green_4, R.color.red_4, R.drawable.button_dark, R.color.light_blue_3),
+			R.color.green_4, R.color.red_4, R.drawable.button_dark, R.color.light_blue_3,
+			R.drawable.blue_border_shape_no_gradient),
 	Android  (R.color.android_color, android.R.color.primary_text_light_nodisable,
-			R.color.green_5, R.color.red, android.R.drawable.btn_default, R.color.light_blue_2),
+			R.color.green_5, R.color.red, android.R.drawable.btn_default, R.color.light_blue_2,
+			R.drawable.blue_border_shape_no_gradient),
 	;
 	
 	private int backgroundColorResId;
@@ -20,19 +23,25 @@ public enum ColorScheme {
 	private int negativeColorResId;
 	private int buttonBackgroundDrawableResId;
 	private int dividerColorResId;
+	private int borderDrawableResId;
 	
 	private ColorScheme(int backgroundColorResId, int foregroundColorResId,
 			int positiveColorResId, int negativeColorResId,
-			int buttonBackgroundDrawableResId, int dividerColorResId) {
+			int buttonBackgroundDrawableResId, int dividerColorResId,
+			int borderDrawableResId) {
 		this.backgroundColorResId = backgroundColorResId;
 		this.foregroundColorResId = foregroundColorResId;
 		this.positiveColorResId = positiveColorResId;
 		this.negativeColorResId = negativeColorResId;
 		this.buttonBackgroundDrawableResId = buttonBackgroundDrawableResId;
 		this.dividerColorResId = dividerColorResId;
+		this.borderDrawableResId = borderDrawableResId;
 		
 	}
 
+	public int getBorderDrawableResId() {
+		return borderDrawableResId;
+	}
 	public int getBackgroundColorResId() {
 		return backgroundColorResId;
 	}

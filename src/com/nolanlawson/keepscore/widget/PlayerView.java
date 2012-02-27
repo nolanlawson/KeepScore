@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -52,6 +53,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	
 	private int positiveTextColor = R.color.green;
 	private int negativeTextColor = R.color.red;
+	private int borderDrawableResId = R.drawable.blue_border_shape_with_gradient;
+	private Drawable borderDrawable = null;
 	
 	private View view, divider1, divider2;
 	private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
@@ -107,6 +110,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		ColorScheme colorScheme = PreferenceHelper.getColorScheme(context);
 		positiveTextColor = colorScheme.getPositiveColorResId();
 		negativeTextColor = colorScheme.getNegativeColorResId();
+		borderDrawableResId = colorScheme.getBorderDrawableResId();
 		
 		updateViews();
     	
@@ -152,6 +156,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	}
 	public void setNegativeTextColor(int negativeTextColor) {
 		this.negativeTextColor = negativeTextColor;
+	}
+	public void setBorderDrawableResId(int borderDrawableResId) {
+		this.borderDrawableResId = borderDrawableResId;
+		this.borderDrawable = null;
 	}
 	public View getDivider1() {
 		return divider1;
@@ -247,6 +255,11 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 		long currentTime = System.currentTimeMillis();
 
+		if (borderDrawable == null) {
+			borderDrawable = context.getResources().getDrawable(borderDrawableResId);
+		}
+		view.setBackgroundDrawable(borderDrawable);
+		
     	String playerName = playerScore.toDisplayName(context);
     	nameTextView.setText(playerName);
 		

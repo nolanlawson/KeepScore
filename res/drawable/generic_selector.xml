@@ -2,13 +2,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true"
-        android:drawable="@drawable/blue_border_shape"/>
+        android:drawable="@drawable/blue_border_shape_no_gradient"/>
 
     <item android:state_focused="true"
-        android:drawable="@drawable/blue_border_shape"/>
+        android:drawable="@drawable/blue_border_shape_no_gradient"/>
 
 	<item android:state_selected="true"
-	   android:drawable="@drawable/blue_border_shape"/>
+	   android:drawable="@drawable/blue_border_shape_no_gradient"/>
 
     <item android:drawable="@android:color/transparent"/>
 </selector>

@@ -259,6 +259,7 @@ public class GameActivity extends Activity {
 			
 			playerView.setPositiveTextColor(colorScheme.getPositiveColorResId());
 			playerView.setNegativeTextColor(colorScheme.getNegativeColorResId());
+			playerView.setBorderDrawableResId(colorScheme.getBorderDrawableResId());
 			
 			playerView.getDivider1().setBackgroundColor(dividerColor); 
 			if (playerView.getDivider2() != null) {
