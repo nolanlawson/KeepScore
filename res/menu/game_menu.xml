@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<item android:id="@+id/menu_home" android:title="@string/menu_home" 
-		android:alphabeticShortcut="@string/menu_home" android:icon="@drawable/ic_menu_home"/>	
-
 	<item android:id="@+id/menu_history" android:title="@string/menu_history"
 		android:alphabeticShortcut="@string/menu_history" android:icon="@drawable/ic_menu_recent_history" />
 	
@@ -15,9 +12,11 @@
 
 	<item android:id="@+id/menu_copy" android:title="@string/menu_copy"
 	    android:alphabeticShortcut="@string/menu_copy" android:icon="@drawable/ic_menu_copy" />
-			
+
+	<item android:id="@+id/menu_randomize" android:title="@string/menu_randomize" 
+		android:alphabeticShortcut="@string/menu_randomize" android:icon="@drawable/ic_menu_shuffle"/>	
+				
 	<item android:id="@+id/menu_settings" android:title="@string/menu_settings"
 		android:alphabeticShortcut="@string/menu_settings" android:icon="@drawable/ic_menu_preferences" />	
-		
 		
 </menu>

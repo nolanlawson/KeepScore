@@ -29,6 +29,7 @@
     <string name="text_copy">Copier</string>
     
     <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
+    <string name="text_players_will_be_randomized">Les joueurs seront mélangés au hasard.</string>
     
     <string name="button_customize">Personnaliser&#8230;</string>
     
@@ -40,6 +41,7 @@
     <string name="toast_valid_initial_score">Il faut entrer un numéro valable.</string>
     <string name="toast_settings_reset">Paramètres réinitialisés.</string>
     <string name="toast_game_copied">Jeu copié.</string>
+    <string name="toast_players_randomized">Joueurs mélangés.</string>
     
     <string name="pref_button_1_name">Bouton Pop-up #1</string>
     <string name="pref_button_2_name">Bouton Pop-up #2</string>
@@ -89,5 +91,6 @@
     <string name="menu_about">A propos</string>
     <string name="menu_add_player">Nouveau Joueur</string>
     <string name="menu_copy">Copier Jeu</string>
+    <string name="menu_randomize">Mélanger</string>
     
 </resources>

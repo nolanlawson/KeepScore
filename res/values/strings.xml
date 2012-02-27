@@ -27,6 +27,7 @@
     <string name="text_copy">Copy</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
+    <string name="text_players_will_be_randomized">The players will be randomly shuffled.</string>
     
     <string name="button_2_players">2</string>
     <string name="button_3_players">3</string>
@@ -48,6 +49,7 @@
     <string name="toast_valid_initial_score">You must enter a valid number.</string>
     <string name="toast_settings_reset">Settings reset.</string>
     <string name="toast_game_copied">Game copied.</string>
+    <string name="toast_players_randomized">Players shuffled.</string>
     
     <string name="pref_button_1">button1</string>
     <string name="pref_button_2">button2</string>
@@ -136,5 +138,6 @@
     <string name="menu_about">About</string>
     <string name="menu_add_player">Add Player</string>
     <string name="menu_copy">Copy Game</string>
+    <string name="menu_randomize">Shuffle</string>
     
 </resources>
