@@ -11,10 +11,12 @@ public class PreferenceHelper {
 
 	private static int cachedUpdateDelay = -1;
 	private static ColorScheme cachedColorScheme = null;
+	private static Boolean cachedGreenTextPref = null;
 	
 	public static void resetCache() {
 		cachedUpdateDelay = -1;
 		cachedColorScheme = null;
+		cachedGreenTextPref = null;
 	}
 
 	public static int getPopupDeltaButtonValue(int index, Context context) {
@@ -59,6 +61,14 @@ public class PreferenceHelper {
 			cachedUpdateDelay = getIntPreference(R.string.pref_update_delay, R.string.pref_update_delay_default, context);
 		}
 		return cachedUpdateDelay;
+	}
+	
+	public static boolean getGreenTextPreference(Context context) {
+		
+		if (cachedGreenTextPref == null) {
+			cachedGreenTextPref = getBooleanPreference(R.string.pref_green_text, R.string.pref_green_text_default, context);
+		}
+		return cachedGreenTextPref;
 	}
 	
 	public static void setBooleanPreference(int resId, int valueResId, Context context) {

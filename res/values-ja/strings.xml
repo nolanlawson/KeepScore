@@ -50,6 +50,9 @@
 	<string name="pref_2p_button_3_name">オンスクリーンボタン＃３</string>
 	<string name="pref_2p_button_4_name">オンスクリーンボタン＃４</string>
 	
+	<string name="pref_green_text_name">緑のテクスト</string>
+    <string name="pref_green_text_summary">緑か青のテクストを選択します。</string>
+	
 	<string name="pref_update_delay_name">アップデートの遅れ</string>
 	<string name="pref_use_wake_lock_name">画面を起こし続ける</string>
 	<string name="pref_initial_score_name">最初の点</string>

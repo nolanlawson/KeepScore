@@ -27,7 +27,7 @@ public class SettingsActivity extends PreferenceActivity {
 			button4Pref, twoPlayerButton1Pref, twoPlayerButton2Pref,
 			twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref,
 			initialScorePref;
-	private CheckBoxPreference useWakeLockPref;
+	private CheckBoxPreference useWakeLockPref, greenTextPref;
 	private Preference resetPref, aboutPref;
 	private ListPreference colorSchemePref;
 
@@ -50,7 +50,8 @@ public class SettingsActivity extends PreferenceActivity {
 		twoPlayerButton2Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_2);
 		twoPlayerButton3Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_3);
 		twoPlayerButton4Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_4);
-
+		greenTextPref = (CheckBoxPreference) findPreferenceById(R.string.pref_green_text);
+		
 		updateDelayPref = (EditTextPreference) findPreferenceById(R.string.pref_update_delay);
 		initialScorePref = (EditTextPreference) findPreferenceById(R.string.pref_initial_score);
 		resetPref = findPreferenceById(R.string.pref_reset);
@@ -147,6 +148,15 @@ public class SettingsActivity extends PreferenceActivity {
 			public boolean onPreferenceClick(Preference preference) {
 				Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
 				startActivity(intent);
+				return true;
+			}
+		});
+		
+		greenTextPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				PreferenceHelper.resetCache(); // ensure that the changes get reflected
 				return true;
 			}
 		});

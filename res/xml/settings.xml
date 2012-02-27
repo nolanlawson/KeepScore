@@ -8,6 +8,10 @@
 		android:entries="@array/pref_color_scheme_entries" 
 		android:entryValues="@array/pref_color_scheme_entry_values"/>
 
+	<CheckBoxPreference android:key="@string/pref_green_text" android:title="@string/pref_green_text_name"
+	    android:defaultValue="@string/pref_green_text_default" android:persistent="true"
+	    android:summary="@string/pref_green_text_summary"/>
+	
 	<PreferenceCategory android:title="@string/pref_cat_config"/>
 
 	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_initial_score"

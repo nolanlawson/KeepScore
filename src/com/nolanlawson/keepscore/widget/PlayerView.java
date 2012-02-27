@@ -51,10 +51,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private PlayerScore playerScore;
 	private AtomicBoolean shouldAutosave = new AtomicBoolean(false);
 	
-	private int positiveTextColor = R.color.green;
-	private int negativeTextColor = R.color.red;
-	private int borderDrawableResId = R.drawable.blue_border_shape_with_gradient;
-	private Drawable borderDrawable = null;
+	private int positiveTextColor;
+	private int negativeTextColor;
+	private int borderDrawableResId;
+	private Drawable borderDrawable;
 	
 	private View view, divider1, divider2;
 	private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
@@ -108,9 +108,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		historyTextView.setOnLongClickListener(this);
 		
 		ColorScheme colorScheme = PreferenceHelper.getColorScheme(context);
-		positiveTextColor = colorScheme.getPositiveColorResId();
-		negativeTextColor = colorScheme.getNegativeColorResId();
-		borderDrawableResId = colorScheme.getBorderDrawableResId();
+		setNewColorScheme(colorScheme);
 		
 		updateViews();
     	
@@ -150,16 +148,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	}
 	public AtomicBoolean getShouldAutosave() {
 		return shouldAutosave;
-	}
-	public void setPositiveTextColor(int positiveTextColor) {
-		this.positiveTextColor = positiveTextColor;
-	}
-	public void setNegativeTextColor(int negativeTextColor) {
-		this.negativeTextColor = negativeTextColor;
-	}
-	public void setBorderDrawableResId(int borderDrawableResId) {
-		this.borderDrawableResId = borderDrawableResId;
-		this.borderDrawable = null;
 	}
 	public View getDivider1() {
 		return divider1;
@@ -271,7 +259,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			makeBadgeVisible();
 			Integer lastDelta = playerScore.getHistory().get(playerScore.getHistory().size() - 1);
 			badgeTextView.setText(IntegerUtil.toStringWithSign(lastDelta));
-			badgeLinearLayout.setBackgroundResource(lastDelta >= 0 ? R.drawable.badge_green_fade_out : R.drawable.badge_red_fade_out);
+			badgeLinearLayout.setBackgroundResource(lastDelta >= 0 ? getPositiveBadge() : R.drawable.badge_red_fade_out);
 			
 			// update history text view now rather than later
 			historyTextView.setText(newHistoryTextViewValue);
@@ -301,6 +289,22 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		}
 	}
 	
+	private int getPositiveBadge() {
+		if (PreferenceHelper.getGreenTextPreference(context)) {
+			return R.drawable.badge_green_fade_out;
+		} else {
+			return R.drawable.badge_blue_fade_out;
+		}
+	}
+	
+	private int getPositiveTextColor(ColorScheme colorScheme) {
+		if (PreferenceHelper.getGreenTextPreference(context)) {
+			return colorScheme.getGreenPositiveColorResId();
+		} else {
+			return colorScheme.getPositiveColorResId();
+		}
+	}
+
 	private void makeBadgeVisible() {
 		synchronized (lock) {
 			// show the badge, canceling the "fade out" animation if necessary
@@ -657,5 +661,12 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		public void setCanceled(boolean canceled) {
 			this.canceled = true;
 		}
+	}
+
+	public void setNewColorScheme(ColorScheme colorScheme) {
+		positiveTextColor = getPositiveTextColor(colorScheme);
+		negativeTextColor = colorScheme.getNegativeColorResId();
+		borderDrawableResId = colorScheme.getBorderDrawableResId();
+		borderDrawable = null;
 	}
 }

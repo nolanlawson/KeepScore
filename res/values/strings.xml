@@ -58,6 +58,10 @@
     <string name="pref_2p_button_3">2p_button3</string>
     <string name="pref_2p_button_4">2p_button4</string>
     
+    <string name="pref_green_text">green_text</string>
+    <string name="pref_green_text_name">Green Text</string>
+    <string name="pref_green_text_summary">Toggle green or blue increment text.</string>
+    <string name="pref_green_text_default">false</string>
     
     <string name="pref_update_delay">update_delay</string>
     <string name="pref_use_wake_lock">use_wake_lock</string>

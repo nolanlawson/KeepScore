@@ -50,6 +50,10 @@
     <string name="pref_2p_button_3_name">Bouton sur l\'Ecran #3</string>
     <string name="pref_2p_button_4_name">Bouton sur l\'Ecran #4</string>
     
+    <string name="pref_green_text_name">Texte Vert</string>
+    <string name="pref_green_text_summary">Choisir vert ou bleu pour le texte d\'incrément.</string>
+    
+    
     <string name="pref_update_delay_name">Délai de la Mise à Jour</string>
     <string name="pref_use_wake_lock_name">Garder l\'Ecran Eveillé</string>
     <string name="pref_initial_score_name">Point Initial</string>

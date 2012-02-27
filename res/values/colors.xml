@@ -4,10 +4,17 @@
 	<color name="light_blue_2">#330c6995</color>
 	<color name="light_blue_3">#770c6995</color>
 	
-	<color name="cream">#FFFFFFEE</color>
+	<color name="cream">#FFFFFFF0</color>
 	
 	<color name="green">#FF00BB00</color>
 	<color name="red">#FFCC3333</color>
+	
+	<color name="blue_1">#FF1177EE</color>
+	<color name="blue_2">#DD3388EE</color>
+	<color name="blue_3">#DD005599</color>
+	<color name="blue_4">#DD3377FF</color>
+	<color name="blue_5">#DD000099</color>
+	
 	
 	<color name="green_2">#DD00DD00</color>
 	<color name="green_3">#DD008800</color>
