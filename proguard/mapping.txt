@@ -423,11 +423,11 @@ com.nolanlawson.keepscore.helper.PreferenceHelper -> com.nolanlawson.keepscore.a
     com.nolanlawson.keepscore.helper.ColorScheme getColorScheme(android.content.Context) -> a
     int getUpdateDelay(android.content.Context) -> b
     boolean getGreenTextPreference(android.content.Context) -> c
-    void setBooleanPreference$21f5c52d(android.content.Context) -> d
-    void setStringPreference$21f5c52d(android.content.Context) -> e
-    void setIntPreference(int,int,android.content.Context) -> a
-    int getIntPreference(int,int,android.content.Context) -> b
-    boolean getBooleanPreference(int,int,android.content.Context) -> c
+    void setBooleanPreference(int,int,android.content.Context) -> a
+    void setStringPreference$21f5c52d(android.content.Context) -> d
+    void setIntPreference(int,int,android.content.Context) -> b
+    int getIntPreference(int,int,android.content.Context) -> c
+    boolean getBooleanPreference(int,int,android.content.Context) -> d
 com.nolanlawson.keepscore.util.CollectionUtil -> com.nolanlawson.keepscore.c.f:
     java.lang.Comparable maxValue$2d6207d9(java.util.List,com.nolanlawson.keepscore.util.CollectionUtil$Function) -> a
     java.util.List stringsToInts(java.util.List) -> a
