@@ -1,88 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
-	android:background="@drawable/main_background">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main_background"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical" >
 
-	<View android:layout_width="0px" android:layout_weight=".05"
-		android:layout_height="0px" />
+    <View
+        android:layout_width="0px"
+        android:layout_height="15dp" />
 
-	<TextView android:layout_width="fill_parent" android:gravity="center_horizontal"
-		android:layout_height="wrap_content" android:textSize="24sp"
-		android:textStyle="bold" android:text="@string/text_num_players" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/text_num_players"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
-	<View android:layout_width="0px" android:layout_weight=".05"
-		android:layout_height="0px" />
+    <View
+        android:layout_width="0px"
+        android:layout_height="5dp" />
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        android:layout_gravity="center_horizontal|center_vertical"
+        >
 
-	<ScrollView android:layout_width="fill_parent"
-		android:layout_height="0px" android:layout_weight="0.85">
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="10dp"
+            android:stretchColumns="*" >
 
-		<LinearLayout android:orientation="horizontal"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:gravity="center_horizontal">
+            <TableRow>
 
-			<View android:layout_width="0px" android:layout_weight=".125"
-				android:layout_height="0px" />
+                <Button
+                    android:id="@+id/button_2_players"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_2_players"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
 
-			<TableLayout android:layout_width="0px"
-				android:layout_weight=".75" android:layout_height="wrap_content"
-				android:padding="5dp" android:stretchColumns="*">
+            <TableRow android:paddingTop="2dp" >
 
-				<TableRow>
-					<Button android:id="@+id/button_2_players" android:text="@string/button_2_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
-				</TableRow>
+                <Button
+                    android:id="@+id/button_3_players"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_3_players"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
 
-				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_3_players" android:text="@string/button_3_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
-				</TableRow>
+            <TableRow android:paddingTop="2dp" >
 
-				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_4_players" android:text="@string/button_4_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
+                <Button
+                    android:id="@+id/button_4_players"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_4_players"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
 
-				</TableRow>
+            <TableRow android:paddingTop="2dp" >
 
-				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_5_players" android:text="@string/button_5_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
+                <Button
+                    android:id="@+id/button_5_players"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_5_players"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
 
-				</TableRow>
+            <TableRow android:paddingTop="2dp" >
 
-				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_6_players" android:text="@string/button_6_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
+                <Button
+                    android:id="@+id/button_6_players"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_6_players"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
 
-				</TableRow>
+            <TableRow android:paddingTop="2dp" >
 
-				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_7_players" android:text="@string/button_7_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
-				</TableRow>
+                <Button
+                    android:id="@+id/button_7_players"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_7_players"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
 
-				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_8_players" android:text="@string/button_8_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
-				</TableRow>
-			</TableLayout>
+            <TableRow android:paddingTop="2dp" >
 
+                <Button
+                    android:id="@+id/button_8_players"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_8_players"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 
-			<View android:layout_width="0px" android:layout_weight=".125"
-				android:layout_height="0px" />
-		</LinearLayout>
-
-	</ScrollView>
-	
-		<View android:layout_width="0px" android:layout_weight=".05"
-		android:layout_height="0px" />
 </LinearLayout>

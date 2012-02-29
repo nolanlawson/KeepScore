@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,7 +52,8 @@ public class GameActivity extends Activity {
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
 	
-	private View rootLayout;
+	private LinearLayout rootLayout, rowLayout2, rowLayout3, rowLayout4;
+	private View rootPadding1, rootPadding2;
 	
 	private Game game;
 	private List<PlayerScore> playerScores;
@@ -73,32 +75,20 @@ public class GameActivity extends Activity {
 		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, getPackageName());
         
-        setContentView(getContentViewResId());
+        setContentView(R.layout.game);
         setUpWidgets();
     }
-
-	private int getContentViewResId() {
-		switch (playerScores.size()) {
-		case 2:
-			return R.layout.game_2;
-		case 3:
-		case 4:
-			return R.layout.game_3_to_4;
-		case 5:
-		case 6:
-			return R.layout.game_5_to_6;
-		case 7:
-		case 8:
-		default:
-			return R.layout.game_7_to_8;
-		}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		log.d("onDestroy()");
 	}
-	
-	
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		log.d("onPause()");
 		
 		if (wakeLock.isHeld()) {
 			log.d("Releasing wakelock");
@@ -512,19 +502,37 @@ public class GameActivity extends Activity {
 
 	private void setUpWidgets() {
 
-		rootLayout = findViewById(R.id.game_root_layout);
+		rootLayout = (LinearLayout) findViewById(R.id.game_root_layout);
+		rowLayout2 = (LinearLayout) findViewById(R.id.game_row_2);
+		rowLayout3 = (LinearLayout) findViewById(R.id.game_row_3);
+		rowLayout4 = (LinearLayout) findViewById(R.id.game_row_4);
+		
+		// set which rows are visible based on how many players there are
+		rowLayout2.setVisibility(playerScores.size() > 2 ? View.VISIBLE : View.GONE);
+		rowLayout3.setVisibility(playerScores.size() > 4 ? View.VISIBLE : View.GONE);
+		rowLayout4.setVisibility(playerScores.size() > 6 ? View.VISIBLE : View.GONE);
+		
+		// add top and bottom spacing on the two-player game.  it looks nicer
+		rootPadding1 = findViewById(R.id.game_root_padding_1);
+		rootPadding2 = findViewById(R.id.game_root_padding_2);
+		rootPadding1.setVisibility(playerScores.size() <= 2 ? View.VISIBLE : View.GONE);
+		rootPadding2.setVisibility(playerScores.size() <= 2 ? View.VISIBLE : View.GONE);
 		
 		playerViews = new ArrayList<PlayerView>();
 		
 		PlayerTextFormat textFormat = PlayerTextFormat.forNumPlayers(playerScores.size());
 		
+		// only show the onscreen delta buttons if space allows
+		boolean showOnscreenDeltaButtons = playerScores.size() <= 
+				getResources().getInteger(R.integer.max_players_for_onscreen_delta_buttons);
+		
 		for (int i = 0; i < playerScores.size(); i++) {
 			
 			PlayerScore playerScore = playerScores.get(i);
 			int resId = getPlayerViewResId(i);
-			View view = findViewById(resId);
+			View view = getPlayerScoreView(resId);
 			
-			PlayerView playerView = new PlayerView(this, view, playerScore, handler);
+			PlayerView playerView = new PlayerView(this, view, playerScore, handler, showOnscreenDeltaButtons);
 			
 			// set to autosave if the player names are filled in.  This feels intuitive to me.  There's no point
 			// in saving an empty game, but if the player names are included, the game feels non-empty and therefore
@@ -570,14 +578,23 @@ public class GameActivity extends Activity {
 		
 		if (playerScores.size() == 3) {
 			// hide the "fourth" player
-			findViewById(R.id.player_4).setVisibility(View.INVISIBLE);
+			getPlayerScoreView(R.id.player_4).setVisibility(View.INVISIBLE);
 		} else if (playerScores.size() == 5) {
 			// hide the "sixth" player
-			findViewById(R.id.player_6).setVisibility(View.INVISIBLE);
+			getPlayerScoreView(R.id.player_6).setVisibility(View.INVISIBLE);
 		} else if (playerScores.size() == 7) {
 			// hide the "eighth" player
-			findViewById(R.id.player_8).setVisibility(View.INVISIBLE);
+			getPlayerScoreView(R.id.player_8).setVisibility(View.INVISIBLE);
 		}
+	}
+	
+	private View getPlayerScoreView(int resId) {
+		// either get the view, or inflate from the ViewStub
+		View view = findViewById(resId);
+		if (view instanceof ViewStub) {
+			return ((ViewStub)view).inflate();
+		}
+		return view;
 	}
 
 	private int getPlayerViewResId(int playerNumber) {

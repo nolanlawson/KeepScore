@@ -4,19 +4,24 @@
 	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
 	android:id="@+id/game_root_layout">
 
+    <View android:layout_width="0px" android:layout_height="35dp" android:id="@+id/game_root_padding_1"/>
+    
 	<LinearLayout android:orientation="horizontal"
 		android:layout_width="fill_parent" android:layout_height="0px"
 		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
 		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp">
+		android:paddingBottom="3dp" android:paddingRight="3dp"
+		android:id="@+id/game_row_1">
 
-		<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_1" 
+		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_1" 
+		    android:inflatedId="@+id/player_1" 
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent"/>
 
 		<View android:layout_height="0px" android:layout_width="3dp" />
 
-		<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_2" 
+		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_2" 
+		    android:inflatedId="@+id/player_2"
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent"/>
 
@@ -27,16 +32,19 @@
 		android:layout_width="fill_parent" android:layout_height="0px"
 		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
 		android:paddingLeft="3dp" android:paddingBottom="3dp"
-		android:paddingRight="3dp">
+		android:paddingRight="3dp"
+		android:id="@+id/game_row_2">
 
 
-		<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_3" 
+		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_3" 
+		    android:inflatedId="@+id/player_3"
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent"/>
 
 		<View android:layout_height="0px" android:layout_width="3dp" />
 
-		<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_4" 
+		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_4" 
+		    android:inflatedId="@+id/player_4"
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent"/>
 
@@ -46,15 +54,18 @@
 		android:layout_width="fill_parent" android:layout_height="0px"
 		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
 		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp">
+		android:paddingBottom="3dp" android:paddingRight="3dp"
+		android:id="@+id/game_row_3">
 
-		<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_5" 
+		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_5" 
+		    android:inflatedId="@+id/player_5"
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent"/>
 
 		<View android:layout_height="0px" android:layout_width="3dp" />
 		
-		<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_6" 
+		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_6" 
+		    android:inflatedId="@+id/player_6"
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent"/>
 
@@ -64,18 +75,23 @@
 		android:layout_width="fill_parent" android:layout_height="0px"
 		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
 		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp">
+		android:paddingBottom="3dp" android:paddingRight="3dp"
+		android:id="@+id/game_row_4">
 
-		<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_7" 
+		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_7" 
+		    android:inflatedId="@+id/player_7"
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent"/>
 
 		<View android:layout_height="0px" android:layout_width="3dp" />
 
-		<include layout="@layout/player_score_without_delta_buttons" android:id="@+id/player_8" 
+		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_8" 
+		    android:inflatedId="@+id/player_8"
 			android:layout_width="0px" android:layout_weight="0.5"
 			android:layout_height="fill_parent"/>
 
 	</LinearLayout>	
+	
+	<View android:layout_width="0px" android:layout_height="35dp" android:id="@+id/game_root_padding_2"/>
 
 </LinearLayout>

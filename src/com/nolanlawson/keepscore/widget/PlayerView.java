@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -63,22 +64,28 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private List<View> plusMinusButtonMargins = new ArrayList<View>();
 	private Context context;
 	private Handler handler;
+	private boolean showOnscreenDeltaButtons;
 	
 	private AtomicLong lastIncremented = new AtomicLong(0);
 	private HistoryUpdateRunnable historyUpdateRunnable;
 	private final Object lock = new Object();
 	private boolean animationRunning;
 	
-	public PlayerView(Context context, View view, PlayerScore playerScore, Handler handler) {
+	public PlayerView(Context context, View view, PlayerScore playerScore, Handler handler, boolean showOnscreenDeltaButtons) {
 		this.view = view;
 		this.playerScore = playerScore;
 		this.context = context;
 		this.handler = handler;
+		this.showOnscreenDeltaButtons = showOnscreenDeltaButtons;
 		init();
 	}
 
 	private void init() {
 
+		// enable or disable onscreen delta buttons based on whether we have enough room onscreen or not
+		ViewStub deltaButtonsViewStub = (ViewStub) view.findViewById(R.id.onscreen_delta_buttons_stub);
+		deltaButtonsViewStub.setVisibility(showOnscreenDeltaButtons ? View.VISIBLE : View.GONE);
+		
 		divider1 = view.findViewById(R.id.player_score_divider_1);
 		divider2 = view.findViewById(R.id.player_score_divider_2);
 		nameTextView = (TextView) view.findViewById(R.id.text_name);
