@@ -4,7 +4,7 @@
 	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
 	android:id="@+id/game_root_layout">
 
-    <View android:layout_width="0px" android:layout_height="35dp" android:id="@+id/game_root_padding_1"/>
+    <View android:layout_width="0px" android:layout_height="@dimen/game_root_padding" android:id="@+id/game_root_padding_1"/>
     
 	<LinearLayout android:orientation="horizontal"
 		android:layout_width="fill_parent" android:layout_height="0px"
@@ -92,6 +92,6 @@
 
 	</LinearLayout>	
 	
-	<View android:layout_width="0px" android:layout_height="35dp" android:id="@+id/game_root_padding_2"/>
+	<View android:layout_width="0px" android:layout_height="@dimen/game_root_padding" android:id="@+id/game_root_padding_2"/>
 
 </LinearLayout>

@@ -29,7 +29,6 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="+1"
-            android:textSize="@dimen/delta_non_popup"
             android:typeface="monospace" />
 
         <View
@@ -44,7 +43,6 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="+5"
-            android:textSize="@dimen/delta_non_popup"
             android:typeface="monospace" />
 
         <View
@@ -59,7 +57,6 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="+10"
-            android:textSize="@dimen/delta_non_popup"
             android:typeface="monospace" />
 
         <View
@@ -74,7 +71,6 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="+20"
-            android:textSize="@dimen/delta_non_popup"
             android:typeface="monospace" />
     </LinearLayout>
 

@@ -544,34 +544,7 @@ public class GameActivity extends Activity {
 			// sometimes the text gets cut off in the 6 or 8 player view, 
 			// so make the text smaller
 			
-			playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));
-			playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					getResources().getDimensionPixelSize(textFormat.getBadgeTextSize()));	
-			playerView.getScoreTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					getResources().getDimensionPixelSize(textFormat.getPlayerScoreTextSize()));
-			playerView.getPlusButton().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
-			playerView.getMinusButton().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
-			for (View plusMinusButtonMargin : playerView.getPlusMinusButtonMargins()) {
-				plusMinusButtonMargin.setLayoutParams(
-						new LinearLayout.LayoutParams(0, 0, textFormat.getPlusMinusButtonMargin()));
-			}
-			
-			playerView.getBadgeTextView().setPadding(
-					getResources().getDimensionPixelSize(textFormat.getBadgePaddingLeftRight()), // left
-					getResources().getDimensionPixelSize(textFormat.getBadgePaddingTopBottom()), // top
-					getResources().getDimensionPixelSize(textFormat.getBadgePaddingLeftRight()), // right
-					getResources().getDimensionPixelSize(textFormat.getBadgePaddingTopBottom()) // bottom
-					);
-			
-			// the offset is from the top right corner only
-			playerView.getBadgeLinearLayout().setPadding(
-					0, 
-					getResources().getDimensionPixelSize(textFormat.getBadgeOffset()), 
-					getResources().getDimensionPixelSize(textFormat.getBadgeOffset()), 
-					0);
+			setPlayerViewTextSizes(playerView, textFormat);
 	    	
 			playerViews.add(playerView);
 		}
@@ -588,6 +561,46 @@ public class GameActivity extends Activity {
 		}
 	}
 	
+	private void setPlayerViewTextSizes(PlayerView playerView, PlayerTextFormat textFormat) {
+		playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));
+		playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				getResources().getDimensionPixelSize(textFormat.getBadgeTextSize()));	
+		playerView.getScoreTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				getResources().getDimensionPixelSize(textFormat.getPlayerScoreTextSize()));
+		playerView.getPlusButton().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
+		playerView.getMinusButton().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
+		for (View plusMinusButtonMargin : playerView.getPlusMinusButtonMargins()) {
+			plusMinusButtonMargin.setLayoutParams(
+					new LinearLayout.LayoutParams(0, 0, textFormat.getPlusMinusButtonMargin()));
+		}
+		
+		for (Button button : new Button[] {playerView.getDeltaButton1(), playerView.getDeltaButton2(), playerView.getDeltaButton3(),
+				playerView.getDeltaButton4()}) {
+			if (button != null) {
+				button.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						getResources().getDimensionPixelSize(textFormat.getOnscreenDeltaButtonTextSize()));
+			}
+		}
+		
+		playerView.getBadgeTextView().setPadding(
+				getResources().getDimensionPixelSize(textFormat.getBadgePaddingLeftRight()), // left
+				getResources().getDimensionPixelSize(textFormat.getBadgePaddingTopBottom()), // top
+				getResources().getDimensionPixelSize(textFormat.getBadgePaddingLeftRight()), // right
+				getResources().getDimensionPixelSize(textFormat.getBadgePaddingTopBottom()) // bottom
+				);
+		
+		// the offset is from the top right corner only
+		playerView.getBadgeLinearLayout().setPadding(
+				0, 
+				getResources().getDimensionPixelSize(textFormat.getBadgeOffset()), 
+				getResources().getDimensionPixelSize(textFormat.getBadgeOffset()), 
+				0);
+		
+	}
+
 	private View getPlayerScoreView(int resId) {
 		// either get the view, or inflate from the ViewStub
 		View view = findViewById(resId);

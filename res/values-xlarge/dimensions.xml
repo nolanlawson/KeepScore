@@ -12,14 +12,19 @@
 	<dimen name="player_plus_minus_button_2_to_6">36sp</dimen>
 	<dimen name="player_plus_minus_button_7_to_8">24sp</dimen>
 	
+	<dimen name="player_onscreen_delta_button_text_size_2_to_4">48sp</dimen>
+	<dimen name="player_onscreen_delta_button_text_size_5_to_6">36sp</dimen>
+	<dimen name="player_onscreen_delta_button_text_size_7_to_8">24sp</dimen>
+		
 	<dimen name="player_badge_2_to_4">36sp</dimen>
 	<dimen name="player_badge_5_to_6">36sp</dimen>
 	<dimen name="player_badge_7_to_8">36sp</dimen>
 	
 	<dimen name="delta_popup_text">48sp</dimen>
 	<dimen name="delta_popup_width">800dp</dimen>
-	<dimen name="delta_non_popup">24sp</dimen>
 	
 	<dimen name="history_text_normal">24sp</dimen>
-	<dimen name="history_text_small">21sp</dimen>    
+	<dimen name="history_text_small">21sp</dimen> 
+	
+	<dimen name="game_root_padding">70dp</dimen>
 </resources>
