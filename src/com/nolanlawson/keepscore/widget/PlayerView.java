@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -83,7 +82,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private void init() {
 
 		// enable or disable onscreen delta buttons based on whether we have enough room onscreen or not
-		ViewStub deltaButtonsViewStub = (ViewStub) view.findViewById(R.id.onscreen_delta_buttons_stub);
+		View deltaButtonsViewStub = view.findViewById(R.id.onscreen_delta_buttons_stub);
 		deltaButtonsViewStub.setVisibility(showOnscreenDeltaButtons ? View.VISIBLE : View.GONE);
 		
 		divider1 = view.findViewById(R.id.player_score_divider_1);

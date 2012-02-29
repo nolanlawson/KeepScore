@@ -11,6 +11,7 @@
 			
 	<ViewStub android:layout="@layout/onscreen_delta_buttons"
 	    	android:id="@+id/onscreen_delta_buttons_stub"
+	    	android:inflatedId="@+id/onscreen_delta_buttons_stub"
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="0px"
 	    	android:layout_weight="0.3"/>
