@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -41,6 +42,7 @@ import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
+import com.nolanlawson.keepscore.util.VersionHelper;
 
 public class PlayerView implements OnClickListener, OnLongClickListener {
 	
@@ -83,6 +85,16 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 		// enable or disable onscreen delta buttons based on whether we have enough room onscreen or not
 		View deltaButtonsViewStub = view.findViewById(R.id.onscreen_delta_buttons_stub);
+		int versionInt = VersionHelper.getVersionSdkIntCompat();
+		if (versionInt > VersionHelper.VERSION_DONUT &&
+				versionInt < VersionHelper.VERSION_FROYO) {
+			// in eclair, there's a bug where ViewStubs within ViewSubs do not
+			// render correctly, so inflate the ViewStubs no matter what
+			if (deltaButtonsViewStub instanceof ViewStub) {
+				deltaButtonsViewStub = ((ViewStub)deltaButtonsViewStub).inflate();
+			}
+			
+		}
 		deltaButtonsViewStub.setVisibility(showOnscreenDeltaButtons ? View.VISIBLE : View.GONE);
 		
 		divider1 = view.findViewById(R.id.player_score_divider_1);
