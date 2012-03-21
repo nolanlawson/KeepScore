@@ -4,6 +4,10 @@
 	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
 	android:id="@+id/game_root_layout">
 
+    <ViewStub android:layout="@layout/round_totals" android:id="@+id/round_totals"
+        android:inflatedId="@+id/round_totals" android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
     <View android:layout_width="0px" android:layout_height="@dimen/game_root_padding" android:id="@+id/game_root_padding_1"/>
     
 	<LinearLayout android:orientation="horizontal"

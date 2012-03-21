@@ -25,6 +25,7 @@
     <string name="text_add_zero">Add Zero</string>
     <string name="text_version_number">Version %s</string>
     <string name="text_copy">Copy</string>
+    <string name="round_total" formatted="false">Round #%d Total: %d</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     <string name="text_players_will_be_randomized">The players will be randomly shuffled.</string>
@@ -120,6 +121,9 @@
     <string name="pref_color_scheme_choice_android_name">Android</string>
     <string name="pref_player_names">PlayerNames</string>
     
+    <string name="pref_show_round_totals">show_round_totals</string>
+    <string name="pref_show_round_totals_name">Show Round Totals</string>
+    <string name="pref_show_round_totals_default">false</string>
     
     <string name="tile_add">Add Value</string>
     <string name="tile_subtract">Subtract Value</string>

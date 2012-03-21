@@ -27,6 +27,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nolanlawson.keepscore.db.Game;
@@ -36,9 +37,13 @@ import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.CompatibilityHelper;
 import com.nolanlawson.keepscore.helper.PlayerTextFormat;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
+import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
+import com.nolanlawson.keepscore.util.Functions;
 import com.nolanlawson.keepscore.util.StopWatch;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
+import com.nolanlawson.keepscore.util.VersionHelper;
 import com.nolanlawson.keepscore.widget.PlayerView;
 
 public class GameActivity extends Activity {
@@ -54,6 +59,8 @@ public class GameActivity extends Activity {
 	
 	private LinearLayout rootLayout, rowLayout2, rowLayout3, rowLayout4;
 	private View rootPadding1, rootPadding2;
+	private ViewStub roundTotalViewStub;
+	private TextView roundTotalTextView;
 	
 	private Game game;
 	private List<PlayerScore> playerScores;
@@ -63,6 +70,7 @@ public class GameActivity extends Activity {
 	private Handler handler = new Handler(Looper.getMainLooper());
 	private boolean paused = true;
 	private GameDBHelper dbHelper;
+	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +129,8 @@ public class GameActivity extends Activity {
 		setOrUpdateColorScheme();
 		
 		startPeriodicSave();
+		
+		updateRoundTotalViewText();
 		
 		paused = false;
 	}
@@ -518,6 +528,15 @@ public class GameActivity extends Activity {
 		rootPadding1.setVisibility(playerScores.size() <= 2 ? View.VISIBLE : View.GONE);
 		rootPadding2.setVisibility(playerScores.size() <= 2 ? View.VISIBLE : View.GONE);
 		
+		// inflate the round total view stub if we're in Eclair (due to an Eclair bug), or
+		// if the round totals are enabled
+		roundTotalViewStub = (ViewStub) findViewById(R.id.round_totals);
+		int versionInt = VersionHelper.getVersionSdkIntCompat();
+		if (versionInt > VersionHelper.VERSION_DONUT &&
+				versionInt < VersionHelper.VERSION_FROYO) {
+			roundTotalTextView = (TextView) roundTotalViewStub.inflate();
+		}
+		
 		playerViews = new ArrayList<PlayerView>();
 		
 		PlayerTextFormat textFormat = PlayerTextFormat.forNumPlayers(playerScores.size());
@@ -533,6 +552,14 @@ public class GameActivity extends Activity {
 			View view = getPlayerScoreView(resId);
 			
 			PlayerView playerView = new PlayerView(this, view, playerScore, handler, showOnscreenDeltaButtons);
+			
+			playerView.setOnChangeListener(new Runnable(){
+
+				@Override
+				public void run() {
+					updateRoundTotalViewText();
+				}
+			});
 			
 			// set to autosave if the player names are filled in.  This feels intuitive to me.  There's no point
 			// in saving an empty game, but if the player names are included, the game feels non-empty and therefore
@@ -561,6 +588,36 @@ public class GameActivity extends Activity {
 		}
 	}
 	
+	private void updateRoundTotalViewText() {
+		
+		boolean showRoundTotal = PreferenceHelper.getShowRoundTotals(this);
+		
+		if (!showRoundTotal) {
+			if (roundTotalTextView != null) {
+				roundTotalTextView.setVisibility(View.GONE);
+			}
+			return;
+		}
+		
+		final int round = CollectionUtil.max(playerScores, Functions.PLAYER_SCORE_TO_HISTORY_SIZE);
+		
+		int roundTotal = round == 0 ? 0 : CollectionUtil.sum(playerScores, new Function<PlayerScore, Integer>(){
+
+			@Override
+			public Integer apply(PlayerScore obj) {
+				return obj.getHistory().size() >= round ? obj.getHistory().get(round - 1) : 0;
+			}
+		});
+		
+		String text = String.format(getString(R.string.round_total), Math.max(round, 1), roundTotal);
+		
+		if (roundTotalTextView == null) {
+			roundTotalTextView = (TextView) roundTotalViewStub.inflate();
+		}
+		roundTotalTextView.setVisibility(View.VISIBLE);
+		roundTotalTextView.setText(text);
+	}
+
 	private void setPlayerViewTextSizes(PlayerView playerView, PlayerTextFormat textFormat) {
 		playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));

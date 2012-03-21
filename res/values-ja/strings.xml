@@ -2,7 +2,6 @@
 <resources>
 	<string name="app_name">KeepScore</string>
 
-
 	<string name="button_new_game">新しいゲーム</string>
 	<string name="button_resume_game">最後のゲームを続ける</string>
 	<string name="button_load_game">保存したゲーム</string>
@@ -42,6 +41,7 @@
 	<string name="toast_settings_reset">設定はリセットされました。</string>
 	<string name="toast_game_copied">ゲーム複写されました。</string>
 	<string name="toast_players_randomized">選手は混ぜられました。</string>
+	<string name="round_total" formatted="false">ロウンド%dのトータル：%d</string>
 	
 	<string name="pref_button_1_name">ポップアップのボタン＃１</string>
 	<string name="pref_button_2_name">ポップアップのボタン＃２</string>
@@ -73,6 +73,8 @@
 	<string name="pref_color_scheme_choice_light_name">明るい</string>
 	<string name="pref_color_scheme_choice_android_name">アンドロイド</string>
 
+	<string name="pref_show_round_totals_name">ロウンドのトータルを表示</string>
+	
 	<string name="tile_add">増加</string>
 	<string name="tile_subtract">減</string>
 	<string name="tile_change_name">名を変換</string>

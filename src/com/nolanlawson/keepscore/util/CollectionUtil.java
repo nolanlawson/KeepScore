@@ -92,6 +92,26 @@ public class CollectionUtil {
 		return result;
 	}
 	
+	public static <E> int sum(List<E> list, Function<E, Integer> function) {
+		int sum = 0;
+		for (E element : list) {
+			sum += function.apply(element);
+		}
+		return sum;
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public static <E, T extends Number> T max(List<E> list, Function<E, T> function) {
+		T max = null;
+		for (E element : list) {
+			T value = function.apply(element);
+			if (max == null || ((Comparable<T>)value).compareTo(max) > 0) {
+				max = value;
+			}
+		}
+		return max;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(List<T> list, Class<T> clazz) {
 		return list.toArray((T[])Array.newInstance(clazz, list.size()));

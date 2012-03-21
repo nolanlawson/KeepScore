@@ -38,6 +38,7 @@ import com.nolanlawson.keepscore.helper.PlayerNameHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
+import com.nolanlawson.keepscore.util.Functions;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -71,6 +72,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private HistoryUpdateRunnable historyUpdateRunnable;
 	private final Object lock = new Object();
 	private boolean animationRunning;
+	private Runnable onChangeListener;
 	
 	public PlayerView(Context context, View view, PlayerScore playerScore, Handler handler, boolean showOnscreenDeltaButtons) {
 		this.view = view;
@@ -189,6 +191,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		return plusMinusButtonMargins;
 	}
 
+	public void setOnChangeListener(Runnable onChangeListener) {
+		this.onChangeListener = onChangeListener;
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -255,6 +261,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		shouldAutosave.set(true);
 		createDelayedHistoryUpdateTask();
+		if (onChangeListener != null) {
+			handler.post(onChangeListener);
+		}
 	}
 	
 	public  void updateViews() {
@@ -413,13 +422,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		// if e.g. there is a double-digit delta (e.g. "+10"), then all other strings need to be padded
 		// so that they line up correctly
-		int maxChars = CollectionUtil.maxValue(history, new Function<Integer, Integer>(){
-
-			@Override
-			public Integer apply(Integer obj) {
-				return IntegerUtil.toStringWithSign(obj).length();
-			}
-		});
+		int maxChars = CollectionUtil.maxValue(history, Functions.INTEGER_TO_LENGTH_WITH_SIGN);
 		
 		List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
 		

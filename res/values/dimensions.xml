@@ -38,4 +38,6 @@
 	<dimen name="history_text_small">12sp</dimen>
 	
 	<dimen name="game_root_padding">35dp</dimen>
+	
+	<dimen name="round_total_text_size">16sp</dimen>
 </resources>

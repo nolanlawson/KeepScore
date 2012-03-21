@@ -19,7 +19,7 @@ import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
 
 	public static final String COLOR_SCHEME_CHANGED = "colorSchemeChanged";
 
@@ -27,7 +27,7 @@ public class SettingsActivity extends PreferenceActivity {
 			button4Pref, twoPlayerButton1Pref, twoPlayerButton2Pref,
 			twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref,
 			initialScorePref;
-	private CheckBoxPreference useWakeLockPref, greenTextPref;
+	private CheckBoxPreference useWakeLockPref, greenTextPref, showRoundTotalsPref;
 	private Preference resetPref, aboutPref;
 	private ListPreference colorSchemePref;
 
@@ -51,6 +51,7 @@ public class SettingsActivity extends PreferenceActivity {
 		twoPlayerButton3Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_3);
 		twoPlayerButton4Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_4);
 		greenTextPref = (CheckBoxPreference) findPreferenceById(R.string.pref_green_text);
+		showRoundTotalsPref = (CheckBoxPreference) findPreferenceById(R.string.pref_show_round_totals);
 		
 		updateDelayPref = (EditTextPreference) findPreferenceById(R.string.pref_update_delay);
 		initialScorePref = (EditTextPreference) findPreferenceById(R.string.pref_initial_score);
@@ -152,14 +153,8 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		});
 		
-		greenTextPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				PreferenceHelper.resetCache(); // ensure that the changes get reflected
-				return true;
-			}
-		});
+		greenTextPref.setOnPreferenceChangeListener(this);
+		showRoundTotalsPref.setOnPreferenceChangeListener(this);
 	}
 
 	private void resetPreferences() {
@@ -295,5 +290,11 @@ public class SettingsActivity extends PreferenceActivity {
 						return true;
 					}
 				});
+	}
+
+	@Override
+	public boolean onPreferenceChange(Preference preference, Object newValue) {
+			PreferenceHelper.resetCache(); // ensure that the changes get reflected
+			return true;
 	}
 }

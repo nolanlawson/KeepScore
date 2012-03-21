@@ -12,11 +12,13 @@ public class PreferenceHelper {
 	private static int cachedUpdateDelay = -1;
 	private static ColorScheme cachedColorScheme = null;
 	private static Boolean cachedGreenTextPref = null;
+	private static Boolean showRoundTotalsPref = null;
 	
 	public static void resetCache() {
 		cachedUpdateDelay = -1;
 		cachedColorScheme = null;
 		cachedGreenTextPref = null;
+		showRoundTotalsPref = null;
 	}
 
 	public static int getPopupDeltaButtonValue(int index, Context context) {
@@ -45,6 +47,14 @@ public class PreferenceHelper {
 		default:
 			return getIntPreference(R.string.pref_2p_button_4, R.string.pref_2p_button_4_default, context);
 	}				
+	}
+	
+	public static boolean getShowRoundTotals(Context context) {
+		if (showRoundTotalsPref == null) {
+			showRoundTotalsPref = getBooleanPreference(R.string.pref_show_round_totals, 
+					R.string.pref_show_round_totals_default, context);
+		}
+		return showRoundTotalsPref;
 	}
 	
 	public static ColorScheme getColorScheme(Context context) {
