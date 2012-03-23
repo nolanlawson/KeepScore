@@ -29,4 +29,6 @@
 	<dimen name="game_root_padding">70dp</dimen>
 	<dimen name="round_total_text_size">28sp</dimen>
 	
+		<dimen name="delta_button_width">100dp</dimen>
+	
 </resources>

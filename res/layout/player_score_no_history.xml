@@ -1,84 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:orientation="vertical"
-	android:padding="3dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="3dp" >
 
-	<TextView android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:singleLine="true"
-		android:textSize="@dimen/player_name_2_to_4" android:textStyle="bold" android:id="@+id/text_name"
-		android:text="Fred" android:gravity="center_horizontal" 
-		android:ellipsize="end" android:focusable="true"
-		android:clickable="true" android:background="@drawable/generic_selector"/>
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/generic_selector"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:text="Fred"
+        android:textSize="@dimen/player_name_2_to_4"
+        android:textStyle="bold" />
 
-	<LinearLayout android:layout_height="0px"
-		android:layout_weight="1" android:layout_width="fill_parent"
-		android:gravity="center_vertical">
+    <LinearLayout
+        android:id="@+id/left_button"
+        android:layout_width="@dimen/delta_button_width"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/text_name"
+        android:orientation="vertical" >
 
-		<LinearLayout android:layout_width="0px"
-			android:layout_weight="0.25" android:layout_height="fill_parent"
-			android:orientation="vertical">
+        <View
+            android:id="@+id/plus_minus_button_margin_1"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:layout_weight="0.15" />
 
-			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.15" android:id="@+id/plus_minus_button_margin_1" />
+        <Button
+            android:id="@+id/button_minus"
+            android:layout_width="fill_parent"
+            android:layout_height="0px"
+            android:layout_weight="0.7"
+            android:text="-"
+            android:textStyle="bold"
+            android:typeface="monospace" />
 
-			<Button android:layout_width="fill_parent"
-				android:layout_height="0px" android:layout_weight="0.7"
-				android:textStyle="bold" android:id="@+id/button_minus"
-				android:text="-"
-				android:typeface="monospace"/>
+        <View
+            android:id="@+id/plus_minus_button_margin_2"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:layout_weight="0.15" />
+    </LinearLayout>
 
-			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.15" android:id="@+id/plus_minus_button_margin_2"/>
+    <LinearLayout
+        android:id="@+id/right_button"
+        android:layout_width="@dimen/delta_button_width"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/text_name"
+        android:orientation="vertical" >
 
-		</LinearLayout>
-		<RelativeLayout android:layout_width="0px" android:layout_weight="0.5" 
-				 android:layout_height="fill_parent">
-				<TextView android:layout_width="fill_parent"
-					android:layout_height="fill_parent" android:singleLine="true"
-					android:textStyle="bold" android:id="@+id/text_score"
-					android:text="0" android:gravity="center_horizontal|center_vertical" 
-					/>
-					
-				<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:paddingRight="3dp" android:paddingTop="3dp" 
-					android:background="@drawable/badge_green_fade_out"
-					android:layout_alignParentRight="true" android:id="@+id/linear_layout_badge"
-					android:visibility="invisible">
-					
-					<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-							 android:text="+1" android:textSize="@dimen/player_badge_2_to_4"
-							android:paddingLeft="7dp" android:paddingRight="7dp"
-							android:paddingTop="3dp" android:paddingBottom="3dp"
-							android:textStyle="bold" android:typeface="monospace"
-							android:textColor="@android:color/primary_text_dark_nodisable"
-							 android:id="@+id/text_badge" android:visibility="invisible"/>
-						
-				</LinearLayout>
-		
-		</RelativeLayout>
+        <View
+            android:id="@+id/plus_minus_button_margin_3"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:layout_weight="0.15" />
 
+        <Button
+            android:id="@+id/button_plus"
+            android:layout_width="fill_parent"
+            android:layout_height="0px"
+            android:layout_weight="0.7"
+            android:text="+"
+            android:textStyle="bold"
+            android:typeface="monospace" />
 
+        <View
+            android:id="@+id/plus_minus_button_margin_4"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:layout_weight="0.15" />
+    </LinearLayout>
 
-		<LinearLayout android:layout_width="0px"
-			android:layout_weight="0.25" android:layout_height="fill_parent"
-			android:orientation="vertical">
+    <TextView
+        android:id="@+id/text_score"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/text_name"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/right_button"
+        android:layout_toRightOf="@+id/left_button"
+        android:gravity="center_horizontal|center_vertical"
+        android:singleLine="true"
+        android:text="0"
+        android:textStyle="bold" />
 
-			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.15" android:id="@+id/plus_minus_button_margin_3"/>
+    <LinearLayout
+        android:id="@+id/linear_layout_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/text_score"
+        android:layout_below="@+id/text_name"
+        android:background="@drawable/badge_green_fade_out"
+        android:paddingRight="3dp"
+        android:paddingTop="3dp"
+        android:visibility="visible" >
 
-			<Button android:layout_width="fill_parent"
-				android:layout_height="0px" android:layout_weight="0.7"
-				android:textStyle="bold" android:id="@+id/button_plus" android:text="+" 
-				android:typeface="monospace"/>
+        <TextView
+            android:id="@+id/text_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="3dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="3dp"
+            android:text="+1"
+            android:textColor="@android:color/primary_text_dark_nodisable"
+            android:textSize="@dimen/player_badge_2_to_4"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            android:visibility="invisible" />
+    </LinearLayout>
 
-			<View android:layout_width="0px" android:layout_height="0px"
-				android:layout_weight="0.15" android:id="@+id/plus_minus_button_margin_4"/>
-
-		</LinearLayout>
-
-	</LinearLayout>
-
-
-
-</LinearLayout>
+</RelativeLayout>
