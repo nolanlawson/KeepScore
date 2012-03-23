@@ -227,16 +227,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	}
 
 	private void increment(final int delta) {
-		new AsyncTask<Void, Void, Void>(){
-
-			@Override
-			protected Void doInBackground(Void... params) {
-				synchronized (lock) {
-					incrementInBackground(delta);
-				}
-				return null;
-			}
-		}.execute((Void)null);
+		new IncrementDeltaAsyncTask(delta).execute(((Void)null));
 	}
 	
 	
@@ -724,6 +715,13 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		}
 		return historyUpdateRunnable;
 	}	
+
+	public void setNewColorScheme(ColorScheme colorScheme) {
+		positiveTextColor = getPositiveTextColor(colorScheme);
+		negativeTextColor = colorScheme.getNegativeColorResId();
+		borderDrawableResId = colorScheme.getBorderDrawableResId();
+		borderDrawable = null;
+	}
 	
 	private class HistoryUpdateRunnable implements Runnable {
 
@@ -747,11 +745,20 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			this.canceled = true;
 		}
 	}
+	
+	private class IncrementDeltaAsyncTask extends AsyncTask<Void, Void, Void> {
 
-	public void setNewColorScheme(ColorScheme colorScheme) {
-		positiveTextColor = getPositiveTextColor(colorScheme);
-		negativeTextColor = colorScheme.getNegativeColorResId();
-		borderDrawableResId = colorScheme.getBorderDrawableResId();
-		borderDrawable = null;
+		private int delta;
+		
+		public IncrementDeltaAsyncTask(int delta) {
+			this.delta = delta;
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			incrementInBackground(delta);
+			return null;
+		}
+		
 	}
 }
