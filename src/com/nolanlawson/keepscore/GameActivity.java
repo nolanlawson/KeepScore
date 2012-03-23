@@ -313,6 +313,9 @@ public class GameActivity extends Activity {
 			
 			playerView.updateViews();
 		}
+		if (roundTotalTextView != null) {
+			roundTotalTextView.setTextColor(getResources().getColor(colorScheme.getForegroundColorResId()));
+		}
 	}
 	
 	private void addNewPlayer(CharSequence name) {
