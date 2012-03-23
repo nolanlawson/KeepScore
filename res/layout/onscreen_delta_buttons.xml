@@ -1,77 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent"
+    android:stretchColumns="0,2,4,6"
+    android:shrinkColumns="0,2,4,6"
+    android:paddingBottom="3dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingTop="3dp" >
+    
+    <TableRow>
+    <Button
+        android:id="@android:id/button1"
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.25"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:typeface="monospace" />
 
     <View
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/player_score_divider_2"
-        android:layout_width="fill_parent"
-        android:layout_height="2px"
-        android:background="@color/light_blue_2" />
+        android:layout_width="3dp"
+        android:layout_height="fill_parent" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="0.3"
-        android:orientation="horizontal"
-        android:paddingBottom="3dp"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:paddingTop="3dp" >
+    <Button
+        android:id="@android:id/button2"
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.25"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:typeface="monospace" />
 
-        <Button
-            android:id="@android:id/button1"
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.25"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:text="+1"
-            android:typeface="monospace" />
+    <View
+        android:layout_width="3dp"
+        android:layout_height="fill_parent" />
 
-        <View
-            android:layout_width="3dp"
-            android:layout_height="fill_parent" />
+    <Button
+        android:id="@android:id/button3"
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.25"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:typeface="monospace" />
 
-        <Button
-            android:id="@android:id/button2"
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.25"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:text="+5"
-            android:typeface="monospace" />
+    <View
+        android:layout_width="3dp"
+        android:layout_height="fill_parent" />
 
-        <View
-            android:layout_width="3dp"
-            android:layout_height="fill_parent" />
-
-        <Button
-            android:id="@android:id/button3"
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.25"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:text="+10"
-            android:typeface="monospace" />
-
-        <View
-            android:layout_width="3dp"
-            android:layout_height="fill_parent" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.25"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:text="+20"
-            android:typeface="monospace" />
-    </LinearLayout>
-
-</LinearLayout>
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.25"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:typeface="monospace" />
+    </TableRow>
+</TableLayout>

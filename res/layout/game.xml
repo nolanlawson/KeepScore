@@ -1,101 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
-	android:id="@+id/game_root_layout">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/game_root_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="3dp"
+    android:shrinkColumns="0,2"
+    android:stretchColumns="0,2" >
 
-    <ViewStub android:layout="@layout/round_totals" android:id="@+id/round_totals"
-        android:inflatedId="@+id/round_totals" android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+    <TableRow>
+        <View
+            android:id="@+id/game_root_padding_1"
+            android:layout_width="0px"
+            android:layout_height="@dimen/game_root_padding" />
+    </TableRow>
     
-    <View android:layout_width="0px" android:layout_height="@dimen/game_root_padding" android:id="@+id/game_root_padding_1"/>
-    
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0px"
-		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
-		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp"
-		android:id="@+id/game_row_1">
+    <TableRow android:layout_height="wrap_content">
+        <ViewStub
+            android:id="@+id/round_totals"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_span="3"
+            android:inflatedId="@+id/round_totals"
+            android:layout="@layout/round_totals"/>
+    </TableRow>
 
-		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_1" 
-		    android:inflatedId="@+id/player_1" 
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+    <TableRow
+        android:id="@+id/game_row_1"
+        android:layout_weight="1"
+        android:paddingBottom="3dp" >
 
-		<View android:layout_height="0px" android:layout_width="3dp" />
+        <ViewStub
+            android:id="@+id/player_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/player_1"
+            android:layout="@layout/player_score_with_delta_buttons" />
 
-		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_2" 
-		    android:inflatedId="@+id/player_2"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+        <View
+            android:layout_width="3dp"
+            android:layout_height="0px" />
 
-	</LinearLayout>
+        <ViewStub
+            android:id="@+id/player_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/player_2"
+            android:layout="@layout/player_score_with_delta_buttons" />
+    </TableRow>
 
+    <TableRow
+        android:id="@+id/game_row_2"
+        android:layout_weight="1"
+        android:paddingBottom="3dp" >
 
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0px"
-		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
-		android:paddingLeft="3dp" android:paddingBottom="3dp"
-		android:paddingRight="3dp"
-		android:id="@+id/game_row_2">
+        <ViewStub
+            android:id="@+id/player_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/player_3"
+            android:layout="@layout/player_score_with_delta_buttons" />
 
+        <View
+            android:layout_width="3dp"
+            android:layout_height="0px" />
 
-		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_3" 
-		    android:inflatedId="@+id/player_3"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+        <ViewStub
+            android:id="@+id/player_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/player_4"
+            android:layout="@layout/player_score_with_delta_buttons" />
+    </TableRow>
 
-		<View android:layout_height="0px" android:layout_width="3dp" />
+    <TableRow
+        android:id="@+id/game_row_3"
+        android:layout_weight="1"
+        android:paddingBottom="3dp" >
 
-		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_4" 
-		    android:inflatedId="@+id/player_4"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+        <ViewStub
+            android:id="@+id/player_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/player_5"
+            android:layout="@layout/player_score_with_delta_buttons" />
 
-	</LinearLayout>
-	
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0px"
-		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
-		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp"
-		android:id="@+id/game_row_3">
+        <View
+            android:layout_width="3dp"
+            android:layout_height="0px" />
 
-		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_5" 
-		    android:inflatedId="@+id/player_5"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+        <ViewStub
+            android:id="@+id/player_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/player_6"
+            android:layout="@layout/player_score_with_delta_buttons" />
+    </TableRow>
 
-		<View android:layout_height="0px" android:layout_width="3dp" />
-		
-		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_6" 
-		    android:inflatedId="@+id/player_6"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+    <TableRow
+        android:id="@+id/game_row_4"
+        android:layout_weight="1" >
 
-	</LinearLayout>	
-	
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0px"
-		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
-		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp"
-		android:id="@+id/game_row_4">
+        <ViewStub
+            android:id="@+id/player_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/player_7"
+            android:layout="@layout/player_score_with_delta_buttons" />
 
-		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_7" 
-		    android:inflatedId="@+id/player_7"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+        <View
+            android:layout_width="3dp"
+            android:layout_height="0px" />
 
-		<View android:layout_height="0px" android:layout_width="3dp" />
+        <ViewStub
+            android:id="@+id/player_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/player_8"
+            android:layout="@layout/player_score_with_delta_buttons" />
+    </TableRow>
 
-		<ViewStub android:layout="@layout/player_score_with_delta_buttons" android:id="@+id/player_8" 
-		    android:inflatedId="@+id/player_8"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+    <TableRow>
+        <View
+            android:id="@+id/game_root_padding_2"
+            android:layout_width="0px"
+            android:layout_height="@dimen/game_root_padding" />
+    </TableRow>
 
-	</LinearLayout>	
-	
-	<View android:layout_width="0px" android:layout_height="@dimen/game_root_padding" android:id="@+id/game_root_padding_2"/>
-
-</LinearLayout>
+</TableLayout>

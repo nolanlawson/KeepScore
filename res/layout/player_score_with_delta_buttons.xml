@@ -7,12 +7,19 @@
 	<include layout="@layout/player_score_bare" 
 			android:layout_width="fill_parent" 
 			android:layout_height="0px"
-			android:layout_weight="0.7"/>
+			android:layout_weight="0.3"/>
+	
+	<View
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/player_score_divider_2"
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="@color/light_blue_2" />
 			
 	<ViewStub android:layout="@layout/onscreen_delta_buttons"
 	    	android:id="@+id/onscreen_delta_buttons_stub"
 	    	android:inflatedId="@+id/onscreen_delta_buttons_stub"
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="0px"
-	    	android:layout_weight="0.3"/>
+	    	android:layout_weight="0.7"/>
 </LinearLayout>

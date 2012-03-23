@@ -27,6 +27,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +59,8 @@ public class GameActivity extends Activity {
 	
 	private static final UtilLogger log = new UtilLogger(GameActivity.class);
 	
-	private LinearLayout rootLayout, rowLayout2, rowLayout3, rowLayout4;
+	private TableLayout rootLayout;
+	private TableRow rowLayout2, rowLayout3, rowLayout4;
 	private View rootPadding1, rootPadding2;
 	private ViewStub roundTotalViewStub;
 	private TextView roundTotalTextView;
@@ -512,10 +515,10 @@ public class GameActivity extends Activity {
 
 	private void setUpWidgets() {
 
-		rootLayout = (LinearLayout) findViewById(R.id.game_root_layout);
-		rowLayout2 = (LinearLayout) findViewById(R.id.game_row_2);
-		rowLayout3 = (LinearLayout) findViewById(R.id.game_row_3);
-		rowLayout4 = (LinearLayout) findViewById(R.id.game_row_4);
+		rootLayout = (TableLayout) findViewById(R.id.game_root_layout);
+		rowLayout2 = (TableRow) findViewById(R.id.game_row_2);
+		rowLayout3 = (TableRow) findViewById(R.id.game_row_3);
+		rowLayout4 = (TableRow) findViewById(R.id.game_row_4);
 		
 		// set which rows are visible based on how many players there are
 		rowLayout2.setVisibility(playerScores.size() > 2 ? View.VISIBLE : View.GONE);
