@@ -43,4 +43,10 @@
 	
 	<dimen name="delta_button_width">55dp</dimen>
 	<dimen name="history_width">35dp</dimen>
+	
+	<dimen name="delta_button_height_2_to_4">72dp</dimen>
+	<dimen name="delta_button_height_5_to_6">54dp</dimen>
+	
+	<dimen name="delta_button_height_2_to_4_with_round_totals">72dp</dimen>
+	<dimen name="delta_button_height_5_to_6_with_round_totals">48dp</dimen>
 </resources>

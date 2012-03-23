@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal">
-	
-	<com.nolanlawson.keepscore.widget.AutofitTextView android:layout_width="@dimen/history_width"
-		android:layout_height="fill_parent"
-		android:gravity="left" android:id="@+id/text_history" android:paddingTop="5dp"
-		android:paddingBottom="5dp" android:typeface="monospace" android:paddingLeft="2dp"
-		paddingRight="2dp"
-		android:textSize="@dimen/player_score_history" android:focusable="true"
-		android:clickable="true"
-		android:background="@drawable/history_background"
-		android:layout_alignParentRight="true"
-		/>
-	
-	<View android:layout_height="fill_parent" android:layout_width="2px" android:background="@color/light_blue_2"
-		android:id="@+id/player_score_divider_1" android:layout_toLeftOf="@+id/text_history"/>
-	
-		<include layout="@layout/player_score_no_history"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_toLeftOf="@+id/player_score_divider_1"/>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical|center_horizontal" >
+
+    <com.nolanlawson.keepscore.widget.AutofitTextView
+        android:id="@+id/text_history"
+        android:layout_width="@dimen/history_width"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/history_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="left"
+        android:paddingBottom="5dp"
+        android:paddingLeft="3dp"
+        paddingRight="2dp"
+        android:paddingTop="5dp"
+        android:textSize="@dimen/player_score_history"
+        android:typeface="monospace" />
+
+    <View
+        android:id="@+id/player_score_divider_1"
+        android:layout_width="2px"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/text_history"
+        android:background="@color/light_blue_2" />
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/player_score_divider_1"
+        layout="@layout/player_score_no_history" />
 
 </RelativeLayout>

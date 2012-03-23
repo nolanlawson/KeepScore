@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewStub;
 import android.view.Window;
 import android.widget.Button;
@@ -131,6 +132,8 @@ public class GameActivity extends Activity {
 		startPeriodicSave();
 		
 		updateRoundTotalViewText();
+		
+		setPlayerViewTextSizes();
 		
 		paused = false;
 	}
@@ -542,8 +545,6 @@ public class GameActivity extends Activity {
 		
 		playerViews = new ArrayList<PlayerView>();
 		
-		PlayerTextFormat textFormat = PlayerTextFormat.forNumPlayers(playerScores.size());
-		
 		// only show the onscreen delta buttons if space allows
 		boolean showOnscreenDeltaButtons = playerScores.size() <= 
 				getResources().getInteger(R.integer.max_players_for_onscreen_delta_buttons);
@@ -570,11 +571,6 @@ public class GameActivity extends Activity {
 			if (game.getId() == -1 && !TextUtils.isEmpty(playerScore.getName())) {
 				playerView.getShouldAutosave().set(true);
 			}
-			
-			// sometimes the text gets cut off in the 6 or 8 player view, 
-			// so make the text smaller
-			
-			setPlayerViewTextSizes(playerView, textFormat);
 	    	
 			playerViews.add(playerView);
 		}
@@ -620,7 +616,20 @@ public class GameActivity extends Activity {
 		roundTotalTextView.setVisibility(View.VISIBLE);
 		roundTotalTextView.setText(text);
 	}
-
+	
+	/**
+	 * sometimes the text gets cut off in the 6 or 8 player view, 
+	 * so make the text smaller
+	 */
+	private void setPlayerViewTextSizes() {
+		
+		PlayerTextFormat textFormat = PlayerTextFormat.forNumPlayers(playerScores.size());
+		
+		for (PlayerView playerView : playerViews) {
+			setPlayerViewTextSizes(playerView, textFormat);
+		}
+	}
+	
 	private void setPlayerViewTextSizes(PlayerView playerView, PlayerTextFormat textFormat) {
 		playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));
@@ -628,15 +637,27 @@ public class GameActivity extends Activity {
 				getResources().getDimensionPixelSize(textFormat.getBadgeTextSize()));	
 		playerView.getScoreTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				getResources().getDimensionPixelSize(textFormat.getPlayerScoreTextSize()));
-		playerView.getPlusButton().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-				getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
-		playerView.getMinusButton().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-				getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
-		for (View plusMinusButtonMargin : playerView.getPlusMinusButtonMargins()) {
-			plusMinusButtonMargin.setLayoutParams(
-					new LinearLayout.LayoutParams(0, 0, textFormat.getPlusMinusButtonMargin()));
-		}
 		
+		Button plusButton = playerView.getPlusButton();
+		Button minusButton = playerView.getMinusButton();
+		
+		// if the round totals are showing, we have a little less space to work with
+		int plusMinusButtonHeight = PreferenceHelper.getShowRoundTotals(this)
+				? textFormat.getPlusMinusButtonHeightWithRoundTotals()
+				: textFormat.getPlusMinusButtonHeight();
+		
+		// in some cases I manually define it to just be 'fill parent'
+		if (plusMinusButtonHeight != LinearLayout.LayoutParams.FILL_PARENT) {
+			plusMinusButtonHeight = getResources().getDimensionPixelSize(plusMinusButtonHeight);
+		}
+				
+		for (Button button : new Button[]{plusButton, minusButton}) {
+			button.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
+			button.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 
+					plusMinusButtonHeight));
+		}
+
 		for (Button button : new Button[] {playerView.getDeltaButton1(), playerView.getDeltaButton2(), playerView.getDeltaButton3(),
 				playerView.getDeltaButton4()}) {
 			if (button != null) {

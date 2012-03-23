@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="3dp" >
+    android:padding="3dp">
 
     <TextView
         android:id="@+id/text_name"
@@ -21,67 +20,40 @@
         android:textSize="@dimen/player_name_2_to_4"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/left_button"
+    <LinearLayout android:id="@+id/layout_minus"
         android:layout_width="@dimen/delta_button_width"
         android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_name"
-        android:orientation="vertical" >
-
-        <View
-            android:id="@+id/plus_minus_button_margin_1"
-            android:layout_width="0px"
-            android:layout_height="0px"
-            android:layout_weight="0.15" />
-
-        <Button
-            android:id="@+id/button_minus"
-            android:layout_width="fill_parent"
-            android:layout_height="0px"
-            android:layout_weight="0.7"
-            android:text="-"
-            android:textStyle="bold"
-            android:typeface="monospace" />
-
-        <View
-            android:id="@+id/plus_minus_button_margin_2"
-            android:layout_width="0px"
-            android:layout_height="0px"
-            android:layout_weight="0.15" />
+        >
+        
+	    <Button
+	        android:id="@+id/button_minus"
+	        android:layout_width="fill_parent"
+	        android:layout_height="@dimen/delta_button_height_2_to_4"
+	
+	        android:text="-"
+	        android:textStyle="bold"
+	        android:typeface="monospace" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/right_button"
+    
+    <LinearLayout android:id="@+id/layout_plus"
         android:layout_width="@dimen/delta_button_width"
         android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/text_name"
-        android:orientation="vertical" >
-
-        <View
-            android:id="@+id/plus_minus_button_margin_3"
-            android:layout_width="0px"
-            android:layout_height="0px"
-            android:layout_weight="0.15" />
-
-        <Button
-            android:id="@+id/button_plus"
-            android:layout_width="fill_parent"
-            android:layout_height="0px"
-            android:layout_weight="0.7"
-            android:text="+"
-            android:textStyle="bold"
-            android:typeface="monospace" />
-
-        <View
-            android:id="@+id/plus_minus_button_margin_4"
-            android:layout_width="0px"
-            android:layout_height="0px"
-            android:layout_weight="0.15" />
-    </LinearLayout>
+        >
+	    <Button
+	        android:id="@+id/button_plus"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="@dimen/delta_button_height_2_to_4"
+	
+	        android:text="+"
+	        android:textStyle="bold"
+	        android:typeface="monospace" />
+	    </LinearLayout>
 
     <TextView
         android:id="@+id/text_score"
@@ -90,8 +62,8 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/text_name"
         android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@+id/right_button"
-        android:layout_toRightOf="@+id/left_button"
+        android:layout_toLeftOf="@+id/layout_plus"
+        android:layout_toRightOf="@+id/layout_minus"
         android:gravity="center_horizontal|center_vertical"
         android:singleLine="true"
         android:text="0"

@@ -64,7 +64,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
 	private LinearLayout badgeLinearLayout;
 	private Button minusButton, plusButton, deltaButton1, deltaButton2, deltaButton3, deltaButton4;
-	private List<View> plusMinusButtonMargins = new ArrayList<View>();
 	private Context context;
 	private Handler handler;
 	private boolean showOnscreenDeltaButtons;
@@ -108,10 +107,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		historyTextView = (TextView) view.findViewById(R.id.text_history);
 		badgeTextView = (TextView) view.findViewById(R.id.text_badge);
 		badgeLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_badge);
-		plusMinusButtonMargins.add(view.findViewById(R.id.plus_minus_button_margin_1));
-		plusMinusButtonMargins.add(view.findViewById(R.id.plus_minus_button_margin_2));
-		plusMinusButtonMargins.add(view.findViewById(R.id.plus_minus_button_margin_3));
-		plusMinusButtonMargins.add(view.findViewById(R.id.plus_minus_button_margin_4));
 		
 		minusButton = (Button) view.findViewById(R.id.button_minus);
 		plusButton = (Button) view.findViewById(R.id.button_plus);
@@ -188,9 +183,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	}
 	public Button getDeltaButton4() {
 		return deltaButton4;
-	}
-	public List<View> getPlusMinusButtonMargins() {
-		return plusMinusButtonMargins;
 	}
 
 	public void setOnChangeListener(Runnable onChangeListener) {
