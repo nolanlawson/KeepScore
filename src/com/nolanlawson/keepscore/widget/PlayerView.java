@@ -1,6 +1,7 @@
 package com.nolanlawson.keepscore.widget;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -287,7 +288,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		
 		scoreTextView.setText(Long.toString(playerScore.getScore()));
 		
-		final Spannable newHistoryTextViewValue = fromHistory(playerScore.getHistory(), currentTime);
 		if (currentTime < (lastIncremented.get() + getUpdateDelayInMs()) && !playerScore.getHistory().isEmpty()) { // still modifiable
 			// show badge (blibbet)
 			makeBadgeVisible();
@@ -296,16 +296,19 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			badgeLinearLayout.setBackgroundResource(lastDelta >= 0 ? getPositiveBadge() : R.drawable.badge_red_fade_out);
 			
 			// update history text view now rather than later
-			historyTextView.setText(newHistoryTextViewValue);
+			setHistoryTextLazily(playerScore.getHistory(), currentTime);
 		} else {
 			// hide badge (blibbet)
 			
 			// update history text view later
+			final Spannable newText = fromHistory(playerScore.getHistory(), currentTime);
+			final Integer newHash = historyHash(playerScore.getHistory(), currentTime);
 			Runnable updateHistoryRunnable = new Runnable(){
 
 				@Override
 				public void run() {
-					historyTextView.setText(newHistoryTextViewValue);
+					historyTextView.setText(newText);
+					historyTextView.setTag(newHash);
 					
 				}};
 			fadeOutBadge(updateHistoryRunnable);
@@ -404,25 +407,61 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			}
 		}
 	}
-	
-	
 
+	private void setHistoryTextLazily(List<Integer> history, long currentTime) {
+		Integer hash = historyHash(history, currentTime);
+		if (!hash.equals(historyTextView.getTag())) {
+			// need to redraw the history
+			historyTextView.setText(fromHistory(history, currentTime));
+			historyTextView.setTag(hash);
+		}
+	}
+	
+	/**
+	 * Do a quick hash of the showable history, as an optimization to check
+	 * to see if we need to redraw the history or not
+	 * 
+	 * @param history
+	 * @param currentTime
+	 * @return
+	 */
+	private int historyHash(List<Integer> history, long currentTime) {
+		return historyToShow(history, currentTime).hashCode();
+		
+	}
+	
+	/**
+	 * Part of the history that can be shown in the little window, i.e. everything
+	 * but the badge
+	 * @param history
+	 * @param currentTime
+	 * @return
+	 */
+	private List<Integer> historyToShow(List<Integer> history, long currentTime) {
+		
+		boolean stillModifiable = currentTime < (lastIncremented.get() + getUpdateDelayInMs());
+		
+		if (history == null || history.isEmpty() || (stillModifiable && history.size() <= 1)) {
+			return Collections.emptyList();
+		}
+		
+		if (stillModifiable) {
+			// last element is shown as the badge, so don't show it here
+			return history.subList(0, history.size() - 1);
+		}
+		return history;
+	}
+	
 	/**
 	 * Add green color for positive entries and red color for negative entries, and convert ints to strings.
 	 * @param currentTime 
 	 */
 	private Spannable fromHistory(List<Integer> history, long currentTime) {
 				
-		boolean stillModifiable = currentTime < (lastIncremented.get() + getUpdateDelayInMs());
+		history = historyToShow(history, currentTime);
 		
-		
-		if (history == null || history.isEmpty() || (stillModifiable && history.size() < 2)) {
-			return new SpannableString("");
-		}
-		
-		if (stillModifiable) {
-			// last element is shown as the badge, so don't show it here
-			history = history.subList(0, history.size() - 1);
+		if (history.isEmpty()){
+			return null;
 		}
 		
 		history = CollectionUtil.reversedCopy(history);
