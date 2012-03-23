@@ -73,6 +73,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private final Object lock = new Object();
 	private boolean animationRunning;
 	private Runnable onChangeListener;
+	private Runnable updateViewsRunnable;
 	
 	public PlayerView(Context context, View view, PlayerScore playerScore, Handler handler, boolean showOnscreenDeltaButtons) {
 		this.view = view;
@@ -224,46 +225,52 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		}
 	}
 
-	private void increment(int delta) {
+	private void increment(final int delta) {
+		new AsyncTask<Void, Void, Void>(){
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				synchronized (lock) {
+					incrementInBackground(delta);
+				}
+				return null;
+			}
+		}.execute((Void)null);
+	}
+	
+	
+	private void incrementInBackground(int delta) {
 
 		long currentTime = System.currentTimeMillis();
-		
 		long lastIncrementedTime = lastIncremented.getAndSet(currentTime);
 		
 		if (currentTime - lastIncrementedTime > getUpdateDelayInMs() 
 				|| playerScore.getHistory().isEmpty()) {
 			
 			// if it's been awhile since the last time we incremented
-			synchronized (lock) {
-				playerScore.getHistory().add(delta);
-			}
+			playerScore.getHistory().add(delta);
 		} else {
 			// else just update the most recent history item
-			synchronized (lock) {
-				int lastIndex = playerScore.getHistory().size() - 1;
-				int newValue = playerScore.getHistory().get(lastIndex) + delta;
-				if (newValue == 0) { // don't add "0" to the list; just delete the last history item
-					playerScore.getHistory().remove(lastIndex);
-					lastIncremented.set(0); // reset the lastIncremented time so we don't update the
-					                        // previous value later
-				} else {
-					playerScore.getHistory().set(lastIndex, newValue);
-				}
+			int lastIndex = playerScore.getHistory().size() - 1;
+			int newValue = playerScore.getHistory().get(lastIndex) + delta;
+			if (newValue == 0) { // don't add "0" to the list; just delete the last history item
+				playerScore.getHistory().remove(lastIndex);
+				lastIncremented.set(0); // reset the lastIncremented time so we don't update the
+				                        // previous value later
+			} else {
+				playerScore.getHistory().set(lastIndex, newValue);
 			}
 		}
 		
-		synchronized (lock) {
-			playerScore.setScore(playerScore.getScore() + delta);
-		}
-		
-		// now update the history text view and the total score text view
-		updateViews();
+		playerScore.setScore(playerScore.getScore() + delta);
 		
 		shouldAutosave.set(true);
+		
+		// this runnable updates the history after 10 seconds and makes the blibbet disappear
 		createDelayedHistoryUpdateTask();
-		if (onChangeListener != null) {
-			handler.post(onChangeListener);
-		}
+		
+		// this runnable updates the history text view and the total score text view
+		handler.post(getUpdateViewsRunnable());
 	}
 	
 	public  void updateViews() {
@@ -651,6 +658,24 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	
 	private long getUpdateDelayInMs() {
 		return PreferenceHelper.getUpdateDelay(context) * 1000L;
+	}
+	
+	private Runnable getUpdateViewsRunnable() {
+		if (updateViewsRunnable == null) {
+			updateViewsRunnable = new Runnable() {
+				
+				@Override
+				public void run() {
+					updateViews();
+					
+					// this runnable updates the round total, if there is one
+					if (onChangeListener != null) {
+						onChangeListener.run();
+					}
+				}
+			};
+		}
+		return updateViewsRunnable;
 	}
 	
 	private HistoryUpdateRunnable getHistoryUpdateRunnable() {
