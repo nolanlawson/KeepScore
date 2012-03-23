@@ -305,11 +305,11 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		}
 		
 		// set values for delta buttons
-		Button[] deltaButtons = new Button[]{deltaButton1, deltaButton2, deltaButton3, deltaButton4};
-		
-		for (int i = 0; i < deltaButtons.length; i++) {
-			Button button = deltaButtons[i];
-			if (button != null) {
+		if (deltaButton1 != null) {
+			Button[] deltaButtons = new Button[]{deltaButton1, deltaButton2, deltaButton3, deltaButton4};
+			
+			for (int i = 0; i < deltaButtons.length; i++) {
+				Button button = deltaButtons[i];
 				button.setOnClickListener(this);
 				button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getTwoPlayerDeltaButtonValue(i, context)));
 			}
