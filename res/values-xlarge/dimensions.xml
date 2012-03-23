@@ -30,5 +30,6 @@
 	<dimen name="round_total_text_size">28sp</dimen>
 	
 	<dimen name="delta_button_width">110dp</dimen>
+	<dimen name="history_width">70dp</dimen>
 	
 </resources>
