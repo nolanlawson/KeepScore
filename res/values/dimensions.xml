@@ -41,5 +41,5 @@
 	
 	<dimen name="round_total_text_size">16sp</dimen>
 	
-	<dimen name="delta_button_width">50dp</dimen>
+	<dimen name="delta_button_width">55dp</dimen>
 </resources>
