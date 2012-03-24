@@ -224,7 +224,7 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		textView1.setTextColor(getResources().getColor(android.R.color.primary_text_light_nodisable));
 		textView1.setText(Integer.toString(sum));
 		
-		textView2.setVisibility(View.INVISIBLE);
+		setDummyTextView(textView2);
 		
 		return view;
 	}
