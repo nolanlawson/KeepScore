@@ -10,7 +10,7 @@ public enum ColorScheme {
 			R.color.blue_1, R.color.green, R.color.red, android.R.drawable.btn_default, R.color.light_blue_2,
 			R.drawable.blue_border_shape_with_gradient),
 	Dark  (android.R.color.background_dark, android.R.color.secondary_text_dark_nodisable,
-			R.color.blue_4, R.color.green_4, R.color.red_4, R.drawable.button_dark, R.color.light_blue_3,
+			R.color.blue_4, R.color.green_4, R.color.red_4, R.drawable.btn_default_transparent, R.color.light_blue_3,
 			R.drawable.blue_border_shape_no_gradient),
 	Android  (R.color.android_color, android.R.color.primary_text_light_nodisable,
 			R.color.blue_5, R.color.green_5, R.color.red, android.R.drawable.btn_default, R.color.light_blue_2,

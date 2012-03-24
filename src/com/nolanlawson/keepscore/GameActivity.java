@@ -312,6 +312,7 @@ public class GameActivity extends Activity {
 				if (button != null) {
 					button.setBackgroundDrawable(getResources().getDrawable(
 							colorScheme.getButtonBackgroundDrawableResId()));
+					button.setTextColor(getResources().getColor(colorScheme.getForegroundColorResId()));
 				}
 			}
 			
