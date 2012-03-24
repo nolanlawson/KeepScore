@@ -2,14 +2,48 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="3dp">
+    android:gravity="center_vertical|center_horizontal" >
+
+    <ViewStub
+        android:id="@+id/onscreen_delta_buttons_stub"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:inflatedId="@+id/onscreen_delta_buttons_stub"
+        android:layout="@layout/onscreen_delta_buttons" />
+
+    <com.nolanlawson.keepscore.widget.AutofitTextView
+        android:id="@+id/text_history"
+        android:layout_width="@dimen/history_width"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/onscreen_delta_buttons_stub"
+        android:background="@drawable/history_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="left"
+        android:paddingBottom="5dp"
+        android:paddingLeft="3dp"
+        paddingRight="2dp"
+        android:paddingTop="5dp"
+        android:textSize="@dimen/player_score_history"
+        android:typeface="monospace" />
+
+    <View
+        android:id="@+id/player_score_divider_1"
+        android:layout_width="2px"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/text_history"
+        android:layout_above="@+id/onscreen_delta_buttons_stub"
+        android:background="@color/light_blue_2" />
 
     <TextView
         android:id="@+id/text_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/player_score_divider_1"
+        android:paddingTop="1dp"
         android:background="@drawable/generic_selector"
         android:clickable="true"
         android:ellipsize="end"
@@ -19,13 +53,16 @@
         android:text="Fred"
         android:textSize="@dimen/player_name_2_to_4"
         android:textStyle="bold" />
-
+    
+    
     <LinearLayout android:id="@+id/layout_minus"
         android:layout_width="@dimen/delta_button_width"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_name"
+        android:layout_above="@+id/onscreen_delta_buttons_stub"
+        android:paddingLeft="3dp"
         >
         
 	    <Button
@@ -36,14 +73,16 @@
 	        android:text="-"
 	        android:textStyle="bold"
 	        android:typeface="monospace" />
-    </LinearLayout>
+    </LinearLayout>    
     
     <LinearLayout android:id="@+id/layout_plus"
         android:layout_width="@dimen/delta_button_width"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/text_name"
+        android:layout_above="@+id/onscreen_delta_buttons_stub"
+        android:layout_toLeftOf="@+id/player_score_divider_1"
+        android:paddingRight="3dp"
         >
 	    <Button
 	        android:id="@+id/button_plus"
@@ -53,22 +92,22 @@
 	        android:text="+"
 	        android:textStyle="bold"
 	        android:typeface="monospace" />
-	    </LinearLayout>
-
+	    </LinearLayout>    
+	    
     <TextView
         android:id="@+id/text_score"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
         android:layout_below="@+id/text_name"
         android:layout_centerHorizontal="true"
         android:layout_toLeftOf="@+id/layout_plus"
         android:layout_toRightOf="@+id/layout_minus"
+        android:layout_above="@+id/onscreen_delta_buttons_stub"
         android:gravity="center_horizontal|center_vertical"
         android:singleLine="true"
         android:text="0"
-        android:textStyle="bold" />
-
+        android:textStyle="bold" />    
+        
     <LinearLayout
         android:id="@+id/linear_layout_badge"
         android:layout_width="wrap_content"
@@ -94,6 +133,6 @@
             android:textStyle="bold"
             android:typeface="monospace"
             android:visibility="invisible" />
-    </LinearLayout>
+    </LinearLayout>    
 
 </RelativeLayout>
