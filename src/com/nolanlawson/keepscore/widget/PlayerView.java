@@ -648,6 +648,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 					// add the value to the player's score, while still considering it a 
 					// "modifiable" history item
 					increment(positive ? delta : -delta);
+				} else {
+					addZero();
 				}
 				
 			}
