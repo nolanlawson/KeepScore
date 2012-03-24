@@ -13,19 +13,20 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.nolanlawson.keepscore.data.HistoryItem;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
@@ -160,6 +161,13 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 			headerRow.addView(createDividerView(headerRow));
 			headerRow.addView(createListHeader(headerRow, playerScore.toDisplayName(this)));
 		}
+		
+		if (PreferenceHelper.getShowRoundTotals(this)) {
+			// add a column to the right with a "#" sign (for the sum)
+			headerRow.addView(createDividerView(headerRow));
+			headerRow.addView(createListHeader(headerRow, "#"));
+		}
+		
 		byRoundTableLayout.addView(headerRow);
 		
 		List<HistoryItem> collatedHistoryItems = getCollatedHistoryItems();
@@ -175,15 +183,46 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 			tableRow.addView(createRowHeader(tableRow, roundName));
 			
 			// add in all the history items from this round
+			int sum = 0;
 			for (int j = i; j < i + playerScores.size(); j++) {
 				HistoryItem historyItem = collatedHistoryItems.get(j);
 				View historyItemAsView = createHistoryItemView(historyItem, historyItemLayoutId, rowId);
 				tableRow.addView(createDividerView(tableRow));
 				tableRow.addView(historyItemAsView);
+				
+				sum += historyItem == null ? 0 : historyItem.getDelta();
 			}
+			
+			if (PreferenceHelper.getShowRoundTotals(this)) {
+				// add in a sum
+				tableRow.addView(createDividerView(tableRow));
+				if (i == 0) { // first row is just the starting score
+					HistoryItem bogusHistoryItem = new HistoryItem(0, sum, true);
+					tableRow.addView(createHistoryItemView(bogusHistoryItem, historyItemLayoutId, rowId));
+				} else {
+					tableRow.addView(createSumView(historyItemLayoutId, rowId, sum));
+				}
+				
+			}
+			
 			byRoundTableLayout.addView(tableRow);
 		}
 		
+	}
+
+	private View createSumView(int historyItemLayoutId, int rowId, int sum) {
+		// create a view that looks like a regular history item view, but is actually just
+		// the sum.
+		
+		// create a bogus history item
+		HistoryItem historyItem = new HistoryItem(0, sum, false);
+		
+		View view = createHistoryItemView(historyItem, historyItemLayoutId, rowId);
+		
+		TextView textView1 = (TextView) view.findViewById(android.R.id.text1);
+		textView1.setVisibility(View.INVISIBLE);
+		
+		return view;
 	}
 
 	private List<HistoryItem> getCollatedHistoryItems() {
