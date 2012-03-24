@@ -60,9 +60,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private int borderDrawableResId;
 	private Drawable borderDrawable;
 	
-	private View view, divider1, divider2;
+	private View view, divider1, divider2, deltaButtonsViewStub;
 	private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
-	private LinearLayout badgeLinearLayout;
+	private LinearLayout badgeLinearLayout, onscreenDeltaButtonsLayout;
 	private Button minusButton, plusButton, deltaButton1, deltaButton2, deltaButton3, deltaButton4;
 	private Context context;
 	private Handler handler;
@@ -87,7 +87,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	private void init() {
 
 		// enable or disable onscreen delta buttons based on whether we have enough room onscreen or not
-		View deltaButtonsViewStub = view.findViewById(R.id.onscreen_delta_buttons_stub);
+		deltaButtonsViewStub = view.findViewById(R.id.onscreen_delta_buttons_stub);
 		int versionInt = VersionHelper.getVersionSdkIntCompat();
 		if (versionInt > VersionHelper.VERSION_DONUT &&
 				versionInt < VersionHelper.VERSION_FROYO) {
@@ -99,6 +99,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 			
 		}
 		deltaButtonsViewStub.setVisibility(showOnscreenDeltaButtons ? View.VISIBLE : View.GONE);
+		onscreenDeltaButtonsLayout = (LinearLayout) view.findViewById(R.id.onscreen_delta_buttons_table_layout);
 		
 		divider1 = view.findViewById(R.id.player_score_divider_1);
 		divider2 = view.findViewById(R.id.player_score_divider_2);
@@ -132,7 +133,15 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     	log.d("history is: %s", playerScore.getHistory());
 		
 	}
+	
+	public LinearLayout getOnscreenDeltaButtonsLayout() {
+		return onscreenDeltaButtonsLayout;
+	}
 
+	public View getDeltaButtonsViewStub() {
+		return deltaButtonsViewStub;
+	}
+	
 	public View getView() {
 		return view;
 	}

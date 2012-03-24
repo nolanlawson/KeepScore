@@ -28,6 +28,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -657,13 +658,20 @@ public class GameActivity extends Activity {
 			button.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 
 					plusMinusButtonHeight));
 		}
-
-		for (Button button : new Button[] {playerView.getDeltaButton1(), playerView.getDeltaButton2(), playerView.getDeltaButton3(),
+		
+		for (Button button : new Button[] {playerView.getDeltaButton1(), 
+				playerView.getDeltaButton2(), 
+				playerView.getDeltaButton3(),
 				playerView.getDeltaButton4()}) {
 			if (button != null) {
 				button.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						getResources().getDimensionPixelSize(textFormat.getOnscreenDeltaButtonTextSize()));
 			}
+		}
+		if (playerView.getOnscreenDeltaButtonsLayout() != null) {
+			playerView.getOnscreenDeltaButtonsLayout().setLayoutParams(new RelativeLayout.LayoutParams(
+					LayoutParams.FILL_PARENT, getResources().getDimensionPixelSize(
+							textFormat.getOnscreenDeltaButtonHeight())));
 		}
 		
 		playerView.getBadgeTextView().setPadding(

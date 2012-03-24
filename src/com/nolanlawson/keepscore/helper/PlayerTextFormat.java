@@ -16,7 +16,8 @@ public enum PlayerTextFormat {
 			R.dimen.player_badge_offset_2_to_4,
 			R.dimen.delta_button_height_2_to_4,
 			R.dimen.delta_button_height_2_to_4_with_round_totals,
-			R.dimen.player_onscreen_delta_button_text_size_2_to_4), 
+			R.dimen.player_onscreen_delta_button_text_size_2_to_4,
+			R.dimen.onscreen_delta_button_height_2_to_4), 
 	FiveToSixPlayers (
 			R.dimen.player_score_2_to_6, 
 			R.dimen.player_plus_minus_button_2_to_6, 
@@ -27,7 +28,8 @@ public enum PlayerTextFormat {
 			R.dimen.player_badge_offset_5_to_6,
 			R.dimen.delta_button_height_5_to_6,
 			R.dimen.delta_button_height_5_to_6_with_round_totals,
-			R.dimen.player_onscreen_delta_button_text_size_5_to_6), 
+			R.dimen.player_onscreen_delta_button_text_size_5_to_6,
+			R.dimen.onscreen_delta_button_height_5_to_6), 
 	SevenToEightPlayers (
 			R.dimen.player_score_7_to_8, 
 			R.dimen.player_plus_minus_button_7_to_8, 
@@ -38,7 +40,8 @@ public enum PlayerTextFormat {
 			R.dimen.player_badge_offset_7_to_8,
 			LinearLayout.LayoutParams.FILL_PARENT,
 			LinearLayout.LayoutParams.FILL_PARENT,
-			R.dimen.player_onscreen_delta_button_text_size_7_to_8), 
+			R.dimen.player_onscreen_delta_button_text_size_7_to_8,
+			R.dimen.onscreen_delta_button_height_7_to_8), 
 	;
 
 	private int playerScoreTextSize;
@@ -51,11 +54,12 @@ public enum PlayerTextFormat {
 	private int onscreenDeltaButtonTextSize;
 	private int plusMinusButtonHeight;
 	private int plusMinusButtonHeightWithRoundTotals;
+	private int onscreenDeltaButtonHeight;
 
 	private PlayerTextFormat(int playerScoreTextSize, int plusMinusTextSize, int playerNameTextSize, int badgeTextSize,
 			int badgePaddingLeftRight, int badgePaddingTopBottom, int badgeOffset, int plusMinusButtonHeight,
 			int plusMinusButtonHeightWithRoundTotals,
-			int onscreenDeltaButtonTextSize) {
+			int onscreenDeltaButtonTextSize, int onscreenDeltaButtonHeight) {
 		this.playerScoreTextSize = playerScoreTextSize;
 		this.plusMinusTextSize = plusMinusTextSize;
 		this.playerNameTextSize = playerNameTextSize;
@@ -66,8 +70,11 @@ public enum PlayerTextFormat {
 		this.plusMinusButtonHeight = plusMinusButtonHeight;
 		this.plusMinusButtonHeightWithRoundTotals = plusMinusButtonHeightWithRoundTotals;
 		this.onscreenDeltaButtonTextSize = onscreenDeltaButtonTextSize;
+		this.onscreenDeltaButtonHeight = onscreenDeltaButtonHeight;
 	}
-	
+	public int getOnscreenDeltaButtonHeight() {
+		return onscreenDeltaButtonHeight;
+	}
 	public int getPlusMinusButtonHeightWithRoundTotals() {
 		return plusMinusButtonHeightWithRoundTotals;
 	}

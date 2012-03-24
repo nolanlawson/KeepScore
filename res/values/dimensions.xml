@@ -49,4 +49,8 @@
 	
 	<dimen name="delta_button_height_2_to_4_with_round_totals">72dp</dimen>
 	<dimen name="delta_button_height_5_to_6_with_round_totals">48dp</dimen>
+	
+	<dimen name="onscreen_delta_button_height_2_to_4">72dp</dimen>
+	<dimen name="onscreen_delta_button_height_5_to_6">72dp</dimen> <!-- not used -->
+	<dimen name="onscreen_delta_button_height_7_to_8">72dp</dimen> <!-- not used -->
 </resources>
