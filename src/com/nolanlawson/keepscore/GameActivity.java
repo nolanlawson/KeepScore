@@ -382,6 +382,7 @@ public class GameActivity extends Activity {
 					for (PlayerView playerView : playerViews) {
 						playerView.reset(GameActivity.this);
 					}
+					updateRoundTotalViewText();
 				}
 			})
 			.setNegativeButton(android.R.string.cancel, null)
@@ -538,11 +539,15 @@ public class GameActivity extends Activity {
 		
 		// inflate the round total view stub if we're in Eclair (due to an Eclair bug), or
 		// if the round totals are enabled
-		roundTotalViewStub = (ViewStub) findViewById(R.id.round_totals);
-		int versionInt = VersionHelper.getVersionSdkIntCompat();
-		if (versionInt > VersionHelper.VERSION_DONUT &&
-				versionInt < VersionHelper.VERSION_FROYO) {
-			roundTotalTextView = (TextView) roundTotalViewStub.inflate();
+		try {
+			roundTotalViewStub = (ViewStub) findViewById(R.id.round_totals);
+			int versionInt = VersionHelper.getVersionSdkIntCompat();
+			if (versionInt > VersionHelper.VERSION_DONUT &&
+					versionInt < VersionHelper.VERSION_FROYO) {
+				roundTotalTextView = (TextView) roundTotalViewStub.inflate();
+			}
+		} catch (ClassCastException ignore) {
+			// view stub already inflated
 		}
 		
 		playerViews = new ArrayList<PlayerView>();
