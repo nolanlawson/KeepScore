@@ -1,8 +1,14 @@
 package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -15,11 +21,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nolanlawson.keepscore.data.SavedGameAdapter;
+import com.nolanlawson.keepscore.data.SeparatedListAdapter;
+import com.nolanlawson.keepscore.data.TimePeriod;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -29,13 +38,11 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 
 	private static UtilLogger log = new UtilLogger(LoadGameActivity.class);
 	
-	private SavedGameAdapter adapter;
+	private SeparatedListAdapter adapter;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        adapter = new SavedGameAdapter(this, new ArrayList<Game>());
         
         setListAdapter(adapter);
         
@@ -52,15 +59,18 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		
         List<Game> games = getAllGames();
         Collections.sort(games, Game.byRecentlySaved());
-        
-        adapter.clear();
-        for (Game game : games) {
-        	adapter.add(game);
-        }
-        
-        adapter.notifyDataSetChanged();
-        
         log.d("loaded games %s", games);
+        
+        SortedMap<TimePeriod, List<Game>> organizedGames = organizeGamesByTimePeriod(games);
+        
+        adapter = new SeparatedListAdapter(this);
+        for (Entry<TimePeriod, List<Game>> entry : organizedGames.entrySet()) {
+        	TimePeriod timePeriod = entry.getKey();
+        	List<Game> gamesSection = entry.getValue();
+        	SavedGameAdapter subAdapter = new SavedGameAdapter(this, gamesSection);
+        	adapter.addSection(getString(timePeriod.getTitleResId()), subAdapter);
+        }
+        setListAdapter(adapter);
 	}
 
 
@@ -81,7 +91,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
-		Game game = adapter.getItem(position);
+		Game game = (Game) adapter.getItem(position);
 		
 		Intent intent = new Intent(this, GameActivity.class);
 		intent.putExtra(GameActivity.EXTRA_GAME_ID, game.getId());
@@ -93,7 +103,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	@Override
 	public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
 		
-		showOptionsMenu(this.adapter.getItem(position));
+		showOptionsMenu((Game)(this.adapter.getItem(position)));
 		
 		return true;
 	}
@@ -163,7 +173,16 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
 				Toast.makeText(LoadGameActivity.this, R.string.toast_game_copied, Toast.LENGTH_SHORT).show();
-				adapter.insert(newGame, 0);
+				
+				// if the "recent" group doesn't exist, need to create it
+				if (!adapter.getSection(0).equals(getString(TimePeriod.values()[0].getTitleResId()))) {
+					adapter.addSection(getString(TimePeriod.values()[0].getTitleResId()), 
+							new SavedGameAdapter(LoadGameActivity.this, 
+									new ArrayList<Game>(Collections.singleton(newGame))));
+				} else { // just insert it into the first section
+					((SavedGameAdapter)adapter.getSection(0)).insert(newGame, 0);
+				}
+				adapter.notifyDataSetChanged();
 			}
 			
 			
@@ -270,7 +289,6 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 				GameDBHelper dbHelper = null;
 				try {
 					dbHelper = new GameDBHelper(LoadGameActivity.this);
-					
 					dbHelper.deleteGame(game);
 					
 				} finally {
@@ -286,12 +304,50 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 				super.onPostExecute(result);
 				
 				Toast.makeText(LoadGameActivity.this, R.string.toast_deleted, Toast.LENGTH_SHORT).show();
-				adapter.remove(game);
-				
+				for (Entry<String, BaseAdapter> entry : adapter.getSections().entrySet()) {
+					SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
+					subAdapter.remove(game);
+				}
+				adapter.notifyDataSetChanged();
 			}
 			
-			
-			
 		}.execute((Void)null);
+	}
+	
+	private SortedMap<TimePeriod, List<Game>> organizeGamesByTimePeriod(List<Game> games) {
+		SortedMap<TimePeriod, List<Game>> result = new TreeMap<TimePeriod, List<Game>>();
+
+		Iterator<TimePeriod> timePeriodIterator = Arrays.asList(TimePeriod.values()).iterator();
+		TimePeriod timePeriod = timePeriodIterator.next();
+		Date date = new Date();
+		for (Game game : games) {
+			// time periods are sorted from newest to oldest, just like the games.  So we can just walk through
+			// them in order
+			while (!timePeriodMatches(date, timePeriod, game)) {
+				timePeriod = timePeriodIterator.next();
+			}
+			List<Game> existing = result.get(timePeriod);
+			if (existing == null) {
+				result.put(timePeriod, new ArrayList<Game>(Collections.singleton(game)));
+			} else {
+				existing.add(game);
+			}
+		}
+		return result;
+	}
+
+
+	/**
+	 * Return true if the game occurred within this time period.
+	 * @param date
+	 * @param timePeriod
+	 * @param currentGame
+	 * @return
+	 */
+	private boolean timePeriodMatches(Date date, TimePeriod timePeriod, Game currentGame) {
+		Date start = timePeriod.getStartDateFunction().apply(date);
+		Date end = timePeriod.getEndDateFunction().apply(date);
+		
+		return currentGame.getDateSaved() < end.getTime() && currentGame.getDateSaved() >= start.getTime();
 	}
 }

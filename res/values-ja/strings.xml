@@ -93,5 +93,14 @@
 	<string name="menu_add_player">新しい選手</string>
 	<string name="menu_copy">ゲーム複写</string>
 	<string name="menu_randomize">シャッフル</string>
+	
+	<string name="title_recent">最近</string>
+    <string name="title_today">今日</string>
+    <string name="title_yesterday">昨日</string>
+    <string name="title_two_days_ago">一昨日</string>
+    <string name="title_last_week">一週間前から</string>
+    <string name="title_last_month">一ヶ月前から</string>
+    <string name="title_last_year">一年前から</string>
+    <string name="title_older">それより前</string>
 
 </resources>

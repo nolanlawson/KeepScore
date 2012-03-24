@@ -97,4 +97,13 @@
     <string name="menu_copy">Copier Jeu</string>
     <string name="menu_randomize">Mélanger</string>
     
+    <string name="title_recent">Récent</string>
+    <string name="title_today">Aujoud\'hui</string>
+    <string name="title_yesterday">Hier</string>
+    <string name="title_two_days_ago">Avant-hier</string>
+    <string name="title_last_week">Il y a une semaine</string>
+    <string name="title_last_month">Il y a un mois</string>
+    <string name="title_last_year">Il y a un an</string>
+    <string name="title_older">Plus Ancien</string>
+    
 </resources>
