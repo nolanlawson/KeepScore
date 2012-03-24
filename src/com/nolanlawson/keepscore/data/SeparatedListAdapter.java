@@ -17,10 +17,12 @@ import com.nolanlawson.keepscore.R;
  *
  */
 public class SeparatedListAdapter extends BaseAdapter {
-
-	public final Map<String,BaseAdapter> sections = new LinkedHashMap<String,BaseAdapter>();
-	public final TypeCheckingArrayAdapter<String> headers;
+	
 	public final static int TYPE_SECTION_HEADER = 0;
+	
+	public Map<String,BaseAdapter> sections = new LinkedHashMap<String,BaseAdapter>();
+	public TypeCheckingArrayAdapter<String> headers;
+
 
 	public SeparatedListAdapter(Context context) {
 		headers = new TypeCheckingArrayAdapter<String>(context, R.layout.list_header);
@@ -30,9 +32,21 @@ public class SeparatedListAdapter extends BaseAdapter {
 		return sections.get(headers.getItem(position));
 	}
 	
+	public String getSectionName(int position) {
+		return headers.getItem(position);
+	}
+	
 	public void addSection(String section, BaseAdapter adapter) {
 		this.headers.add(section);
 		this.sections.put(section, adapter);
+	}
+	
+	public void addSectionToFront(String section, BaseAdapter adapter) {
+		this.headers.insert(section, 0);
+		Map<String,BaseAdapter> newSections = new LinkedHashMap<String,BaseAdapter>();
+		newSections.put(section, adapter);
+		newSections.putAll(sections);
+		sections = newSections;
 	}
 
 	public Object getItem(int position) {
@@ -134,4 +148,8 @@ public class SeparatedListAdapter extends BaseAdapter {
 		return position;
 	}
 
+	public void removeSection(String section) {
+		headers.remove(section);
+		sections.remove(section);
+	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -172,17 +173,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			@Override
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
-				Toast.makeText(LoadGameActivity.this, R.string.toast_game_copied, Toast.LENGTH_SHORT).show();
-				
-				// if the "recent" group doesn't exist, need to create it
-				if (!adapter.getSection(0).equals(getString(TimePeriod.values()[0].getTitleResId()))) {
-					adapter.addSection(getString(TimePeriod.values()[0].getTitleResId()), 
-							new SavedGameAdapter(LoadGameActivity.this, 
-									new ArrayList<Game>(Collections.singleton(newGame))));
-				} else { // just insert it into the first section
-					((SavedGameAdapter)adapter.getSection(0)).insert(newGame, 0);
-				}
-				adapter.notifyDataSetChanged();
+				onGameCopied(newGame);
 			}
 			
 			
@@ -190,7 +181,21 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		}.execute((Void)null);
 	}
 
-
+	private void onGameCopied(Game newGame) {
+		Toast.makeText(LoadGameActivity.this, R.string.toast_game_copied, Toast.LENGTH_SHORT).show();
+		
+		// if the "recent" group doesn't exist, need to create it
+		String mostRecentSection = getString(TimePeriod.values()[0].getTitleResId());
+		if (!adapter.getSectionName(0).equals(mostRecentSection)) {
+			SavedGameAdapter subAdapter = new SavedGameAdapter(LoadGameActivity.this, 
+					new ArrayList<Game>(Collections.singleton(newGame)));
+			adapter.addSectionToFront(mostRecentSection, subAdapter);
+		} else { // just insert it into the first section
+			((SavedGameAdapter)adapter.getSection(0)).insert(newGame, 0);
+		}
+		adapter.notifyDataSetChanged();
+		
+	}
 
 	private void showHistory(Game game) {
 		
@@ -303,17 +308,31 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
 				
-				Toast.makeText(LoadGameActivity.this, R.string.toast_deleted, Toast.LENGTH_SHORT).show();
-				for (Entry<String, BaseAdapter> entry : adapter.getSections().entrySet()) {
-					SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
-					subAdapter.remove(game);
-				}
-				adapter.notifyDataSetChanged();
+				onGameDeleted(game);
 			}
 			
 		}.execute((Void)null);
 	}
 	
+	private void onGameDeleted(Game game) {
+		// delete the game from the adapter
+		
+		Toast.makeText(LoadGameActivity.this, R.string.toast_deleted, Toast.LENGTH_SHORT).show();
+		for (Entry<String, BaseAdapter> entry : new HashMap<String,BaseAdapter>(adapter.getSections()).entrySet()) {
+			SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
+			subAdapter.remove(game);
+			if (subAdapter.getCount() == 0) {
+				// deleted the only item in this sub adapter, so delete the section
+				adapter.removeSection(entry.getKey());
+				
+			}
+		}
+		
+		adapter.notifyDataSetChanged();
+		
+	}
+
+
 	private SortedMap<TimePeriod, List<Game>> organizeGamesByTimePeriod(List<Game> games) {
 		SortedMap<TimePeriod, List<Game>> result = new TreeMap<TimePeriod, List<Game>>();
 
