@@ -128,11 +128,11 @@ public class GameActivity extends Activity {
 			wakeLock.acquire();
 		}
 		
-		setOrUpdateColorScheme();
-		
 		startPeriodicSave();
 		
 		updateRoundTotalViewText();
+		
+		setOrUpdateColorScheme();
 		
 		setPlayerViewTextSizes();
 		
