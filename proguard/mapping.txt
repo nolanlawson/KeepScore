@@ -43,6 +43,7 @@ com.nolanlawson.keepscore.GameActivity -> com.nolanlawson.keepscore.GameActivity
     android.os.Handler handler -> o
     boolean paused -> p
     com.nolanlawson.keepscore.db.GameDBHelper dbHelper -> q
+    boolean savedGameBeforeExit -> r
     void onCreate(android.os.Bundle) -> onCreate
     void onDestroy() -> onDestroy
     void onPause() -> onPause

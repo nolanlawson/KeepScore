@@ -72,6 +72,7 @@ public class GameActivity extends Activity {
 	private Handler handler = new Handler(Looper.getMainLooper());
 	private boolean paused = true;
 	private GameDBHelper dbHelper;
+	private boolean savedGameBeforeExit;
 	
 	
 	@Override
@@ -114,6 +115,10 @@ public class GameActivity extends Activity {
 		if (dbHelper != null) {
 			dbHelper.close();
 			dbHelper = null;
+		}
+		
+		if (savedGameBeforeExit) { // if nothing was changed in the game, don't show this message
+			Toast.makeText(this, R.string.toast_game_saved, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -515,6 +520,7 @@ public class GameActivity extends Activity {
 		
 		getDbHelper().saveGame(gameToSave);
 		log.d("saved game: %s", gameToSave);
+		savedGameBeforeExit = true;
 		
 		stopWatch.log(log);		
 	}
