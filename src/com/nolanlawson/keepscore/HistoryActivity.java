@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ScrollView;
@@ -97,9 +98,9 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 			
 			// create the header
 			TableRow headerRow = new TableRow(this);
-			headerRow.addView(createListHeader(headerRow, leftPlayer.toDisplayName(this)));
+			headerRow.addView(createListHeader(headerRow, leftPlayer.toDisplayName(this), true, false));
 			headerRow.addView(createDividerView(headerRow));
-			headerRow.addView(createListHeader(headerRow, rightPlayer == null ? " " : rightPlayer.toDisplayName(this)));
+			headerRow.addView(createListHeader(headerRow, rightPlayer == null ? " " : rightPlayer.toDisplayName(this), true, false));
 			
 			byPlayerTableLayout.addView(headerRow);
 			
@@ -115,9 +116,9 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 				HistoryItem rightItem = rightHistoryItems.hasNext() ? rightHistoryItems.next() : null;
 				
 				TableRow tableRow = new TableRow(this);
-				tableRow.addView(createHistoryItemView(leftItem, R.layout.history_item_wide, counter));
+				tableRow.addView(createHistoryItemView(tableRow, leftItem, R.layout.history_item_wide, counter, true));
 				tableRow.addView(createDividerView(tableRow));
-				tableRow.addView(createHistoryItemView(rightItem, R.layout.history_item_wide, counter));
+				tableRow.addView(createHistoryItemView(tableRow, rightItem, R.layout.history_item_wide, counter, true));
 				byPlayerTableLayout.addView(tableRow);
 				counter++;
 			}
@@ -153,18 +154,18 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		
 		// create the first row
 		TableRow headerRow = new TableRow(this);
-		headerRow.addView(createListHeader(headerRow, " "));
+		headerRow.addView(createListHeader(headerRow, " ", false, false));
 		
 		// add in all the section headers first, so they can be laid out across as the first row
 		
 		for (PlayerScore playerScore : playerScores) {
 			headerRow.addView(createDividerView(headerRow));
-			headerRow.addView(createListHeader(headerRow, playerScore.toDisplayName(this)));
+			headerRow.addView(createListHeader(headerRow, playerScore.toDisplayName(this), true, false));
 		}
 		
 		// add a column to the right with an epsilon sign (for the round total sum)
 		headerRow.addView(createDividerView(headerRow));
-		headerRow.addView(createListHeader(headerRow, getString(R.string.text_epsilon), true));
+		headerRow.addView(createListHeader(headerRow, getString(R.string.text_epsilon), false, true));
 		
 		byRoundTableLayout.addView(headerRow);
 		
@@ -184,7 +185,7 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 			int sum = 0;
 			for (int j = i; j < i + playerScores.size(); j++) {
 				HistoryItem historyItem = collatedHistoryItems.get(j);
-				View historyItemAsView = createHistoryItemView(historyItem, historyItemLayoutId, rowId);
+				View historyItemAsView = createHistoryItemView(tableRow, historyItem, historyItemLayoutId, rowId, true);
 				tableRow.addView(createDividerView(tableRow));
 				tableRow.addView(historyItemAsView);
 				
@@ -195,9 +196,9 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 			tableRow.addView(createDividerView(tableRow));
 			if (i == 0) { // first row is just the starting score
 				HistoryItem bogusHistoryItem = new HistoryItem(0, sum, true);
-				tableRow.addView(createHistoryItemView(bogusHistoryItem, historyItemLayoutId, rowId));
+				tableRow.addView(createHistoryItemView(tableRow, bogusHistoryItem, historyItemLayoutId, rowId, false));
 			} else {
-				tableRow.addView(createSumView(historyItemLayoutId, rowId, sum));
+				tableRow.addView(createSumView(tableRow, historyItemLayoutId, rowId, sum));
 			}
 				
 			
@@ -206,12 +207,12 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		
 	}
 
-	private View createSumView(int historyItemLayoutId, int rowId, int sum) {
+	private View createSumView(ViewGroup parent, int historyItemLayoutId, int rowId, int sum) {
 		// create a view that looks like a regular history item view, but is actually just
 		// the sum.
 		
 		// create a bogus history item
-		View view = inflater.inflate(historyItemLayoutId, null, false);
+		View view = inflater.inflate(historyItemLayoutId, parent, false);
 		
 		// alternating colors for the background, from gray to white
 		view.setBackgroundColor(getResources().getColor(
@@ -287,16 +288,19 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		return inflater.inflate(R.layout.column_divider, parent, false);
 	}
 	
-	private View createListHeader(ViewGroup parent, CharSequence text) {
-		return createListHeader(parent, text, false);
-	}
-	
-	private View createListHeader(ViewGroup parent, CharSequence text, boolean gravityCenter) {
+	private View createListHeader(ViewGroup parent, CharSequence text, boolean weightIsOne, boolean gravityCenter) {
 		TextView view = (TextView) inflater.inflate(R.layout.history_column_header, parent, false);
 		view.setText(text);
 		if (gravityCenter) {
 			view.setGravity(Gravity.CENTER_HORIZONTAL);
 		}
+		
+		return weightIsOne ? setLayoutWeightToOne(view) : view;
+	}
+	
+	private View setLayoutWeightToOne(View view) {
+		view.setLayoutParams(new TableRow.LayoutParams(
+				0, LayoutParams.FILL_PARENT, 1.0F));
 		return view;
 	}
 	
@@ -307,9 +311,9 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		return view;
 	}
 
-	public View createHistoryItemView(HistoryItem historyItem, int layoutResId, int rowId) {
+	public View createHistoryItemView(ViewGroup parent, HistoryItem historyItem, int layoutResId, int rowId, boolean weightIsOne) {
 		
-		View view = inflater.inflate(layoutResId, null, false);
+		View view = inflater.inflate(layoutResId, parent, false);
 		
 		// alternating colors for the background, from gray to white
 		view.setBackgroundColor(getResources().getColor(
@@ -322,7 +326,7 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 			// null indicates to leave the text views empty
 			setDummyTextView(textView1);
 			setDummyTextView(textView2);
-			return view;			
+			return weightIsOne ? setLayoutWeightToOne(view) : view;			
 		}
 		
 		textView2.setVisibility(View.VISIBLE);
@@ -345,7 +349,7 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		
 		textView2.setText(Long.toString(historyItem.getRunningTotal()));
 		
-		return view;		
+		return weightIsOne ? setLayoutWeightToOne(view) : view;		
 	}
 	/**
 	 * For some reason, on Honeycomb tablets I have to set the text view to have a dummy value and the visibility to INVISIBLE - I can't just 
