@@ -103,6 +103,7 @@
         android:layout_toLeftOf="@+id/layout_plus"
         android:layout_toRightOf="@+id/layout_minus"
         android:layout_above="@+id/onscreen_delta_buttons_stub"
+        android:paddingBottom="4dp"
         android:gravity="center_horizontal|center_vertical"
         android:singleLine="true"
         android:text="0"
