@@ -14,8 +14,7 @@ import com.nolanlawson.keepscore.util.Functions;
  */
 public enum TimePeriod {
 
-	Recent (R.string.title_recent, Functions.RECENT, Functions.NOW),
-	Today (R.string.title_today, Functions.TODAY_START, Functions.RECENT),
+	Today (R.string.title_today, Functions.TODAY_START, Functions.NOW),
 	Yesterday (R.string.title_yesterday, Functions.YESTERDAY_START, Functions.TODAY_START),
 	DayBeforeYesterday (R.string.title_two_days_ago, Functions.DAY_BEFORE_YESTERDAY_START, Functions.YESTERDAY_START),
 	LastWeek (R.string.title_last_week, Functions.ONE_WEEK_AGO_START, Functions.DAY_BEFORE_YESTERDAY_START),

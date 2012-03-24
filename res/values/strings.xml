@@ -147,7 +147,6 @@
     <string name="menu_copy">Copy Game</string>
     <string name="menu_randomize">Shuffle</string>
     
-    <string name="title_recent">Recent</string>
     <string name="title_today">Today</string>
     <string name="title_yesterday">Yesterday</string>
     <string name="title_two_days_ago">Two Days Ago</string>

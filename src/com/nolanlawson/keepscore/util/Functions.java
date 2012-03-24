@@ -26,21 +26,6 @@ public class Functions {
 		}
 	};
 
-	public static final Function<Date, Date> RECENT = new Function<Date, Date>() {
-
-		@Override
-		public Date apply(Date currentDate) {
-			// either three hours ago or the most recent midnight - whichever is more recent
-			Date date = new Date();
-			long twoHoursAgo = currentDate.getTime() - (1000L * 60 * 60 * 3);
-			long lastMidnight = TODAY_START.apply(date).getTime();
-			
-			// just in case it's 1am, do not return yesterday's time
-			date.setTime(Math.max(twoHoursAgo, lastMidnight));
-			return date;
-		}
-	};
-	
 	public static final Function<Date, Date> TODAY_START = new Function<Date, Date>() {
 
 		@Override

@@ -94,7 +94,6 @@
 	<string name="menu_copy">ゲーム複写</string>
 	<string name="menu_randomize">シャッフル</string>
 	
-	<string name="title_recent">最近</string>
     <string name="title_today">今日</string>
     <string name="title_yesterday">昨日</string>
     <string name="title_two_days_ago">一昨日</string>
