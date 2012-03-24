@@ -30,6 +30,8 @@
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     <string name="text_players_will_be_randomized">The players will be randomly shuffled.</string>
     
+    <string name="text_epsilon">Σ</string>
+    
     <string name="button_2_players">2</string>
     <string name="button_3_players">3</string>
     <string name="button_4_players">4</string>

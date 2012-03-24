@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +27,6 @@ import android.widget.ToggleButton;
 import com.nolanlawson.keepscore.data.HistoryItem;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
-import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
@@ -162,11 +162,9 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 			headerRow.addView(createListHeader(headerRow, playerScore.toDisplayName(this)));
 		}
 		
-		if (PreferenceHelper.getShowRoundTotals(this)) {
-			// add a column to the right with a "#" sign (for the sum)
-			headerRow.addView(createDividerView(headerRow));
-			headerRow.addView(createListHeader(headerRow, "#"));
-		}
+		// add a column to the right with an epsilon sign (for the round total sum)
+		headerRow.addView(createDividerView(headerRow));
+		headerRow.addView(createListHeader(headerRow, getString(R.string.text_epsilon), true));
 		
 		byRoundTableLayout.addView(headerRow);
 		
@@ -193,17 +191,15 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 				sum += historyItem == null ? 0 : historyItem.getDelta();
 			}
 			
-			if (PreferenceHelper.getShowRoundTotals(this)) {
-				// add in a sum
-				tableRow.addView(createDividerView(tableRow));
-				if (i == 0) { // first row is just the starting score
-					HistoryItem bogusHistoryItem = new HistoryItem(0, sum, true);
-					tableRow.addView(createHistoryItemView(bogusHistoryItem, historyItemLayoutId, rowId));
-				} else {
-					tableRow.addView(createSumView(historyItemLayoutId, rowId, sum));
-				}
-				
+			// add in the round total (sum)
+			tableRow.addView(createDividerView(tableRow));
+			if (i == 0) { // first row is just the starting score
+				HistoryItem bogusHistoryItem = new HistoryItem(0, sum, true);
+				tableRow.addView(createHistoryItemView(bogusHistoryItem, historyItemLayoutId, rowId));
+			} else {
+				tableRow.addView(createSumView(historyItemLayoutId, rowId, sum));
 			}
+				
 			
 			byRoundTableLayout.addView(tableRow);
 		}
@@ -215,12 +211,19 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 		// the sum.
 		
 		// create a bogus history item
-		HistoryItem historyItem = new HistoryItem(0, sum, false);
+		View view = inflater.inflate(historyItemLayoutId, null, false);
 		
-		View view = createHistoryItemView(historyItem, historyItemLayoutId, rowId);
+		// alternating colors for the background, from gray to white
+		view.setBackgroundColor(getResources().getColor(
+				rowId % 2 == 0 ? android.R.color.background_light : R.color.light_gray));
 		
 		TextView textView1 = (TextView) view.findViewById(android.R.id.text1);
-		textView1.setVisibility(View.INVISIBLE);
+		TextView textView2 = (TextView) view.findViewById(android.R.id.text2);
+		
+		textView1.setTextColor(getResources().getColor(android.R.color.primary_text_light_nodisable));
+		textView1.setText(Integer.toString(sum));
+		
+		textView2.setVisibility(View.INVISIBLE);
 		
 		return view;
 	}
@@ -285,8 +288,15 @@ public class HistoryActivity extends Activity implements OnCheckedChangeListener
 	}
 	
 	private View createListHeader(ViewGroup parent, CharSequence text) {
+		return createListHeader(parent, text, false);
+	}
+	
+	private View createListHeader(ViewGroup parent, CharSequence text, boolean gravityCenter) {
 		TextView view = (TextView) inflater.inflate(R.layout.history_column_header, parent, false);
 		view.setText(text);
+		if (gravityCenter) {
+			view.setGravity(Gravity.CENTER_HORIZONTAL);
+		}
 		return view;
 	}
 	
