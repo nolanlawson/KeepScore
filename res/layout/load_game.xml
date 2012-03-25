@@ -3,7 +3,8 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center_horizontal">
 
-	<ListView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@android:id/list"
+	<com.nolanlawson.keepscore.widget.ExceptionCatchingListView 
+	    android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@android:id/list"
 		android:cacheColorHint="@android:color/background_light"/>
 	
 	<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@android:id/empty"
