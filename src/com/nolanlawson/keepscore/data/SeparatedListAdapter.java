@@ -22,7 +22,10 @@ import com.nolanlawson.keepscore.R;
  */
 public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer {
 	
-	public final static int TYPE_SECTION_HEADER = 0;
+	private static final int MIN_NUM_SECTIONS_FOR_SECTION_OVERLAYS = 2;
+	private static final int MIN_NUM_ITEMS_FOR_SECTION_OVERLAYS = 10;
+	
+	public static final int TYPE_SECTION_HEADER = 0;
 	
 	public Map<String,BaseAdapter> sections = new LinkedHashMap<String,BaseAdapter>();
 	public TypeCheckingArrayAdapter<String> headers;
@@ -182,6 +185,10 @@ public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer 
 	
 	private SectionIndexer createSectionIndexer() {
 		
+		if (!enoughToShowOverlays()) {
+			return createEmptySectionIndexer();
+		}
+		
 		List<String> sectionNames = new ArrayList<String>();
 		final List<Integer> sectionsToPositions = new ArrayList<Integer>();
 		final List<Integer> positionsToSections = new ArrayList<Integer>();
@@ -223,8 +230,35 @@ public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer 
 	}
 		
 	
+	private SectionIndexer createEmptySectionIndexer() {
+		final Object[] empty = {};
+		return new SectionIndexer() {
+			
+			@Override
+			public Object[] getSections() {
+				return empty;
+			}
+			
+			@Override
+			public int getSectionForPosition(int position) {
+				return 0;
+			}
+			
+			@Override
+			public int getPositionForSection(int section) {
+				return 0;
+			}
+		};
+	}
+
 	public void refreshSections() {
 		sectionIndexer = null;
 		getSections();
+	}
+	
+	private boolean enoughToShowOverlays() {
+		int numHeaders = headers.getCount();
+		return numHeaders >= MIN_NUM_SECTIONS_FOR_SECTION_OVERLAYS && 
+				(getCount() - numHeaders) >= MIN_NUM_ITEMS_FOR_SECTION_OVERLAYS;
 	}
 }
