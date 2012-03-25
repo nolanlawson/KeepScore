@@ -1,13 +1,17 @@
 package com.nolanlawson.keepscore.data;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.BaseAdapter;
+import android.widget.SectionIndexer;
 
 import com.nolanlawson.keepscore.R;
 
@@ -16,13 +20,14 @@ import com.nolanlawson.keepscore.R;
  * @author nolan
  *
  */
-public class SeparatedListAdapter extends BaseAdapter {
+public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer {
 	
 	public final static int TYPE_SECTION_HEADER = 0;
 	
 	public Map<String,BaseAdapter> sections = new LinkedHashMap<String,BaseAdapter>();
 	public TypeCheckingArrayAdapter<String> headers;
 
+	private SectionIndexer sectionIndexer;
 
 	public SeparatedListAdapter(Context context) {
 		headers = new TypeCheckingArrayAdapter<String>(context, R.layout.list_header);
@@ -50,7 +55,7 @@ public class SeparatedListAdapter extends BaseAdapter {
 	}
 
 	public Object getItem(int position) {
-		for(Object section : this.sections.keySet()) {
+		for(String section : this.sections.keySet()) {
 			Adapter adapter = sections.get(section);
 			int size = adapter.getCount() + 1;
 
@@ -82,7 +87,7 @@ public class SeparatedListAdapter extends BaseAdapter {
 
 	public int getItemViewType(int position) {
 		int type = 1;
-		for(Object section : this.sections.keySet()) {
+		for(String section : this.sections.keySet()) {
 			Adapter adapter = sections.get(section);
 			int size = adapter.getCount() + 1;
 
@@ -124,7 +129,7 @@ public class SeparatedListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		int sectionnum = 0;
-		for(Object section : this.sections.keySet()) {
+		for(String section : this.sections.keySet()) {
 			Adapter adapter = sections.get(section);
 			int size = adapter.getCount() + 1;
 
@@ -139,7 +144,7 @@ public class SeparatedListAdapter extends BaseAdapter {
 		return null;
 	}
 	
-	public Map<String, BaseAdapter> getSections() {
+	public Map<String, BaseAdapter> getSectionsMap() {
 		return sections;
 	}
 
@@ -151,5 +156,75 @@ public class SeparatedListAdapter extends BaseAdapter {
 	public void removeSection(String section) {
 		headers.remove(section);
 		sections.remove(section);
+	}
+	
+	@Override
+	public int getPositionForSection(int section) {
+		return getSectionIndexer().getPositionForSection(section);
+	}
+
+	@Override
+	public int getSectionForPosition(int position) {
+		return getSectionIndexer().getSectionForPosition(position);
+	}
+
+	@Override
+	public Object[] getSections() {
+		return getSectionIndexer().getSections();
+	}
+	
+	private SectionIndexer getSectionIndexer() {
+		if (sectionIndexer == null) {
+			sectionIndexer = createSectionIndexer();
+		}
+		return sectionIndexer;
+	}
+	
+	private SectionIndexer createSectionIndexer() {
+		
+		List<String> sectionNames = new ArrayList<String>();
+		final List<Integer> sectionsToPositions = new ArrayList<Integer>();
+		final List<Integer> positionsToSections = new ArrayList<Integer>();
+		
+		int runningCount = 0;
+		for (Entry<String,BaseAdapter> entry : sections.entrySet()) {
+			String section = entry.getKey();
+			BaseAdapter subAdapter = entry.getValue();
+			
+			sectionNames.add(section);
+			sectionsToPositions.add(runningCount);
+			
+			int size = subAdapter.getCount() + 1;
+			for (int i = 0; i < size; i++) {
+				positionsToSections.add(sectionNames.size() - 1);
+			}
+			runningCount += size;
+		}
+		
+		final Object[] sectionNamesArray = sectionNames.toArray();
+		
+		return new SectionIndexer() {
+			
+			@Override
+			public Object[] getSections() {
+				return sectionNamesArray;
+			}
+			
+			@Override
+			public int getSectionForPosition(int position) {
+				return positionsToSections.get(position);
+			}
+			
+			@Override
+			public int getPositionForSection(int section) {
+				return sectionsToPositions.get(section);
+			}
+		};
+	}
+		
+	
+	public void refreshSections() {
+		sectionIndexer = null;
+		getSections();
 	}
 }

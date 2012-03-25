@@ -34,12 +34,14 @@ import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
+import com.nolanlawson.keepscore.widget.CustomFastScrollView;
 
 public class LoadGameActivity extends ListActivity implements OnItemLongClickListener {
 
 	private static UtilLogger log = new UtilLogger(LoadGameActivity.class);
 	
 	private SeparatedListAdapter adapter;
+	private CustomFastScrollView fastScrollView;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,9 +52,8 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         setContentView(R.layout.load_game);
         
         getListView().setOnItemLongClickListener(this);
+        fastScrollView = (CustomFastScrollView) findViewById(R.id.fast_scroll_view);
 	}
-	
-	
 
 	@Override
 	protected void onResume() {
@@ -194,6 +195,8 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			((SavedGameAdapter)adapter.getSection(0)).insert(newGame, 0);
 		}
 		adapter.notifyDataSetChanged();
+		adapter.refreshSections();
+		fastScrollView.listItemsChanged();
 		
 	}
 
@@ -318,7 +321,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		// delete the game from the adapter
 		
 		Toast.makeText(LoadGameActivity.this, R.string.toast_deleted, Toast.LENGTH_SHORT).show();
-		for (Entry<String, BaseAdapter> entry : new HashMap<String,BaseAdapter>(adapter.getSections()).entrySet()) {
+		for (Entry<String, BaseAdapter> entry : new HashMap<String,BaseAdapter>(adapter.getSectionsMap()).entrySet()) {
 			SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
 			subAdapter.remove(game);
 			if (subAdapter.getCount() == 0) {
@@ -329,6 +332,8 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		}
 		
 		adapter.notifyDataSetChanged();
+		adapter.refreshSections();
+		fastScrollView.listItemsChanged();
 		
 	}
 

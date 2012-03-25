@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fastscroll= "http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center_horizontal">
 
-	<com.nolanlawson.keepscore.widget.ExceptionCatchingListView 
-	    android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@android:id/list"
-		android:cacheColorHint="@android:color/background_light"/>
-	
-	<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@android:id/empty"
-		android:textSize="18sp" android:text="@string/text_no_saved_games"
-		android:padding="3dp"/>
+     <com.nolanlawson.keepscore.widget.CustomFastScrollView android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        fastscroll:overlayWidth="250dp" fastscroll:overlayHeight="75dp" fastscroll:overlayTextSize="24dp"
+        fastscroll:overlayScrollThumbWidth="60dp" android:id="@+id/fast_scroll_view">
+     
+		<com.nolanlawson.keepscore.widget.ExceptionCatchingListView 
+		    android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@android:id/list"
+			android:cacheColorHint="@android:color/background_light"/>
+		
+		<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@android:id/empty"
+			android:textSize="18sp" android:text="@string/text_no_saved_games"
+			android:padding="3dp"/>
+		
+ 	</com.nolanlawson.keepscore.widget.CustomFastScrollView>
 
 
 </LinearLayout>

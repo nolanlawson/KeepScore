@@ -100,9 +100,9 @@
     <string name="title_today">Aujoud\'hui</string>
     <string name="title_yesterday">Hier</string>
     <string name="title_two_days_ago">Avant-hier</string>
-    <string name="title_last_week">Il y a une semaine</string>
-    <string name="title_last_month">Il y a un mois</string>
-    <string name="title_last_year">Il y a un an</string>
+    <string name="title_last_week">La semaine passée</string>
+    <string name="title_last_month">Le mois passé</string>
+    <string name="title_last_year">L\'année passée</string>
     <string name="title_older">Plus Ancien</string>
     
 </resources>
