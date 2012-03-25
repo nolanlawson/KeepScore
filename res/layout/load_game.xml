@@ -6,7 +6,7 @@
 
      <com.nolanlawson.keepscore.widget.CustomFastScrollView android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        fastscroll:overlayWidth="235dp" fastscroll:overlayHeight="75dp" fastscroll:overlayTextSize="22dp"
+        fastscroll:overlayWidth="@dimen/fast_scroll_overlay_width" fastscroll:overlayHeight="75dp" fastscroll:overlayTextSize="22dp"
         fastscroll:overlayScrollThumbWidth="60dp" android:id="@+id/fast_scroll_view">
      
 		<com.nolanlawson.keepscore.widget.ExceptionCatchingListView 

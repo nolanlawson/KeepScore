@@ -53,4 +53,6 @@
 	<dimen name="onscreen_delta_button_height_2_to_4">72dp</dimen>
 	<dimen name="onscreen_delta_button_height_5_to_6">72dp</dimen> <!-- not used -->
 	<dimen name="onscreen_delta_button_height_7_to_8">72dp</dimen> <!-- not used -->
+	
+	<dimen name="fast_scroll_overlay_width">215dp</dimen>
 </resources>
