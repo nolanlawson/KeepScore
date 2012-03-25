@@ -16,6 +16,7 @@ import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.Functions;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
@@ -44,39 +45,42 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 			viewWrapper = (ViewWrapper)view.getTag();
 		}
 		
-		TextView nameTextView = viewWrapper.getNameTextView();
+		TextView titleTextView = viewWrapper.getTitleTextView();
 		TextView numPlayersTextView = viewWrapper.getNumPlayersTextView();
-		TextView playersTextView = viewWrapper.getPlayersTextView();
-		TextView startedTextView = viewWrapper.getStartedTextView();
+		TextView subtitleTextView = viewWrapper.getSubtitleTextView();
 		TextView savedTextView = viewWrapper.getSavedTextView();
 		
 		Game game = getItem(position);
 		
-		nameTextView.setText(game.getName());
-		nameTextView.setVisibility(TextUtils.isEmpty(game.getName()) ? View.GONE : View.VISIBLE);
-		
-		String numPlayers = String.format(context.getString(R.string.text_players),game.getPlayerScores().size());
-		
-		numPlayersTextView.setText(numPlayers);
-		
-		String players = TextUtils.join(", ", CollectionUtil.transform(game.getPlayerScores(), 
-				new Function<PlayerScore,String>(){
+		String gameTitle;
+		if (!TextUtils.isEmpty(game.getName())) {
+			gameTitle = game.getName();
+		} else {
+			// Player 1, Player 2, Player3 etc.
+			gameTitle = TextUtils.join(", ", CollectionUtil.transform(game.getPlayerScores(), 
+					new Function<PlayerScore,String>(){
 
-			@Override
-			public String apply(PlayerScore playerScore) {
-				return playerScore.toDisplayName(context) + ": "+ playerScore.getScore();
-			}
-		}));
+						@Override
+						public String apply(PlayerScore playerScore) {
+							return playerScore.toDisplayName(context);
+						}
+					}
+			));
+		}
 		
-		playersTextView.setText(players);
+		titleTextView.setText(gameTitle);
+		
+		numPlayersTextView.setText(Integer.toString(game.getPlayerScores().size()));
+		
+		int numRounds = CollectionUtil.max(game.getPlayerScores(), Functions.PLAYER_SCORE_TO_HISTORY_SIZE);
+		int roundsResId = numRounds == 1 ? R.string.text_format_rounds_singular : R.string.text_format_rounds;
+		String rounds = String.format(context.getString(roundsResId), numRounds);
+		
+		subtitleTextView.setText(rounds);
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 
-		String started = context.getString(R.string.text_started_colon);
-		startedTextView.setText(started + " " + simpleDateFormat.format(new Date(game.getDateStarted())));
-		
-		String saved = context.getString(R.string.text_saved_colon);
-		savedTextView.setText(saved + " " + simpleDateFormat.format(new Date(game.getDateSaved())));
+		savedTextView.setText(simpleDateFormat.format(new Date(game.getDateSaved())));
 		
 		log.d("saved long is: %s", game.getDateSaved());
 		log.d("started long is: %s", game.getDateStarted());
@@ -87,17 +91,17 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 	private static class ViewWrapper {
 		
 		private View view;
-		private TextView nameTextView, numPlayersTextView, playersTextView, startedTextView, savedTextView;
+		private TextView titleTextView, numPlayersTextView, subtitleTextView, savedTextView;
 		
 		public ViewWrapper(View view) {
 			this.view = view;
 		}
 		
-		public TextView getNameTextView() {
-			if (nameTextView == null) {
-				nameTextView = (TextView) view.findViewById(R.id.text_game_name);
+		public TextView getTitleTextView() {
+			if (titleTextView == null) {
+				titleTextView = (TextView) view.findViewById(R.id.text_game_title);
 			}
-			return nameTextView;
+			return titleTextView;
 		}
 		public TextView getNumPlayersTextView() {
 			if (numPlayersTextView == null) {
@@ -105,17 +109,11 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 			}
 			return numPlayersTextView;
 		}
-		public TextView getPlayersTextView() {
-			if (playersTextView == null) {
-				playersTextView = (TextView) view.findViewById(R.id.text_player_names);
+		public TextView getSubtitleTextView() {
+			if (subtitleTextView == null) {
+				subtitleTextView = (TextView) view.findViewById(R.id.text_game_subtitle);
 			}
-			return playersTextView;
-		}
-		public TextView getStartedTextView() {
-			if (startedTextView == null) {
-				startedTextView = (TextView) view.findViewById(R.id.text_date_started);
-			}
-			return startedTextView;
+			return subtitleTextView;
 		}
 		public TextView getSavedTextView() {
 			if (savedTextView == null) {
@@ -123,9 +121,5 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 			}
 			return savedTextView;
 		}
-		
 	}
-	
-	
-	
 }

@@ -1,53 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:paddingBottom="3dp"	android:paddingTop="3dp"
-	android:paddingLeft="5dp" android:paddingRight="7dp">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="7dp"
+    android:paddingTop="5dp" >
 
-	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:id="@+id/relative_layout_1">
+    <TextView
+        android:id="@+id/text_num_players"
+        android:layout_width="54dp"
+        android:layout_height="38dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/light_blue_border_shape_with_gradient"
+        android:drawableRight="@drawable/ic_menu_allfriends"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:singleLine="true"
+        android:text="6"
+        android:typeface="monospace"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+    
+        
+    <CheckBox android:id="@android:id/checkbox" android:layout_width="24dp"
+        android:layout_height="24dp" android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" android:button="@drawable/btn_check"
+        android:focusable="false"
+        />
 
-	
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:textSize="14sp"
-			android:textColor="@android:color/primary_text_light_nodisable"
-			android:id="@+id/text_date_started" android:layout_alignParentRight="true"
-			android:layout_alignParentTop="true" android:singleLine="true" 
-			android:text="Started: June 12"/>
-	
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:textSize="14sp"
-			android:textColor="@android:color/primary_text_light_nodisable"
-			android:id="@+id/text_date_saved" android:layout_alignParentRight="true"
-			android:layout_below="@+id/text_date_started" android:singleLine="true" 
-			android:text="Saved: June 15"/>
-	
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:textSize="18sp"
-			android:textColor="@android:color/primary_text_light_nodisable"
-			android:id="@+id/text_game_name" android:layout_alignParentLeft="true"
-			android:layout_alignParentTop="true" android:singleLine="true" 
-			android:text="My Game with a really long name that is totally unrealistic but whatever"
-			android:layout_toLeftOf="@+id/text_date_started"/>
-	
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:textSize="18sp"
-			android:textColor="@android:color/primary_text_light_nodisable"
-			android:id="@+id/text_num_players" android:layout_alignParentLeft="true"
-			android:layout_below="@+id/text_game_name" android:singleLine="true" 
-			android:text="4 players" android:layout_toRightOf="@+id/text_date_saved"/>
-	
+    <TextView
+        android:id="@+id/text_game_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_below="@+id/text_game_title"
+        android:layout_toRightOf="@+id/text_num_players"
+        android:layout_toLeftOf="@android:id/checkbox"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="3dp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:text="Raph, Mike, Leo, Don"
+        android:textColor="@android:color/primary_text_light_nodisable"
+        android:textSize="16sp" />
+    
+        <TextView
+        android:id="@+id/text_date_saved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_game_title"
+        android:layout_toLeftOf="@android:id/checkbox"
+        android:paddingRight="5dp"
+        android:singleLine="true"
+        android:text="June 15"
+        android:textColor="@android:color/secondary_text_light_nodisable"
+        android:textSize="14sp" />
 
-	
-	</RelativeLayout>	
+    <TextView
+        android:id="@+id/text_game_subtitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_game_title"
+        android:layout_toRightOf="@+id/text_num_players"
+        android:layout_toLeftOf="@+id/text_date_saved"
+        android:paddingLeft="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="5 Rounds"
+        android:textColor="@android:color/secondary_text_light_nodisable"
+        android:textSize="14sp" />
 
-	<TextView android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:textSize="16sp"
-		android:textColor="@android:color/secondary_text_light_nodisable"
-		android:id="@+id/text_player_names" android:layout_alignParentLeft="true"
-		android:layout_below="@+id/relative_layout_1" android:singleLine="true" 
-		android:ellipsize="end"
-		android:text="Leonardo, Michaelangelo, Donatello, Raphael"/>
-
-
+    
 </RelativeLayout>
