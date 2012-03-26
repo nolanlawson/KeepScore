@@ -23,7 +23,7 @@
           android:drawable="@drawable/btn_check_on" />
     <item android:state_checked="false" android:state_window_focused="false"
           android:state_enabled="true"
-          android:drawable="@drawable/btn_check_off" />
+          android:drawable="@drawable/btn_check_on_disable" />
 
     <item android:state_checked="true" android:state_pressed="true"
           android:state_enabled="true"
@@ -41,7 +41,7 @@
 
     <item android:state_checked="false"
           android:state_enabled="true"
-          android:drawable="@drawable/btn_check_off" />
+          android:drawable="@drawable/btn_check_on_disable" />
     <item android:state_checked="true"
           android:state_enabled="true"
           android:drawable="@drawable/btn_check_on" />
@@ -52,14 +52,14 @@
     <item android:state_checked="true" android:state_window_focused="false"
           android:drawable="@drawable/btn_check_on_disable" />
     <item android:state_checked="false" android:state_window_focused="false"
-          android:drawable="@drawable/btn_check_off_disable" />
+          android:drawable="@drawable/btn_check_on_disable" />
 
     <item android:state_checked="true" android:state_focused="true"
           android:drawable="@drawable/btn_check_on_disable_focused" />
     <item android:state_checked="false" android:state_focused="true"
-          android:drawable="@drawable/btn_check_off_disable_focused" />
+          android:drawable="@drawable/btn_check_on_disable_focused" />
 
-    <item android:state_checked="false" android:drawable="@drawable/btn_check_off_disable" />
+    <item android:state_checked="false" android:drawable="@drawable/btn_check_on_disable" />
     <item android:state_checked="true" android:drawable="@drawable/btn_check_on_disable" />
 
 </selector>
