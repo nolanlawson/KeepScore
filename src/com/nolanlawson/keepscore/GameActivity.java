@@ -142,6 +142,7 @@ public class GameActivity extends Activity {
 		setPlayerViewTextSizes();
 		
 		paused = false;
+		savedGameBeforeExit = false;
 	}
 	
 	private GameDBHelper getDbHelper() {
