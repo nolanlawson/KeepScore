@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -22,7 +24,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -40,8 +41,11 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 
 	private static UtilLogger log = new UtilLogger(LoadGameActivity.class);
 	
-	private SeparatedListAdapter adapter;
+	private SeparatedListAdapter<SavedGameAdapter> adapter;
 	private CustomFastScrollView fastScrollView;
+	
+	private Integer lastPosition;
+	private Set<Integer> lastChecked;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,18 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         getListView().setOnItemLongClickListener(this);
         fastScrollView = (CustomFastScrollView) findViewById(R.id.fast_scroll_view);
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		// save which items were checked and where we are in the list
+		lastChecked = new HashSet<Integer>();
+		for (SavedGameAdapter subAdapter : adapter.getSubAdapters()) {
+			lastChecked.addAll(subAdapter.getChecked());
+		}
+		lastPosition = getListView().getFirstVisiblePosition();
+	}
 
 	@Override
 	protected void onResume() {
@@ -65,14 +81,25 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         
         SortedMap<TimePeriod, List<Game>> organizedGames = organizeGamesByTimePeriod(games);
         
-        adapter = new SeparatedListAdapter(this);
+        adapter = new SeparatedListAdapter<SavedGameAdapter>(this);
         for (Entry<TimePeriod, List<Game>> entry : organizedGames.entrySet()) {
         	TimePeriod timePeriod = entry.getKey();
         	List<Game> gamesSection = entry.getValue();
         	SavedGameAdapter subAdapter = new SavedGameAdapter(this, gamesSection);
+        	if (lastChecked != null) {
+        		// reload the checked items from when the user last quit
+        		subAdapter.setChecked(lastChecked);
+        	}
         	adapter.addSection(getString(timePeriod.getTitleResId()), subAdapter);
         }
         setListAdapter(adapter);
+        
+        if (lastPosition != null) {
+        	// scroll to the user's last position when they quit
+        	getListView().setSelection(lastPosition);
+        }
+        lastPosition = null;
+        lastChecked = null;
 	}
 
 
@@ -321,7 +348,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		// delete the game from the adapter
 		
 		Toast.makeText(LoadGameActivity.this, R.string.toast_deleted, Toast.LENGTH_SHORT).show();
-		for (Entry<String, BaseAdapter> entry : new HashMap<String,BaseAdapter>(adapter.getSectionsMap()).entrySet()) {
+		for (Entry<String, SavedGameAdapter> entry : new HashMap<String,SavedGameAdapter>(adapter.getSectionsMap()).entrySet()) {
 			SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
 			subAdapter.remove(game);
 			if (subAdapter.getCount() == 0) {

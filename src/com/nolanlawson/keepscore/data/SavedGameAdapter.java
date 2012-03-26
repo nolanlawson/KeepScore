@@ -2,7 +2,9 @@ package com.nolanlawson.keepscore.data;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -10,15 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.Functions;
 import com.nolanlawson.keepscore.util.UtilLogger;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class SavedGameAdapter extends ArrayAdapter<Game> {
 
@@ -26,8 +31,18 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 	
 	private static final String DATE_FORMAT = "MMM dd hh:mmaa";
 	
+	private Set<Integer> checked = new HashSet<Integer>();
+	
 	public SavedGameAdapter(Context context, List<Game> values) {
 		super(context, R.layout.saved_game_item, values);
+	}
+	
+	public Set<Integer> getChecked() {
+		return checked;
+	}
+	
+	public void setChecked(Set<Integer> checked) {
+		this.checked = checked;
 	}
 
 	@Override
@@ -49,8 +64,9 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		TextView numPlayersTextView = viewWrapper.getNumPlayersTextView();
 		TextView subtitleTextView = viewWrapper.getSubtitleTextView();
 		TextView savedTextView = viewWrapper.getSavedTextView();
+		CheckBox checkBox = viewWrapper.getCheckBox();
 		
-		Game game = getItem(position);
+		final Game game = getItem(position);
 		
 		String gameTitle;
 		if (!TextUtils.isEmpty(game.getName())) {
@@ -82,6 +98,20 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 
 		savedTextView.setText(simpleDateFormat.format(new Date(game.getDateSaved())));
 		
+		checkBox.setOnCheckedChangeListener(null);
+		checkBox.setChecked(checked.contains(game.getId()));
+		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					checked.add(game.getId());
+				} else {
+					checked.remove(game.getId());
+				}
+			}
+		});
+		
 		log.d("saved long is: %s", game.getDateSaved());
 		log.d("started long is: %s", game.getDateStarted());
 		
@@ -92,6 +122,7 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		
 		private View view;
 		private TextView titleTextView, numPlayersTextView, subtitleTextView, savedTextView;
+		private CheckBox checkBox;
 		
 		public ViewWrapper(View view) {
 			this.view = view;
@@ -120,6 +151,12 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 				savedTextView = (TextView) view.findViewById(R.id.text_date_saved);
 			}
 			return savedTextView;
+		}
+		public CheckBox getCheckBox() {
+			if (checkBox == null) {
+				checkBox = (CheckBox) view.findViewById(android.R.id.checkbox);
+			}
+			return checkBox;
 		}
 	}
 }

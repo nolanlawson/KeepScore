@@ -1,6 +1,7 @@
 package com.nolanlawson.keepscore.data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +21,14 @@ import com.nolanlawson.keepscore.R;
  * @author nolan
  *
  */
-public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer {
+public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter implements SectionIndexer {
 	
 	private static final int MIN_NUM_SECTIONS_FOR_SECTION_OVERLAYS = 2;
 	private static final int MIN_NUM_ITEMS_FOR_SECTION_OVERLAYS = 10;
 	
 	public static final int TYPE_SECTION_HEADER = 0;
 	
-	public Map<String,BaseAdapter> sections = new LinkedHashMap<String,BaseAdapter>();
+	public Map<String,T> sections = new LinkedHashMap<String,T>();
 	public TypeCheckingArrayAdapter<String> headers;
 
 	private SectionIndexer sectionIndexer;
@@ -36,7 +37,7 @@ public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer 
 		headers = new TypeCheckingArrayAdapter<String>(context, R.layout.list_header);
 	}
 	
-	public BaseAdapter getSection(int position) {
+	public T getSection(int position) {
 		return sections.get(headers.getItem(position));
 	}
 	
@@ -44,14 +45,18 @@ public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer 
 		return headers.getItem(position);
 	}
 	
-	public void addSection(String section, BaseAdapter adapter) {
+	public Collection<T> getSubAdapters() {
+		return sections.values();
+	}
+	
+	public void addSection(String section, T adapter) {
 		this.headers.add(section);
 		this.sections.put(section, adapter);
 	}
 	
-	public void addSectionToFront(String section, BaseAdapter adapter) {
+	public void addSectionToFront(String section, T adapter) {
 		this.headers.insert(section, 0);
-		Map<String,BaseAdapter> newSections = new LinkedHashMap<String,BaseAdapter>();
+		Map<String,T> newSections = new LinkedHashMap<String,T>();
 		newSections.put(section, adapter);
 		newSections.putAll(sections);
 		sections = newSections;
@@ -115,7 +120,7 @@ public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer 
 			return false;
 		} else {
 			for(Object section : this.sections.keySet()) {
-				BaseAdapter adapter = sections.get(section);
+				T adapter = sections.get(section);
 				int size = adapter.getCount() + 1;
 
 				// check if position inside this section
@@ -147,7 +152,7 @@ public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer 
 		return null;
 	}
 	
-	public Map<String, BaseAdapter> getSectionsMap() {
+	public Map<String, T> getSectionsMap() {
 		return sections;
 	}
 
@@ -194,9 +199,9 @@ public class SeparatedListAdapter extends BaseAdapter implements SectionIndexer 
 		final List<Integer> positionsToSections = new ArrayList<Integer>();
 		
 		int runningCount = 0;
-		for (Entry<String,BaseAdapter> entry : sections.entrySet()) {
+		for (Entry<String,T> entry : sections.entrySet()) {
 			String section = entry.getKey();
-			BaseAdapter subAdapter = entry.getValue();
+			T subAdapter = entry.getValue();
 			
 			sectionNames.add(section);
 			sectionsToPositions.add(runningCount);
