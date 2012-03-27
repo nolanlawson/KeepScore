@@ -10,23 +10,28 @@ import java.util.Map.Entry;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 
 import com.nolanlawson.keepscore.R;
 
 /**
- * ListAdapter with headers for each section.  Probably stolen from Jeff Sharkey or somewhere; can't recall.
+ * ListAdapter with headers for each section.  Originally taken from Jeff Sharkey: 
+ * http://jsharkey.org/blog/2008/08/18/separating-lists-with-headers-in-android-09/
+ * 
  * @author nolan
  *
  */
 public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter implements SectionIndexer {
 	
+	// How many sections to require in order to show the fast scroll overlays
 	private static final int MIN_NUM_SECTIONS_FOR_SECTION_OVERLAYS = 2;
+	// How many items to require in order to show the fast scroll overlays
 	private static final int MIN_NUM_ITEMS_FOR_SECTION_OVERLAYS = 10;
 	
 	public static final int TYPE_SECTION_HEADER = 0;
+	public static final int TYPE_SECTION_CONTENT = 1;
+	public static final int NUM_TYPES = 2;
 	
 	public Map<String,T> sections = new LinkedHashMap<String,T>();
 	public TypeCheckingArrayAdapter<String> headers;
@@ -54,6 +59,12 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 		this.sections.put(section, adapter);
 	}
 	
+	/**
+	 * 
+	 * Add a section to the beginning of the LinkedHashMap.
+	 * @param section
+	 * @param adapter
+	 */
 	public void addSectionToFront(String section, T adapter) {
 		this.headers.insert(section, 0);
 		Map<String,T> newSections = new LinkedHashMap<String,T>();
@@ -63,8 +74,9 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 	}
 
 	public Object getItem(int position) {
-		for(String section : this.sections.keySet()) {
-			Adapter adapter = sections.get(section);
+		for(Entry<String, T> entry : sections.entrySet()) {
+			String section = entry.getKey();
+			T adapter = entry.getValue();
 			int size = adapter.getCount() + 1;
 
 			// check if position inside this section
@@ -80,32 +92,26 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 	public int getCount() {
 		// total together all sections, plus one for each section header
 		int total = 0;
-		for(Adapter adapter : this.sections.values())
+		for(T adapter : this.sections.values()) {
 			total += adapter.getCount() + 1;
+		}
 		return total;
 	}
 
 	public int getViewTypeCount() {
-		// assume that headers count as one, then total all sections
-		int total = 1;
-		for(Adapter adapter : this.sections.values())
-			total += adapter.getViewTypeCount();
-		return total;
+		return NUM_TYPES;
 	}
 
 	public int getItemViewType(int position) {
-		int type = 1;
-		for(String section : this.sections.keySet()) {
-			Adapter adapter = sections.get(section);
+		for(T adapter : sections.values()) {
 			int size = adapter.getCount() + 1;
 
 			// check if position inside this section
 			if(position == 0) return TYPE_SECTION_HEADER;
-			if(position < size) return type + adapter.getItemViewType(position - 1);
+			if(position < size) return TYPE_SECTION_CONTENT;
 
 			// otherwise jump into next section
 			position -= size;
-			type += adapter.getViewTypeCount();
 		}
 		return -1;
 	}
@@ -119,8 +125,7 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 		if (getItemViewType(position) == TYPE_SECTION_HEADER) {
 			return false;
 		} else {
-			for(Object section : this.sections.keySet()) {
-				T adapter = sections.get(section);
+			for(T adapter : this.sections.values()) {
 				int size = adapter.getCount() + 1;
 
 				// check if position inside this section
@@ -137,8 +142,7 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		int sectionnum = 0;
-		for(String section : this.sections.keySet()) {
-			Adapter adapter = sections.get(section);
+		for(T adapter : this.sections.values()) {
 			int size = adapter.getCount() + 1;
 
 			// check if position inside this section
@@ -152,6 +156,10 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 		return null;
 	}
 	
+	/**
+	 * Return a LinkedHashMap showing all the sections and their sub-adapters.
+	 * @return
+	 */
 	public Map<String, T> getSectionsMap() {
 		return sections;
 	}
@@ -165,6 +173,12 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 		headers.remove(section);
 		sections.remove(section);
 	}
+	
+	public void refreshSections() {
+		sectionIndexer = null;
+		getSections();
+	}
+
 	
 	@Override
 	public int getPositionForSection(int section) {
@@ -188,6 +202,10 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 		return sectionIndexer;
 	}
 	
+	/**
+	 * Build up the section indexer, which just uses the section names.
+	 * @return
+	 */
 	private SectionIndexer createSectionIndexer() {
 		
 		if (!enoughToShowOverlays()) {
@@ -254,11 +272,6 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 				return 0;
 			}
 		};
-	}
-
-	public void refreshSections() {
-		sectionIndexer = null;
-		getSections();
 	}
 	
 	private boolean enoughToShowOverlays() {

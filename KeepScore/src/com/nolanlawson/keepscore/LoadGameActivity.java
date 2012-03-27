@@ -350,12 +350,14 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		Toast.makeText(LoadGameActivity.this, R.string.toast_deleted, Toast.LENGTH_SHORT).show();
 		for (Entry<String, SavedGameAdapter> entry : new HashMap<String,SavedGameAdapter>(adapter.getSectionsMap()).entrySet()) {
 			SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
-			subAdapter.remove(game);
-			if (subAdapter.getCount() == 0) {
-				// deleted the only item in this sub adapter, so delete the section
+			if (subAdapter.getCount() == 1 && subAdapter.getItem(0).equals(game)) {
+				// special case where there's only one item left - don't want the adapter to be left empty
+				// So delete the entire section
 				adapter.removeSection(entry.getKey());
-				
+			} else {
+				subAdapter.remove(game);
 			}
+
 		}
 		
 		adapter.notifyDataSetChanged();
