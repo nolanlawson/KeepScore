@@ -2,6 +2,7 @@ package com.nolanlawson.keepscore.util;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CollectionUtil {
@@ -115,6 +116,15 @@ public class CollectionUtil {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(List<T> list, Class<T> clazz) {
 		return list.toArray((T[])Array.newInstance(clazz, list.size()));
+	}
+	
+	public static <T> boolean all(Collection<T> list, Predicate<T> predicate) {
+		for (T item : list) {
+			if (!predicate.apply(item)) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public static interface Function<E,T> {

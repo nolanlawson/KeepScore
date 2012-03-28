@@ -19,12 +19,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +40,8 @@ import com.nolanlawson.keepscore.data.SeparatedListAdapter;
 import com.nolanlawson.keepscore.data.TimePeriod;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
+import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.CustomFastScrollView;
@@ -43,9 +52,14 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	
 	private SeparatedListAdapter<SavedGameAdapter> adapter;
 	private CustomFastScrollView fastScrollView;
+	private LinearLayout buttonRow;
+	private Button selectAllButton, deselectAllButton, deleteButton;
+	private View spacerView;
 	
 	private Integer lastPosition;
 	private Set<Integer> lastChecked;
+	
+	private Handler handler = new Handler(Looper.getMainLooper());
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,10 +69,21 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         
         setContentView(R.layout.load_game);
         
-        getListView().setOnItemLongClickListener(this);
-        fastScrollView = (CustomFastScrollView) findViewById(R.id.fast_scroll_view);
+        setUpWidgets();
 	}
 	
+	private void setUpWidgets() {
+		getListView().setOnItemLongClickListener(this);
+        fastScrollView = (CustomFastScrollView) findViewById(R.id.fast_scroll_view);
+        
+        buttonRow = (LinearLayout) findViewById(R.id.layout_button_row);
+        selectAllButton = (Button) findViewById(android.R.id.button1);
+        deselectAllButton = (Button) findViewById(android.R.id.button2);
+        deleteButton = (Button) findViewById(android.R.id.button3);
+        
+        spacerView = findViewById(R.id.view_spacer);
+	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -90,6 +115,13 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         		// reload the checked items from when the user last quit
         		subAdapter.setChecked(lastChecked);
         	}
+        	subAdapter.setOnCheckChangedRunnable(new Runnable() {
+				
+				@Override
+				public void run() {
+					showOrHideButtonRow();
+				}
+			});
         	adapter.addSection(getString(timePeriod.getTitleResId()), subAdapter);
         }
         setListAdapter(adapter);
@@ -217,6 +249,13 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		if (!adapter.getSectionName(0).equals(mostRecentSection)) {
 			SavedGameAdapter subAdapter = new SavedGameAdapter(LoadGameActivity.this, 
 					new ArrayList<Game>(Collections.singleton(newGame)));
+			subAdapter.setOnCheckChangedRunnable(new Runnable() {
+				
+				@Override
+				public void run() {
+					showOrHideButtonRow();
+				}
+			});
 			adapter.addSectionToFront(mostRecentSection, subAdapter);
 		} else { // just insert it into the first section
 			((SavedGameAdapter)adapter.getSection(0)).insert(newGame, 0);
@@ -225,6 +264,100 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		adapter.refreshSections();
 		fastScrollView.listItemsChanged();
 		
+	}
+
+	private void showOrHideButtonRow() {
+		
+		boolean shouldHide = CollectionUtil.all(adapter.getSectionsMap().values(), new Predicate<SavedGameAdapter>(){
+
+			@Override
+			public boolean apply(SavedGameAdapter obj) {
+				return obj.getChecked().isEmpty();
+			}
+		});
+		
+		if (shouldHide) {
+			hideButtonRow();
+		} else {
+			showButtonRow();
+		}
+	}
+	
+	private void showButtonRow() {
+		if (buttonRow.getVisibility() == View.VISIBLE) {
+			// already visible; don't show slide animation
+			return;
+		}
+		
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				startShowButtonRowAnimation();
+			}
+		});
+		
+	}
+
+	private void hideButtonRow() {
+		if (buttonRow.getVisibility() == View.GONE) {
+			return; // nothing to do
+		}
+		
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				startHideButtonRowAnimation();
+			}
+		});
+		
+	}
+
+	private void startHideButtonRowAnimation() {
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_top_to_bottom);
+		animation.setAnimationListener(new AnimationListener() {
+			
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				buttonRow.setVisibility(View.GONE);
+			}
+		});
+		spacerView.setVisibility(View.GONE);
+		buttonRow.setAnimation(animation);
+		buttonRow.startAnimation(animation);
+	}
+
+	private void startShowButtonRowAnimation() {
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_to_top);
+		animation.setAnimationListener(new AnimationListener() {
+			
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// propertly shrink the scroll view
+				spacerView.setVisibility(View.INVISIBLE);
+			}
+		});
+		buttonRow.setAnimation(animation);
+		buttonRow.setVisibility(View.VISIBLE);
+		
+		buttonRow.startAnimation(animation);
 	}
 
 	private void showHistory(Game game) {

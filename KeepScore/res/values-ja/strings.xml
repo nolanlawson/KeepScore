@@ -7,6 +7,8 @@
 	<string name="button_load_game">保存したゲーム</string>
 	<string name="button_by_player">選手で</string>
     <string name="button_by_round">ラウンドで</string>
+    <string name="button_select_all">全て選択</string>
+    <string name="button_deselect_all">全て解除</string>
 
 	<string name="text_num_players">選手の数</string>
 

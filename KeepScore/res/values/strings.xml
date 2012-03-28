@@ -6,6 +6,10 @@
     <string name="button_new_game">New Game</string>
     <string name="button_resume_game">Resume Last Game</string>
     <string name="button_load_game">Load Game</string>
+    <string name="button_select_all">Select All</string>
+    <string name="button_deselect_all">Deselect All</string>
+    
+    
     
     <string name="text_num_players">Number of players</string>
     

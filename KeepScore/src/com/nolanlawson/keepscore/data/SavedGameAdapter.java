@@ -32,6 +32,7 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 	private static final String DATE_FORMAT = "MMM dd hh:mmaa";
 	
 	private Set<Integer> checked = new HashSet<Integer>();
+	private Runnable onCheckChangedRunnable;
 	
 	public SavedGameAdapter(Context context, List<Game> values) {
 		super(context, R.layout.saved_game_item, values);
@@ -41,6 +42,10 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		return checked;
 	}
 	
+	public void setOnCheckChangedRunnable(Runnable onCheckChangedRunnable) {
+		this.onCheckChangedRunnable = onCheckChangedRunnable;
+	}
+
 	public void setChecked(Set<Integer> checked) {
 		this.checked = checked;
 	}
@@ -108,6 +113,9 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 					checked.add(game.getId());
 				} else {
 					checked.remove(game.getId());
+				}
+				if (onCheckChangedRunnable != null) {
+					onCheckChangedRunnable.run();
 				}
 			}
 		});
