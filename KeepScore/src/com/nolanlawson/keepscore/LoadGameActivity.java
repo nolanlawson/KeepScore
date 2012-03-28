@@ -24,6 +24,7 @@ import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -46,7 +47,7 @@ import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.CustomFastScrollView;
 
-public class LoadGameActivity extends ListActivity implements OnItemLongClickListener {
+public class LoadGameActivity extends ListActivity implements OnItemLongClickListener, OnClickListener {
 
 	private static UtilLogger log = new UtilLogger(LoadGameActivity.class);
 	
@@ -57,7 +58,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	private View spacerView;
 	
 	private Integer lastPosition;
-	private Set<Integer> lastChecked;
+	private Set<Game> lastChecked;
 	
 	private Handler handler = new Handler(Looper.getMainLooper());
 	
@@ -81,6 +82,10 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         deselectAllButton = (Button) findViewById(android.R.id.button2);
         deleteButton = (Button) findViewById(android.R.id.button3);
         
+        for (Button button : new Button[]{selectAllButton, deselectAllButton, deleteButton}) {
+        	button.setOnClickListener(this);
+        }
+        
         spacerView = findViewById(R.id.view_spacer);
 	}
 
@@ -89,7 +94,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		super.onPause();
 		
 		// save which items were checked and where we are in the list
-		lastChecked = new HashSet<Integer>();
+		lastChecked = new HashSet<Game>();
 		for (SavedGameAdapter subAdapter : adapter.getSubAdapters()) {
 			lastChecked.addAll(subAdapter.getChecked());
 		}
@@ -149,7 +154,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	}
 
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
+	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
 		Game game = (Game) adapter.getItem(position);
@@ -160,13 +165,109 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		startActivity(intent);
 		
 	}
-
+	
 	@Override
 	public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
 		
 		showOptionsMenu((Game)(this.adapter.getItem(position)));
 		
 		return true;
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case android.R.id.button1: // select all
+			selectAll();
+			break;
+		case android.R.id.button2: // deselect all
+			deselectAll();
+			break;
+		case android.R.id.button3: //delete
+			showDeleteSelectedDialog();
+			break;
+		}
+		
+	}
+
+	private void selectAll() {
+		for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
+			for (int i = 0; i < subAdapter.getCount(); i++) {
+				Game game = subAdapter.getItem(i);
+				subAdapter.getChecked().add(game);
+			}
+		}
+		adapter.notifyDataSetChanged();
+	}
+	
+	private void deselectAll() {
+		for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
+			subAdapter.getChecked().clear();
+		}
+		
+		adapter.notifyDataSetChanged();
+		hideButtonRow();
+	}
+
+	private void showDeleteSelectedDialog() {
+		final Set<Game> games = new HashSet<Game>();
+		for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
+			games.addAll(subAdapter.getChecked());
+		}
+		String message = games.size() == 1
+				?	getString(R.string.text_game_will_be_deleted)
+				:	String.format(getString(R.string.text_games_will_be_deleted), games.size());
+				
+		new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.title_confirm_delete)
+			.setMessage(message)
+			.setNegativeButton(android.R.string.cancel, null)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					deleteGames(games);
+				}
+			})
+			.show();
+	}
+
+	private void deleteGames(final Set<Game> games) {
+		
+		
+		// do in background to avoid jankiness
+		new AsyncTask<Void, Void, Void>() {
+			
+			@Override
+			protected Void doInBackground(Void... params) {
+				
+				
+				GameDBHelper dbHelper = null;
+				try {
+					dbHelper = new GameDBHelper(LoadGameActivity.this);
+					dbHelper.deleteGames(games);
+					
+				} finally {
+					if (dbHelper != null) {
+						dbHelper.close();
+					}
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				int toast = games.size() == 1 ? R.string.toast_deleted : R.string.toast_multiple_deleted;
+				Toast.makeText(LoadGameActivity.this, toast, Toast.LENGTH_SHORT).show();
+				for (Game game : games) {
+					onGameDeleted(game);
+				}
+				// clear from the selected sets
+			}
+			
+		}.execute((Void)null);
 	}
 
 	private void showOptionsMenu(final Game game) {
@@ -268,18 +369,18 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 
 	private void showOrHideButtonRow() {
 		
-		boolean shouldHide = CollectionUtil.all(adapter.getSectionsMap().values(), new Predicate<SavedGameAdapter>(){
+		boolean shouldShow = CollectionUtil.any(adapter.getSectionsMap().values(), new Predicate<SavedGameAdapter>(){
 
 			@Override
 			public boolean apply(SavedGameAdapter obj) {
-				return obj.getChecked().isEmpty();
+				return !obj.getChecked().isEmpty();
 			}
 		});
 		
-		if (shouldHide) {
-			hideButtonRow();
-		} else {
+		if (shouldShow) {
 			showButtonRow();
+		} else {
+			hideButtonRow();
 		}
 	}
 	
@@ -432,55 +533,23 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	private void showDeleteDialog(final Game game) {
 		new AlertDialog.Builder(this)
 			.setCancelable(true)
-			.setTitle(R.string.title_confirm)
+			.setTitle(R.string.title_confirm_delete)
 			.setMessage(R.string.text_game_will_be_deleted)
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					deleteGame(game);
+					deleteGames(Collections.singleton(game));
 				}
 			})
 			.setNegativeButton(android.R.string.cancel, null)
 			.show();
 	}
-	private void deleteGame(final Game game) {
-		
-		// do in background to avoid jankiness
-		new AsyncTask<Void, Void, Void>() {
-			
-			@Override
-			protected Void doInBackground(Void... params) {
-				
-				
-				GameDBHelper dbHelper = null;
-				try {
-					dbHelper = new GameDBHelper(LoadGameActivity.this);
-					dbHelper.deleteGame(game);
-					
-				} finally {
-					if (dbHelper != null) {
-						dbHelper.close();
-					}
-				}
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(Void result) {
-				super.onPostExecute(result);
-				
-				onGameDeleted(game);
-			}
-			
-		}.execute((Void)null);
-	}
 	
 	private void onGameDeleted(Game game) {
 		// delete the game from the adapter
-		
-		Toast.makeText(LoadGameActivity.this, R.string.toast_deleted, Toast.LENGTH_SHORT).show();
+
 		for (Entry<String, SavedGameAdapter> entry : new HashMap<String,SavedGameAdapter>(adapter.getSectionsMap()).entrySet()) {
 			SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
 			if (subAdapter.getCount() == 1 && subAdapter.getItem(0).equals(game)) {
@@ -490,13 +559,14 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			} else {
 				subAdapter.remove(game);
 			}
-
+			subAdapter.getChecked().remove(game); // remove from the checked list
 		}
 		
 		adapter.notifyDataSetChanged();
 		adapter.refreshSections();
 		fastScrollView.listItemsChanged();
 		
+		showOrHideButtonRow();
 	}
 
 

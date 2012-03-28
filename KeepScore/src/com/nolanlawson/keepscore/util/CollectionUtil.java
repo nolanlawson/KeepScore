@@ -83,7 +83,7 @@ public class CollectionUtil {
 		
 	}
 	
-	public static <E,T> List<T> transform(List<E> list, Function<E,T> function) {
+	public static <E,T> List<T> transform(Collection<E> list, Function<E,T> function) {
 		List<T> result = new ArrayList<T>();
 		
 		for (E object : list) {
@@ -125,6 +125,15 @@ public class CollectionUtil {
 			}
 		}
 		return true;
+	}
+	
+	public static <T> boolean any(Collection<T> list, Predicate<T> predicate) {
+		for (T item : list) {
+			if (predicate.apply(item)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static interface Function<E,T> {

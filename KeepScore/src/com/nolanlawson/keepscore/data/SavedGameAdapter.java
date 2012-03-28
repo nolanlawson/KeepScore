@@ -31,14 +31,14 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 	
 	private static final String DATE_FORMAT = "MMM dd hh:mmaa";
 	
-	private Set<Integer> checked = new HashSet<Integer>();
+	private Set<Game> checked = new HashSet<Game>();
 	private Runnable onCheckChangedRunnable;
 	
 	public SavedGameAdapter(Context context, List<Game> values) {
 		super(context, R.layout.saved_game_item, values);
 	}
 	
-	public Set<Integer> getChecked() {
+	public Set<Game> getChecked() {
 		return checked;
 	}
 	
@@ -46,7 +46,7 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		this.onCheckChangedRunnable = onCheckChangedRunnable;
 	}
 
-	public void setChecked(Set<Integer> checked) {
+	public void setChecked(Set<Game> checked) {
 		this.checked = checked;
 	}
 
@@ -104,15 +104,15 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		savedTextView.setText(simpleDateFormat.format(new Date(game.getDateSaved())));
 		
 		checkBox.setOnCheckedChangeListener(null);
-		checkBox.setChecked(checked.contains(game.getId()));
+		checkBox.setChecked(checked.contains(game));
 		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					checked.add(game.getId());
+					checked.add(game);
 				} else {
-					checked.remove(game.getId());
+					checked.remove(game);
 				}
 				if (onCheckChangedRunnable != null) {
 					onCheckChangedRunnable.run();

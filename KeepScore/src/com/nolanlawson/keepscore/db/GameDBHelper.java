@@ -1,6 +1,7 @@
 package com.nolanlawson.keepscore.db;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
@@ -383,6 +385,28 @@ public class GameDBHelper extends SQLiteOpenHelper {
 				}
 			}
 			return result;
+		}
+	}
+
+	public void deleteGames(Collection<Game> games) {
+		synchronized (GameDBHelper.class) {
+			try {
+				db.beginTransaction();
+				String where = " in (" 
+						+ TextUtils.join(",", CollectionUtil.transform(games, new Function<Game,Integer>() {
+
+							@Override
+							public Integer apply(Game obj) {
+								return obj.getId();
+							}
+				})) + ")"; 
+				db.delete(TABLE_GAMES, COLUMN_ID + where, null);
+				db.delete(TABLE_PLAYER_SCORES, COLUMN_GAME_ID + where, null);
+				
+				db.setTransactionSuccessful();
+			} finally {
+				db.endTransaction();
+			}	
 		}
 	}
 

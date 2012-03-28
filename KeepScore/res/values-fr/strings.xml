@@ -34,6 +34,7 @@
     <string name="round_total" formatted="false">Partie #%d Total: %d</string>
     
     <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
+    <string name="text_games_will_be_deleted">%d jeux seront supprimés.</string>
     <string name="text_players_will_be_randomized">Les joueurs seront mélangés au hasard.</string>
     
     <string name="button_customize">Personnaliser&#8230;</string>
@@ -41,6 +42,7 @@
     <string name="hint_game_name">Nom du Jeu</string>
     
     <string name="toast_deleted">Jeu supprimé.</string>
+    <string name="toast_multiple_deleted">Jeux supprimés.</string>
     <string name="toast_no_zeroes">Il faut entrer un numéro valable non nulle.</string>
     <string name="toast_valid_update_delay_values">Il faut entrer un numéro valable entre 1 et 600.</string>
     <string name="toast_valid_initial_score">Il faut entrer un numéro valable.</string>
@@ -90,6 +92,7 @@
     <string name="title_confirm">Confirmer</string>
     <string name="title_confirm_reset">Confirmer Réinitialisation</string>
     <string name="title_add_player">Entrer le Nom du Joueur</string>
+    <string name="title_confirm_delete">Confirmer Suppression</string>
     
     <string name="menu_settings">Paramètres</string>
     <string name="menu_history">Histoire</string>

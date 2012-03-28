@@ -126,6 +126,32 @@ public class Game implements Parcelable, Cloneable {
 		return game;
 	}
 	
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Game other = (Game) obj;
+		if (id == -1 && other.id == -1) // not saved yet
+			return this == obj; // use simple equality comparison
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
 	/**
 	 * Make a clone of this Game that can be saved cleanly to the database as a new game.
 	 * @return

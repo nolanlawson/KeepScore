@@ -30,6 +30,7 @@
     <string name="round_total" formatted="false">Round #%d Total: %d</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
+    <string name="text_games_will_be_deleted">%s game(s) will be deleted.</string>
     <string name="text_players_will_be_randomized">The players will be randomly shuffled.</string>
     <string name="text_format_rounds">%d Rounds</string>
     <string name="text_format_rounds_singular">%d Round</string>
@@ -51,6 +52,7 @@
     <string name="hint_game_name">Game Name</string>
     
     <string name="toast_deleted">Game deleted.</string>
+    <string name="toast_multiple_deleted">Games deleted.</string>
     <string name="toast_no_zeroes">You must enter a valid nonzero number.</string>
     <string name="toast_valid_update_delay_values">You must enter a number between 1 and 600.</string>
     <string name="toast_valid_initial_score">You must enter a valid number.</string>
@@ -140,6 +142,7 @@
     <string name="title_confirm">Confirm</string>
     <string name="title_confirm_reset">Confirm Reset</string>
     <string name="title_add_player">Enter Player Name</string>
+    <string name="title_confirm_delete">Confirm Delete</string>
     
     <string name="menu_settings">Settings</string>
     <string name="menu_history">History</string>

@@ -30,6 +30,7 @@
 	<string name="text_format_rounds_singular">%dラウンド</string>
 
 	<string name="text_game_will_be_deleted">ゲームは削除されます。</string>
+	<string name="text_games_will_be_deleted">%dのゲームは削除されます。</string>
 	<string name="text_players_will_be_randomized">選手はランダムにシャッフルされます。</string>
 
 	<string name="button_customize">カスタマイズ&#8230;</string>
@@ -37,6 +38,7 @@
 	<string name="hint_game_name">ゲームの名</string>
 
 	<string name="toast_deleted">ゲームは削除されました。</string>
+	<string name="toast_multiple_deleted">@string/toast_deleted</string>
 	<string name="toast_no_zeroes">ゼロじゃない妥当な数を入力してください。</string>
 	<string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>
 	<string name="toast_valid_initial_score">妥当な数を入力してください。</string>
@@ -86,6 +88,7 @@
 	<string name="title_confirm">確認</string>
 	<string name="title_confirm_reset">リセットを確認</string>
 	<string name="title_add_player">選手のなを入力</string>
+	<string name="title_confirm_delete">削除確認</string>
 
 	<string name="menu_settings">設定</string>
 	<string name="menu_history">歴史</string>
