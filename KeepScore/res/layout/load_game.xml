@@ -5,14 +5,16 @@
     android:layout_height="fill_parent"
     android:gravity="center_horizontal">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent" 
+        android:orientation="vertical">
 
         <com.nolanlawson.keepscore.widget.CustomFastScrollView
             android:id="@+id/fast_scroll_view"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
             android:layout_above="@+id/view_spacer"
             fastscroll:overlayHeight="75dp"
             fastscroll:overlayScrollThumbWidth="60dp"
@@ -40,7 +42,7 @@
             android:layout_height="@dimen/button_row_height"
             android:layout_alignParentBottom="true" 
             android:visibility="gone"/>
-    </RelativeLayout>
+    </LinearLayout>
     
     <RelativeLayout
         android:layout_width="fill_parent"

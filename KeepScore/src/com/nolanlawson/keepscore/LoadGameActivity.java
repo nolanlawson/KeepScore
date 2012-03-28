@@ -452,7 +452,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				// propertly shrink the scroll view
-				spacerView.setVisibility(View.INVISIBLE);
+				spacerView.setVisibility(View.VISIBLE);
 			}
 		});
 		buttonRow.setAnimation(animation);
