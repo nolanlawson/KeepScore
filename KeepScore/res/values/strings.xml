@@ -30,7 +30,7 @@
     <string name="round_total" formatted="false">Round #%d Total: %d</string>
     
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
-    <string name="text_games_will_be_deleted">%s game(s) will be deleted.</string>
+    <string name="text_games_will_be_deleted">%s games will be deleted.</string>
     <string name="text_players_will_be_randomized">The players will be randomly shuffled.</string>
     <string name="text_format_rounds">%d Rounds</string>
     <string name="text_format_rounds_singular">%d Round</string>
