@@ -84,7 +84,7 @@
 	<string name="tile_subtract">減</string>
 	<string name="tile_change_name">名を変換</string>
 	<string name="title_edit_game_name">名をエディと</string>
-	<string name="title_name_game">ゲームのなを入力</string>
+	<string name="title_name_game">ゲームの名を入力</string>
 	<string name="title_confirm">確認</string>
 	<string name="title_confirm_reset">リセットを確認</string>
 	<string name="title_add_player">選手のなを入力</string>
