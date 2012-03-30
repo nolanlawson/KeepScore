@@ -54,7 +54,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/button_row_height"
             android:layout_alignParentBottom="true"
-            android:background="@android:color/darker_gray"
+            android:background="@android:drawable/title_bar_tall"
             android:orientation="horizontal"
             android:padding="3dp"
             android:visibility="gone" >
