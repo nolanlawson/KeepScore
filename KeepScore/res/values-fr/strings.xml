@@ -9,7 +9,7 @@
     <string name="button_by_player">Par joueur</string>
     <string name="button_by_round">Par tour</string>
     <string name="button_select_all">Tout sélectionner</string>
-    <string name="button_deselect_all">Tout désélectionner</string>
+    <string name="button_deselect_all">Tout dé-sélectionner</string>
     
     <string name="text_num_players">Nombre de joueurs</string>
     
@@ -101,7 +101,7 @@
     <string name="menu_reset_scores">Réinitialiser</string>
     <string name="menu_about">A propos</string>
     <string name="menu_add_player">Ajouter un joueur</string>
-    <string name="menu_copy">Copier le jeu</string>
+    <string name="menu_copy">Copier la partie</string>
     <string name="menu_randomize">Mélanger</string>
     
     <string name="title_today">Aujoud\'hui</string>
