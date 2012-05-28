@@ -32,7 +32,7 @@
     <string name="text_format_rounds_singular">%d tours</string>
     
     <string name="text_enter_saved_settings_name">Entrer un nom, e.g. \'carcassonne\'</string>
-    <string name="text_delete_saved_settings">La sauvegarde \"%s\" sera supprimé.</string>
+    <string name="text_delete_saved_settings">La sauvegarde \"%s\" sera supprimée.</string>
     <string name="text_setting_set_name">Nom de la sauvegarde: \"%s\"</string>
     <string name="toast_no_saved_settings">Aucune sauvegarde trouvée.</string>
     <string name="toast_loaded_setting_set">Les paramètres pour \"%s\" étaient chargées.</string>
@@ -82,7 +82,7 @@
     <string name="pref_use_wake_lock_name">Maintenir l\'écran hors veille</string>
     <string name="pref_initial_score_name">Score initial</string>
     <string name="pref_reset_name">Réinitialiser les paramètres</string>
-    <string name="pref_color_scheme_name">Thème d'\affichage</string>
+    <string name="pref_color_scheme_name">Thème d\'affichage</string>
     
     <string name="pref_update_delay_summary">Secondes à attendre avant de mettre à jour l\'historique des tours (défaut : 10 sec)</string>
     <string name="pref_use_wake_lock_summary">Maintenir l\'écran allumé lorsqu\'un jeu est en cours</string>
