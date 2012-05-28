@@ -31,6 +31,20 @@
     <string name="text_format_rounds">%d Partie</string>
     <string name="text_format_rounds_singular">%d Parties</string>
     
+    <string name="text_enter_saved_settings_name">Entrer un nom, e.g. \'carcassonne\'</string>
+    <string name="text_delete_saved_settings">La sauvegarde \"%s\" sera supprimé.</string>
+    <string name="text_setting_set_name">Nom de la sauvegarde: \"%s\"</string>
+    <string name="toast_no_saved_settings">Aucune sauvegarde trouvée.</string>
+    <string name="toast_loaded_setting_set">Les paramètres pour \"%s\" étaient chargées.</string>
+    <string name="toast_invalid_setting_set_name">Nom invalable.</string>
+    <string name="toast_saved_setting_set_name">\"%s\" sauvgardé.</string>
+    <string name="pref_load_settings_name">Charger une sauvegarde</string>
+    <string name="pref_load_settings_summary">Charger les paramètres d\'une sauvegarde.</string>
+    <string name="pref_save_settings_name">Créer une sauvegarde</string>
+    <string name="pref_save_settings_summary">Sauvegarder les parametres actuelles dans un fichier.</string>
+    <string name="title_save_setting_set">Sauvegarder les paramètres</string>
+    <string name="title_load_setting_set">Charger ces paramètres?</string>
+    
     <string name="round_total" formatted="false">Partie #%d Total: %d</string>
     
     <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
@@ -76,6 +90,7 @@
     <string name="pref_cat_appearance">Affichage</string>
     <string name="pref_cat_config">Configuration</string>
     <string name="pref_cat_advanced">Avancé</string>
+    <string name="pref_cat_manage">Gérer les paramètres</string>
     <string name="pref_cat_about">A Propos</string>
     
     <string name="pref_color_scheme_choice_dark_name">Foncé</string>
