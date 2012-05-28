@@ -1,10 +1,17 @@
 package com.nolanlawson.keepscore;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -13,13 +20,24 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.widget.Toast;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
+import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
+import com.nolanlawson.keepscore.data.TextWithDeleteAdapter;
+import com.nolanlawson.keepscore.data.TextWithDeleteAdapter.OnDeleteListener;
 import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
+import com.nolanlawson.keepscore.helper.SettingSetHelper;
+import com.nolanlawson.keepscore.helper.ToastHelper;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
-public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
+public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener {
 
 	public static final String COLOR_SCHEME_CHANGED = "colorSchemeChanged";
 
@@ -27,10 +45,10 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			button4Pref, twoPlayerButton1Pref, twoPlayerButton2Pref,
 			twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref,
 			initialScorePref;
-	private CheckBoxPreference useWakeLockPref, greenTextPref, showRoundTotalsPref;
-	private Preference resetPref, aboutPref;
+	private CheckBoxPreference greenTextPref, showRoundTotalsPref;
+	private Preference resetPref, aboutPref, saveSettingsPref, loadSettingsPref;
 	private ListPreference colorSchemePref;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,7 +59,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	}
 
 	private void setUpPreferences() {
-
+		
 		button1Pref = (EditTextPreference) findPreferenceById(R.string.pref_button_1);
 		button2Pref = (EditTextPreference) findPreferenceById(R.string.pref_button_2);
 		button3Pref = (EditTextPreference) findPreferenceById(R.string.pref_button_3);
@@ -58,7 +76,9 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		resetPref = findPreferenceById(R.string.pref_reset);
 		aboutPref = findPreferenceById(R.string.pref_about);
 		colorSchemePref = (ListPreference) findPreferenceById(R.string.pref_color_scheme);
-
+		loadSettingsPref = findPreferenceById(R.string.pref_load_settings);
+		saveSettingsPref = findPreferenceById(R.string.pref_save_settings);
+		
 		// update the preference's summary with whatever the value is, as it's
 		// changed
 		for (EditTextPreference pref : new EditTextPreference[] { button1Pref,
@@ -77,9 +97,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 						if (!IntegerUtil.validInt(newValue.toString())
 								|| Integer.parseInt(newValue.toString()) < 1
 								|| Integer.parseInt(newValue.toString()) > 600) {
-							Toast.makeText(SettingsActivity.this,
-									R.string.toast_valid_update_delay_values,
-									Toast.LENGTH_LONG).show();
+							ToastHelper.showLong(SettingsActivity.this, R.string.toast_valid_update_delay_values);
 							return false;
 						}
 						PreferenceHelper.resetCache();
@@ -97,9 +115,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 							Object newValue) {
 
 						if (!IntegerUtil.validInt(newValue.toString())) {
-							Toast.makeText(SettingsActivity.this,
-									R.string.toast_valid_initial_score,
-									Toast.LENGTH_LONG).show();
+							ToastHelper.showLong(SettingsActivity.this,
+									R.string.toast_valid_initial_score);
 							return false;
 						}
 						preference.setSummary(newValue.toString());
@@ -107,51 +124,19 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 					}
 				});
 
-		// do a special popup for the reset preference
-		resetPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				new AlertDialog.Builder(SettingsActivity.this)
-						.setTitle(R.string.title_confirm)
-						.setMessage(R.string.text_reset_confirm)
-						.setCancelable(true)
-						.setPositiveButton(android.R.string.ok,
-								new DialogInterface.OnClickListener() {
-
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.dismiss();
-										resetPreferences();
-									}
-
-								})
-						.setNegativeButton(android.R.string.cancel, null)
-						.show();
-				return true;
-			}
-		});
-
-		useWakeLockPref = (CheckBoxPreference) findPreferenceById(R.string.pref_use_wake_lock);
-
-		setDynamicColorSchemeSummary(colorSchemePref);
-		
 		// show the version number in the "about" summary text
 		String version = String.format(getString(R.string.text_version_number), 
 				PackageHelper.getVersionName(this));
 		aboutPref.setSummary(version);
+		// do a special popup for the reset preference
+		resetPref.setOnPreferenceClickListener(this);
+		loadSettingsPref.setOnPreferenceClickListener(this);
+		saveSettingsPref.setOnPreferenceClickListener(this);
+
+		setDynamicColorSchemeSummary(colorSchemePref);
 		
 		// go to the about activity if the about pref is pressed
-		aboutPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
-				startActivity(intent);
-				return true;
-			}
-		});
+		aboutPref.setOnPreferenceClickListener(this);
 		
 		greenTextPref.setOnPreferenceChangeListener(this);
 		showRoundTotalsPref.setOnPreferenceChangeListener(this);
@@ -159,79 +144,17 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 
 	private void resetPreferences() {
 
-		PreferenceHelper.setIntPreference(R.string.pref_button_1,
-				R.string.pref_button_1_default, this);
-		PreferenceHelper.setIntPreference(R.string.pref_button_2,
-				R.string.pref_button_2_default, this);
-		PreferenceHelper.setIntPreference(R.string.pref_button_3,
-				R.string.pref_button_3_default, this);
-		PreferenceHelper.setIntPreference(R.string.pref_button_4,
-				R.string.pref_button_4_default, this);
-		PreferenceHelper.setIntPreference(R.string.pref_2p_button_1, 
-				R.string.pref_2p_button_1_default, this);
-		PreferenceHelper.setIntPreference(R.string.pref_2p_button_2, 
-				R.string.pref_2p_button_2_default, this);
-		PreferenceHelper.setIntPreference(R.string.pref_2p_button_3, 
-				R.string.pref_2p_button_3_default, this);
-		PreferenceHelper.setIntPreference(R.string.pref_2p_button_4, 
-				R.string.pref_2p_button_4_default, this);		
-		PreferenceHelper.setIntPreference(R.string.pref_initial_score,
-				R.string.pref_initial_score_default, this);
-		PreferenceHelper.setIntPreference(R.string.pref_update_delay,
-				R.string.pref_update_delay_default, this);
-		PreferenceHelper.setBooleanPreference(R.string.pref_use_wake_lock,
-				R.string.pref_use_wake_lock_default, this);
-		PreferenceHelper.setStringPreference(R.string.pref_color_scheme,
-				R.string.pref_color_scheme_default, this);
-		PreferenceHelper.setBooleanPreference(R.string.pref_green_text, 
-				R.string.pref_green_text_default, this);
-		PreferenceHelper.setBooleanPreference(R.string.pref_show_round_totals, 
-				R.string.pref_show_round_totals_default, this);
+		// delete all preferences
+		Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+		editor.clear();
+		editor.commit();
 		PreferenceHelper.resetCache();
-
-		button1Pref.setSummary(R.string.pref_button_1_default);
-		button1Pref.setText(getString(R.string.pref_button_1_default));
-
-		button2Pref.setSummary(R.string.pref_button_2_default);
-		button2Pref.setText(getString(R.string.pref_button_2_default));
-
-		button3Pref.setSummary(R.string.pref_button_3_default);
-		button3Pref.setText(getString(R.string.pref_button_3_default));
-
-		button4Pref.setSummary(R.string.pref_button_4_default);
-		button4Pref.setText(getString(R.string.pref_button_4_default));
-
-		twoPlayerButton1Pref.setSummary(R.string.pref_2p_button_1_default);
-		twoPlayerButton1Pref.setText(getString(R.string.pref_2p_button_1_default));
 		
-		twoPlayerButton2Pref.setSummary(R.string.pref_2p_button_2_default);
-		twoPlayerButton2Pref.setText(getString(R.string.pref_2p_button_2_default));
+		ToastHelper.showShort(this, R.string.toast_settings_reset);
 		
-		twoPlayerButton3Pref.setSummary(R.string.pref_2p_button_3_default);
-		twoPlayerButton3Pref.setText(getString(R.string.pref_2p_button_3_default));
-		
-		twoPlayerButton4Pref.setSummary(R.string.pref_2p_button_4_default);
-		twoPlayerButton4Pref.setText(getString(R.string.pref_2p_button_4_default));
-		
-		initialScorePref.setSummary(R.string.pref_initial_score_default);
-		initialScorePref
-				.setText(getString(R.string.pref_initial_score_default));
-
-		colorSchemePref.setSummary(colorSchemePref.getEntries()[Arrays.asList(
-				colorSchemePref.getEntryValues()).indexOf(
-				getString(R.string.pref_color_scheme_default))]);
-		colorSchemePref.setValue(getString(R.string.pref_color_scheme_default));
-
-		updateDelayPref.setText(getString(R.string.pref_update_delay_default));
-
-		useWakeLockPref.setChecked(Boolean
-				.parseBoolean(getString(R.string.pref_use_wake_lock_default)));
-
-		greenTextPref.setChecked(Boolean.parseBoolean(getString(R.string.pref_green_text_default)));
-		showRoundTotalsPref.setChecked(Boolean.parseBoolean(getString(R.string.pref_show_round_totals_default)));
-		
-		Toast.makeText(this, R.string.toast_settings_reset, Toast.LENGTH_SHORT)
-				.show();
+		// reload activity
+		startActivity(getIntent());
+		finish();
 	}
 
 	private Preference findPreferenceById(int resId) {
@@ -252,9 +175,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 
 						if (!IntegerUtil.validInt(newValue.toString())
 								|| Integer.parseInt(newValue.toString()) == 0) {
-							Toast.makeText(SettingsActivity.this,
-									R.string.toast_no_zeroes, Toast.LENGTH_LONG)
-									.show();
+							ToastHelper.showLong(SettingsActivity.this,
+									R.string.toast_no_zeroes);
 							return false;
 						}
 
@@ -272,7 +194,6 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		int idx = Arrays.asList(preference.getEntryValues())
 				.indexOf(entryValue);
 		CharSequence entry = preference.getEntries()[idx];
-
 		preference.setSummary(entry);
 		preference
 				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -299,5 +220,226 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 			PreferenceHelper.resetCache(); // ensure that the changes get reflected
 			return true;
+	}
+
+	private void saveSettings() {
+		
+		final EditText editText = createSettingSetEditText();
+		
+		AlertDialog dialog = new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.title_save_setting_set)
+			.setView(editText)
+			.setNegativeButton(android.R.string.cancel, null)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					
+					String name = editText.getText().toString();
+					if (!SettingSetHelper.isValidSettingSetName(name)) {
+						ToastHelper.showShort(SettingsActivity.this, R.string.toast_invalid_setting_set_name);
+						return;
+					}
+					
+					SettingSetHelper.saveCurrentSettingSet(SettingsActivity.this, name);
+					
+					
+					
+					ToastHelper.showShort(SettingsActivity.this, R.string.toast_saved_setting_set_name, name);
+				}
+			})
+			.create();
+		
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		dialog.show();
+		
+	}
+
+	private EditText createSettingSetEditText() {
+		EditText editText = new EditText(this);
+		
+		editText.setSingleLine();
+		editText.setHint(R.string.text_enter_saved_settings_name);
+		editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+		return editText;
+	}
+
+	private void loadSettings() {
+		Set<String> settingSets = SettingSetHelper.getAvailableSettingSets(this);
+		if (settingSets.isEmpty()) {
+			ToastHelper.showShort(this, R.string.toast_no_saved_settings);
+			return;
+		}
+		
+		final ListAdapter availableSetAdapter = createAvailableSettingSetsAdapter();
+		
+		new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.pref_load_settings_name)
+			.setNegativeButton(android.R.string.cancel, null)
+			.setAdapter(availableSetAdapter, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					showSavedSettingSetDialog((String)availableSetAdapter.getItem(which));
+					dialog.dismiss();
+				}
+			})
+			.show();
+		
+	}
+
+	private void showSavedSettingSetDialog(final String settingSet) {
+		
+		new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.title_load_setting_set)
+			.setAdapter(createSettingSetContentsAdapter(settingSet), null)
+			.setView(createSimpleTextView(R.string.text_setting_set_name, settingSet))
+			.setNegativeButton(android.R.string.cancel, null)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					loadSettingSet(settingSet);
+				}
+			})
+			.show();
+		
+	}
+
+	private TextView createSimpleTextView(int resId, Object... args) {
+		TextView textView = new TextView(this);
+		textView.setTextColor(getResources().getColor(android.R.color.primary_text_dark_nodisable));
+		textView.setText(String.format(getString(resId), args));
+		textView.setPadding(5, 0, 5, 0);
+		return textView;
+	}
+
+	private void loadSettingSet(String settingSet) {
+
+		SettingSetHelper.loadSettingSet(SettingsActivity.this, settingSet);
+		PreferenceHelper.resetCache();
+		ToastHelper.showShort(SettingsActivity.this, R.string.toast_loaded_setting_set, settingSet);
+		
+		// reload activity
+		startActivity(getIntent());
+		finish();
+		
+	}
+
+	private ListAdapter createSettingSetContentsAdapter(String settingSet) {
+		Map<String, ?> settings = getSettingsToDisplay(settingSet);
+		SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this, settings.entrySet(), true);
+		return adapter;
+	}
+	
+	private ListAdapter createAvailableSettingSetsAdapter() {
+		List<String> availableSettingSets = new ArrayList<String>(SettingSetHelper.getAvailableSettingSets(this));
+		Collections.sort(availableSettingSets);
+		final TextWithDeleteAdapter adapter = new TextWithDeleteAdapter(this, availableSettingSets);
+		
+		adapter.setOnDeleteListener(new OnDeleteListener() {
+			@Override
+			public void onDelete(final String settingSetName) {
+				onDeleteSettingSet(adapter, settingSetName);
+			}
+		});
+		return adapter;
+	}
+	
+
+	private void onDeleteSettingSet(final TextWithDeleteAdapter adapter, final String settingSetName) {
+		// called when the "X" button on a saved setting set is clicked
+		new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.title_confirm_delete)
+			.setMessage(String.format(getString(R.string.text_delete_saved_settings), settingSetName))
+			.setNegativeButton(android.R.string.cancel, null)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					SettingSetHelper.delete(SettingsActivity.this, settingSetName);
+					adapter.remove(settingSetName);
+					adapter.notifyDataSetChanged();
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
+	/**
+	 * Grab a map of all settings, using user-friendly display names for the settings
+	 * @param settingSet
+	 * @return
+	 */
+	private Map<String, ?> getSettingsToDisplay(String settingSet) {
+		
+		Map<String, ?> inputMap = SettingSetHelper.getSettingsSet(this, settingSet);
+		
+		Map<String, Object> outputMap = new HashMap<String, Object>();
+		
+		// walk through all the settings in this activity - it's a hack, but it works
+		for (int i = 0; i < getListView().getAdapter().getCount(); i++) {
+			Object obj = getListView().getAdapter().getItem(i);
+			if (!(obj instanceof Preference)) {
+				continue;
+			}
+			
+			Preference pref = (Preference)obj;
+			
+			if (pref instanceof PreferenceCategory ||
+				!pref.isPersistent()) { // fake pref, like 'about' or 'reset'
+				continue;
+			}
+			
+			Object value = inputMap.get(pref.getKey());
+			value = value != null ? value : Boolean.FALSE; // Android seems to store false booleans as null
+			
+			outputMap.put(pref.getTitle().toString(), value);
+		}
+		
+		return outputMap;
+	}
+
+	@Override
+	public boolean onPreferenceClick(Preference pref) {
+		if (pref.getKey().equals(getString(R.string.pref_reset))) {
+			resetPrefs();
+		} else if (pref.getKey().equals(getString(R.string.pref_about))) {
+			Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
+			startActivity(intent);
+		} else if (pref.getKey().equals(getString(R.string.pref_save_settings))) {
+			saveSettings();
+		} else if (pref.getKey().equals(getString(R.string.pref_load_settings))) {
+			loadSettings();
+		}
+		
+		return true;
+	}
+
+	private void resetPrefs() {
+		new AlertDialog.Builder(SettingsActivity.this)
+				.setTitle(R.string.title_confirm)
+				.setMessage(R.string.text_reset_confirm)
+				.setCancelable(true)
+				.setPositiveButton(android.R.string.ok,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+								resetPreferences();
+							}
+
+						})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
+		
 	}
 }

@@ -1,74 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	<PreferenceCategory android:title="@string/pref_cat_appearance"/>
-	
-	<ListPreference android:key="@string/pref_color_scheme" android:title="@string/pref_color_scheme_name"
-		android:defaultValue="@string/pref_color_scheme_default" android:persistent="true"
-		android:entries="@array/pref_color_scheme_entries" 
-		android:entryValues="@array/pref_color_scheme_entry_values"/>
+    <PreferenceCategory android:title="@string/pref_cat_appearance" />
 
-	<CheckBoxPreference android:key="@string/pref_green_text" android:title="@string/pref_green_text_name"
-	    android:defaultValue="@string/pref_green_text_default" android:persistent="true"
-	    android:summary="@string/pref_green_text_summary"/>
-	
-	<CheckBoxPreference android:key="@string/pref_show_round_totals" android:title="@string/pref_show_round_totals_name"
-	    android:defaultValue="@string/pref_show_round_totals_default" android:persistent="true"/>
-	
-	<PreferenceCategory android:title="@string/pref_cat_config"/>
+    <ListPreference
+        android:defaultValue="@string/pref_color_scheme_default"
+        android:entries="@array/pref_color_scheme_entries"
+        android:entryValues="@array/pref_color_scheme_entry_values"
+        android:key="@string/pref_color_scheme"
+        android:persistent="true"
+        android:title="@string/pref_color_scheme_name" />
 
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_initial_score"
-		android:title="@string/pref_initial_score_name" android:defaultValue="@string/pref_initial_score_default"
-		android:persistent="true"/>
-	
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_button_1"
-		android:title="@string/pref_button_1_name" android:defaultValue="@string/pref_button_1_default"
-		android:persistent="true"/>
-	
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_button_2"
-		android:title="@string/pref_button_2_name" android:defaultValue="@string/pref_button_2_default"
-		android:persistent="true"/>
-		
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_button_3"
-		android:title="@string/pref_button_3_name" android:defaultValue="@string/pref_button_3_default"
-		android:persistent="true"/>
-		
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_button_4"
-		android:title="@string/pref_button_4_name" android:defaultValue="@string/pref_button_4_default"
-		android:persistent="true"/>		
-	
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_2p_button_1"
-		android:title="@string/pref_2p_button_1_name" android:defaultValue="@string/pref_2p_button_1_default"
-		android:persistent="true"/>
+    <CheckBoxPreference
+        android:defaultValue="@string/pref_green_text_default"
+        android:key="@string/pref_green_text"
+        android:persistent="true"
+        android:summary="@string/pref_green_text_summary"
+        android:title="@string/pref_green_text_name" />
+    <CheckBoxPreference
+        android:defaultValue="@string/pref_show_round_totals_default"
+        android:key="@string/pref_show_round_totals"
+        android:persistent="true"
+        android:title="@string/pref_show_round_totals_name" />
 
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_2p_button_2"
-		android:title="@string/pref_2p_button_2_name" android:defaultValue="@string/pref_2p_button_2_default"
-		android:persistent="true"/>	
-		
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_2p_button_3"
-		android:title="@string/pref_2p_button_3_name" android:defaultValue="@string/pref_2p_button_3_default"
-		android:persistent="true"/>
-	
-	<com.nolanlawson.keepscore.widget.IntegerEditTextPreference android:key="@string/pref_2p_button_4"
-		android:title="@string/pref_2p_button_4_name" android:defaultValue="@string/pref_2p_button_4_default"
-		android:persistent="true"/>		
-		
-	<PreferenceCategory android:title="@string/pref_cat_advanced"/>
-	
-	<com.nolanlawson.keepscore.widget.NonnegativeIntegerEditTextPreference android:key="@string/pref_update_delay"
-		android:title="@string/pref_update_delay_name" android:defaultValue="@string/pref_update_delay_default"
-		android:persistent="true" android:summary="@string/pref_update_delay_summary"/>
-		
-	<CheckBoxPreference android:key="@string/pref_use_wake_lock"
-		android:title="@string/pref_use_wake_lock_name" android:defaultValue="@string/pref_use_wake_lock_default"
-		android:persistent="true" android:summary="@string/pref_use_wake_lock_summary"/>
-	
-	<Preference android:key="@string/pref_reset" android:title="@string/pref_reset_name"
-	    android:persistent="false"/>	
+    <PreferenceCategory android:title="@string/pref_cat_config" />
 
-	<PreferenceCategory android:title="@string/pref_cat_about"/>
-		
-	<Preference android:key="@string/pref_about" android:title="@string/text_about" 
-	    android:persistent="false"/>	
-			
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_initial_score_default"
+        android:key="@string/pref_initial_score"
+        android:persistent="true"
+        android:title="@string/pref_initial_score_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_button_1_default"
+        android:key="@string/pref_button_1"
+        android:persistent="true"
+        android:title="@string/pref_button_1_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_button_2_default"
+        android:key="@string/pref_button_2"
+        android:persistent="true"
+        android:title="@string/pref_button_2_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_button_3_default"
+        android:key="@string/pref_button_3"
+        android:persistent="true"
+        android:title="@string/pref_button_3_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_button_4_default"
+        android:key="@string/pref_button_4"
+        android:persistent="true"
+        android:title="@string/pref_button_4_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_2p_button_1_default"
+        android:key="@string/pref_2p_button_1"
+        android:persistent="true"
+        android:title="@string/pref_2p_button_1_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_2p_button_2_default"
+        android:key="@string/pref_2p_button_2"
+        android:persistent="true"
+        android:title="@string/pref_2p_button_2_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_2p_button_3_default"
+        android:key="@string/pref_2p_button_3"
+        android:persistent="true"
+        android:title="@string/pref_2p_button_3_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/pref_2p_button_4_default"
+        android:key="@string/pref_2p_button_4"
+        android:persistent="true"
+        android:title="@string/pref_2p_button_4_name" />
+
+    <PreferenceCategory android:title="@string/pref_cat_advanced" />
+
+    <com.nolanlawson.keepscore.widget.NonnegativeIntegerEditTextPreference
+        android:defaultValue="@string/pref_update_delay_default"
+        android:key="@string/pref_update_delay"
+        android:persistent="true"
+        android:summary="@string/pref_update_delay_summary"
+        android:title="@string/pref_update_delay_name" />
+
+    <CheckBoxPreference
+        android:defaultValue="@string/pref_use_wake_lock_default"
+        android:key="@string/pref_use_wake_lock"
+        android:persistent="true"
+        android:summary="@string/pref_use_wake_lock_summary"
+        android:title="@string/pref_use_wake_lock_name" />
+
+    <PreferenceCategory android:title="@string/pref_cat_manage" />
+
+    <Preference
+        android:key="@string/pref_reset"
+        android:persistent="false"
+        android:title="@string/pref_reset_name" />
+    <Preference
+        android:key="@string/pref_save_settings"
+        android:persistent="false"
+        android:summary="@string/pref_save_settings_summary"
+        android:title="@string/pref_save_settings_name" />
+    <Preference
+        android:key="@string/pref_load_settings"
+        android:persistent="false"
+        android:summary="@string/pref_load_settings_summary"
+        android:title="@string/pref_load_settings_name" />
+
+    <PreferenceCategory android:title="@string/pref_cat_about" />
+
+    <Preference
+        android:key="@string/pref_about"
+        android:persistent="false"
+        android:title="@string/text_about" />
+
 </PreferenceScreen>

@@ -9,8 +9,6 @@
     <string name="button_select_all">Select All</string>
     <string name="button_deselect_all">Deselect All</string>
     
-    
-    
     <string name="text_num_players">Number of players</string>
     
     <string name="text_player_names">Player names (optional)</string>
@@ -34,8 +32,11 @@
     <string name="text_players_will_be_randomized">The players will be randomly shuffled.</string>
     <string name="text_format_rounds">%d Rounds</string>
     <string name="text_format_rounds_singular">%d Round</string>
+    <string name="text_enter_saved_settings_name">Enter name, e.g. \'cribbage\'</string>
+    <string name="text_delete_saved_settings">The backup \"%s\" will be deleted.</string>
     
     <string name="text_epsilon">Σ</string>
+    <string name="text_setting_set_name">Settings name: \"%s\"</string>
     
     <string name="button_2_players">2</string>
     <string name="button_3_players">3</string>
@@ -48,6 +49,8 @@
 
     <string name="button_by_player">By Player</string>
     <string name="button_by_round">By Round</string>
+
+    
     
     <string name="hint_game_name">Game Name</string>
     
@@ -60,6 +63,10 @@
     <string name="toast_game_copied">Game copied.</string>
     <string name="toast_players_randomized">Players shuffled.</string>
     <string name="toast_game_saved">Game saved.</string>
+    <string name="toast_no_saved_settings">No backups found.</string>
+    <string name="toast_loaded_setting_set">Loaded settings for \"%s\".</string>
+    <string name="toast_invalid_setting_set_name">Invalid name.</string>
+    <string name="toast_saved_setting_set_name">Saved backup \"%s\".</string>
     
     <string name="pref_button_1">button1</string>
     <string name="pref_button_2">button2</string>
@@ -117,6 +124,7 @@
     <string name="pref_cat_appearance">Appearance</string>
     <string name="pref_cat_config">Configuration</string>
     <string name="pref_cat_advanced">Advanced</string>
+    <string name="pref_cat_manage">Manage Settings</string>
     <string name="pref_cat_about">About</string>
     
     <string name="pref_about">about</string>
@@ -134,6 +142,14 @@
     <string name="pref_show_round_totals_name">Show Round Totals</string>
     <string name="pref_show_round_totals_default">false</string>
     
+    <string name="pref_load_settings">load_settings</string>
+    <string name="pref_load_settings_name">Load Backup</string>
+    <string name="pref_load_settings_summary">Import settings from a saved backup.</string>
+    
+    <string name="pref_save_settings">save_settings</string>
+    <string name="pref_save_settings_name">Save Backup</string>
+    <string name="pref_save_settings_summary">Save a backup of the current settings.</string>
+    
     <string name="tile_add">Add Value</string>
     <string name="tile_subtract">Subtract Value</string>
     <string name="tile_change_name">Change Name</string>
@@ -143,6 +159,8 @@
     <string name="title_confirm_reset">Confirm Reset</string>
     <string name="title_add_player">Enter Player Name</string>
     <string name="title_confirm_delete">Confirm Delete</string>
+    <string name="title_save_setting_set">Backup All Settings</string>
+    <string name="title_load_setting_set">Load these settings?</string>
     
     <string name="menu_settings">Settings</string>
     <string name="menu_history">History</string>
