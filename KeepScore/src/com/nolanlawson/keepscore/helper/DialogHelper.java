@@ -37,6 +37,7 @@ public class DialogHelper {
 		prepareDeltaView(view, context);
 		
 		final EditText editText = (EditText) view.findViewById(android.R.id.edit);
+		editText.setSelection(0, editText.getText().length()); // highlight by default for easier deletion
 		
 		new AlertDialog.Builder(context)
 			.setCancelable(true)
@@ -64,6 +65,7 @@ public class DialogHelper {
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
 					Intent intent = new Intent(context, SettingsActivity.class);
+					intent.putExtra(SettingsActivity.EXTRA_SCROLL_TO_CONFIGURATIONS, true);
 					context.startActivity(intent);
 					
 				}

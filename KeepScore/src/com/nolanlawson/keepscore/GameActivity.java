@@ -48,6 +48,11 @@ import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.util.VersionHelper;
 import com.nolanlawson.keepscore.widget.PlayerView;
 
+/**
+ * Main activity when the user is playing a game.
+ * @author nolan
+ *
+ */
 public class GameActivity extends Activity {
 	
 	public static final String EXTRA_PLAYER_NAMES = "playerNames";

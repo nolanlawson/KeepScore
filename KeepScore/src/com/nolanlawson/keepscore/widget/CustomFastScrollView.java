@@ -24,6 +24,13 @@ import android.widget.SectionIndexer;
 
 import com.nolanlawson.keepscore.R;
 
+/**
+ * Fast Scroll View that allows for arbitrary sizing of the overlay.  Based on 
+ * http://nolanlawson.com/2012/03/19/spruce-up-your-listview-by-dividing-it-into-sections/
+ * 
+ * @author nolan
+ *
+ */
 public class CustomFastScrollView extends FrameLayout 
         implements OnScrollListener, OnHierarchyChangeListener {
 

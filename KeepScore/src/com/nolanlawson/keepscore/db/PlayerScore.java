@@ -14,6 +14,11 @@ import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 
+/**
+ * Main representation for a player in a particular game and his/her score and score history.
+ * @author nolan
+ *
+ */
 public class PlayerScore implements Parcelable, Cloneable {
 
 	private int id = -1;

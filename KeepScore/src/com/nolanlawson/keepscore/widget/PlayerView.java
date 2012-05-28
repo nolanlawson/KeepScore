@@ -46,6 +46,12 @@ import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.util.VersionHelper;
 
+/**
+ * Main view that holds the widgets for a single player, e.g. the player name, the player's score, and any
+ * + or - buttons.
+ * @author nolan
+ *
+ */
 public class PlayerView implements OnClickListener, OnLongClickListener {
 	
 	private static final int ANIMATION_TIME = 1000;

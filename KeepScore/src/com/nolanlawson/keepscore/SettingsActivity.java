@@ -13,6 +13,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -22,6 +24,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.text.InputType;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -41,6 +44,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 
 	public static final String COLOR_SCHEME_CHANGED = "colorSchemeChanged";
 
+	public static final String EXTRA_SCROLL_TO_CONFIGURATIONS = null;
+
 	private EditTextPreference button1Pref, button2Pref, button3Pref,
 			button4Pref, twoPlayerButton1Pref, twoPlayerButton2Pref,
 			twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref,
@@ -49,6 +54,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	private Preference resetPref, aboutPref, saveSettingsPref, loadSettingsPref;
 	private ListPreference colorSchemePref;
 	
+	private Handler handler = new Handler(Looper.getMainLooper());
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +63,24 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		addPreferencesFromResource(R.xml.settings);
 
 		setUpPreferences();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		if (getIntent() != null && getIntent().getBooleanExtra(EXTRA_SCROLL_TO_CONFIGURATIONS, false)) {
+			// scroll to the 'configurations' section after onResume() finishes
+			
+			handler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					int position = getPreferenceCategoryPosition(R.string.pref_cat_config);
+					getListView().setSelection(position); // 4 is the config section					
+				}
+			});
+		}
 	}
 
 	private void setUpPreferences() {
@@ -441,5 +466,22 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 				.setNegativeButton(android.R.string.cancel, null)
 				.show();
 		
+	}
+	
+	private int getPreferenceCategoryPosition(int titleId) {
+		PreferenceScreen screen = getPreferenceScreen();
+		String titleToFind = getString(titleId);
+		for(int i = 0; i < screen.getPreferenceCount(); i++) {
+			
+			Preference preference = screen.getPreference(i);
+			
+			if (!(preference instanceof PreferenceCategory)) {
+				continue;
+			}
+			if (titleToFind.equals(((PreferenceCategory)preference).getTitle())) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }
