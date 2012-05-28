@@ -3,11 +3,11 @@
     <string name="app_name">KeepScore</string>
     
     
-    <string name="button_new_game">Nouveau Jeu</string>
-    <string name="button_resume_game">Jeu Actuel</string>
-    <string name="button_load_game">Jeux Sauvegardés</string>
-    <string name="button_by_player">Par Joueur</string>
-    <string name="button_by_round">Par Partie</string>
+    <string name="button_new_game">Nouveau jeu</string>
+    <string name="button_resume_game">Jeu en cours</string>
+    <string name="button_load_game">Parties sauvegardées</string>
+    <string name="button_by_player">Par joueur</string>
+    <string name="button_by_round">Par tour</string>
     <string name="button_select_all">Tout sélectionner</string>
     <string name="button_deselect_all">Tout dé-sélectionner</string>
     
@@ -15,21 +15,21 @@
     
     <string name="text_player_names">Noms des joueurs (optionnel)</string>
     <string name="text_player">Joueur</string>
-    <string name="text_no_saved_games">Aucun jeu sauvegardé.</string>
+    <string name="text_no_saved_games">Aucune partie sauvegardé.</string>
     <string name="text_players">%s joueurs</string>
     <string name="text_delete">Supprimer</string>
-    <string name="text_edit_name">Editer le Nom</string>
+    <string name="text_edit_name">Editer le nom</string>
     <string name="text_reset_confirm">Tous les paramètres seront réinitialisés.</string>
     <string name="text_about">A propos de KeepScore</string>
-    <string name="text_reset_scores_confirm">Toutes les valeurs seront réinitisialisées.</string>
-    <string name="text_undo_last">Annuler la Derniere Valeur</string>
+    <string name="text_reset_scores_confirm">Toutes les scores seront réinitialisés.</string>
+    <string name="text_undo_last">Annuler la dernière entrée</string>
     <string name="text_confirm">Confirmer</string>
-    <string name="text_add_zero">Additionner Zéro</string>
+    <string name="text_add_zero">Additionner zéro</string>
     <string name="text_version_number">Version %s</string>
     <string name="text_copy">Copier</string>
     
-    <string name="text_format_rounds">%d Partie</string>
-    <string name="text_format_rounds_singular">%d Parties</string>
+    <string name="text_format_rounds">%d tour</string>
+    <string name="text_format_rounds_singular">%d tours</string>
     
     <string name="text_enter_saved_settings_name">Entrer un nom, e.g. \'carcassonne\'</string>
     <string name="text_delete_saved_settings">La sauvegarde \"%s\" sera supprimé.</string>
@@ -44,22 +44,22 @@
     <string name="pref_save_settings_summary">Sauvegarder les parametres actuelles dans un fichier.</string>
     <string name="title_save_setting_set">Sauvegarder les paramètres</string>
     <string name="title_load_setting_set">Charger ces paramètres?</string>
+   
+    <string name="round_total" formatted="false">Tour #%d (%d points marqués)</string>
     
-    <string name="round_total" formatted="false">Partie #%d Total: %d</string>
-    
-    <string name="text_game_will_be_deleted">Le jeu sera supprimé.</string>
-    <string name="text_games_will_be_deleted">%d jeux seront supprimés.</string>
-    <string name="text_players_will_be_randomized">Les joueurs seront mélangés au hasard.</string>
+    <string name="text_game_will_be_deleted">La partie va être supprimée.</string>
+    <string name="text_games_will_be_deleted">%d parties enregistrées vont être supprimées.</string>
+    <string name="text_players_will_be_randomized">Les joueurs vont être mélangés au hasard.</string>
     
     <string name="button_customize">Personnaliser&#8230;</string>
     
-    <string name="hint_game_name">Nom du Jeu</string>
+    <string name="hint_game_name">Libellé de la partie</string>
     
-    <string name="toast_deleted">Jeu supprimé.</string>
-    <string name="toast_multiple_deleted">Jeux supprimés.</string>
-    <string name="toast_no_zeroes">Il faut entrer un numéro valable non nulle.</string>
-    <string name="toast_valid_update_delay_values">Il faut entrer un numéro valable entre 1 et 600.</string>
-    <string name="toast_valid_initial_score">Il faut entrer un numéro valable.</string>
+    <string name="toast_deleted">Partie supprimée.</string>
+    <string name="toast_multiple_deleted">Parties supprimées.</string>
+    <string name="toast_no_zeroes">Entrez un chiffre non-nul.</string>
+    <string name="toast_valid_update_delay_values">Entrez un chiffre entre 1 et 600.</string>
+    <string name="toast_valid_initial_score">Le chiffre entré n\'est pas valable.</string>
     <string name="toast_settings_reset">Paramètres réinitialisés.</string>
     <string name="toast_game_copied">Jeu copié.</string>
     <string name="toast_players_randomized">Joueurs mélangés.</string>
@@ -69,54 +69,54 @@
     <string name="pref_button_2_name">Bouton Pop-up #2</string>
     <string name="pref_button_3_name">Bouton Pop-up #3</string>
     <string name="pref_button_4_name">Bouton Pop-up #4</string>
-    <string name="pref_2p_button_1_name">Bouton sur l\'Ecran #1</string>
-    <string name="pref_2p_button_2_name">Bouton sur l\'Ecran #2</string>
-    <string name="pref_2p_button_3_name">Bouton sur l\'Ecran #3</string>
-    <string name="pref_2p_button_4_name">Bouton sur l\'Ecran #4</string>
+    <string name="pref_2p_button_1_name">Bouton sur l\'écran #1</string>
+    <string name="pref_2p_button_2_name">Bouton sur l\'écran #2</string>
+    <string name="pref_2p_button_3_name">Bouton sur l\'écran #3</string>
+    <string name="pref_2p_button_4_name">Bouton sur l\'écran #4</string>
     
-    <string name="pref_green_text_name">Texte Vert</string>
-    <string name="pref_green_text_summary">Choisir vert ou bleu pour le texte d\'incrément.</string>
+    <string name="pref_green_text_name">Chiffres en vert</string>
+    <string name="pref_green_text_summary">Afficher le texte d\'incrémentation en vert (défaut : bleu).</string>
     
     
-    <string name="pref_update_delay_name">Délai de la Mise à Jour</string>
-    <string name="pref_use_wake_lock_name">Garder l\'Ecran Eveillé</string>
-    <string name="pref_initial_score_name">Point Initial</string>
-    <string name="pref_reset_name">Réinitialiser aux Défauts</string>
-    <string name="pref_color_scheme_name">Arrangement de Couleurs</string>
+    <string name="pref_update_delay_name">Délai avant la mise à jour des scores</string>
+    <string name="pref_use_wake_lock_name">Maintenir l\'écran hors veille</string>
+    <string name="pref_initial_score_name">Score initial</string>
+    <string name="pref_reset_name">Réinitialiser les paramètres</string>
+    <string name="pref_color_scheme_name">Thème d'\affichage</string>
     
-    <string name="pref_update_delay_summary">Secondes à attendre avant d\'ajouter une nouvelle valeur d\'histoire (défaut: 10)</string>
-    <string name="pref_use_wake_lock_summary">Verrouiller l\'écran lorsque le jeu est en cours</string>
+    <string name="pref_update_delay_summary">Secondes à attendre avant de mettre à jour l\'historique des tours (défaut : 10 sec)</string>
+    <string name="pref_use_wake_lock_summary">Maintenir l\'écran allumé lorsqu\'un jeu est en cours</string>
     
     <string name="pref_cat_appearance">Affichage</string>
     <string name="pref_cat_config">Configuration</string>
     <string name="pref_cat_advanced">Avancé</string>
     <string name="pref_cat_manage">Gérer les paramètres</string>
-    <string name="pref_cat_about">A Propos</string>
+    <string name="pref_cat_about">A propos</string>
     
-    <string name="pref_color_scheme_choice_dark_name">Foncé</string>
-    <string name="pref_color_scheme_choice_light_name">Clair</string>
-    <string name="pref_color_scheme_choice_android_name">Android</string>
+    <string name="pref_color_scheme_choice_dark_name">Noir</string>
+    <string name="pref_color_scheme_choice_light_name">Blanc</string>
+    <string name="pref_color_scheme_choice_android_name">Vert Android</string>
     
-    <string name="pref_show_round_totals_name">Afficher Totals des Parties</string>
+    <string name="pref_show_round_totals_name">Afficher le nombre de tours</string>
     
     <string name="tile_add">Additionner</string>
     <string name="tile_subtract">Soustraire</string>
-    <string name="tile_change_name">Changer de Nom</string>
-    <string name="title_edit_game_name">Editer le Nom du Jeu</string>
-    <string name="title_name_game">Entrer le Nom du Jeu</string>
+    <string name="tile_change_name">Changer de nom</string>
+    <string name="title_edit_game_name">Editer le libellé du jeu</string>
+    <string name="title_name_game">Entrer le libellé du jeu</string>
     <string name="title_confirm">Confirmer</string>
-    <string name="title_confirm_reset">Confirmer Réinitialisation</string>
-    <string name="title_add_player">Entrer le Nom du Joueur</string>
-    <string name="title_confirm_delete">Confirmer Suppression</string>
+    <string name="title_confirm_reset">Confirmer la réinitialisation</string>
+    <string name="title_add_player">Entrer le nom du joueur</string>
+    <string name="title_confirm_delete">Confirmer la suppression</string>
     
     <string name="menu_settings">Paramètres</string>
-    <string name="menu_history">Histoire</string>
+    <string name="menu_history">Résumé</string>
     <string name="menu_save">Sauvegarder</string>
     <string name="menu_home">Accueil</string>
     <string name="menu_reset_scores">Réinitialiser</string>
     <string name="menu_about">A propos</string>
-    <string name="menu_add_player">Nouveau Joueur</string>
-    <string name="menu_copy">Copier Jeu</string>
+    <string name="menu_add_player">Ajouter un joueur</string>
+    <string name="menu_copy">Copier la partie</string>
     <string name="menu_randomize">Mélanger</string>
     
     <string name="title_today">Aujoud\'hui</string>
@@ -125,6 +125,6 @@
     <string name="title_last_week">La semaine passée</string>
     <string name="title_last_month">Le mois passé</string>
     <string name="title_last_year">L\'année passée</string>
-    <string name="title_older">Plus Ancien</string>
+    <string name="title_older">Plus ancien</string>
     
 </resources>
