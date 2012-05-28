@@ -35,6 +35,26 @@
     <string name="text_enter_saved_settings_name">Enter name, e.g. \'cribbage\'</string>
     <string name="text_delete_saved_settings">The backup \"%s\" will be deleted.</string>
     
+    <string name="menu_save_backup">Save Backup</string>
+    <string name="menu_load_backup">Load Backup</string>
+    
+    <string name="text_save_backup" formatted="false">Backup %d games to the SD card?</string>
+    <string name="toast_save_backup_failed">Unable to save file.</string>
+    <string name="text_save_backup_succeeded" formatted="false">%d games saved to \'%s\'.</string>
+    
+    
+    <string name="text_duplicates_info">Duplicates will be ignored.</string>
+    <string name="toast_no_backups">No backups found.</string>
+    <string name="title_choose_backup">Choose Backup File</string>
+    <string name="text_game_count">%d games</string>
+    <string name="text_saving">Saving...</string>
+    <string name="title_success">Success</string>
+    <string name="text_load_backup" formatted="false">\'%s\' successfully loaded.\n\n\
+Found: %d\n\
+Loaded: %d\n\
+Duplicates: %d</string>
+    <string name="toast_no_sdcard">SD card not found.</string>
+    
     <string name="text_epsilon">Σ</string>
     <string name="text_setting_set_name">Settings name: \"%s\"</string>
     

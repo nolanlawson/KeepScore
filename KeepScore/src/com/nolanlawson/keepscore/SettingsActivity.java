@@ -29,7 +29,6 @@ import android.text.InputType;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
 import com.nolanlawson.keepscore.data.TextWithDeleteAdapter;
@@ -38,6 +37,7 @@ import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.SettingSetHelper;
 import com.nolanlawson.keepscore.helper.ToastHelper;
+import com.nolanlawson.keepscore.helper.ViewHelper;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener {
@@ -322,7 +322,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			.setCancelable(true)
 			.setTitle(R.string.title_load_setting_set)
 			.setAdapter(createSettingSetContentsAdapter(settingSet), null)
-			.setView(createSimpleTextView(R.string.text_setting_set_name, settingSet))
+			.setView(ViewHelper.createSimpleTextView(this, R.string.text_setting_set_name, settingSet))
 			.setNegativeButton(android.R.string.cancel, null)
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				
@@ -334,14 +334,6 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			})
 			.show();
 		
-	}
-
-	private TextView createSimpleTextView(int resId, Object... args) {
-		TextView textView = new TextView(this);
-		textView.setTextColor(getResources().getColor(android.R.color.primary_text_dark_nodisable));
-		textView.setText(String.format(getString(resId), args));
-		textView.setPadding(5, 0, 5, 0);
-		return textView;
 	}
 
 	private void loadSettingSet(String settingSet) {

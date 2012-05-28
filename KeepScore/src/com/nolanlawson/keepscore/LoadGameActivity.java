@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
@@ -15,6 +16,7 @@ import java.util.TreeMap;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,6 +25,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -38,9 +43,15 @@ import android.widget.Toast;
 
 import com.nolanlawson.keepscore.data.SavedGameAdapter;
 import com.nolanlawson.keepscore.data.SeparatedListAdapter;
+import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
 import com.nolanlawson.keepscore.data.TimePeriod;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
+import com.nolanlawson.keepscore.helper.SdcardHelper;
+import com.nolanlawson.keepscore.helper.ToastHelper;
+import com.nolanlawson.keepscore.helper.ViewHelper;
+import com.nolanlawson.keepscore.serialization.GamesBackup;
+import com.nolanlawson.keepscore.serialization.GamesBackupSerializer;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -139,7 +150,193 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
         lastChecked = null;
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.load_game_menu, menu);
+	    
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+	    switch (item.getItemId()) {
+	    case R.id.menu_save_backup:
+	    	showSaveBackupDialog();
+	    	break;
+	    case R.id.menu_load_backup:
+	    	showLoadBackupDialog();
+	    	break;
+	    }
+	    return false;
+	}
 
+
+	private void showSaveBackupDialog() {
+		
+		if (adapter.isEmpty()) {
+			ToastHelper.showShort(this, R.string.text_no_saved_games);
+			return;
+		}
+		
+		final String filename = SdcardHelper.createBackupFilename();
+		final int gameCount = adapter.getCount() - adapter.getSectionsMap().keySet().size();
+		
+		String message = String.format(
+				getString(R.string.text_save_backup),
+				gameCount);
+		
+		new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.menu_save_backup)
+			.setMessage(message)
+			.setNegativeButton(android.R.string.cancel, null)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					saveBackup(filename, gameCount);
+					
+				}})
+			.show();
+		
+	}
+
+	private void saveBackup(final String filename, final int gameCount) {
+		
+		if (!SdcardHelper.isAvailable()) {
+			ToastHelper.showLong(this, R.string.toast_no_sdcard);
+			return;
+		}
+		
+		final ProgressDialog progressDialog = new ProgressDialog(this);
+		
+		progressDialog.setCancelable(false);
+		progressDialog.setTitle(R.string.text_saving);
+		progressDialog.setIndeterminate(false);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		progressDialog.setMax(gameCount);
+		progressDialog.show();
+		
+		
+		new AsyncTask<Void, Void, Boolean>(){
+
+			@Override
+			protected Boolean doInBackground(Void... params) {
+				List<Game> games = new ArrayList<Game>();
+				for (int i = 0; i < adapter.getCount(); i++) {
+					Object obj = adapter.getItem(i);
+					if (!(obj instanceof Game)) {
+						continue;
+					}
+					Game game = (Game)obj;
+					games.add(game);
+					publishProgress((Void)null);
+				}
+				
+				GamesBackup gamesBackup = new GamesBackup();
+				gamesBackup.setVersion(GamesBackup.BACKUP_VERSION);
+				gamesBackup.setDateSaved(System.currentTimeMillis());
+				gamesBackup.setGameCount(games.size());
+				gamesBackup.setGames(games);
+				String xmlData = GamesBackupSerializer.serialize(gamesBackup);
+				
+				return SdcardHelper.save(filename, xmlData);
+			}
+
+			@Override
+			protected void onPostExecute(Boolean result) {
+				super.onPostExecute(result);
+				if (result) {
+					String message = String.format(getString(R.string.text_save_backup_succeeded), 
+							gameCount, filename);
+					new AlertDialog.Builder(LoadGameActivity.this)
+						.setCancelable(true)
+						.setTitle(R.string.title_success)
+						.setMessage(message)
+						.setPositiveButton(android.R.string.ok, null)
+						.show();
+				} else {
+					ToastHelper.showLong(LoadGameActivity.this, R.string.toast_save_backup_failed);
+				}
+				progressDialog.dismiss();
+			}
+
+			@Override
+			protected void onProgressUpdate(Void... values) {
+				super.onProgressUpdate(values);
+				progressDialog.incrementProgressBy(1);
+			}
+		
+			
+		
+		}.execute((Void)null);
+		
+	}
+
+	private void showLoadBackupDialog() {
+		
+		if (!SdcardHelper.isAvailable()) {
+			ToastHelper.showLong(this, R.string.toast_no_sdcard);
+			return;
+		}
+		
+		List<String> backups = SdcardHelper.list();
+		if (backups.isEmpty()) {
+			ToastHelper.showShort(this, R.string.toast_no_backups);
+			return;
+		}
+		
+		// show most recent ones first
+		Map<String, String> backupsToGameCounts = new TreeMap<String, String>(Collections.reverseOrder());
+		
+		for (String backup : backups) {
+			int gameCount = GamesBackupSerializer.readGameCount(SdcardHelper.getBackupFile(backup));
+			String gameCountMessage = String.format(getString(R.string.text_game_count), gameCount);
+			backupsToGameCounts.put(backup, gameCountMessage);
+		}
+		
+		final SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this, backupsToGameCounts.entrySet(), false);
+		
+		new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.title_choose_backup)
+			.setView(ViewHelper.createSimpleTextView(this, R.string.text_duplicates_info))
+			.setAdapter(adapter, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					loadBackup((String)adapter.getItem(which).getKey());
+					
+				}
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
+	}
+
+	private void loadBackup(String filename) {
+		
+		// use the start date as a unique identifier; it's a millisecond-timestamp, so it should work
+		Set<Long> startDates = new HashSet<Long>();
+		for (SavedGameAdapter savedGameAdapter : adapter.getSectionsMap().values()) {
+			for (int i = 0; i < savedGameAdapter.getCount(); i++) {
+				Game game = savedGameAdapter.getItem(i);
+				startDates.add(game.getDateStarted());
+			}
+		}
+		// TODO: implement
+		new AsyncTask<Void, Void, Object[]>(){
+
+			@Override
+			protected Object[] doInBackground(Void... params) {
+				return null;
+			}
+		}.execute((Void)null);
+		
+		
+	}
 
 	private List<Game> getAllGames() {
 		GameDBHelper dbHelper = null;
