@@ -41,6 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nolanlawson.keepscore.data.LoadGamesBackupResult;
 import com.nolanlawson.keepscore.data.SavedGameAdapter;
 import com.nolanlawson.keepscore.data.SeparatedListAdapter;
 import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
@@ -184,7 +185,7 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		final int gameCount = adapter.getCount() - adapter.getSectionsMap().keySet().size();
 		
 		String message = String.format(
-				getString(R.string.text_save_backup),
+				getString(gameCount == 1 ? R.string.text_save_backup : R.string.text_save_backup_plural),
 				gameCount);
 		
 		new AlertDialog.Builder(this)
@@ -250,7 +251,8 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			protected void onPostExecute(Boolean result) {
 				super.onPostExecute(result);
 				if (result) {
-					String message = String.format(getString(R.string.text_save_backup_succeeded), 
+					String message = String.format(getString(
+							gameCount == 1 ? R.string.text_save_backup_succeeded : R.string.text_save_backup_succeeded_plural), 
 							gameCount, filename);
 					new AlertDialog.Builder(LoadGameActivity.this)
 						.setCancelable(true)
@@ -290,15 +292,19 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		}
 		
 		// show most recent ones first
-		Map<String, String> backupsToGameCounts = new TreeMap<String, String>(Collections.reverseOrder());
+		Map<String, String> backupsToGameCountMessages = new TreeMap<String, String>(Collections.reverseOrder());
+		final Map<String, Integer> backupsToGameCounts = new HashMap<String, Integer>();
 		
 		for (String backup : backups) {
 			int gameCount = GamesBackupSerializer.readGameCount(SdcardHelper.getBackupFile(backup));
-			String gameCountMessage = String.format(getString(R.string.text_game_count), gameCount);
-			backupsToGameCounts.put(backup, gameCountMessage);
+			String gameCountMessage = String.format(getString(
+					gameCount == 1 ? R.string.text_game_count : R.string.text_game_count_plural), 
+					gameCount);
+			backupsToGameCounts.put(backup, gameCount);
+			backupsToGameCountMessages.put(backup, gameCountMessage);
 		}
 		
-		final SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this, backupsToGameCounts.entrySet(), false);
+		final SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this, backupsToGameCountMessages.entrySet(), false);
 		
 		new AlertDialog.Builder(this)
 			.setCancelable(true)
@@ -308,7 +314,10 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					loadBackup((String)adapter.getItem(which).getKey());
+					
+					String filename = (String)adapter.getItem(which).getKey();
+					int gameCount = backupsToGameCounts.get(filename);
+					loadBackup(filename, gameCount);
 					
 				}
 			})
@@ -316,26 +325,115 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			.show();
 	}
 
-	private void loadBackup(String filename) {
+	private void loadBackup(final String filename, final int gameCount) {
 		
-		// use the start date as a unique identifier; it's a millisecond-timestamp, so it should work
-		Set<Long> startDates = new HashSet<Long>();
-		for (SavedGameAdapter savedGameAdapter : adapter.getSectionsMap().values()) {
-			for (int i = 0; i < savedGameAdapter.getCount(); i++) {
-				Game game = savedGameAdapter.getItem(i);
-				startDates.add(game.getDateStarted());
-			}
-		}
-		// TODO: implement
-		new AsyncTask<Void, Void, Object[]>(){
+		final ProgressDialog progressDialog = new ProgressDialog(this);
+		progressDialog.setTitle(R.string.text_loading);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		progressDialog.setIndeterminate(false);
+		progressDialog.setMax(gameCount);
+		progressDialog.show();
+		
+		new AsyncTask<Void, Void, LoadGamesBackupResult>(){
 
 			@Override
-			protected Object[] doInBackground(Void... params) {
-				return null;
+			protected LoadGamesBackupResult doInBackground(Void... params) {
+				return loadBackupInBackground(filename, new Runnable() {
+					
+					@Override
+					public void run() {
+						publishProgress((Void)null);
+					}
+				});
 			}
+			
+			@Override
+			protected void onProgressUpdate(Void... values) {
+				super.onProgressUpdate(values);
+				progressDialog.incrementProgressBy(1);
+			}
+			
+			@Override
+			protected void onPostExecute(LoadGamesBackupResult result) {
+				super.onPostExecute(result);
+				onReceiveLoadGamesBackupResult(result);
+				progressDialog.dismiss();
+			}
+
+
+			
+			
 		}.execute((Void)null);
+	}
+
+	private void onReceiveLoadGamesBackupResult(LoadGamesBackupResult result) {
 		
+		if (result == null) {
+			// failed to load the backup for some reason
+			ToastHelper.showLong(this, R.string.toast_error_with_backup);
+			return;
+		}
 		
+		// load the new games into the existing adapter
+		for (Game game : result.getLoadedGames()) {
+			onNewGameCreated(game);
+		}
+		
+		// create a nice summary message
+		
+		String message = String.format(getString(R.string.text_load_backup), 
+				result.getFilename(),
+				result.getNumFound(), 
+				result.getLoadedGames().size(), 
+				result.getNumDuplicates());
+		
+		new AlertDialog.Builder(this)
+			.setCancelable(true)
+			.setTitle(R.string.title_success)
+			.setMessage(message)
+			.setPositiveButton(android.R.string.ok, null)
+			.show();
+	}
+
+	private LoadGamesBackupResult loadBackupInBackground(String filename, Runnable onProgress) {
+		
+		// use the start date as a unique identifier; it's a millisecond-timestamp, so it should work
+		
+		GamesBackup gamesBackup;
+		try {
+			gamesBackup = GamesBackupSerializer.deserialize(SdcardHelper.open(filename));
+		} catch (Exception e) {
+			log.e(e, "unexpected");
+			return null;
+		}
+		List<Game> loadedGames = new ArrayList<Game>();
+		int numFound = 0, numDuplicates = 0;
+		GameDBHelper dbHelper = null;
+		try {
+			dbHelper = new GameDBHelper(this);
+			for (Game game : gamesBackup.getGames()) {
+				numFound++;
+				if (dbHelper.existsByDateStarted(game.getDateStarted())) {
+					numDuplicates++;
+				} else {
+					dbHelper.saveGame(game, false); // don't update 'dateSaved' value - keep original
+					loadedGames.add(game);
+				}
+				onProgress.run();
+			}
+		} finally {
+			if (dbHelper != null) {
+				dbHelper.close();
+			}
+		}
+		
+		LoadGamesBackupResult result = new LoadGamesBackupResult();
+		result.setLoadedGames(loadedGames);
+		result.setNumDuplicates(numDuplicates);
+		result.setNumFound(numFound);
+		result.setFilename(filename);
+		
+		return result;
 	}
 
 	private List<Game> getAllGames() {
@@ -531,7 +629,8 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 			@Override
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
-				onGameCopied(newGame);
+				onNewGameCreated(newGame);
+				ToastHelper.showShort(LoadGameActivity.this, R.string.toast_game_copied);
 			}
 			
 			
@@ -539,12 +638,13 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		}.execute((Void)null);
 	}
 
-	private void onGameCopied(Game newGame) {
-		Toast.makeText(LoadGameActivity.this, R.string.toast_game_copied, Toast.LENGTH_SHORT).show();
+	private void onNewGameCreated(Game newGame) {
 		
-		// if the "recent" group doesn't exist, need to create it
-		String mostRecentSection = getString(TimePeriod.values()[0].getTitleResId());
-		if (!adapter.getSectionName(0).equals(mostRecentSection)) {
+		// if the appropriate section doesn't exist, need to create it
+		TimePeriod timePeriodForThisGame = getTimePeriod(new Date(), newGame);
+		String sectionForThisGame = getString(timePeriodForThisGame.getTitleResId());
+		
+		if (adapter.getCount() == 0 || !adapter.getSectionsMap().keySet().contains(sectionForThisGame)) {
 			SavedGameAdapter subAdapter = new SavedGameAdapter(LoadGameActivity.this, 
 					new ArrayList<Game>(Collections.singleton(newGame)));
 			subAdapter.setOnCheckChangedRunnable(new Runnable() {
@@ -554,9 +654,25 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 					showOrHideButtonRow();
 				}
 			});
-			adapter.addSectionToFront(mostRecentSection, subAdapter);
-		} else { // just insert it into the first section
-			((SavedGameAdapter)adapter.getSection(0)).insert(newGame, 0);
+			Map<String, Integer> sectionsToOrder = new HashMap<String, Integer>();
+			for (TimePeriod timePeriod : TimePeriod.values()) {
+				sectionsToOrder.put(getString(timePeriod.getTitleResId()), timePeriod.ordinal());
+			}
+			int index = 0;
+			for (int i = 0; i < adapter.getSectionHeaders().getCount(); i++) {
+				String section = adapter.getSectionHeaders().getItem(i);
+				
+				if (sectionsToOrder.get(sectionForThisGame) < sectionsToOrder.get(section)) {
+					break;
+				}
+				index++;
+			}
+			
+			adapter.insertSection(sectionForThisGame, index, subAdapter);
+		} else { // just insert it into the proper section
+			SavedGameAdapter subAdapter = adapter.getSectionsMap().get(sectionForThisGame);
+			subAdapter.add(newGame);
+			subAdapter.sort(Game.byRecentlySaved());
 		}
 		adapter.notifyDataSetChanged();
 		adapter.refreshSections();
@@ -789,6 +905,15 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 		return result;
 	}
 
+	private TimePeriod getTimePeriod(Date date, Game game) {
+		for (TimePeriod timePeriod : TimePeriod.values()) {
+			if (timePeriodMatches(date, timePeriod, game)) {
+				return timePeriod;
+			}
+		}
+		return TimePeriod.Older;
+	}
+	
 
 	/**
 	 * Return true if the game occurred within this time period.

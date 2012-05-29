@@ -82,10 +82,10 @@ public class GamesBackupSerializer {
 				}
 			}
 		} catch (IOException e) {
-			log.e("unexpected", e);
+			log.e(e, "unexpected");
 			throw new RuntimeException(e);
 		} catch (XmlPullParserException e) {
-			log.e("unexpected", e);
+			log.e(e, "unexpected");
 			throw new RuntimeException(e);
 		}
 		throw new RuntimeException("failed to find gameCount");
@@ -150,9 +150,9 @@ public class GamesBackupSerializer {
 				parserEvent = parser.next();
 			}
 		} catch (XmlPullParserException e) {
-			log.e("unexpected", e);
+			log.e(e, "unexpected");
 		} catch (IOException e) {
-			log.e("unexpected", e);
+			log.e(e, "unexpected");
 		}
 
 		// return de-serialized game backup
@@ -188,7 +188,8 @@ public class GamesBackupSerializer {
 			playerScore.setPlayerNumber(Integer.parseInt(text));
 			break;
 		case history:
-			playerScore.setHistory(CollectionUtil.stringsToInts(StringUtil.split(text, ',')));
+			playerScore.setHistory(CollectionUtil.stringsToInts(
+					StringUtil.split(getTextOrNullOrEmpty(attributes, text), ',')));
 			break;
 		case score:
 			playerScore.setScore(Long.parseLong(text));

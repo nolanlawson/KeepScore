@@ -23,7 +23,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 	private static UtilLogger log = new UtilLogger(GameDBHelper.class);
 	
 	private static final String DB_NAME = "games.db";
-	private static final int DB_VERSION = 1;
+	private static final int DB_VERSION = 2;
 
 	private static final String TABLE_GAMES = "Games";
 	private static final String TABLE_PLAYER_SCORES = "PlayerScores";
@@ -114,7 +114,33 @@ public class GameDBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+		
+		// add an index for the startTime
+		String index = "create index if not exists index_date_started on " + TABLE_GAMES
+				+ "(" + COLUMN_DATE_STARTED + ");";
+		
+		db.execSQL(index);
+	}
+	
+	/**
+	 * Return true if a game with that dateStarted value exists.
+	 * @param dateStarted
+	 * @return
+	 */
+	public boolean existsByDateStarted(long dateStarted) {
+		synchronized (GameDBHelper.class) {
+			Cursor cursor = null;
+			try {
+				cursor = db.query(TABLE_GAMES, new String[]{COLUMN_ID}, "dateStarted=" + dateStarted, 
+						null, null, null, null);
+				return cursor.moveToNext();
+			} finally {
+				if (cursor != null) {
+					cursor.close();
+				}
+			}
+			
+		}
 	}
 	
 	public Game findGameById(int gameId) {
@@ -197,17 +223,25 @@ public class GameDBHelper extends SQLiteOpenHelper {
 			}
 		}
 	}
-	
 	/**
-	 * return true if a new game was saved
+	 * save a game, updating its 'dateSaved' value
 	 * @param game
 	 * @return
 	 */
 	public void saveGame(Game game) {
+		saveGame(game, true);
+	}
+	
+	/**
+	 * save a game, optionally updating its 'dateSaved' value
+	 * @param game
+	 * @return
+	 */
+	public void saveGame(Game game, boolean updateDateSaved) {
 		synchronized (GameDBHelper.class) {
 			db.beginTransaction();
 			try {
-				saveGameWithinTransaction(game);
+				saveGameWithinTransaction(game, updateDateSaved);
 				db.setTransactionSuccessful();
 			} finally {
 				db.endTransaction();
@@ -215,9 +249,9 @@ public class GameDBHelper extends SQLiteOpenHelper {
 		}
 	}
 	
-	private void saveGameWithinTransaction(Game game) {
+	private void saveGameWithinTransaction(Game game, boolean updateDateSaved) {
 
-		long dateSaved = System.currentTimeMillis();
+		long dateSaved = updateDateSaved ? System.currentTimeMillis() : game.getDateSaved();
 		game.setDateSaved(dateSaved);
 		
 		if (game.getId() != -1) {

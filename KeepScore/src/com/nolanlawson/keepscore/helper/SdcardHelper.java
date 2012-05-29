@@ -118,7 +118,7 @@ public class SdcardHelper {
 		String minute = twoDigitDecimalFormat.format(calendar.get(Calendar.MINUTE));
 		String second = twoDigitDecimalFormat.format(calendar.get(Calendar.SECOND));
 		
-		StringBuilder stringBuilder = new StringBuilder();
+		StringBuilder stringBuilder = new StringBuilder("games-");
 		
 		stringBuilder.append(year).append("-").append(month).append("-")
 				.append(day).append("-").append(hour).append("-")

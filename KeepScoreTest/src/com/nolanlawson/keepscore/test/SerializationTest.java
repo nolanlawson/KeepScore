@@ -54,6 +54,7 @@ public class SerializationTest extends ActivityInstrumentationTestCase2<MainActi
 		
 		gamesBackup.getGames().get(0).getPlayerScores().get(0).setName(null);
 		gamesBackup.getGames().get(0).getPlayerScores().get(1).setName("");
+		gamesBackup.getGames().get(0).getPlayerScores().get(0).setHistory(Collections.<Integer>emptyList());
 				
 		testGamesBackup(gamesBackup);
 	}
