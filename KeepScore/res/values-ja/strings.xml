@@ -40,7 +40,6 @@
 	    
     <string name="text_enter_saved_settings_name">名を入力、たとえ\'カタン\'</string>
     <string name="text_delete_saved_settings">「%s」のバックアップは削除されます.</string>
-    <string name="text_setting_set_name">バックアップの名:「%s」</string>
     <string name="toast_no_saved_settings">バックアップはまだありません。</string>
     <string name="toast_loaded_setting_set">「%s」野バックアップはロードされました。</string>
     <string name="toast_invalid_setting_set_name">妥当な名を入力ください。</string>
@@ -50,7 +49,7 @@
     <string name="pref_save_settings_name">バックアップを保存</string>
     <string name="pref_save_settings_summary">今の設定をバックアップに保存します。</string>
     <string name="title_save_setting_set">設定のバックアップを作る</string>
-    <string name="title_load_setting_set">この設定をロードしますか？</string>
+    <string name="title_load_setting_set">「%s」をロード？</string>
 
 	<string name="toast_deleted">ゲームは削除されました。</string>
 	<string name="toast_multiple_deleted">@string/toast_deleted</string>

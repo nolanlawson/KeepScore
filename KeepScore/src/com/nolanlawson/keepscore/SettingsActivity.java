@@ -3,7 +3,7 @@ package com.nolanlawson.keepscore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,7 +29,6 @@ import android.text.InputType;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
 import com.nolanlawson.keepscore.data.TextWithDeleteAdapter;
@@ -320,9 +319,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		
 		new AlertDialog.Builder(this)
 			.setCancelable(true)
-			.setTitle(R.string.title_load_setting_set)
+			.setTitle(String.format(getString(R.string.title_load_setting_set), settingSet))
 			.setAdapter(createSettingSetContentsAdapter(settingSet), null)
-			.setView(createSimpleTextView(R.string.text_setting_set_name, settingSet))
 			.setNegativeButton(android.R.string.cancel, null)
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				
@@ -334,14 +332,6 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			})
 			.show();
 		
-	}
-
-	private TextView createSimpleTextView(int resId, Object... args) {
-		TextView textView = new TextView(this);
-		textView.setTextColor(getResources().getColor(android.R.color.primary_text_dark_nodisable));
-		textView.setText(String.format(getString(resId), args));
-		textView.setPadding(5, 0, 5, 0);
-		return textView;
 	}
 
 	private void loadSettingSet(String settingSet) {
@@ -358,7 +348,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 
 	private ListAdapter createSettingSetContentsAdapter(String settingSet) {
 		Map<String, ?> settings = getSettingsToDisplay(settingSet);
-		SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this, settings.entrySet(), true);
+		SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this, settings.entrySet(), false);
 		return adapter;
 	}
 	
@@ -406,7 +396,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		
 		Map<String, ?> inputMap = SettingSetHelper.getSettingsSet(this, settingSet);
 		
-		Map<String, Object> outputMap = new HashMap<String, Object>();
+		Map<String, Object> outputMap = new LinkedHashMap<String, Object>();
 		
 		// walk through all the settings in this activity - it's a hack, but it works
 		for (int i = 0; i < getListView().getAdapter().getCount(); i++) {
