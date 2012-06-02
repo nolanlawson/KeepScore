@@ -49,7 +49,7 @@ public class AboutActivity extends Activity implements OnClickListener {
 		aboutWebView = (WebView) findViewById(R.id.aboutTextWebView);
 
 		aboutWebView.setVisibility(View.GONE);
-		aboutWebView.getSettings().setDefaultTextEncodingName("UTF-8");
+		aboutWebView.getSettings().setDefaultTextEncodingName("utf-8");
 		
 		progressBar = (ProgressBar) findViewById(R.id.aboutProgressBar);
 
@@ -68,7 +68,7 @@ public class AboutActivity extends Activity implements OnClickListener {
 				+ loadTextFile(R.raw.changelog);
 		text = String.format(text, PackageHelper.getVersionName(this));
 		
-		aboutWebView.loadData(text, "text/html", "utf-8");
+		aboutWebView.loadDataWithBaseURL(null, text, "text/html", "utf-8", null);
 	}
 
 
