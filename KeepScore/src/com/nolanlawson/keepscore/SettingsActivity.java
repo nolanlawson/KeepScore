@@ -37,6 +37,7 @@ import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.SettingSetHelper;
 import com.nolanlawson.keepscore.helper.ToastHelper;
+import com.nolanlawson.keepscore.helper.ViewHelper;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener {

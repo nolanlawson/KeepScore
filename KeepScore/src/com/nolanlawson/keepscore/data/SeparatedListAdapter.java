@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 
@@ -61,17 +62,33 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 	
 	/**
 	 * 
-	 * Add a section to the beginning of the LinkedHashMap.
+	 * Add a section to the specified index of the LinkedHashMap.
 	 * @param section
 	 * @param adapter
 	 */
-	public void addSectionToFront(String section, T adapter) {
-		this.headers.insert(section, 0);
+	public void insertSection(String section, int i, T adapter) {
+		this.headers.insert(section, i);
+		
+		// lame solution... create a new linkedhashmap and fit it in at the index
 		Map<String,T> newSections = new LinkedHashMap<String,T>();
-		newSections.put(section, adapter);
-		newSections.putAll(sections);
+		
+		if (i == 0) {
+			newSections.put(section, adapter);
+		}
+		int count = 0;
+		for (String oldSection : sections.keySet()) {
+			newSections.put(oldSection, sections.get(oldSection));
+			if (i == ++count) {
+				newSections.put(section, adapter);
+			}
+		}
 		sections = newSections;
 	}
+	
+	public ArrayAdapter<String> getSectionHeaders() {
+		return headers;
+	}
+	
 
 	public Object getItem(int position) {
 		for(Entry<String, T> entry : sections.entrySet()) {

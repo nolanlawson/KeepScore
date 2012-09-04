@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<item android:id="@+id/menu_save_backup" android:title="@string/menu_save_backup"
+		android:alphabeticShortcut="@string/menu_save_backup" android:icon="@drawable/ic_menu_save" />
+		
+	<item android:id="@+id/menu_load_backup" android:title="@string/menu_load_backup"
+		android:alphabeticShortcut="@string/menu_load_backup" android:icon="@drawable/ic_menu_upload" />	
+</menu>
