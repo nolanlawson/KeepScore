@@ -142,88 +142,128 @@ com.nolanlawson.keepscore.LoadGameActivity -> com.nolanlawson.keepscore.LoadGame
     void onCreate(android.os.Bundle) -> onCreate
     void onPause() -> onPause
     void onResume() -> onResume
-    java.util.List getAllGames() -> a
+    boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    void showLoadBackupDialog() -> a
+    com.nolanlawson.keepscore.data.LoadGamesBackupResult loadBackupInBackground(java.lang.String,java.lang.Runnable) -> a
+    java.util.List getAllGames() -> b
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     boolean onItemLongClick(android.widget.AdapterView,android.view.View,int,long) -> onItemLongClick
     void onClick(android.view.View) -> onClick
-    void showOrHideButtonRow() -> b
-    void hideButtonRow() -> c
+    void onNewGameCreated(com.nolanlawson.keepscore.db.Game) -> a
+    void showOrHideButtonRow() -> c
+    void hideButtonRow() -> d
+    com.nolanlawson.keepscore.data.TimePeriod getTimePeriod(java.util.Date,com.nolanlawson.keepscore.db.Game) -> a
+    boolean timePeriodMatches(java.util.Date,com.nolanlawson.keepscore.data.TimePeriod,com.nolanlawson.keepscore.db.Game) -> a
     void access$0(com.nolanlawson.keepscore.LoadGameActivity) -> a
-    void access$1(com.nolanlawson.keepscore.LoadGameActivity,java.util.Set) -> a
-    void access$2(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> a
-    void access$3(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> b
-    void access$4(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> c
-    void access$5(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> d
-    void access$6(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> e
-    void access$7(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> f
-    void access$8(com.nolanlawson.keepscore.LoadGameActivity) -> b
-    void access$9(com.nolanlawson.keepscore.LoadGameActivity) -> c
-    android.widget.LinearLayout access$10(com.nolanlawson.keepscore.LoadGameActivity) -> d
-    android.view.View access$11(com.nolanlawson.keepscore.LoadGameActivity) -> e
-    com.nolanlawson.keepscore.data.SeparatedListAdapter access$12(com.nolanlawson.keepscore.LoadGameActivity) -> f
+    void access$1(com.nolanlawson.keepscore.LoadGameActivity,java.lang.String,int) -> a
+    com.nolanlawson.keepscore.data.SeparatedListAdapter access$2(com.nolanlawson.keepscore.LoadGameActivity) -> b
+    void access$3(com.nolanlawson.keepscore.LoadGameActivity,java.lang.String,int) -> b
+    com.nolanlawson.keepscore.data.LoadGamesBackupResult access$4(com.nolanlawson.keepscore.LoadGameActivity,java.lang.String,java.lang.Runnable) -> a
+    void access$5(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.data.LoadGamesBackupResult) -> a
+    void access$6(com.nolanlawson.keepscore.LoadGameActivity,java.util.Set) -> a
+    void access$7(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> a
+    void access$8(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> b
+    void access$9(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> c
+    void access$10(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> d
+    void access$11(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> e
+    void access$12(com.nolanlawson.keepscore.LoadGameActivity,com.nolanlawson.keepscore.db.Game) -> f
+    void access$13(com.nolanlawson.keepscore.LoadGameActivity) -> c
+    void access$14(com.nolanlawson.keepscore.LoadGameActivity) -> d
+    android.widget.LinearLayout access$15(com.nolanlawson.keepscore.LoadGameActivity) -> e
+    android.view.View access$16(com.nolanlawson.keepscore.LoadGameActivity) -> f
 com.nolanlawson.keepscore.LoadGameActivity$1 -> com.nolanlawson.keepscore.m:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
     void run() -> run
 com.nolanlawson.keepscore.LoadGameActivity$10 -> com.nolanlawson.keepscore.n:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
-    void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
-    void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
-    void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
+    void run() -> run
 com.nolanlawson.keepscore.LoadGameActivity$11 -> com.nolanlawson.keepscore.o:
+    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
+    boolean apply(java.lang.Object) -> a
+com.nolanlawson.keepscore.LoadGameActivity$12 -> com.nolanlawson.keepscore.p:
+    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
+    void run() -> run
+com.nolanlawson.keepscore.LoadGameActivity$13 -> com.nolanlawson.keepscore.q:
+    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
+    void run() -> run
+com.nolanlawson.keepscore.LoadGameActivity$14 -> com.nolanlawson.keepscore.r:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
     void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
     void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
     void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
-com.nolanlawson.keepscore.LoadGameActivity$12 -> com.nolanlawson.keepscore.p:
+com.nolanlawson.keepscore.LoadGameActivity$15 -> com.nolanlawson.keepscore.s:
+    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
+    void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
+    void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
+    void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
+com.nolanlawson.keepscore.LoadGameActivity$16 -> com.nolanlawson.keepscore.t:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
     android.widget.EditText val$editText -> b
     com.nolanlawson.keepscore.db.Game val$game -> c
     void onClick(android.content.DialogInterface,int) -> onClick
-    com.nolanlawson.keepscore.LoadGameActivity access$0(com.nolanlawson.keepscore.LoadGameActivity$12) -> a
-com.nolanlawson.keepscore.LoadGameActivity$12$1 -> com.nolanlawson.keepscore.q:
-    com.nolanlawson.keepscore.LoadGameActivity$12 this$1 -> a
+    com.nolanlawson.keepscore.LoadGameActivity access$0(com.nolanlawson.keepscore.LoadGameActivity$16) -> a
+com.nolanlawson.keepscore.LoadGameActivity$16$1 -> com.nolanlawson.keepscore.u:
+    com.nolanlawson.keepscore.LoadGameActivity$16 this$1 -> a
     com.nolanlawson.keepscore.db.Game val$game -> b
     java.lang.String val$newName -> c
     android.content.DialogInterface val$dialog -> d
     java.lang.Void doInBackground$10299ca() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.nolanlawson.keepscore.LoadGameActivity$13 -> com.nolanlawson.keepscore.r:
+com.nolanlawson.keepscore.LoadGameActivity$17 -> com.nolanlawson.keepscore.v:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
     com.nolanlawson.keepscore.db.Game val$game -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.LoadGameActivity$2 -> com.nolanlawson.keepscore.s:
+com.nolanlawson.keepscore.LoadGameActivity$2 -> com.nolanlawson.keepscore.w:
+    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
+    java.lang.String val$filename -> b
+    int val$gameCount -> c
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.nolanlawson.keepscore.LoadGameActivity$3 -> com.nolanlawson.keepscore.x:
+    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
+    java.lang.String val$filename -> b
+    int val$gameCount -> c
+    android.app.ProgressDialog val$progressDialog -> d
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
+com.nolanlawson.keepscore.LoadGameActivity$4 -> com.nolanlawson.keepscore.y:
+    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
+    com.nolanlawson.keepscore.data.SimpleTwoLineAdapter val$adapter -> b
+    java.util.Map val$backupsToGameCounts -> c
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.nolanlawson.keepscore.LoadGameActivity$5 -> com.nolanlawson.keepscore.z:
+    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
+    java.lang.String val$filename -> b
+    android.app.ProgressDialog val$progressDialog -> c
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
+    void access$3(com.nolanlawson.keepscore.LoadGameActivity$5,java.lang.Object[]) -> a
+com.nolanlawson.keepscore.LoadGameActivity$5$1 -> com.nolanlawson.keepscore.aa:
+    com.nolanlawson.keepscore.LoadGameActivity$5 this$1 -> a
+    void run() -> run
+com.nolanlawson.keepscore.LoadGameActivity$6 -> com.nolanlawson.keepscore.ab:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
     java.util.Set val$games -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.LoadGameActivity$3 -> com.nolanlawson.keepscore.t:
+com.nolanlawson.keepscore.LoadGameActivity$7 -> com.nolanlawson.keepscore.ac:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
     java.util.Set val$games -> b
     java.lang.Void doInBackground$10299ca() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.nolanlawson.keepscore.LoadGameActivity$4 -> com.nolanlawson.keepscore.u:
+com.nolanlawson.keepscore.LoadGameActivity$8 -> com.nolanlawson.keepscore.ad:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
     com.nolanlawson.keepscore.db.Game val$game -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.LoadGameActivity$5 -> com.nolanlawson.keepscore.v:
+com.nolanlawson.keepscore.LoadGameActivity$9 -> com.nolanlawson.keepscore.ae:
     com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
     com.nolanlawson.keepscore.db.Game val$newGame -> b
     java.lang.Void doInBackground$10299ca() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.nolanlawson.keepscore.LoadGameActivity$6 -> com.nolanlawson.keepscore.w:
-    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
-    void run() -> run
-com.nolanlawson.keepscore.LoadGameActivity$7 -> com.nolanlawson.keepscore.x:
-    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
-    boolean apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.LoadGameActivity$8 -> com.nolanlawson.keepscore.y:
-    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
-    void run() -> run
-com.nolanlawson.keepscore.LoadGameActivity$9 -> com.nolanlawson.keepscore.z:
-    com.nolanlawson.keepscore.LoadGameActivity this$0 -> a
-    void run() -> run
 com.nolanlawson.keepscore.MainActivity -> com.nolanlawson.keepscore.MainActivity:
     com.nolanlawson.keepscore.util.UtilLogger log -> a
     android.widget.Button newGameButton -> b
@@ -234,7 +274,7 @@ com.nolanlawson.keepscore.MainActivity -> com.nolanlawson.keepscore.MainActivity
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     void onClick(android.view.View) -> onClick
-com.nolanlawson.keepscore.MainActivity$1 -> com.nolanlawson.keepscore.aa:
+com.nolanlawson.keepscore.MainActivity$1 -> com.nolanlawson.keepscore.af:
     com.nolanlawson.keepscore.MainActivity this$0 -> a
     java.lang.Integer doInBackground$9ecd34e() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -246,7 +286,7 @@ com.nolanlawson.keepscore.NamePlayersActivity -> com.nolanlawson.keepscore.NameP
     void onCreate(android.os.Bundle) -> onCreate
     void onClick(android.view.View) -> onClick
     java.util.List access$0(com.nolanlawson.keepscore.NamePlayersActivity) -> a
-com.nolanlawson.keepscore.NamePlayersActivity$1 -> com.nolanlawson.keepscore.ab:
+com.nolanlawson.keepscore.NamePlayersActivity$1 -> com.nolanlawson.keepscore.ag:
     com.nolanlawson.keepscore.NamePlayersActivity this$0 -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
@@ -254,8 +294,8 @@ com.nolanlawson.keepscore.NewGameActivity -> com.nolanlawson.keepscore.NewGameAc
     java.util.List numPlayersButtons -> a
     void onCreate(android.os.Bundle) -> onCreate
     void onClick(android.view.View) -> onClick
-com.nolanlawson.keepscore.R -> com.nolanlawson.keepscore.ac:
-com.nolanlawson.keepscore.R$styleable -> com.nolanlawson.keepscore.ad:
+com.nolanlawson.keepscore.R -> com.nolanlawson.keepscore.ah:
+com.nolanlawson.keepscore.R$styleable -> com.nolanlawson.keepscore.ai:
     int[] CustomFastScrollView -> a
 com.nolanlawson.keepscore.SettingsActivity -> com.nolanlawson.keepscore.SettingsActivity:
     java.lang.String EXTRA_SCROLL_TO_CONFIGURATIONS -> a
@@ -288,42 +328,42 @@ com.nolanlawson.keepscore.SettingsActivity -> com.nolanlawson.keepscore.Settings
     void access$2(com.nolanlawson.keepscore.SettingsActivity,java.lang.String) -> b
     void access$3(com.nolanlawson.keepscore.SettingsActivity,com.nolanlawson.keepscore.data.TextWithDeleteAdapter,java.lang.String) -> a
     void access$4(com.nolanlawson.keepscore.SettingsActivity) -> b
-com.nolanlawson.keepscore.SettingsActivity$1 -> com.nolanlawson.keepscore.ae:
+com.nolanlawson.keepscore.SettingsActivity$1 -> com.nolanlawson.keepscore.aj:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     void run() -> run
-com.nolanlawson.keepscore.SettingsActivity$10 -> com.nolanlawson.keepscore.af:
+com.nolanlawson.keepscore.SettingsActivity$10 -> com.nolanlawson.keepscore.ak:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     java.lang.String val$settingSetName -> b
     com.nolanlawson.keepscore.data.TextWithDeleteAdapter val$adapter -> c
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.SettingsActivity$11 -> com.nolanlawson.keepscore.ag:
+com.nolanlawson.keepscore.SettingsActivity$11 -> com.nolanlawson.keepscore.al:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.SettingsActivity$2 -> com.nolanlawson.keepscore.ah:
+com.nolanlawson.keepscore.SettingsActivity$2 -> com.nolanlawson.keepscore.am:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
-com.nolanlawson.keepscore.SettingsActivity$3 -> com.nolanlawson.keepscore.ai:
+com.nolanlawson.keepscore.SettingsActivity$3 -> com.nolanlawson.keepscore.an:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
-com.nolanlawson.keepscore.SettingsActivity$4 -> com.nolanlawson.keepscore.aj:
+com.nolanlawson.keepscore.SettingsActivity$4 -> com.nolanlawson.keepscore.ao:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
-com.nolanlawson.keepscore.SettingsActivity$5 -> com.nolanlawson.keepscore.ak:
+com.nolanlawson.keepscore.SettingsActivity$5 -> com.nolanlawson.keepscore.ap:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
-com.nolanlawson.keepscore.SettingsActivity$6 -> com.nolanlawson.keepscore.al:
+com.nolanlawson.keepscore.SettingsActivity$6 -> com.nolanlawson.keepscore.aq:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     android.widget.EditText val$editText -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.SettingsActivity$7 -> com.nolanlawson.keepscore.am:
+com.nolanlawson.keepscore.SettingsActivity$7 -> com.nolanlawson.keepscore.ar:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     android.widget.ListAdapter val$availableSetAdapter -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.SettingsActivity$8 -> com.nolanlawson.keepscore.an:
+com.nolanlawson.keepscore.SettingsActivity$8 -> com.nolanlawson.keepscore.as:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     java.lang.String val$settingSet -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.SettingsActivity$9 -> com.nolanlawson.keepscore.ao:
+com.nolanlawson.keepscore.SettingsActivity$9 -> com.nolanlawson.keepscore.at:
     com.nolanlawson.keepscore.SettingsActivity this$0 -> a
     com.nolanlawson.keepscore.data.TextWithDeleteAdapter val$adapter -> b
     void onDelete(java.lang.String) -> a
@@ -335,7 +375,20 @@ com.nolanlawson.keepscore.data.HistoryItem -> com.nolanlawson.keepscore.a.a:
     int getDelta() -> b
     long getRunningTotal() -> c
     java.util.List createFromPlayerScore$193cd4f4(com.nolanlawson.keepscore.db.PlayerScore) -> a
-com.nolanlawson.keepscore.data.SavedGameAdapter -> com.nolanlawson.keepscore.a.b:
+com.nolanlawson.keepscore.data.LoadGamesBackupResult -> com.nolanlawson.keepscore.a.b:
+    java.lang.String filename -> a
+    int numFound -> b
+    int numDuplicates -> c
+    java.util.List loadedGames -> d
+    java.lang.String getFilename() -> a
+    void setFilename(java.lang.String) -> a
+    int getNumFound() -> b
+    void setNumFound(int) -> a
+    java.util.List getLoadedGames() -> c
+    void setLoadedGames(java.util.List) -> a
+    int getNumDuplicates() -> d
+    void setNumDuplicates(int) -> b
+com.nolanlawson.keepscore.data.SavedGameAdapter -> com.nolanlawson.keepscore.a.c:
     com.nolanlawson.keepscore.util.UtilLogger log -> a
     java.util.Set checked -> b
     java.lang.Runnable onCheckChangedRunnable -> c
@@ -345,15 +398,15 @@ com.nolanlawson.keepscore.data.SavedGameAdapter -> com.nolanlawson.keepscore.a.b
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.util.Set access$0(com.nolanlawson.keepscore.data.SavedGameAdapter) -> a
     java.lang.Runnable access$1(com.nolanlawson.keepscore.data.SavedGameAdapter) -> b
-com.nolanlawson.keepscore.data.SavedGameAdapter$1 -> com.nolanlawson.keepscore.a.c:
+com.nolanlawson.keepscore.data.SavedGameAdapter$1 -> com.nolanlawson.keepscore.a.d:
     com.nolanlawson.keepscore.data.SavedGameAdapter this$0 -> a
     android.content.Context val$context -> b
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.data.SavedGameAdapter$2 -> com.nolanlawson.keepscore.a.d:
+com.nolanlawson.keepscore.data.SavedGameAdapter$2 -> com.nolanlawson.keepscore.a.e:
     com.nolanlawson.keepscore.data.SavedGameAdapter this$0 -> a
     com.nolanlawson.keepscore.db.Game val$game -> b
     void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
-com.nolanlawson.keepscore.data.SavedGameAdapter$ViewWrapper -> com.nolanlawson.keepscore.a.e:
+com.nolanlawson.keepscore.data.SavedGameAdapter$ViewWrapper -> com.nolanlawson.keepscore.a.f:
     android.view.View view -> a
     android.widget.TextView titleTextView -> b
     android.widget.TextView numPlayersTextView -> c
@@ -365,30 +418,29 @@ com.nolanlawson.keepscore.data.SavedGameAdapter$ViewWrapper -> com.nolanlawson.k
     android.widget.TextView getSubtitleTextView() -> c
     android.widget.TextView getSavedTextView() -> d
     android.widget.CheckBox getCheckBox() -> e
-com.nolanlawson.keepscore.data.SeparatedListAdapter -> com.nolanlawson.keepscore.a.f:
+com.nolanlawson.keepscore.data.SeparatedListAdapter -> com.nolanlawson.keepscore.a.g:
     java.util.Map sections -> a
     com.nolanlawson.keepscore.data.TypeCheckingArrayAdapter headers -> b
     android.widget.SectionIndexer sectionIndexer -> c
-    android.widget.BaseAdapter getSection$2796d284() -> a
-    java.lang.String getSectionName$47921032() -> b
-    java.util.Collection getSubAdapters() -> c
+    java.util.Collection getSubAdapters() -> a
     void addSection(java.lang.String,android.widget.BaseAdapter) -> a
-    void addSectionToFront(java.lang.String,android.widget.BaseAdapter) -> b
+    void insertSection(java.lang.String,int,android.widget.BaseAdapter) -> a
+    android.widget.ArrayAdapter getSectionHeaders() -> b
     java.lang.Object getItem(int) -> getItem
     int getCount() -> getCount
     int getViewTypeCount() -> getViewTypeCount
     int getItemViewType(int) -> getItemViewType
     boolean isEnabled(int) -> isEnabled
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    java.util.Map getSectionsMap() -> d
+    java.util.Map getSectionsMap() -> c
     long getItemId(int) -> getItemId
     void removeSection(java.lang.String) -> a
-    void refreshSections() -> e
+    void refreshSections() -> d
     int getPositionForSection(int) -> getPositionForSection
     int getSectionForPosition(int) -> getSectionForPosition
     java.lang.Object[] getSections() -> getSections
-    android.widget.SectionIndexer getSectionIndexer() -> f
-com.nolanlawson.keepscore.data.SeparatedListAdapter$1 -> com.nolanlawson.keepscore.a.g:
+    android.widget.SectionIndexer getSectionIndexer() -> e
+com.nolanlawson.keepscore.data.SeparatedListAdapter$1 -> com.nolanlawson.keepscore.a.h:
     com.nolanlawson.keepscore.data.SeparatedListAdapter this$0 -> a
     java.lang.Object[] val$sectionNamesArray -> b
     java.util.List val$positionsToSections -> c
@@ -396,16 +448,16 @@ com.nolanlawson.keepscore.data.SeparatedListAdapter$1 -> com.nolanlawson.keepsco
     java.lang.Object[] getSections() -> getSections
     int getSectionForPosition(int) -> getSectionForPosition
     int getPositionForSection(int) -> getPositionForSection
-com.nolanlawson.keepscore.data.SeparatedListAdapter$2 -> com.nolanlawson.keepscore.a.h:
+com.nolanlawson.keepscore.data.SeparatedListAdapter$2 -> com.nolanlawson.keepscore.a.i:
     com.nolanlawson.keepscore.data.SeparatedListAdapter this$0 -> a
     java.lang.Object[] val$empty -> b
     java.lang.Object[] getSections() -> getSections
     int getSectionForPosition(int) -> getSectionForPosition
     int getPositionForSection(int) -> getPositionForSection
-com.nolanlawson.keepscore.data.SimpleTwoLineAdapter -> com.nolanlawson.keepscore.a.i:
+com.nolanlawson.keepscore.data.SimpleTwoLineAdapter -> com.nolanlawson.keepscore.a.j:
     com.nolanlawson.keepscore.data.SimpleTwoLineAdapter create$6e6d61ee(android.content.Context,java.util.Collection) -> a
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.nolanlawson.keepscore.data.TextWithDeleteAdapter -> com.nolanlawson.keepscore.a.j:
+com.nolanlawson.keepscore.data.TextWithDeleteAdapter -> com.nolanlawson.keepscore.a.k:
     com.nolanlawson.keepscore.data.TextWithDeleteAdapter$OnDeleteListener onDeleteListener -> a
     void setOnDeleteListener(com.nolanlawson.keepscore.data.TextWithDeleteAdapter$OnDeleteListener) -> a
     boolean areAllItemsEnabled() -> areAllItemsEnabled
@@ -414,13 +466,13 @@ com.nolanlawson.keepscore.data.TextWithDeleteAdapter -> com.nolanlawson.keepscor
     int getItemViewType(int) -> getItemViewType
     int getViewTypeCount() -> getViewTypeCount
     com.nolanlawson.keepscore.data.TextWithDeleteAdapter$OnDeleteListener access$0(com.nolanlawson.keepscore.data.TextWithDeleteAdapter) -> a
-com.nolanlawson.keepscore.data.TextWithDeleteAdapter$1 -> com.nolanlawson.keepscore.a.k:
+com.nolanlawson.keepscore.data.TextWithDeleteAdapter$1 -> com.nolanlawson.keepscore.a.l:
     com.nolanlawson.keepscore.data.TextWithDeleteAdapter this$0 -> a
     java.lang.String val$textItem -> b
     void onClick(android.view.View) -> onClick
-com.nolanlawson.keepscore.data.TextWithDeleteAdapter$OnDeleteListener -> com.nolanlawson.keepscore.a.l:
+com.nolanlawson.keepscore.data.TextWithDeleteAdapter$OnDeleteListener -> com.nolanlawson.keepscore.a.m:
     void onDelete(java.lang.String) -> a
-com.nolanlawson.keepscore.data.TimePeriod -> com.nolanlawson.keepscore.a.m:
+com.nolanlawson.keepscore.data.TimePeriod -> com.nolanlawson.keepscore.a.n:
     com.nolanlawson.keepscore.data.TimePeriod Today -> a
     com.nolanlawson.keepscore.data.TimePeriod Yesterday -> b
     com.nolanlawson.keepscore.data.TimePeriod DayBeforeYesterday -> c
@@ -437,7 +489,7 @@ com.nolanlawson.keepscore.data.TimePeriod -> com.nolanlawson.keepscore.a.m:
     com.nolanlawson.keepscore.util.CollectionUtil$Function getEndDateFunction() -> c
     com.nolanlawson.keepscore.data.TimePeriod[] values() -> values
     com.nolanlawson.keepscore.data.TimePeriod valueOf(java.lang.String) -> valueOf
-com.nolanlawson.keepscore.data.TypeCheckingArrayAdapter -> com.nolanlawson.keepscore.a.n:
+com.nolanlawson.keepscore.data.TypeCheckingArrayAdapter -> com.nolanlawson.keepscore.a.o:
     int mFieldId -> a
     int mResource -> b
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
@@ -483,10 +535,12 @@ com.nolanlawson.keepscore.db.GameDBHelper -> com.nolanlawson.keepscore.db.d:
     android.database.sqlite.SQLiteDatabase db -> e
     void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
+    boolean existsByDateStarted(long) -> a
     com.nolanlawson.keepscore.db.Game findGameById(int) -> a
     int findGameCount() -> a
     int findMostRecentGameId() -> b
     void saveGame(com.nolanlawson.keepscore.db.Game) -> a
+    void saveGame(com.nolanlawson.keepscore.db.Game,boolean) -> a
     int getMaxPlayerScoreId() -> e
     int getMaxGameId() -> f
     void savePlayerScores(int,java.util.List) -> a
@@ -629,25 +683,80 @@ com.nolanlawson.keepscore.helper.PreferenceHelper -> com.nolanlawson.keepscore.b
     boolean getGreenTextPreference(android.content.Context) -> d
     int getIntPreference(int,int,android.content.Context) -> a
     boolean getBooleanPreference(int,int,android.content.Context) -> b
-com.nolanlawson.keepscore.helper.SettingSetHelper -> com.nolanlawson.keepscore.b.l:
+com.nolanlawson.keepscore.helper.SdcardHelper -> com.nolanlawson.keepscore.b.l:
+    com.nolanlawson.keepscore.util.UtilLogger log -> a
+    boolean isAvailable() -> a
+    java.io.File getBackupDir() -> d
+    java.util.List list() -> b
+    java.lang.String open(java.lang.String) -> a
+    boolean save(java.lang.String,java.lang.String) -> a
+    java.lang.String createBackupFilename() -> c
+    java.io.File getOrCreateDir(java.io.File,java.lang.String) -> a
+    java.io.File getBackupFile(java.lang.String) -> b
+com.nolanlawson.keepscore.helper.SettingSetHelper -> com.nolanlawson.keepscore.b.m:
     void saveCurrentSettingSet(android.content.Context,java.lang.String) -> a
     void loadSettingSet(android.content.Context,java.lang.String) -> b
     java.util.Set getAvailableSettingSets(android.content.Context) -> a
     void copySettings(android.content.SharedPreferences,android.content.SharedPreferences) -> a
-com.nolanlawson.keepscore.helper.ToastHelper -> com.nolanlawson.keepscore.b.m:
+com.nolanlawson.keepscore.helper.ToastHelper -> com.nolanlawson.keepscore.b.n:
     void showLong(android.content.Context,int,java.lang.Object[]) -> a
     void showShort(android.content.Context,int,java.lang.Object[]) -> b
     void show(android.content.Context,int,int,java.lang.Object[]) -> a
-com.nolanlawson.keepscore.util.CollectionUtil -> com.nolanlawson.keepscore.c.a:
+com.nolanlawson.keepscore.helper.XmlHelper -> com.nolanlawson.keepscore.b.o:
+    java.lang.String prettyPrint(java.lang.String) -> a
+com.nolanlawson.keepscore.serialization.GamesBackup -> com.nolanlawson.keepscore.c.a:
+    int gameCount -> a
+    int version -> b
+    long dateSaved -> c
+    java.util.List games -> d
+    int getGameCount() -> a
+    void setGameCount(int) -> a
+    int getVersion() -> b
+    void setVersion(int) -> b
+    java.util.List getGames() -> c
+    void setGames(java.util.List) -> a
+    long getDateSaved() -> d
+    void setDateSaved(long) -> a
+com.nolanlawson.keepscore.serialization.GamesBackupSerializer -> com.nolanlawson.keepscore.c.b:
+    com.nolanlawson.keepscore.util.UtilLogger log -> a
+    int[] $SWITCH_TABLE$com$nolanlawson$keepscore$serialization$GamesBackupSerializer$Tag -> b
+    int readGameCount(java.io.File) -> a
+    com.nolanlawson.keepscore.serialization.GamesBackup deserialize(java.lang.String) -> a
+    java.lang.String getTextOrNullOrEmpty(java.util.Map,java.lang.String) -> a
+    java.lang.String serialize(com.nolanlawson.keepscore.serialization.GamesBackup) -> a
+    java.lang.String serializeAsRawXml(com.nolanlawson.keepscore.serialization.GamesBackup) -> b
+    void addTag(org.xmlpull.v1.XmlSerializer,com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag,java.lang.Object) -> a
+    java.util.Map getAttributes(org.xmlpull.v1.XmlPullParser) -> a
+    int[] $SWITCH_TABLE$com$nolanlawson$keepscore$serialization$GamesBackupSerializer$Tag() -> a
+com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag -> com.nolanlawson.keepscore.c.c:
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag PlayerScore -> a
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag Game -> b
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag GamesBackup -> c
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag gameCount -> d
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag version -> e
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag dateGameSaved -> f
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag dateBackupSaved -> g
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag dateGameStarted -> h
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag gameName -> i
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag playerName -> j
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag score -> k
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag playerNumber -> l
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag history -> m
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag Games -> n
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag PlayerScores -> o
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag[] ENUM$VALUES -> p
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag[] values() -> values
+    com.nolanlawson.keepscore.serialization.GamesBackupSerializer$Tag valueOf(java.lang.String) -> valueOf
+com.nolanlawson.keepscore.util.CollectionUtil -> com.nolanlawson.keepscore.d.a:
     java.lang.Comparable maxValue(java.util.List,com.nolanlawson.keepscore.util.CollectionUtil$Function) -> a
     java.util.List stringsToInts(java.util.List) -> a
     java.util.List transform(java.util.Collection,com.nolanlawson.keepscore.util.CollectionUtil$Function) -> a
     java.lang.Number max(java.util.List,com.nolanlawson.keepscore.util.CollectionUtil$Function) -> b
-com.nolanlawson.keepscore.util.CollectionUtil$Function -> com.nolanlawson.keepscore.c.b:
+com.nolanlawson.keepscore.util.CollectionUtil$Function -> com.nolanlawson.keepscore.d.b:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.CollectionUtil$Predicate -> com.nolanlawson.keepscore.c.c:
+com.nolanlawson.keepscore.util.CollectionUtil$Predicate -> com.nolanlawson.keepscore.d.c:
     boolean apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions -> com.nolanlawson.keepscore.c.d:
+com.nolanlawson.keepscore.util.Functions -> com.nolanlawson.keepscore.d.d:
     com.nolanlawson.keepscore.util.CollectionUtil$Function PLAYER_SCORE_TO_HISTORY_SIZE -> a
     com.nolanlawson.keepscore.util.CollectionUtil$Function INTEGER_TO_LENGTH_WITH_SIGN -> b
     com.nolanlawson.keepscore.util.CollectionUtil$Function TODAY_START -> c
@@ -659,40 +768,40 @@ com.nolanlawson.keepscore.util.Functions -> com.nolanlawson.keepscore.c.d:
     com.nolanlawson.keepscore.util.CollectionUtil$Function NOW -> i
     com.nolanlawson.keepscore.util.CollectionUtil$Function THE_EPOCH -> j
     java.util.Date access$0(java.util.Date,long) -> a
-com.nolanlawson.keepscore.util.Functions$1 -> com.nolanlawson.keepscore.c.e:
+com.nolanlawson.keepscore.util.Functions$1 -> com.nolanlawson.keepscore.d.e:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$10 -> com.nolanlawson.keepscore.c.f:
+com.nolanlawson.keepscore.util.Functions$10 -> com.nolanlawson.keepscore.d.f:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$2 -> com.nolanlawson.keepscore.c.g:
+com.nolanlawson.keepscore.util.Functions$2 -> com.nolanlawson.keepscore.d.g:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$3 -> com.nolanlawson.keepscore.c.h:
+com.nolanlawson.keepscore.util.Functions$3 -> com.nolanlawson.keepscore.d.h:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$4 -> com.nolanlawson.keepscore.c.i:
+com.nolanlawson.keepscore.util.Functions$4 -> com.nolanlawson.keepscore.d.i:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$5 -> com.nolanlawson.keepscore.c.j:
+com.nolanlawson.keepscore.util.Functions$5 -> com.nolanlawson.keepscore.d.j:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$6 -> com.nolanlawson.keepscore.c.k:
+com.nolanlawson.keepscore.util.Functions$6 -> com.nolanlawson.keepscore.d.k:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$7 -> com.nolanlawson.keepscore.c.l:
+com.nolanlawson.keepscore.util.Functions$7 -> com.nolanlawson.keepscore.d.l:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$8 -> com.nolanlawson.keepscore.c.m:
+com.nolanlawson.keepscore.util.Functions$8 -> com.nolanlawson.keepscore.d.m:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.Functions$9 -> com.nolanlawson.keepscore.c.n:
+com.nolanlawson.keepscore.util.Functions$9 -> com.nolanlawson.keepscore.d.n:
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.util.IntegerUtil -> com.nolanlawson.keepscore.c.o:
+com.nolanlawson.keepscore.util.IntegerUtil -> com.nolanlawson.keepscore.d.o:
     java.lang.String toStringWithSign(int) -> a
     boolean validInt(java.lang.CharSequence) -> a
-com.nolanlawson.keepscore.util.StopWatch -> com.nolanlawson.keepscore.c.p:
-com.nolanlawson.keepscore.util.StringUtil -> com.nolanlawson.keepscore.c.q:
+com.nolanlawson.keepscore.util.StopWatch -> com.nolanlawson.keepscore.d.p:
+com.nolanlawson.keepscore.util.StringUtil -> com.nolanlawson.keepscore.d.q:
     boolean isEmptyOrWhitespace(java.lang.String) -> a
     java.util.List split$41012029(java.lang.String) -> b
     java.lang.CharSequence joinSpannables(java.lang.String,java.lang.CharSequence[]) -> a
     java.lang.String nullToEmpty(java.lang.CharSequence) -> a
     java.lang.String padLeft$2c8fd6db(java.lang.String,int) -> a
-com.nolanlawson.keepscore.util.UtilLogger -> com.nolanlawson.keepscore.c.r:
+com.nolanlawson.keepscore.util.UtilLogger -> com.nolanlawson.keepscore.d.r:
     java.lang.String tag -> a
     void e(java.lang.Exception,java.lang.String,java.lang.Object[]) -> a
-com.nolanlawson.keepscore.util.VersionHelper -> com.nolanlawson.keepscore.c.s:
+com.nolanlawson.keepscore.util.VersionHelper -> com.nolanlawson.keepscore.d.s:
     java.lang.reflect.Field sdkIntField -> a
     boolean fetchedSdkIntField -> b
     int getVersionSdkIntCompat() -> a
