@@ -39,13 +39,13 @@ import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.CompatibilityHelper;
 import com.nolanlawson.keepscore.helper.PlayerTextFormat;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
+import com.nolanlawson.keepscore.helper.VersionHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.Functions;
 import com.nolanlawson.keepscore.util.StopWatch;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
-import com.nolanlawson.keepscore.util.VersionHelper;
 import com.nolanlawson.keepscore.widget.PlayerView;
 
 /**
