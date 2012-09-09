@@ -29,6 +29,7 @@ import android.widget.ToggleButton;
 import com.nolanlawson.keepscore.data.HistoryItem;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.chart.LineChartLine;
@@ -106,6 +107,11 @@ public class HistoryActivity extends Activity implements
 	
 	for (PlayerScore playerScore : game.getPlayerScores()) {
 	    List<Integer> dataPoints = new ArrayList<Integer>(playerScore.getHistory());
+	    
+	    // have to include the starting score as well
+	    long startingScore = playerScore.getScore() - CollectionUtil.sum(playerScore.getHistory());
+	    dataPoints.add(0, (int)startingScore);
+	    
 	    String displayName = playerScore.toDisplayName(this);
 	    
 	    LineChartLine line = new LineChartLine();
