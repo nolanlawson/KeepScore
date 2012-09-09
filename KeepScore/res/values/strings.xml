@@ -70,8 +70,7 @@ Duplicates: %d</string>
 
     <string name="button_by_player">By Player</string>
     <string name="button_by_round">By Round</string>
-
-    
+    <string name="button_by_chart">Chart</string>
     
     <string name="hint_game_name">Game Name</string>
     

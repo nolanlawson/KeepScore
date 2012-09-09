@@ -7,7 +7,18 @@
         android:layout_height="wrap_content" android:layout_width="fill_parent"
         android:orientation="horizontal"
         android:paddingTop="3dp" android:paddingLeft="5dp" android:paddingRight="5dp">
-        
+          
+          <ToggleButton android:id="@+id/by_chart_button"
+                      android:layout_height="wrap_content"
+                      android:layout_width="0px"
+                      android:layout_weight="1.0"
+                      android:textSize="14sp"
+                      android:textOn="@string/button_by_chart"
+                      android:textOff="@string/button_by_chart"
+                      android:checked="true"
+                      android:drawableTop="@drawable/ic_menu_chartsettings"
+                />
+                  
           <ToggleButton android:id="@+id/by_round_button"
                       android:layout_height="wrap_content"
                       android:layout_width="0px"
@@ -15,7 +26,7 @@
                       android:textSize="14sp"
                       android:textOn="@string/button_by_round"
                       android:textOff="@string/button_by_round"
-                      android:checked="true"
+                      android:checked="false"
                       android:drawableTop="@drawable/ic_menu_agenda"
                 />
           
@@ -32,13 +43,29 @@
         
         
     </RadioGroup>
-
+    
+    <HorizontalScrollView
+        android:id="@+id/by_chart_scroll_view"
+	    android:layout_width="fill_parent"
+	    android:layout_height="0px"
+	    android:layout_weight="1.0"
+	    android:background="@android:color/darker_gray"
+	    android:padding="5dp">
+	    <com.nolanlawson.keepscore.widget.chart.LineChartView    
+	        android:id="@+id/by_chart_view"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        >
+	    </com.nolanlawson.keepscore.widget.chart.LineChartView>
+    </HorizontalScrollView>
+    
     <ScrollView
         android:id="@+id/by_round_scroll_view"
 	    android:layout_width="fill_parent"
 	    android:layout_height="0px"
 	    android:layout_weight="1.0"
-	    android:background="@android:color/darker_gray">
+	    android:background="@android:color/darker_gray"
+	    android:visibility="gone">
 	    <TableLayout    
 	        android:id="@+id/by_round_table"
 	        android:layout_width="fill_parent"
