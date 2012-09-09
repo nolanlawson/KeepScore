@@ -7,6 +7,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -99,6 +101,7 @@ public class HistoryActivity extends Activity implements
 	byPlayerScrollView = (ScrollView) findViewById(R.id.by_player_scroll_view);
 
 	inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     private void createByChartLayout() {
