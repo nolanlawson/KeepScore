@@ -1,14 +1,20 @@
-package com.nolanlawson.keepscore.util;
+package com.nolanlawson.keepscore.helper;
 
 import java.lang.reflect.Field;
 
 import android.os.Build;
 
+/**
+ * Determine what version of Android the device is running.
+ * @author nolan
+ *
+ */
 public class VersionHelper {
 
 	public static final int VERSION_CUPCAKE = 3;
 	public static final int VERSION_DONUT = 4;
 	public static final int VERSION_FROYO = 8;
+	public static final int VERSION_JELLYBEAN = 16;
 	
 	private static Field sdkIntField = null;
 	private static boolean fetchedSdkIntField = false;
@@ -37,3 +43,4 @@ public class VersionHelper {
 		return sdkIntField;
 	}
 }
+

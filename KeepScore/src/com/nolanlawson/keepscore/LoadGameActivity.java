@@ -50,6 +50,7 @@ import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper;
 import com.nolanlawson.keepscore.helper.ToastHelper;
+import com.nolanlawson.keepscore.helper.VersionHelper;
 import com.nolanlawson.keepscore.helper.ViewHelper;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
 import com.nolanlawson.keepscore.serialization.GamesBackupSerializer;
@@ -159,6 +160,15 @@ public class LoadGameActivity extends ListActivity implements OnItemLongClickLis
 	    return true;
 	}
 	
+	
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+	    // hide the menu if we're in less than Froyo, because
+	    // the XML Transformer stuff is only available in Froyo and above
+	    return VersionHelper.getVersionSdkIntCompat() >= VersionHelper.VERSION_FROYO;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		

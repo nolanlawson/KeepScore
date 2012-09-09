@@ -37,6 +37,7 @@ import com.nolanlawson.keepscore.helper.DialogHelper;
 import com.nolanlawson.keepscore.helper.DialogHelper.ResultListener;
 import com.nolanlawson.keepscore.helper.PlayerNameHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
+import com.nolanlawson.keepscore.helper.VersionHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.Functions;
@@ -44,7 +45,6 @@ import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
-import com.nolanlawson.keepscore.util.VersionHelper;
 
 /**
  * Main view that holds the widgets for a single player, e.g. the player name, the player's score, and any
