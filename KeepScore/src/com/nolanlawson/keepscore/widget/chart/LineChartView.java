@@ -43,12 +43,25 @@ public class LineChartView extends View {
 	private List<Paint> lineLabelPaints;
 
 	private Rect bounds = new Rect();
+	
+	// values determined by the data
 	private List<LineChartLine> data;
+	private int minDataPoint;
+	private int maxDataPoint;
+	private int labelTextHeight;
+	private int yAxisLabelWidth;
+	private int legendWidth;
+	private int legendTextHeight;
+	private int mainChartAreaWidth;
+	
+	// values taken from dimensions.xml
 	private int chartPadding;
 	private int itemWidth;
 	private int dotRadius;
 	private int fontSize;
 	private int lineWidth;
+	
+	
 
 	public LineChartView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -117,39 +130,19 @@ public class LineChartView extends View {
 	 * 
 	 * @param dataPoints
 	 */
-	public void setData(List<LineChartLine> data) {
+	public void loadData(List<LineChartLine> data) {
 		this.data = data;
+		determineMinAndMaxDataPoints();
+		determineYAxisLabelInfo();
+		determineLegendInfo();
+		determineMainChartAreaWidth();
 		invalidate();
 	}
 
-	@Override
-	public void onDraw(Canvas canvas) {
-		if (data == null) {
-			return;
-		}
+	private void determineMinAndMaxDataPoints() {
 
-		canvas.getClipBounds(bounds);
-
-		int height = bounds.bottom - (chartPadding * 2);
-
-		int[] minAndMaxDataPoints = determineMinAndMaxDataPoints();
-		
-		int legendAreaWidth = drawLegendAreaAndReturnWidth(canvas, height);
-		
-		int yAxisLabelWidth = drawYAxisLabelAndReturnWidth(canvas, height, legendAreaWidth + (chartPadding * 2), 
-				minAndMaxDataPoints);
-		
-		// chart padding on either side of the legend and the y axis label
-		int offsetX = (chartPadding * 3) + legendAreaWidth + yAxisLabelWidth;
-		
-		drawMainGraphArea(canvas, height, offsetX, chartPadding, minAndMaxDataPoints);
-
-	}
-
-	private int[] determineMinAndMaxDataPoints() {
-
-		int minDataPoint = 0;
-		int maxDataPoint = 0;
+		minDataPoint = 0;
+		maxDataPoint = 0;
 
 		for (LineChartLine line : data) {
 			for (Integer dataPoint : line.getDataPoints()) {
@@ -166,43 +159,99 @@ public class LineChartView extends View {
 		if (minDataPoint == maxDataPoint) {
 			maxDataPoint++;
 		}
-		
-		return new int[]{minDataPoint, maxDataPoint};
 	}
 
-	private int drawYAxisLabelAndReturnWidth(Canvas canvas, int height, int offsetX, int[] minAndMaxDataPoints) {
+	private void determineYAxisLabelInfo() {
+		String minText = Integer.toString(minDataPoint);
+		String maxText = Integer.toString(maxDataPoint);
 		
-		int minDataPoint = minAndMaxDataPoints[0];
-		int maxDataPoint = minAndMaxDataPoints[1];
+		Rect maxRect = new Rect();
+		mainPaint.getTextBounds(maxText, 0, maxText.length(), maxRect);
+		
+		Rect minRect = new Rect();
+		mainPaint.getTextBounds(minText, 0, minText.length(), minRect);
+		
+		yAxisLabelWidth = Math.max(maxRect.width(), minRect.width());
+		labelTextHeight = maxRect.height();
+	}
+	
+	private void determineLegendInfo()  {
+		// figure out the expected text height
+		Rect rect = new Rect();
+		lineLabelPaints.get(0).getTextBounds("X",0,1, rect);
+		legendTextHeight = rect.height();
+		
+		// figure out the length of the longest text
+		int maxTextWidth = 0;
+		for (int i = 0; i < data.size(); i++) {
+			LineChartLine line = data.get(i);
+			Paint paint = lineLabelPaints.get(i % lineLabelPaints.size());
+			paint.getTextBounds(line.getLabel(), 0, line.getLabel().length(), rect);
+			if (rect.width() > maxTextWidth) {
+				maxTextWidth = rect.width();
+			}
+		}
+		
+		legendWidth = maxTextWidth;
+	}
+	
+	private void determineMainChartAreaWidth() {
+		int maxNumDataPoints = 0;
+		for (LineChartLine line : data) {
+			int numDataPoints = line.getDataPoints().size();
+			if (numDataPoints > maxNumDataPoints) {
+				maxNumDataPoints = numDataPoints;
+			}
+		}
+		
+		mainChartAreaWidth =  ((maxNumDataPoints - 1) * itemWidth);
+	}
+	
+
+	@Override
+	public void onDraw(Canvas canvas) {
+		if (data == null) {
+			return;
+		}
+
+		canvas.getClipBounds(bounds);
+
+		int height = bounds.bottom - (chartPadding * 2);
+		
+		// initial padding
+		int offsetY = chartPadding;
+		int offsetX = chartPadding;
+		
+		drawLegendArea(canvas, height, offsetX, offsetY);
+		
+		offsetX += legendWidth + chartPadding; //  pad on the right
+		
+		drawYAxisLabel(canvas, height, offsetX, offsetY);
+		
+		offsetX += yAxisLabelWidth + chartPadding; // pad on the right
+		
+		drawMainChartArea(canvas, height, offsetX, offsetY);
+
+	}
+
+	private void drawYAxisLabel(Canvas canvas, int height, int offsetX, int offsetY) {
 		
 		String maxText = Integer.toString(maxDataPoint);
 		String minText = Integer.toString(minDataPoint);
 		
-		Rect maxRect = new Rect();
-		mainPaint.getTextBounds(maxText, 0, maxText.length(), maxRect);
-		canvas.drawText(maxText, offsetX, chartPadding + maxRect.height(), mainPaint);
-		
-		
-		Rect minRect = new Rect();
-		mainPaint.getTextBounds(minText, 0, minText.length(), minRect);
-		canvas.drawText(minText, offsetX, height, mainPaint);		
-		
-		return Math.max(maxRect.width(), minRect.width());
+		canvas.drawText(maxText, offsetX, offsetY + labelTextHeight, mainPaint);
+		canvas.drawText(minText, offsetX, offsetY + height, mainPaint);		
 	}
-
-	private int drawLegendAreaAndReturnWidth(Canvas canvas, int height) {
-		
-		// figure out the expected text height
-		Rect rect = new Rect();
-		lineLabelPaints.get(0).getTextBounds("X",0,1, rect);
-		int expectedTextHeight = rect.height();
-		
+	
+	
+	private void drawLegendArea(Canvas canvas, int height, int offsetX, int offsetY) {
 		
 		int maxTextWidth = 0;
-		int x = chartPadding;
-		int y = chartPadding + expectedTextHeight;
-		int ySpacing = (expectedTextHeight / 2);
+		int x = offsetX;
+		int y = offsetY + legendTextHeight;
+		int ySpacing = (legendTextHeight / 2);
 		
+		Rect rect = new Rect();
 		for (int i = 0; i < data.size(); i++) {
 			LineChartLine line = data.get(i);
 			Paint paint = lineLabelPaints.get(i % lineLabelPaints.size());
@@ -216,16 +265,11 @@ public class LineChartView extends View {
 			y += rect.height() + ySpacing;
 		}
 		
-		return maxTextWidth;
 	}
 
-	private void drawMainGraphArea(Canvas canvas, int height, int offsetX,
-			int offsetY, int[] minAndMaxDataPoints) {
+	private void drawMainChartArea(Canvas canvas, int height, int offsetX, int offsetY) {
 
 		drawChartBordersAndGrid(canvas, height, offsetX, offsetY);
-		
-		int minDataPoint = minAndMaxDataPoints[0];
-		int maxDataPoint = minAndMaxDataPoints[1];
 		
 		for (int i = 0; i < data.size(); i++) {
 			LineChartLine line = data.get(i);
@@ -301,16 +345,15 @@ public class LineChartView extends View {
 			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 			return;
 		}
-
-		int maxNumDataPoints = 0;
-		for (LineChartLine line : data) {
-			int numDataPoints = line.getDataPoints().size();
-			if (numDataPoints > maxNumDataPoints) {
-				maxNumDataPoints = numDataPoints;
-			}
-		}
-		setMeasuredDimension((2 * chartPadding) + (itemWidth * maxNumDataPoints),
+		
+		int expectedWidth = (4 * chartPadding) 
+				+ legendWidth
+				+ yAxisLabelWidth
+				+ mainChartAreaWidth;
+				
+		
+		setMeasuredDimension(expectedWidth,
 				heightMeasureSpec);
 	}
-
+	
 }
