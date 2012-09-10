@@ -107,11 +107,16 @@ public class HistoryActivity extends Activity implements
 	List<LineChartLine> data = new ArrayList<LineChartLine>();
 	
 	for (PlayerScore playerScore : game.getPlayerScores()) {
-	    List<Integer> dataPoints = new ArrayList<Integer>(playerScore.getHistory());
+	    List<Integer> dataPoints = new ArrayList<Integer>();
 	    
 	    // have to include the starting score as well
-	    long startingScore = playerScore.getScore() - CollectionUtil.sum(playerScore.getHistory());
-	    dataPoints.add(0, (int)startingScore);
+	    long runningTally = playerScore.getScore() - CollectionUtil.sum(playerScore.getHistory());
+	    dataPoints.add((int)runningTally);
+	    
+	    for (int delta : playerScore.getHistory()) {
+	    	runningTally += delta;
+	    	dataPoints.add((int)runningTally);
+	    }
 	    
 	    String displayName = playerScore.toDisplayName(this);
 	    

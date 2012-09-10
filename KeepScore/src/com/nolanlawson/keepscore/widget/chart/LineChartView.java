@@ -1,6 +1,8 @@
 package com.nolanlawson.keepscore.widget.chart;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -27,6 +29,8 @@ public class LineChartView extends View {
 
 	private static final int MAIN_COLOR = Color.BLACK;
 	private static final int SECONDARY_COLOR = Color.LTGRAY;
+	private static final int TERTIARY_COLOR = 0xFF999999; // gray
+	
 	private static final List<Integer> LINE_COLORS = Arrays.asList(
 			Color.BLUE,
 			0xFFCC0000, // dark red 
@@ -36,9 +40,12 @@ public class LineChartView extends View {
 			0xFF993300, // brown
 			Color.YELLOW, 
 			Color.DKGRAY);
+	private static final int MIN_INTERVAL = 5;  // round to nearest five
+	private static final List<Integer> INTERVAL_ROUNDING_POINTS = Arrays.asList(5, 10, 50, 100, 1000); // possible roundings
 
 	private Paint mainPaint;
 	private Paint secondaryPaint;
+	private Paint tertiaryPaint;
 	private List<Paint> linePaints;
 	private List<Paint> lineLabelPaints;
 
@@ -97,6 +104,8 @@ public class LineChartView extends View {
 		
 		secondaryPaint = new Paint();
 		secondaryPaint.setColor(SECONDARY_COLOR);
+		tertiaryPaint = new Paint();
+		tertiaryPaint.setColor(TERTIARY_COLOR);
 		
 		linePaints = CollectionUtil.transform(LINE_COLORS,
 				new Function<Integer, Paint>() {
@@ -159,6 +168,14 @@ public class LineChartView extends View {
 		if (minDataPoint == maxDataPoint) {
 			maxDataPoint++;
 		}
+		
+		// round up/down to a multiple of 5
+		while (minDataPoint % MIN_INTERVAL != 0) {
+			minDataPoint--;
+		}
+		while (maxDataPoint % MIN_INTERVAL != 0) {
+			maxDataPoint++;
+		}
 	}
 
 	private void determineYAxisLabelInfo() {
@@ -174,7 +191,7 @@ public class LineChartView extends View {
 		yAxisLabelWidth = Math.max(maxRect.width(), minRect.width());
 		labelTextHeight = maxRect.height();
 	}
-	
+
 	private void determineLegendInfo()  {
 		// figure out the expected text height
 		Rect rect = new Rect();
@@ -226,24 +243,77 @@ public class LineChartView extends View {
 		
 		offsetX += legendWidth + chartPadding; //  pad on the right
 		
-		drawYAxisLabel(canvas, height, offsetX, offsetY);
+		List<Integer> intervalPoints = determineIntervalPoints(canvas, height);
+		
+		drawYAxisLabel(canvas, height, offsetX, offsetY, intervalPoints);
 		
 		offsetX += yAxisLabelWidth + chartPadding; // pad on the right
 		
-		drawMainChartArea(canvas, height, offsetX, offsetY);
+		drawMainChartArea(canvas, height, offsetX, offsetY, intervalPoints);
 
 	}
 
-	private void drawYAxisLabel(Canvas canvas, int height, int offsetX, int offsetY) {
+	private List<Integer> determineIntervalPoints(Canvas canvas, int height) {
+		// interval points are the points on the Y axis between the min and max values.
+		// It makes the chart easier to read
+		
+		
+		// determine how many intervals we can fit in here, e.g. round to 5, round to 10, round to 50...
+		
+		int pixelHeight = height - (3 * labelTextHeight); // assume 0.5 padding for the min and max labels
+		for (Integer interval : INTERVAL_ROUNDING_POINTS) {
+			
+			int firstInterval = minDataPoint + (interval - (Math.abs(minDataPoint % interval)));
+			
+			int numIntervals = 0;
+			for (int i = firstInterval; i < maxDataPoint; i+= interval) {
+				numIntervals++;
+			}
+			int pixelHeightRequired = (int)Math.round((0.5 * labelTextHeight) + (1.5 * labelTextHeight * numIntervals));
+			if (pixelHeightRequired <= pixelHeight) {
+				// use this interval length
+				List<Integer> result = new ArrayList<Integer>();
+				for (int i = firstInterval; i < maxDataPoint; i+= interval) {
+					result.add(i);
+				}
+				return result;
+			}
+		}
+		
+		return Collections.emptyList();
+	}
+
+	private void drawYAxisLabel(Canvas canvas, int height, int offsetX, int offsetY, List<Integer> intervalPoints) {
 		
 		String maxText = Integer.toString(maxDataPoint);
 		String minText = Integer.toString(minDataPoint);
 		
 		canvas.drawText(maxText, offsetX, offsetY + labelTextHeight, mainPaint);
-		canvas.drawText(minText, offsetX, offsetY + height, mainPaint);		
+		canvas.drawText(minText, offsetX, offsetY + height, mainPaint);	
+		
+		for (int i = 0; i < intervalPoints.size(); i++) {
+			Integer intervalPoint = intervalPoints.get(i);
+			
+			int yLocation = getYLocationForIntervalPoint(intervalPoint, height);
+			
+			// make sure it doesn't overlap with the top one, which it can because of the font size itself
+			if (i == intervalPoints.size() - 1) {
+				int topOfText = offsetY + yLocation - labelTextHeight;
+				if (topOfText < offsetY + labelTextHeight) {
+					break;
+				}
+			}
+			canvas.drawText(intervalPoint.toString(), offsetX, offsetY + yLocation, mainPaint);
+		}
 	}
 	
 	
+	private int getYLocationForIntervalPoint(Integer intervalPoint, int height) {
+		double scaleFactor = (1.0 * intervalPoint - minDataPoint) / (maxDataPoint - minDataPoint);
+		int yLocation = (int)Math.round(scaleFactor * height);
+		return (height - yLocation);
+	}
+
 	private void drawLegendArea(Canvas canvas, int height, int offsetX, int offsetY) {
 		
 		int maxTextWidth = 0;
@@ -267,9 +337,10 @@ public class LineChartView extends View {
 		
 	}
 
-	private void drawMainChartArea(Canvas canvas, int height, int offsetX, int offsetY) {
+	private void drawMainChartArea(Canvas canvas, int height, int offsetX, int offsetY, 
+			List<Integer> intervalPoints) {
 
-		drawChartBordersAndGrid(canvas, height, offsetX, offsetY);
+		drawChartBordersAndGrid(canvas, height, offsetX, offsetY, intervalPoints);
 		
 		for (int i = 0; i < data.size(); i++) {
 			LineChartLine line = data.get(i);
@@ -301,7 +372,8 @@ public class LineChartView extends View {
 		}
 	}
 
-	private void drawChartBordersAndGrid(Canvas canvas, int height, int offsetX, int offsetY) {
+	private void drawChartBordersAndGrid(Canvas canvas, int height, int offsetX, int offsetY, 
+			List<Integer> intervalPoints) {
 		
 		int maxLineDataPoints = CollectionUtil.max(data, new Function<LineChartLine,Integer>(){
 
@@ -311,11 +383,14 @@ public class LineChartView extends View {
 			}
 		});
 		
+		int edgeRight = offsetX + (itemWidth * (maxLineDataPoints - 1));
+		int edgeBottom = height + offsetY;
+		
 		// draw border lines at the top, right, bottom, and left
 		int[] topleft     = {offsetX, offsetY};
-		int[] topright    = {offsetX + (itemWidth * (maxLineDataPoints - 1)), offsetY};
-		int[] bottomright = {offsetX + (itemWidth * (maxLineDataPoints - 1)), height + offsetY};
-		int[] bottomleft  = {offsetX, height + offsetY};
+		int[] topright    = {edgeRight, offsetY};
+		int[] bottomright = {edgeRight, edgeBottom};
+		int[] bottomleft  = {offsetX, edgeBottom};
 		
 		
 		// top
@@ -335,6 +410,12 @@ public class LineChartView extends View {
 		for (int i = 1; i < maxLineDataPoints - 1; i++) {
 			int x = offsetX + (i * itemWidth);
 			canvas.drawLine(x, offsetY, x, height + offsetY, secondaryPaint);
+		}
+		
+		// draw horizontal grid lines
+		for (Integer intervalDataPoint : intervalPoints) {
+			int yLocation = getYLocationForIntervalPoint(intervalDataPoint, height);
+			canvas.drawLine(offsetX, yLocation, edgeRight, yLocation, tertiaryPaint);
 		}
 		
 	}
