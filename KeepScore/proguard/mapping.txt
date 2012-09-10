@@ -108,17 +108,21 @@ com.nolanlawson.keepscore.GameActivity$8 -> com.nolanlawson.keepscore.l:
 com.nolanlawson.keepscore.HistoryActivity -> com.nolanlawson.keepscore.HistoryActivity:
     com.nolanlawson.keepscore.util.UtilLogger log -> a
     android.widget.RadioGroup radioGroup -> b
-    android.widget.ToggleButton byRoundButton -> c
-    android.widget.ToggleButton byPlayerButton -> d
-    android.widget.ScrollView byRoundScrollView -> e
-    android.widget.ScrollView byPlayerScrollView -> f
-    android.widget.TableLayout byRoundTableLayout -> g
-    android.widget.TableLayout byPlayerTableLayout -> h
-    android.view.LayoutInflater inflater -> i
-    com.nolanlawson.keepscore.db.Game game -> j
+    android.widget.ToggleButton byChartButton -> c
+    android.widget.ToggleButton byRoundButton -> d
+    android.widget.ToggleButton byPlayerButton -> e
+    android.widget.HorizontalScrollView byChartScrollView -> f
+    android.widget.ScrollView byRoundScrollView -> g
+    android.widget.ScrollView byPlayerScrollView -> h
+    android.widget.TableLayout byRoundTableLayout -> i
+    android.widget.TableLayout byPlayerTableLayout -> j
+    com.nolanlawson.keepscore.widget.chart.LineChartView lineChartView -> k
+    android.view.LayoutInflater inflater -> l
+    com.nolanlawson.keepscore.db.Game game -> m
     void onCreate(android.os.Bundle) -> onCreate
-    void createByRoundTableLayout() -> a
-    java.util.List getCollatedHistoryItems() -> b
+    void createByPlayerTableLayout() -> a
+    void createByRoundTableLayout() -> b
+    java.util.List getCollatedHistoryItems() -> c
     boolean allIteratorsAreEmpty(java.util.List) -> a
     void onCheckedChanged(android.widget.RadioGroup,int) -> onCheckedChanged
     void onClick(android.view.View) -> onClick
@@ -143,6 +147,7 @@ com.nolanlawson.keepscore.LoadGameActivity -> com.nolanlawson.keepscore.LoadGame
     void onPause() -> onPause
     void onResume() -> onResume
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     void showLoadBackupDialog() -> a
     com.nolanlawson.keepscore.data.LoadGamesBackupResult loadBackupInBackground(java.lang.String,java.lang.Runnable) -> a
@@ -702,7 +707,12 @@ com.nolanlawson.keepscore.helper.ToastHelper -> com.nolanlawson.keepscore.b.n:
     void showLong(android.content.Context,int,java.lang.Object[]) -> a
     void showShort(android.content.Context,int,java.lang.Object[]) -> b
     void show(android.content.Context,int,int,java.lang.Object[]) -> a
-com.nolanlawson.keepscore.helper.XmlHelper -> com.nolanlawson.keepscore.b.o:
+com.nolanlawson.keepscore.helper.VersionHelper -> com.nolanlawson.keepscore.b.o:
+    java.lang.reflect.Field sdkIntField -> a
+    boolean fetchedSdkIntField -> b
+    int getVersionSdkIntCompat() -> a
+    java.lang.reflect.Field getSdkIntField() -> b
+com.nolanlawson.keepscore.helper.XmlHelper -> com.nolanlawson.keepscore.b.p:
     java.lang.String prettyPrint(java.lang.String) -> a
 com.nolanlawson.keepscore.serialization.GamesBackup -> com.nolanlawson.keepscore.c.a:
     int gameCount -> a
@@ -751,6 +761,7 @@ com.nolanlawson.keepscore.util.CollectionUtil -> com.nolanlawson.keepscore.d.a:
     java.lang.Comparable maxValue(java.util.List,com.nolanlawson.keepscore.util.CollectionUtil$Function) -> a
     java.util.List stringsToInts(java.util.List) -> a
     java.util.List transform(java.util.Collection,com.nolanlawson.keepscore.util.CollectionUtil$Function) -> a
+    int sum(java.util.List) -> b
     java.lang.Number max(java.util.List,com.nolanlawson.keepscore.util.CollectionUtil$Function) -> b
 com.nolanlawson.keepscore.util.CollectionUtil$Function -> com.nolanlawson.keepscore.d.b:
     java.lang.Object apply(java.lang.Object) -> a
@@ -801,11 +812,6 @@ com.nolanlawson.keepscore.util.StringUtil -> com.nolanlawson.keepscore.d.q:
 com.nolanlawson.keepscore.util.UtilLogger -> com.nolanlawson.keepscore.d.r:
     java.lang.String tag -> a
     void e(java.lang.Exception,java.lang.String,java.lang.Object[]) -> a
-com.nolanlawson.keepscore.util.VersionHelper -> com.nolanlawson.keepscore.d.s:
-    java.lang.reflect.Field sdkIntField -> a
-    boolean fetchedSdkIntField -> b
-    int getVersionSdkIntCompat() -> a
-    java.lang.reflect.Field getSdkIntField() -> b
 com.nolanlawson.keepscore.widget.AutofitTextView -> com.nolanlawson.keepscore.widget.AutofitTextView:
     void onMeasure(int,int) -> onMeasure
 com.nolanlawson.keepscore.widget.CustomFastScrollView -> com.nolanlawson.keepscore.widget.CustomFastScrollView:
@@ -985,3 +991,53 @@ com.nolanlawson.keepscore.widget.PlayerView$IncrementDeltaAsyncTask -> com.nolan
     int delta -> b
     com.nolanlawson.keepscore.widget.PlayerView this$0 -> a
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+com.nolanlawson.keepscore.widget.chart.LineChartLine -> com.nolanlawson.keepscore.widget.chart.a:
+    java.lang.String label -> a
+    java.util.List dataPoints -> b
+    java.lang.String getLabel() -> a
+    void setLabel(java.lang.String) -> a
+    java.util.List getDataPoints() -> b
+    void setDataPoints(java.util.List) -> a
+com.nolanlawson.keepscore.widget.chart.LineChartView -> com.nolanlawson.keepscore.widget.chart.LineChartView:
+    java.util.List LINE_COLORS -> a
+    java.util.List INTERVAL_ROUNDING_POINTS -> b
+    android.graphics.Paint mainPaint -> c
+    android.graphics.Paint secondaryPaint -> d
+    android.graphics.Paint tertiaryPaint -> e
+    java.util.List linePaints -> f
+    java.util.List lineLabelPaints -> g
+    android.graphics.Rect bounds -> h
+    java.util.List data -> i
+    int minDataPoint -> j
+    int maxDataPoint -> k
+    int labelTextHeight -> l
+    int yAxisLabelWidth -> m
+    int legendWidth -> n
+    int legendTextHeight -> o
+    int mainChartAreaWidth -> p
+    int chartPadding -> q
+    int itemWidth -> r
+    int dotRadius -> s
+    int fontSize -> t
+    int lineWidth -> u
+    void init() -> a
+    void loadData(java.util.List) -> a
+    void determineLegendInfo() -> b
+    void determineMainChartAreaWidth() -> c
+    void onDraw(android.graphics.Canvas) -> onDraw
+    java.util.List determineIntervalPoints$26b70b8c(int) -> a
+    void drawYAxisLabel(android.graphics.Canvas,int,int,int,java.util.List) -> a
+    int getYLocationForIntervalPoint(java.lang.Integer,int) -> a
+    void drawMainChartArea(android.graphics.Canvas,int,int,int,java.util.List) -> b
+    void onMeasure(int,int) -> onMeasure
+    int access$0(com.nolanlawson.keepscore.widget.chart.LineChartView) -> a
+    int access$1(com.nolanlawson.keepscore.widget.chart.LineChartView) -> b
+com.nolanlawson.keepscore.widget.chart.LineChartView$1 -> com.nolanlawson.keepscore.widget.chart.b:
+    com.nolanlawson.keepscore.widget.chart.LineChartView this$0 -> a
+    java.lang.Object apply(java.lang.Object) -> a
+com.nolanlawson.keepscore.widget.chart.LineChartView$2 -> com.nolanlawson.keepscore.widget.chart.c:
+    com.nolanlawson.keepscore.widget.chart.LineChartView this$0 -> a
+    java.lang.Object apply(java.lang.Object) -> a
+com.nolanlawson.keepscore.widget.chart.LineChartView$3 -> com.nolanlawson.keepscore.widget.chart.d:
+    com.nolanlawson.keepscore.widget.chart.LineChartView this$0 -> a
+    java.lang.Object apply(java.lang.Object) -> a

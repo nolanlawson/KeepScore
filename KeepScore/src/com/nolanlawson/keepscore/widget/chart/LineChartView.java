@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,6 +14,8 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import com.nolanlawson.keepscore.R;
@@ -25,6 +28,7 @@ import com.nolanlawson.keepscore.util.CollectionUtil.Function;
  * @author nolan
  * 
  */
+@SuppressLint("NewApi")
 public class LineChartView extends View {
 
 	private static final int MAIN_COLOR = Color.BLACK;
@@ -68,6 +72,9 @@ public class LineChartView extends View {
 	private int fontSize;
 	private int lineWidth;
 	
+	// pinch-to-zoom stuff
+	private ScaleGestureDetector mScaleDetector;
+	private float mScaleFactor = 1.f;
 	
 
 	public LineChartView(Context context, AttributeSet attrs, int defStyle) {
@@ -85,6 +92,7 @@ public class LineChartView extends View {
 		init();
 	}
 
+	@SuppressLint("NewApi")
 	private void init() {
 		chartPadding = getContext().getResources().getDimensionPixelSize(
 				R.dimen.chart_padding);
@@ -132,6 +140,16 @@ public class LineChartView extends View {
 						return paint;
 					}
 				});		
+		
+		mScaleDetector = new ScaleGestureDetector(getContext(), new ScaleListener());
+	}
+	
+	@SuppressLint("NewApi")
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+	    // Let the ScaleGestureDetector inspect all events.
+	    mScaleDetector.onTouchEvent(ev);
+	    return true;
 	}
 
 	/**
@@ -227,6 +245,9 @@ public class LineChartView extends View {
 
 	@Override
 	public void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		canvas.save();
+	    canvas.scale(mScaleFactor, mScaleFactor);
 		if (data == null) {
 			return;
 		}
@@ -250,6 +271,8 @@ public class LineChartView extends View {
 		offsetX += yAxisLabelWidth + chartPadding; // pad on the right
 		
 		drawMainChartArea(canvas, height, offsetX, offsetY, intervalPoints);
+		
+		canvas.restore();
 
 	}
 
@@ -435,6 +458,19 @@ public class LineChartView extends View {
 		
 		setMeasuredDimension(expectedWidth,
 				heightMeasureSpec);
+	}
+	
+	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+	    @Override
+	    public boolean onScale(ScaleGestureDetector detector) {
+	        mScaleFactor *= detector.getScaleFactor();
+
+	        // Don't let the object get too small or too large.
+	        mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+
+	        invalidate();
+	        return true;
+	    }
 	}
 	
 }
