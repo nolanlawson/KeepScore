@@ -8,6 +8,7 @@
     <string name="button_load_game">Parties sauvegardées</string>
     <string name="button_by_player">Par joueur</string>
     <string name="button_by_round">Par tour</string>
+    <string name="button_by_chart">Charte</string>
     <string name="button_select_all">Tout sélectionner</string>
     <string name="button_deselect_all">Tout dé-sélectionner</string>
     
