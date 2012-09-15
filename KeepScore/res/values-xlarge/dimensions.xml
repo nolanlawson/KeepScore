@@ -9,11 +9,11 @@
 	
 	<dimen name="player_score_history">21sp</dimen>
 	
-	<dimen name="player_plus_minus_button_2_to_6">36sp</dimen>
-	<dimen name="player_plus_minus_button_7_to_8">24sp</dimen>
+	<dimen name="player_plus_minus_button_2_to_6">28sp</dimen>
+	<dimen name="player_plus_minus_button_7_to_8">28sp</dimen>
 	
-	<dimen name="player_onscreen_delta_button_text_size_2_to_4">48sp</dimen>
-	<dimen name="player_onscreen_delta_button_text_size_5_to_6">36sp</dimen>
+	<dimen name="player_onscreen_delta_button_text_size_2_to_4">28sp</dimen>
+	<dimen name="player_onscreen_delta_button_text_size_5_to_6">28sp</dimen>
 	<dimen name="player_onscreen_delta_button_text_size_7_to_8">24sp</dimen>
 		
 	<dimen name="player_badge_2_to_4">36sp</dimen>
@@ -32,14 +32,14 @@
 	<dimen name="delta_button_width">128dp</dimen>
 	<dimen name="history_width">80dp</dimen>
 	
-	<dimen name="delta_button_height_2_to_4">132dp</dimen>
-	<dimen name="delta_button_height_5_to_6">82dp</dimen>
+	<dimen name="delta_button_height_2_to_4">100dp</dimen>
+	<dimen name="delta_button_height_5_to_6">64dp</dimen>
 	
-	<dimen name="delta_button_height_2_to_4_with_round_totals">132dp</dimen>
-	<dimen name="delta_button_height_5_to_6_with_round_totals">82dp</dimen>
+	<dimen name="delta_button_height_2_to_4_with_round_totals">100dp</dimen>
+	<dimen name="delta_button_height_5_to_6_with_round_totals">64dp</dimen>
 	
-	<dimen name="onscreen_delta_button_height_2_to_4">110dp</dimen>
-	<dimen name="onscreen_delta_button_height_5_to_6">72dp</dimen>
-	<dimen name="onscreen_delta_button_height_7_to_8">56dp</dimen>
+	<dimen name="onscreen_delta_button_height_2_to_4">100dp</dimen>
+	<dimen name="onscreen_delta_button_height_5_to_6">64dp</dimen>
+	<dimen name="onscreen_delta_button_height_7_to_8">64dp</dimen>
 	
 </resources>

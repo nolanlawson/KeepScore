@@ -120,7 +120,7 @@
     <string name="text_duplicates_info">(Les jeux doublets ne compteront pas.)</string>
     <string name="toast_error_with_backup">Erreur pendant l\'importation.</string>
     <string name="toast_no_backups">Aucun fichier de backup trouvé.</string>
-    <string name="title_choose_backup">Importer d\'un Fichier Backup</string>
+    <string name="title_choose_backup">Importer depuis un Fichier Backup</string>
     <string name="text_game_count">%d jeu</string>
     <string name="text_game_count_plural">%d jeux</string>
     <string name="text_saving">Exportation&#8230;</string>
