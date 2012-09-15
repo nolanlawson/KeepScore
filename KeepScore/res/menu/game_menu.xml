@@ -3,26 +3,26 @@
 
 	<item android:id="@+id/menu_history" android:title="@string/menu_history"
 		android:alphabeticShortcut="@string/menu_history" android:icon="@drawable/ic_menu_recent_history" 
-				android:showAsAction="ifRoom|withText" />
+				android:showAsAction="withText|never" />
 	
 	<item android:id="@+id/menu_add_player" android:title="@string/menu_add_player"
 		android:alphabeticShortcut="@string/menu_add_player" android:icon="@drawable/ic_menu_add_user" 
-				android:showAsAction="ifRoom|withText" />	
+				android:showAsAction="withText|never" />	
 	
 	<item android:id="@+id/menu_reset_scores" android:title="@string/menu_reset_scores"
 		android:alphabeticShortcut="@string/menu_reset_scores" android:icon="@drawable/ic_menu_close_clear_cancel"
-				android:showAsAction="ifRoom|withText"  />	
+				android:showAsAction="withText|never"  />	
 
 	<item android:id="@+id/menu_copy" android:title="@string/menu_copy"
 	    android:alphabeticShortcut="@string/menu_copy" android:icon="@drawable/ic_menu_copy"
-	    		android:showAsAction="ifRoom|withText"  />
+	    		android:showAsAction="withText|never"  />
 
 	<item android:id="@+id/menu_randomize" android:title="@string/menu_randomize" 
 		android:alphabeticShortcut="@string/menu_randomize" android:icon="@drawable/ic_menu_shuffle"
-				android:showAsAction="ifRoom|withText" />	
+				android:showAsAction="withText|never" />	
 				
 	<item android:id="@+id/menu_settings" android:title="@string/menu_settings"
 		android:alphabeticShortcut="@string/menu_settings" android:icon="@drawable/ic_menu_preferences" 
-				android:showAsAction="ifRoom|withText" />	
+				android:showAsAction="withText|never" />	
 		
 </menu>
