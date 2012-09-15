@@ -21,7 +21,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -30,6 +29,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
 import com.nolanlawson.keepscore.data.TextWithDeleteAdapter;
 import com.nolanlawson.keepscore.data.TextWithDeleteAdapter.OnDeleteListener;
@@ -39,7 +40,7 @@ import com.nolanlawson.keepscore.helper.SettingSetHelper;
 import com.nolanlawson.keepscore.helper.ToastHelper;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
-public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener {
+public class SettingsActivity extends SherlockPreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener {
 
 	public static final String COLOR_SCHEME_CHANGED = "colorSchemeChanged";
 
@@ -62,6 +63,21 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		addPreferencesFromResource(R.xml.settings);
 
 		setUpPreferences();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{    
+	   switch (item.getItemId()) 
+	   {        
+	      case android.R.id.home:            
+	         Intent intent = new Intent(this, MainActivity.class);            
+	         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+	         startActivity(intent);            
+	         return true;        
+	      default:            
+	         return super.onOptionsItemSelected(item);    
+	   }
 	}
 	
 	@Override

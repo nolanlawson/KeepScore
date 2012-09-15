@@ -12,6 +12,7 @@
     <string name="button_select_all">Tout sélectionner</string>
     <string name="button_deselect_all">Tout dé-sélectionner</string>
     
+    <string name="text_saved_games">Parties sauvegardées</string>
     <string name="text_num_players">Nombre de joueurs</string>
     
     <string name="text_player_names">Noms des joueurs (optionnel)</string>

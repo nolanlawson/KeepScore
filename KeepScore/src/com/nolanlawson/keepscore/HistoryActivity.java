@@ -373,7 +373,7 @@ public class HistoryActivity extends Activity implements
 
     private View setLayoutWeightToOne(View view) {
 	view.setLayoutParams(new TableRow.LayoutParams(0,
-		LayoutParams.FILL_PARENT, 1.0F));
+		LayoutParams.MATCH_PARENT, 1.0F));
 	return view;
     }
 

@@ -13,6 +13,7 @@
 
 	<string name="text_num_players">選手の数</string>
 
+	<string name="text_saved_games">保存したゲーム</string>
 	<string name="text_player_names">選手の名 （随意）</string>
 	<string name="text_player">選手</string>
 	<string name="text_no_saved_games">保存したゲームはここで現れます。</string>

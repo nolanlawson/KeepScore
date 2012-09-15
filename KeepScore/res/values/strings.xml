@@ -11,6 +11,7 @@
     
     <string name="text_num_players">Number of players</string>
     
+    <string name="text_saved_games">Saved Games</string>
     <string name="text_player_names">Player names (optional)</string>
     <string name="text_player">Player</string>
     <string name="text_no_saved_games">Your saved games will appear here.</string>

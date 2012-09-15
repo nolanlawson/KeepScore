@@ -35,12 +35,13 @@
         <activity android:name=".SettingsActivity"
         	android:label="@string/menu_settings"
         	android:configChanges="orientation|keyboardHidden|keyboard" 
-        	android:theme="@android:style/Theme.Light"/>  
+        	/>  
         
         <activity android:name=".HistoryActivity"
         	android:label="@string/menu_history"
         	android:configChanges="orientation|keyboardHidden|keyboard" 
-        	android:theme="@android:style/Theme.Light"/>  
+        	android:theme="@android:style/Theme.Light.NoTitleBar"
+        	/>
         	
         <activity android:name=".AboutActivity" 
         	android:theme="@android:style/Theme.Dialog"
