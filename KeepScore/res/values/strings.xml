@@ -13,7 +13,7 @@
     
     <string name="text_player_names">Player names (optional)</string>
     <string name="text_player">Player</string>
-    <string name="text_no_saved_games">You haven\'t saved any games yet.</string>
+    <string name="text_no_saved_games">Your saved games will appear here.</string>
     <string name="text_players">%s players</string>
     <string name="text_delete">Delete</string>
     <string name="text_edit_name">Edit Name</string>

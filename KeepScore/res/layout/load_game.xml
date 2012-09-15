@@ -60,7 +60,7 @@
             android:visibility="gone" >
 
             <Button
-                android:id="@android:id/button1"
+                android:id="@+id/button_select_all"
                 android:layout_width="0px"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.3"
@@ -70,7 +70,7 @@
                 android:text="@string/button_select_all" />
 
             <Button
-                android:id="@android:id/button2"
+                android:id="@+id/button_deselect_all"
                 android:layout_width="0px"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.3"
@@ -80,7 +80,7 @@
                 android:text="@string/button_deselect_all" />
 
             <Button
-                android:id="@android:id/button3"
+                android:id="@+id/button_delete"
                 android:layout_width="0px"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.3"

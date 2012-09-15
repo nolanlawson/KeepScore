@@ -15,7 +15,7 @@
     
     <string name="text_player_names">Noms des joueurs (optionnel)</string>
     <string name="text_player">Joueur</string>
-    <string name="text_no_saved_games">Aucune partie sauvegardé.</string>
+    <string name="text_no_saved_games">Vos parties sauvegardées seront ici.</string>
     <string name="text_players">%s joueurs</string>
     <string name="text_delete">Supprimer</string>
     <string name="text_edit_name">Editer le nom</string>

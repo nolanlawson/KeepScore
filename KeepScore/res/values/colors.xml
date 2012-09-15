@@ -49,5 +49,9 @@
 	<color name="orange_2">#FFff9000</color>
     <color name="yellow_1">#FFfbad00</color>
     <color name="yellow_2">#FFffc600</color>	
+    
+    <color name="emphasis">#31b6e7</color>
+    <color name="bg_gray">#cecbce</color>
+    
 	
 </resources>
