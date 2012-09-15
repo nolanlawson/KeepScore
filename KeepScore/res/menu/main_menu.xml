@@ -2,22 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/menu_save_backup" android:title="@string/menu_save_backup"
-		android:alphabeticShortcut="@string/menu_save_backup" android:icon="@drawable/ic_menu_save" 
+		android:alphabeticShortcut="@string/menu_save_backup" android:icon="@drawable/action_device_access_sd_storage" 
 		android:showAsAction="ifRoom|withText" />
 		
 	<item android:id="@+id/menu_load_backup" android:title="@string/menu_load_backup"
-		android:alphabeticShortcut="@string/menu_load_backup" android:icon="@drawable/ic_menu_upload" 
+		android:alphabeticShortcut="@string/menu_load_backup" android:icon="@drawable/action_av_download" 
 		android:showAsAction="ifRoom|withText" />	
     
 	<item android:id="@+id/menu_settings" android:title="@string/menu_settings"
-		android:alphabeticShortcut="@string/menu_settings" android:icon="@drawable/ic_menu_preferences" 
-		android:showAsAction="ifRoom|withText" />
+		android:alphabeticShortcut="@string/menu_settings" android:icon="@drawable/action_settings" 
+		android:showAsAction="ifRoom" />
 		
 	<item android:id="@+id/menu_about" android:title="@string/menu_about"
-		android:alphabeticShortcut="@string/menu_about" android:icon="@drawable/ic_menu_info_details" 
-		android:showAsAction="ifRoom|withText" />
-	
-		
+		android:alphabeticShortcut="@string/menu_about" android:icon="@drawable/action_about" 
+		android:showAsAction="ifRoom" />
 </menu>
     
     

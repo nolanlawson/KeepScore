@@ -110,6 +110,29 @@
     <string name="title_add_player">Entrer le nom du joueur</string>
     <string name="title_confirm_delete">Confirmer la suppression</string>
     
+    <string name="menu_save_backup">Exporter</string>
+    <string name="menu_load_backup">Importer</string>
+    <string name="text_save_backup" formatted="false">Exporter %d jeu à la carte SD?</string>
+    <string name="text_save_backup_plural" formatted="false">Exporter %d jeux à la carte SD?</string>
+    <string name="toast_save_backup_failed">Impossible de exporter le fichier.</string>
+    <string name="text_save_backup_succeeded" formatted="false">%d jeu sauvegardé à \'%s\'.</string>
+    <string name="text_save_backup_succeeded_plural" formatted="false">%d jeux sauvegardés à \'%s\'.</string>
+    <string name="text_duplicates_info">(Les jeux doublets ne compteront pas.)</string>
+    <string name="toast_error_with_backup">Erreur pendant l\'importation.</string>
+    <string name="toast_no_backups">Aucun fichier de backup trouvé.</string>
+    <string name="title_choose_backup">Importer d\'un Fichier Backup</string>
+    <string name="text_game_count">%d jeu</string>
+    <string name="text_game_count_plural">%d jeux</string>
+    <string name="text_saving">Exportation&#8230;</string>
+    <string name="text_loading">Importation&#8230;</string>
+    <string name="title_success">Succès</string>
+    <string name="text_load_backup" formatted="false">\'%s\' importé avec succès.\n\n\
+Trouvés: %d\n\
+Importés: %d\n\
+Doublets: %d</string>
+    <string name="toast_no_sdcard">Aucune carte SD trouvée.</string>
+    
+    
     <string name="menu_settings">Paramètres</string>
     <string name="menu_history">Résumé</string>
     <string name="menu_save">Sauvegarder</string>

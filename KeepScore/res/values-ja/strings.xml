@@ -106,7 +106,29 @@
 	<string name="title_confirm_reset">リセットを確認</string>
 	<string name="title_add_player">選手のなを入力</string>
 	<string name="title_confirm_delete">削除確認</string>
-
+	
+    <string name="menu_save_backup">バックアップ</string>
+    <string name="menu_load_backup">インポート</string>
+    <string name="text_save_backup" formatted="false">ゲームをSDカードに%dバックアップしますか？</string>
+    <string name="text_save_backup_plural" formatted="false">@string/text_save_backup</string>
+    <string name="toast_save_backup_failed">ファイルに書けませんでした。</string>
+    <string name="text_save_backup_succeeded" formatted="false">ゲームを%d保存しました。ファイルは「%s」です。</string>
+    <string name="text_save_backup_succeeded_plural" formatted="false">@string/text_save_backup_succeeded</string>
+    <string name="text_duplicates_info">（複写は二回インポートしません。）</string>
+    <string name="toast_error_with_backup">インポートのエラーはありました。</string>
+    <string name="toast_no_backups">バックアップのファイルはありません。</string>
+    <string name="title_choose_backup">バックアップをインポート</string>
+    <string name="text_game_count">ゲームは%d</string>
+    <string name="text_game_count_plural">@string/text_game_count</string>
+    <string name="text_saving">バックアップ&#8230;</string>
+    <string name="text_loading">インポート&#8230;</string>
+    <string name="title_success">成功</string>
+    <string name="text_load_backup" formatted="false">\'%s\' 野インポートは成功です。\n\n\
+ファイル： %d\n\
+インポートした： %d\n\
+複写： %d</string>
+    <string name="toast_no_sdcard">Aucune carte SD trouvée.</string>
+    
 	<string name="menu_settings">設定</string>
 	<string name="menu_history">歴史</string>
 	<string name="menu_home">ホーム</string>

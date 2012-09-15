@@ -36,8 +36,8 @@
     <string name="text_enter_saved_settings_name">Enter name, e.g. \'cribbage\'</string>
     <string name="text_delete_saved_settings">The backup \"%s\" will be deleted.</string>
     
-    <string name="menu_save_backup">Export Games</string>
-    <string name="menu_load_backup">Import Games</string>
+    <string name="menu_save_backup">Backup</string>
+    <string name="menu_load_backup">Restore</string>
     <string name="text_save_backup" formatted="false">Export %d game to the SD card?</string>
     <string name="text_save_backup_plural" formatted="false">Export %d games to the SD card?</string>
     <string name="toast_save_backup_failed">Unable to export file.</string>
@@ -46,7 +46,7 @@
     <string name="text_duplicates_info">(Duplicate games will be ignored.)</string>
     <string name="toast_error_with_backup">Error importing games.</string>
     <string name="toast_no_backups">No export files found.</string>
-    <string name="title_choose_backup">Choose File to Import</string>
+    <string name="title_choose_backup">Restore Games from SD Card</string>
     <string name="text_game_count">%d game</string>
     <string name="text_game_count_plural">%d games</string>
     <string name="text_saving">Exporting&#8230;</string>
