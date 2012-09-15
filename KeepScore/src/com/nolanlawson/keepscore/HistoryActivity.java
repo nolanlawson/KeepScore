@@ -29,6 +29,7 @@ import android.widget.ToggleButton;
 import com.nolanlawson.keepscore.data.HistoryItem;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.chart.LineChartLine;
@@ -98,6 +99,7 @@ public class HistoryActivity extends Activity implements
 	byPlayerScrollView = (ScrollView) findViewById(R.id.by_player_scroll_view);
 
 	inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     private void createByChartLayout() {
@@ -105,7 +107,17 @@ public class HistoryActivity extends Activity implements
 	List<LineChartLine> data = new ArrayList<LineChartLine>();
 	
 	for (PlayerScore playerScore : game.getPlayerScores()) {
-	    List<Integer> dataPoints = new ArrayList<Integer>(playerScore.getHistory());
+	    List<Integer> dataPoints = new ArrayList<Integer>();
+	    
+	    // have to include the starting score as well
+	    long runningTally = playerScore.getScore() - CollectionUtil.sum(playerScore.getHistory());
+	    dataPoints.add((int)runningTally);
+	    
+	    for (int delta : playerScore.getHistory()) {
+	    	runningTally += delta;
+	    	dataPoints.add((int)runningTally);
+	    }
+	    
 	    String displayName = playerScore.toDisplayName(this);
 	    
 	    LineChartLine line = new LineChartLine();
@@ -115,7 +127,7 @@ public class HistoryActivity extends Activity implements
 	    data.add(line);
 	}
 	
-	lineChartView.setData(data);
+	lineChartView.loadData(data);
 	
     }
 

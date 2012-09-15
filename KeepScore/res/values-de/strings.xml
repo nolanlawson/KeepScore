@@ -5,7 +5,7 @@
     
     <string name="button_new_game">Neues Spiel</string>
     <string name="button_resume_game">Letztes Spiel</string>
-    <string name="button_load_game">gespeicherte Spielen</string>
+    <string name="button_load_game">Gespeicherte Spiele</string>
     <string name="button_by_player">Pro Spieler</string>
     <string name="button_by_round">Pro Spielrunde</string>
     <string name="button_select_all">Alle wählen</string>
@@ -13,7 +13,7 @@
     
     <string name="text_num_players">Anzahl Spieler</string>
     
-    <string name="text_player_names">Spielernamen (fakultativ)</string>
+    <string name="text_player_names">Spielernamen</string>
     <string name="text_player">Spieler</string>
     <string name="text_no_saved_games">Kein gespeichertes Spiel.</string>
     <string name="text_players">%s Spieler</string>
@@ -31,7 +31,7 @@
     <string name="text_format_rounds">%d Runde</string>
     <string name="text_format_rounds_singular">%d Runden</string>
     
-    <string name="round_total" formatted="false">Runde #%d Punkten pro Runde : %d</string>
+    <string name="round_total" formatted="false">Runde %d Punkten pro Runde : %d</string>
     
     <string name="text_game_will_be_deleted">Das Spiel wird gelöscht.</string>
     <string name="text_games_will_be_deleted">%d Spielen werden gelöscht.</string>
@@ -49,7 +49,7 @@
     <string name="toast_settings_reset">Einstellungen zurückgesetzt.</string>
     <string name="toast_game_copied">Spiel ist kopiert.</string>
     <string name="toast_players_randomized">Spielen sind gemischt.</string>
-    <string name="toast_game_saved">Spiel ist gespeichertes.</string>
+    <string name="toast_game_saved">Spiel wurde gespeichert.</string>
     
     <string name="pref_button_1_name">Pop-up Taste #1</string>
     <string name="pref_button_2_name">Pop-up Taste #2</string>
@@ -70,8 +70,7 @@
     <string name="pref_reset_name">Zurücksetzen zum standard</string>
     <string name="pref_color_scheme_name">Punktzahl pro Runden in Grün</string>
     
-    <string name="pref_update_delay_summary">Sekunden vor Gastes Aktualisieren (Standard: 10)</string>
-    <string name="pref_use_wake_lock_summary">Displayleucht halten wenn Spiel im Gange</string>
+    <string name="pref_update_delay_summary">Wartezeit bis zur Speicherung der eingegebenen Punkte (Standard: 10)</string>
     
     <string name="pref_cat_appearance">Bildschirm</string>
     <string name="pref_cat_config">Konfiguration</string>
@@ -82,7 +81,7 @@
     <string name="pref_color_scheme_choice_light_name">Klar</string>
     <string name="pref_color_scheme_choice_android_name">Grün Android</string>
     
-    <string name="pref_show_round_totals_name">Rund Anzahl anzeigen</string>
+    <string name="pref_show_round_totals_name">Rundenanzahl anzeigen</string>
     
     <string name="tile_add">Hinzufügen</string>
     <string name="tile_subtract">Subtrahieren</string>

@@ -93,6 +93,14 @@ public class CollectionUtil {
 		return result;
 	}
 	
+	public static int sum(List<Integer> list) {
+		int sum = 0;
+		for (Integer element : list) {
+			sum += element;
+		}
+		return sum;
+	}	
+	
 	public static <E> int sum(List<E> list, Function<E, Integer> function) {
 		int sum = 0;
 		for (E element : list) {
