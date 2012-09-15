@@ -6,10 +6,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />  
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />   
 		
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:label="@string/app_name"
+        android:theme="@style/Theme.Sherlock.Light">
         <activity android:name=".MainActivity"
                   android:label="@string/app_name"
-                  android:theme="@android:style/Theme.Light">
+                  android:theme="@style/Theme.Sherlock.Light">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -50,5 +51,5 @@
         	/>
     </application>
     
-	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="8"/>
+	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="15"/>
 </manifest>

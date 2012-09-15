@@ -1,20 +1,20 @@
 package com.nolanlawson.keepscore;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends SherlockActivity implements OnClickListener {
 
 	private static UtilLogger log = new UtilLogger(MainActivity.class);
 	
@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
+	    MenuInflater inflater = getSupportMenuInflater();
 	    inflater.inflate(R.menu.main_menu, menu);
 	    
 	    return true;
