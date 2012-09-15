@@ -20,7 +20,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewStub;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,7 +27,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -152,6 +150,8 @@ public class GameActivity extends SherlockActivity {
 
 	paused = false;
 	savedGameBeforeExit = false;
+	
+	getSupportActionBar().hide();
     }
 
     private GameDBHelper getDbHelper() {
