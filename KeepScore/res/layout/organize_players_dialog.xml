@@ -2,14 +2,22 @@
     android:id="@+id/record_dialog_linear_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:gravity="center_horizontal">
 
     <TextView
         style="@style/sectionHeader"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/menu_add_edit_players" />
-
+    
+	<Button android:id="@+id/button_new_player" android:text="@string/menu_add_player"
+		android:layout_width="wrap_content"
+		android:minWidth="200dp"
+		android:layout_height="wrap_content" 
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="5dp"/>
+	
     <com.nolanlawson.keepscore.widget.dragndrop.DragNDropListView
         android:id="@android:id/list"
         android:layout_width="wrap_content"

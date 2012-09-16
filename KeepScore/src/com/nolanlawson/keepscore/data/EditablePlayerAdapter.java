@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore.data;
 
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -10,17 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.DialogHelper;
+import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.widget.dragndrop.DropListener;
-import com.nolanlawson.keepscore.widget.dragndrop.RemoveListener;
 
 public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 	DropListener {
 
     private List<PlayerScore> items;
+    private Runnable onChangeListener;
     
     public EditablePlayerAdapter(Context context, List<PlayerScore> items) {
 	super(context, R.layout.editable_player, items);
@@ -36,6 +38,23 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
     public boolean isEnabled(int position) {
 	return true;
     }
+    
+    /**
+     * Runnable to call when the data changes
+     * @param runnable
+     */
+    public void setOnChangeListener(Runnable runnable) {
+	this.onChangeListener = runnable;
+    }
+    
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        if (onChangeListener != null) {
+            onChangeListener.run();
+        }
+    }
+    
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
@@ -61,7 +80,6 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 	    @Override
 	    public void onClick(View v) {
 		// delete
-		// TODO DELETE LOGIC
 		remove(playerScore);
 		notifyDataSetChanged();
 	    }
@@ -71,10 +89,16 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 
 	    @Override
 	    public void onClick(View v) {
-		// TODO edit logic
-
-		notifyDataSetChanged();
-
+		//edit
+		DialogHelper.showPlayerNameDialog(getContext(), R.string.tile_change_name, 
+			playerScore.getName(), playerScore.getPlayerNumber(), new Callback<String>() {
+			    
+			    @Override
+			    public void onCallback(String input) {
+				playerScore.setName(input);
+				notifyDataSetChanged();
+			    }
+			});
 	    }
 	});
 
@@ -102,6 +126,15 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 	    playerScore.setPlayerNumber(i);
 	}
 	
+	notifyDataSetChanged();
+    }
+
+    public void shuffle() {
+
+	Collections.shuffle(items);
+	for (int i = 0; i < items.size(); i++) {
+	    items.get(i).setPlayerNumber(i);
+	}
 	notifyDataSetChanged();
     }
 

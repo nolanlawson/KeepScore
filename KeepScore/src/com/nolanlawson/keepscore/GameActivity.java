@@ -61,7 +61,6 @@ public class GameActivity extends SherlockActivity {
 
     public static final int REQUEST_CODE_ADD_EDIT_PLAYERS = 2;
     
-    private static final int MAX_NUM_PLAYERS = 8;
     private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS
 	    .toMillis(30);
 
@@ -244,43 +243,6 @@ public class GameActivity extends SherlockActivity {
 			    }
 			}).show();
 	
-    }
-
-    private void showRandomizePlayersDialog() {
-	new AlertDialog.Builder(this)
-		.setCancelable(true)
-		.setTitle(R.string.text_confirm)
-		.setMessage(R.string.text_players_will_be_randomized)
-		.setNegativeButton(android.R.string.cancel, null)
-		.setPositiveButton(android.R.string.ok,
-			new DialogInterface.OnClickListener() {
-
-			    @Override
-			    public void onClick(DialogInterface dialog,
-				    int which) {
-				randomizePlayers();
-			    }
-			}).show();
-
-    }
-
-    private void randomizePlayers() {
-	for (PlayerView playerView : playerViews) {
-	    playerView.cancelPendingUpdates(); // get rid of any lingering score
-					       // badges
-	}
-
-	Collections.shuffle(playerScores);
-	for (int i = 0; i < playerScores.size(); i++) {
-	    playerScores.get(i).setPlayerNumber(i);
-	}
-
-	setUpWidgets();
-
-	saveGame(game, true, null);
-	Toast.makeText(this, R.string.toast_players_randomized,
-		Toast.LENGTH_SHORT).show();
-
     }
 
     private void showAddPlayerDialog() {
