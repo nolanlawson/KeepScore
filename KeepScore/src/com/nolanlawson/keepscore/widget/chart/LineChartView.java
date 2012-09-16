@@ -117,6 +117,7 @@ public class LineChartView extends View {
 						paint.setStyle(Paint.Style.STROKE);
 						paint.setStrokeWidth(lineWidth);
 						paint.setStyle(Style.FILL_AND_STROKE);
+						paint.setTextSize(fontSize);
 						return paint;
 					}
 				});
