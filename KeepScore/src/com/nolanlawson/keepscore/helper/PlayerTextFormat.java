@@ -38,8 +38,8 @@ public enum PlayerTextFormat {
 			R.dimen.player_badge_padding_left_right_7_to_8,
 			R.dimen.player_badge_padding_top_bottom_7_to_8,		
 			R.dimen.player_badge_offset_7_to_8,
-			LinearLayout.LayoutParams.FILL_PARENT,
-			LinearLayout.LayoutParams.FILL_PARENT,
+			LinearLayout.LayoutParams.MATCH_PARENT,
+			LinearLayout.LayoutParams.MATCH_PARENT,
 			R.dimen.player_onscreen_delta_button_text_size_7_to_8,
 			R.dimen.onscreen_delta_button_height_7_to_8), 
 	;
