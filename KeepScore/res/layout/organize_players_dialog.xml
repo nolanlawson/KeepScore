@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/record_dialog_linear_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/sectionHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_add_edit_players" />
+
+    <com.nolanlawson.keepscore.widget.dragndrop.DragNDropListView
+        android:id="@android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal"
+        android:padding="3dp" >
+
+        <Button
+            android:id="@android:id/button1"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:minWidth="50dp"
+            android:text="@android:string/ok" />
+
+        <Button
+            android:id="@android:id/button2"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:minWidth="50dp"
+            android:text="@string/menu_randomize" />
+
+        <Button
+            android:id="@android:id/button3"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:minWidth="50dp"
+            android:text="@android:string/cancel" />
+    </LinearLayout>
+
+</LinearLayout>

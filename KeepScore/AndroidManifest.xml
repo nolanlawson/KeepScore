@@ -41,7 +41,12 @@
         	android:configChanges="orientation|keyboardHidden|keyboard" 
         	android:theme="@android:style/Theme.Light.NoTitleBar"
         	/>
-        	
+        <activity android:name=".OrganizePlayersActivity" 
+            android:label="@string/menu_add_edit_players"
+            android:configChanges="orientation|keyboardHidden|keyboard" 
+        	android:theme="@android:style/Theme.Light.NoTitleBar"
+        	/>
+                	
         <activity android:name=".AboutActivity" 
         	android:theme="@android:style/Theme.Dialog"
         	/>

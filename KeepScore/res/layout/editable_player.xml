@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- layout_centerVertical doesn't work in Android 1.5, so I need two separate chooser_row.xml files -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
+    >
+    
+    <Button
+        android:id="@+id/button_delete_player"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_content_remove"
+        android:focusable="false"
+        android:clickable="true"
+        />
+    
+    <Button
+        android:id="@+id/button_edit_player"
+        android:layout_toLeftOf="@+id/button_delete_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_content_edit"
+        android:focusable="false"
+        android:clickable="true"
+        />
+    
+    <ImageView
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:src="@drawable/icmpmove"
+		android:id="@+id/img_drag_drop"
+		/>
+	        
+    <TextView
+        android:id="@android:id/text2"
+        style="@style/simpleHoloLightTextView"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/img_drag_drop"
+		android:layout_centerVertical="true"
+		android:paddingRight="5dp"
+		android:paddingLeft="5dp"
+		/>
+		
+    
+    <TextView 
+	    android:id="@android:id/text1"
+	    style="?android:attr/spinnerDropDownItemStyle"
+	    android:layout_toRightOf="@android:id/text2"
+	    android:layout_centerVertical="true"
+	    android:singleLine="true"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:ellipsize="marquee"
+	    android:textSize="18sp"
+	    android:paddingTop="10dp"
+	    android:paddingBottom="10dp"/>
+    
+</RelativeLayout>

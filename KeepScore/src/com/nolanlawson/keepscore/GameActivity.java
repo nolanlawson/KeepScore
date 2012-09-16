@@ -59,6 +59,8 @@ public class GameActivity extends SherlockActivity {
     public static final String EXTRA_GAME_ID = "gameId";
     public static final String EXTRA_GAME = "game";
 
+    public static final int REQUEST_CODE_ADD_EDIT_PLAYERS = 2;
+    
     private static final int MAX_NUM_PLAYERS = 8;
     private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS
 	    .toMillis(30);
@@ -196,15 +198,6 @@ public class GameActivity extends SherlockActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-	MenuItem addPlayerItem = menu.findItem(R.id.menu_add_player);
-	addPlayerItem.setEnabled(playerScores.size() < MAX_NUM_PLAYERS);
-
-	return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
 	switch (item.getItemId()) {
@@ -218,17 +211,21 @@ public class GameActivity extends SherlockActivity {
 		    SettingsActivity.class);
 	    startActivity(settingsIntent);
 	    break;
-	case R.id.menu_randomize:
-	    showRandomizePlayersDialog();
-	    break;
-	case R.id.menu_add_player:
-	    showAddPlayerDialog();
+	case R.id.menu_add_edit_players:
+	    startOrganizePlayersActivity();
 	    break;
 	case R.id.menu_rematch:
 	    showRematchDialogue();
 	    break;
 	}
 	return false;
+    }
+
+    private void startOrganizePlayersActivity() {
+	
+	Intent intent = new Intent(this, OrganizePlayersActivity.class);
+	intent.putExtra(EXTRA_GAME, game);
+	startActivityForResult(intent, REQUEST_CODE_ADD_EDIT_PLAYERS);
     }
 
     private void showRematchDialogue() {
