@@ -9,10 +9,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -27,8 +27,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
@@ -51,13 +51,12 @@ import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper;
 import com.nolanlawson.keepscore.helper.ToastHelper;
 import com.nolanlawson.keepscore.helper.VersionHelper;
-import com.nolanlawson.keepscore.helper.ViewHelper;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
 import com.nolanlawson.keepscore.serialization.GamesBackupSerializer;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
-import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 import com.nolanlawson.keepscore.widget.CustomFastScrollView;
 
 public class MainActivity extends SherlockListActivity implements
@@ -350,9 +349,6 @@ public class MainActivity extends SherlockListActivity implements
 	new AlertDialog.Builder(this)
 		.setCancelable(true)
 		.setTitle(R.string.title_choose_backup)
-		.setView(
-			ViewHelper.createSimpleTextView(this,
-				R.string.text_duplicates_info))
 		.setAdapter(adapter, new DialogInterface.OnClickListener() {
 
 		    @Override

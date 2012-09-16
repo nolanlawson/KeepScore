@@ -120,9 +120,9 @@ public class SdcardHelper {
 		
 		StringBuilder stringBuilder = new StringBuilder("games-");
 		
-		stringBuilder.append(year).append("-").append(month).append("-")
-				.append(day).append("-").append(hour).append("-")
-				.append(minute).append("-").append(second);
+		stringBuilder.append(year).append(month)
+				.append(day).append(hour)
+				.append(minute).append(second);
 		
 		stringBuilder.append(".xml");
 		

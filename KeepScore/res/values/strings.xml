@@ -46,7 +46,7 @@
     <string name="text_duplicates_info">(Duplicate games will be ignored.)</string>
     <string name="toast_error_with_backup">Error importing games.</string>
     <string name="toast_no_backups">No export files found.</string>
-    <string name="title_choose_backup">Restore Games from SD Card</string>
+    <string name="title_choose_backup">Restore Games from File</string>
     <string name="text_game_count">%d game</string>
     <string name="text_game_count_plural">%d games</string>
     <string name="text_saving">Exporting&#8230;</string>
