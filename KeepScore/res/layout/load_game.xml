@@ -54,39 +54,40 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/button_row_height"
             android:layout_alignParentBottom="true"
-            android:background="@android:drawable/title_bar_tall"
+            android:background="@drawable/gray_menu_background"
             android:orientation="horizontal"
             android:padding="3dp"
-            android:visibility="gone" >
+            android:visibility="gone"
+            android:gravity="center_vertical|center_horizontal" >
 
             <Button
                 android:id="@+id/button_select_all"
-                android:layout_width="0px"
+                android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.3"
-                android:ellipsize="none"
+                android:ellipsize="marquee"
                 android:gravity="center_vertical|center_horizontal"
-                android:lines="2"
+                android:singleLine="true"
                 android:text="@string/button_select_all" />
 
             <Button
                 android:id="@+id/button_deselect_all"
-                android:layout_width="0px"
+                android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.3"
-                android:ellipsize="none"
+                android:ellipsize="marquee"
                 android:gravity="center_vertical|center_horizontal"
-                android:lines="2"
+                android:singleLine="true"
                 android:text="@string/button_deselect_all" />
 
             <Button
                 android:id="@+id/button_delete"
-                android:layout_width="0px"
+                android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.3"
-                android:ellipsize="none"
+                android:ellipsize="marquee"
                 android:gravity="center_vertical|center_horizontal"
-                android:lines="2"
+                android:singleLine="true"
                 android:text="@string/text_delete" />
         </LinearLayout>
     </RelativeLayout>
