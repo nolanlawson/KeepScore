@@ -18,6 +18,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -153,6 +154,23 @@ public class MainActivity extends SherlockListActivity implements
 	loadBackupMenuItem.setEnabled(postFroyo);
 	saveBackupMenuItem.setVisible(postFroyo);
 	saveBackupMenuItem.setEnabled(postFroyo);
+	
+	boolean preHoneycomb = VersionHelper.getVersionSdkIntCompat() < VersionHelper.VERSION_HONEYCOMB;
+	
+	if (preHoneycomb) {
+	    // if pre-Honeycomb and icon is not in the action bar (i.e. we're in portrait mode),
+	    // then use the dark theme instead.
+	    // otherwise, the icons don't show up at all
+
+	    boolean portrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;
+	    
+	    MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
+	    settingsMenuItem.setIcon(portrait ? R.drawable.ic_menu_preferences : R.drawable.action_settings);
+	    
+	    MenuItem aboutMenuItem = menu.findItem(R.id.menu_about);
+	    aboutMenuItem.setIcon(portrait ? R.drawable.ic_menu_info_details : R.drawable.action_about);
+	    
+	}
 	
 	return true;
     }
