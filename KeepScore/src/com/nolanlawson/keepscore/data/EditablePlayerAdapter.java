@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.nolanlawson.keepscore.OrganizePlayersActivity;
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.DialogHelper;
@@ -23,6 +24,7 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 
     private List<PlayerScore> items;
     private Runnable onChangeListener;
+    private Callback<PlayerScore> onDeleteListener;
     
     public EditablePlayerAdapter(Context context, List<PlayerScore> items) {
 	super(context, R.layout.editable_player, items);
@@ -79,11 +81,17 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 
 	    @Override
 	    public void onClick(View v) {
+		
 		// delete
 		remove(playerScore);
 		notifyDataSetChanged();
+		if (onDeleteListener != null) {
+		    onDeleteListener.onCallback(playerScore);
+		}
 	    }
 	});
+	// user is not allowed to delete the final 2 users
+	deleteButton.setEnabled(getCount() > OrganizePlayersActivity.MIN_NUM_PLAYERS);
 	Button editButton = (Button) view.findViewById(R.id.button_edit_player);
 	editButton.setOnClickListener(new OnClickListener() {
 
@@ -136,6 +144,15 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 	    items.get(i).setPlayerNumber(i);
 	}
 	notifyDataSetChanged();
+    }
+
+    public void setOnDeleteListener(Callback<PlayerScore> callback) {
+	this.onDeleteListener = callback;
+	
+    }
+    
+    public List<PlayerScore> getItems() {
+	return items;
     }
 
 }

@@ -1,7 +1,6 @@
 package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -14,14 +13,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewStub;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,7 +40,6 @@ import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.Functions;
 import com.nolanlawson.keepscore.util.StopWatch;
-import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.PlayerView;
 
@@ -245,32 +241,6 @@ public class GameActivity extends SherlockActivity {
 	
     }
 
-    private void showAddPlayerDialog() {
-	final EditText editText = new EditText(this);
-	editText.setHint(getString(R.string.text_player) + " "
-		+ (playerScores.size() + 1));
-	editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-	editText.setSingleLine();
-	new AlertDialog.Builder(this)
-		.setTitle(R.string.title_add_player)
-		.setView(editText)
-		.setCancelable(true)
-		.setPositiveButton(android.R.string.ok,
-			new DialogInterface.OnClickListener() {
-
-			    @Override
-			    public void onClick(DialogInterface dialog,
-				    int which) {
-
-				dialog.dismiss();
-				addNewPlayer(editText.getText());
-
-			    }
-			}).setNegativeButton(android.R.string.cancel, null)
-		.show();
-
-    }
-
     private void setOrUpdateColorScheme() {
 
 	ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
@@ -312,45 +282,6 @@ public class GameActivity extends SherlockActivity {
 	    roundTotalTextView.setTextColor(getResources().getColor(
 		    colorScheme.getForegroundColorResId()));
 	}
-    }
-
-    private void addNewPlayer(CharSequence name) {
-	PlayerScore playerScore = new PlayerScore();
-
-	playerScore.setId(-1);
-	playerScore.setName(StringUtil.nullToEmpty(name));
-	playerScore.setPlayerNumber(playerScores.size());
-	playerScore.setScore(PreferenceHelper.getIntPreference(
-		R.string.pref_initial_score,
-		R.string.pref_initial_score_default, this));
-	playerScore.setHistory(new ArrayList<Integer>());
-
-	playerScores.add(playerScore);
-
-	Runnable onFinished = new Runnable() {
-
-	    @Override
-	    public void run() {
-		log.d("game to parcel is: %s", game);
-
-		// start a new activity so that the layout can refresh correctly
-		// TODO: don't start a new activity; just refresh the layout
-
-		Intent intent = new Intent(GameActivity.this,
-			GameActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra(EXTRA_GAME, game);
-
-		startActivity(intent);
-
-		CompatibilityHelper.overridePendingTransition(
-			GameActivity.this, android.R.anim.fade_in,
-			android.R.anim.fade_out);
-	    }
-
-	};
-
-	saveGame(game, true, onFinished); // automatically save the game
     }
 
     private void createRematchGame() {
@@ -736,4 +667,59 @@ public class GameActivity extends SherlockActivity {
 
 	}
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	super.onActivityResult(requestCode, resultCode, data);
+	
+	if (requestCode == REQUEST_CODE_ADD_EDIT_PLAYERS && resultCode == RESULT_OK) {
+	    final List<PlayerScore> newPlayerScores = data.getParcelableArrayListExtra(
+		    OrganizePlayersActivity.EXTRA_PLAYER_SCORES);
+	    handler.post(new Runnable() {
+	        
+	        @Override
+	        public void run() {
+	            saveWithNewPlayerScores(newPlayerScores);
+	        }
+	    });
+	}
+    }
+    
+    private void saveWithNewPlayerScores(List<PlayerScore> newPlayerScores) {
+	
+	// delete the game and recreate it with the new data
+	
+	getDbHelper().deleteGame(game);
+	game.setId(-1);
+	game.setPlayerScores(newPlayerScores);
+	for (PlayerScore playerScore : game.getPlayerScores()) {
+	    playerScore.setId(-1);
+	}
+	
+	Runnable onFinished = new Runnable() {
+
+	    @Override
+	    public void run() {
+		log.d("game to parcel is: %s", game);
+
+		// start a new activity so that the layout can refresh correctly
+		// TODO: don't start a new activity; just refresh the layout
+
+		Intent intent = new Intent(GameActivity.this,
+			GameActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra(EXTRA_GAME, game);
+
+		startActivity(intent);
+
+		CompatibilityHelper.overridePendingTransition(
+			GameActivity.this, android.R.anim.fade_in,
+			android.R.anim.fade_out);
+	    }
+
+	};
+	saveGame(game, true, onFinished); // automatically save the game
+    }
+    
+    
 }

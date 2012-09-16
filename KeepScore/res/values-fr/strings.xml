@@ -110,9 +110,13 @@
     <string name="title_add_player">Entrer le nom du joueur</string>
     <string name="title_confirm_delete">Confirmer la suppression</string>
     
-    <string name="menu_rematch">Nouvelle Partie</string>
+    <string name="menu_rematch">Nouvelle partie</string>
     <string name="text_confirm_rematch">Faire une nouvelle partie avec les mêmes joueurs?</string>
     <string name="toast_rematch_created">Nouvelle partie créée.</string>
+    
+    <string name="menu_add_edit_players">Modifier les joueurs</string>
+    <string name="text_confirm_delete_player">Le joueur suivant sera supprimé: %s.</string>    
+    <string name="text_confirm_delete_player_plural">Les joueurs suivants seront supprimés: %s.</string>   
     
     <string name="menu_save_backup">Exporter</string>
     <string name="menu_load_backup">Importer</string>

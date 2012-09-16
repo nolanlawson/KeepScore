@@ -54,11 +54,12 @@
 	    android:id="@android:id/text1"
 	    style="?android:attr/spinnerDropDownItemStyle"
 	    android:layout_toRightOf="@android:id/text2"
+	    android:layout_toLeftOf="@+id/button_edit_player"
 	    android:layout_centerVertical="true"
 	    android:singleLine="true"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:ellipsize="marquee"
+	    android:ellipsize="end"
 	    android:textSize="18sp"
 	    android:paddingTop="10dp"
 	    android:paddingBottom="10dp"/>

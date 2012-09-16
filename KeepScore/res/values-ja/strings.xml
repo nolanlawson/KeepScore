@@ -111,6 +111,10 @@
 	<string name="text_confirm_rematch">同じ選手で再戦しますか？</string>
 	<string name="toast_rematch_created">再戦のゲーム作りました。</string>
 	
+	<string name="menu_add_edit_players">選手エディと</string>
+    <string name="text_confirm_delete_player">この選手は削除されます：%s。</string>    
+    <string name="text_confirm_delete_player_plural">@string/text_confirm_delete_player</string> 
+    
     <string name="menu_save_backup">バックアップ</string>
     <string name="menu_load_backup">インポート</string>
     <string name="text_save_backup" formatted="false">ゲームをSDカードに%dバックアップしますか？</string>

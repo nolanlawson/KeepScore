@@ -40,8 +40,9 @@
     <string name="text_confirm_rematch">Start a rematch with the same players?</string>
     <string name="toast_rematch_created">Created a rematch game.</string>
     
-    <string name="menu_add_edit_players">Add/Edit Players</string>
-    <string name="text_confirm_delete_player">The following player(s) will be deleted: %s</string>
+    <string name="menu_add_edit_players">Modify Players</string>
+    <string name="text_confirm_delete_player">The following player will be deleted: %s.</string>
+    <string name="text_confirm_delete_player_plural">The following players will be deleted: %s.</string>
     
     <string name="menu_save_backup">Backup</string>
     <string name="menu_load_backup">Restore</string>

@@ -1,18 +1,17 @@
 package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.nolanlawson.keepscore.data.EditablePlayerAdapter;
 import com.nolanlawson.keepscore.db.Game;
@@ -21,20 +20,21 @@ import com.nolanlawson.keepscore.helper.DialogHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.StringUtil;
-import com.nolanlawson.keepscore.widget.PlayerView;
 import com.nolanlawson.keepscore.widget.dragndrop.DragNDropListView;
 
 public class OrganizePlayersActivity extends ListActivity implements OnClickListener {
 
-    public static final int RESULT_OK = 0;
-    public static final int RESULT_CANCEL = 1;
+    public static final int MAX_NUM_PLAYERS = 8;
+    public static final int MIN_NUM_PLAYERS = 2;
     
-    private static final int MAX_NUM_PLAYERS = 8;
+    public static final String EXTRA_PLAYER_SCORES = "playerScores";
     
     private EditablePlayerAdapter adapter;
     private Game game;
     
     private Button okButton, cancelButton, shuffleButton, addPlayerButton;
+    
+    private List<String> deletedPlayersToWarnAbout = new ArrayList<String>();
     
     
     @Override
@@ -57,9 +57,18 @@ public class OrganizePlayersActivity extends ListActivity implements OnClickList
 		setAddNewPlayerEnabled();
 	    }
 	});
+	adapter.setOnDeleteListener(new Callback<PlayerScore>(){
+
+	    @Override
+	    public void onCallback(PlayerScore playerScore) {
+		// warn about deleted player scores if they actually have a history,
+		// i.e. there's something the user might regret deleting
+		if (playerScore.getHistory() != null && playerScore.getHistory().size() > 0) {
+		    deletedPlayersToWarnAbout.add(playerScore.toDisplayName(OrganizePlayersActivity.this));
+		}
+	    }});
 	
 	((DragNDropListView)getListView()).setDropListener(adapter);
-	
     }
 
 
@@ -86,14 +95,13 @@ public class OrganizePlayersActivity extends ListActivity implements OnClickList
 	
 	switch (view.getId()) {
 	case android.R.id.button1:
-	    setResult(RESULT_OK);
-	    finish();
+	    onOkButtonClicked();
 	    break;
 	case android.R.id.button2:
 	    randomizePlayers();
 	    break;
 	case android.R.id.button3:
-	    setResult(RESULT_CANCEL);
+	    setResult(RESULT_CANCELED);
 	    finish();
 	    break;
 	case R.id.button_new_player:
@@ -103,6 +111,45 @@ public class OrganizePlayersActivity extends ListActivity implements OnClickList
 	
     }
     
+
+    private void onOkButtonClicked() {
+	if (deletedPlayersToWarnAbout.isEmpty()) {
+	    setDataResultAndExit();
+	} else {
+	    // warn the player just in case they don't want to delete these players
+	    String deletePlayerText = getString(deletedPlayersToWarnAbout.size() == 1
+		    ? R.string.text_confirm_delete_player
+		    : R.string.text_confirm_delete_player_plural);
+	    new AlertDialog.Builder(this)
+	    	.setCancelable(false)
+	    	.setTitle(R.string.title_confirm_delete)
+	    	.setMessage(String.format(
+	    		deletePlayerText,
+	    		TextUtils.join(", ",deletedPlayersToWarnAbout)))
+	    	.setNegativeButton(android.R.string.cancel, null)
+	    	.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		    
+		    @Override
+		    public void onClick(DialogInterface dialog, int which) {
+			setDataResultAndExit();
+		    }
+		})
+		.show();
+	    	
+	}
+	
+    }
+
+
+    private void setDataResultAndExit() {
+	
+	Intent data = new Intent();
+	data.putParcelableArrayListExtra(EXTRA_PLAYER_SCORES, 
+		new ArrayList<PlayerScore>(adapter.getItems()));
+	setResult(RESULT_OK, data);
+	finish();
+    }
+
 
     private void showAddPlayerDialog() {
 	

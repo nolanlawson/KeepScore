@@ -6,7 +6,7 @@
 				android:showAsAction="withText|never" />
 	
 	<item android:id="@+id/menu_add_edit_players" android:title="@string/menu_add_edit_players"
-		android:alphabeticShortcut="@string/menu_add_edit_players" android:icon="@drawable/ic_menu_add_user" 
+		android:alphabeticShortcut="@string/menu_add_edit_players" android:icon="@drawable/ic_menu_cc" 
 				android:showAsAction="withText|never" />	
 	
 	<item android:id="@+id/menu_rematch" android:title="@string/menu_rematch"
