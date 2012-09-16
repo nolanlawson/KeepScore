@@ -85,6 +85,8 @@ public class MainActivity extends SherlockListActivity implements
 	setContentView(R.layout.main);
 
 	setUpWidgets();
+	
+	getSupportActionBar().setHomeButtonEnabled(false);
     }
 
     @Override
