@@ -3,6 +3,7 @@ package com.nolanlawson.keepscore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -76,6 +77,7 @@ public class GameActivity extends SherlockActivity {
     private boolean paused = true;
     private GameDBHelper dbHelper;
     private boolean savedGameBeforeExit;
+    private boolean deleteGameOnExit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,10 @@ public class GameActivity extends SherlockActivity {
 	    saveGame(game, false, null);
 	}
 
+	if (deleteGameOnExit) {
+	    getDbHelper().deleteGame(game);
+	}
+	
 	if (dbHelper != null) {
 	    dbHelper.close();
 	    dbHelper = null;
@@ -686,13 +692,15 @@ public class GameActivity extends SherlockActivity {
     }
     
     private void saveWithNewPlayerScores(List<PlayerScore> newPlayerScores) {
+	// delete the old game before starting new one
+	deleteGameOnExit = true;
 	
 	// delete the game and recreate it with the new data
 	
-	getDbHelper().deleteGame(game);
-	game.setId(-1);
-	game.setPlayerScores(newPlayerScores);
-	for (PlayerScore playerScore : game.getPlayerScores()) {
+	final Game newGame = (Game)game.clone();
+	newGame.setId(-1);
+	newGame.setPlayerScores(newPlayerScores);
+	for (PlayerScore playerScore : newGame.getPlayerScores()) {
 	    playerScore.setId(-1);
 	}
 	
@@ -701,14 +709,14 @@ public class GameActivity extends SherlockActivity {
 	    @Override
 	    public void run() {
 		log.d("game to parcel is: %s", game);
-
+		
 		// start a new activity so that the layout can refresh correctly
 		// TODO: don't start a new activity; just refresh the layout
 
 		Intent intent = new Intent(GameActivity.this,
 			GameActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra(EXTRA_GAME, game);
+		intent.putExtra(EXTRA_GAME, newGame);
 
 		startActivity(intent);
 
@@ -718,7 +726,7 @@ public class GameActivity extends SherlockActivity {
 	    }
 
 	};
-	saveGame(game, true, onFinished); // automatically save the game
+	saveGame(newGame, true, onFinished); // automatically save the game
     }
     
     
