@@ -198,9 +198,6 @@ public class GameActivity extends SherlockActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-	MenuItem historyItem = menu.findItem(R.id.menu_reset_scores);
-	historyItem.setEnabled(!isAtDefault());
-
 	MenuItem addPlayerItem = menu.findItem(R.id.menu_add_player);
 	addPlayerItem.setEnabled(playerScores.size() < MAX_NUM_PLAYERS);
 
@@ -224,17 +221,32 @@ public class GameActivity extends SherlockActivity {
 	case R.id.menu_randomize:
 	    showRandomizePlayersDialog();
 	    break;
-	case R.id.menu_reset_scores:
-	    showResetScoresDialog();
-	    break;
 	case R.id.menu_add_player:
 	    showAddPlayerDialog();
 	    break;
-	case R.id.menu_copy:
-	    cloneGame();
+	case R.id.menu_rematch:
+	    showRematchDialogue();
 	    break;
 	}
 	return false;
+    }
+
+    private void showRematchDialogue() {
+	new AlertDialog.Builder(this)
+	        .setCancelable(true)
+	        .setTitle(R.string.text_confirm)
+	        .setMessage(R.string.text_confirm_rematch)
+		.setNegativeButton(android.R.string.cancel, null)
+		.setPositiveButton(android.R.string.ok,
+			new DialogInterface.OnClickListener() {
+
+			    @Override
+			    public void onClick(DialogInterface dialog,
+				    int which) {
+				createRematchGame();
+			    }
+			}).show();
+	
     }
 
     private void showRandomizePlayersDialog() {
@@ -382,41 +394,10 @@ public class GameActivity extends SherlockActivity {
 	saveGame(game, true, onFinished); // automatically save the game
     }
 
-    private boolean isAtDefault() {
-	for (PlayerScore playerScore : playerScores) {
-	    if (!playerScore.isAtDefault(this)) {
-		return false;
-	    }
-	}
-	return true;
-    }
+    private void createRematchGame() {
 
-    private void showResetScoresDialog() {
-
-	new AlertDialog.Builder(this)
-		.setCancelable(true)
-		.setTitle(R.string.title_confirm_reset)
-		.setMessage(R.string.text_reset_scores_confirm)
-		.setPositiveButton(android.R.string.ok,
-			new DialogInterface.OnClickListener() {
-
-			    @Override
-			    public void onClick(DialogInterface dialog,
-				    int which) {
-				dialog.dismiss();
-				for (PlayerView playerView : playerViews) {
-				    playerView.reset(GameActivity.this);
-				}
-				updateRoundTotalViewText();
-			    }
-			}).setNegativeButton(android.R.string.cancel, null)
-		.show();
-
-    }
-
-    private void cloneGame() {
-
-	saveGame(game, true, null);
+	saveGame(game, true, null); // save the original game
+	
 	for (PlayerView playerView : playerViews) {
 	    playerView.cancelPendingUpdates();
 	}
@@ -425,10 +406,15 @@ public class GameActivity extends SherlockActivity {
 	playerScores = game.getPlayerScores();
 
 	setUpWidgets();
-
-	saveGame(game, true, null);
-	Toast.makeText(this, R.string.toast_game_copied, Toast.LENGTH_SHORT)
-		.show();
+	
+	for (PlayerView playerView : playerViews) {
+	    playerView.reset(GameActivity.this);
+	}
+	saveGame(game, true, null); // save the new game
+	
+	updateRoundTotalViewText();
+	
+	Toast.makeText(this, R.string.toast_rematch_created, Toast.LENGTH_SHORT).show();
     }
 
     private boolean shouldAutosave() {

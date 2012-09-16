@@ -107,6 +107,10 @@
 	<string name="title_add_player">選手のなを入力</string>
 	<string name="title_confirm_delete">削除確認</string>
 	
+	<string name="menu_rematch">再戦</string>
+	<string name="text_confirm_rematch">同じ選手で再戦しますか？</string>
+	<string name="toast_rematch_created">再戦のゲーム作りました。</string>
+	
     <string name="menu_save_backup">バックアップ</string>
     <string name="menu_load_backup">インポート</string>
     <string name="text_save_backup" formatted="false">ゲームをSDカードに%dバックアップしますか？</string>

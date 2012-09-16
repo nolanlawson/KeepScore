@@ -110,6 +110,10 @@
     <string name="title_add_player">Entrer le nom du joueur</string>
     <string name="title_confirm_delete">Confirmer la suppression</string>
     
+    <string name="menu_rematch">Nouvelle Partie</string>
+    <string name="text_confirm_rematch">Faire une nouvelle partie avec les mêmes joueurs?</string>
+    <string name="toast_rematch_created">Nouvelle partie créée.</string>
+    
     <string name="menu_save_backup">Exporter</string>
     <string name="menu_load_backup">Importer</string>
     <string name="text_save_backup" formatted="false">Exporter %d jeu à la carte SD?</string>
