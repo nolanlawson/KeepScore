@@ -14,7 +14,7 @@
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_content_remove"
+        android:drawableLeft="@drawable/ic_menu_delete"
         android:focusable="false"
         android:clickable="true"
         />
@@ -24,7 +24,7 @@
         android:layout_toLeftOf="@+id/button_delete_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_content_edit"
+        android:drawableLeft="@drawable/ic_menu_edit"
         android:focusable="false"
         android:clickable="true"
         />
