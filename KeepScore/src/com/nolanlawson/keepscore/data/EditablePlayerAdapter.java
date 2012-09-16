@@ -33,12 +33,12 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 
     @Override
     public boolean areAllItemsEnabled() {
-	return true;
+	return false;
     }
 
     @Override
     public boolean isEnabled(int position) {
-	return true;
+	return false;
     }
     
     /**
@@ -84,6 +84,7 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 		
 		// delete
 		remove(playerScore);
+		resetPlayerNumbers();
 		notifyDataSetChanged();
 		if (onDeleteListener != null) {
 		    onDeleteListener.onCallback(playerScore);
@@ -129,21 +130,21 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 	items.remove(from);
 	items.add(to, temp);
 	
-	for (int i = 0; i < items.size(); i++) {
-	    PlayerScore playerScore  = items.get(i);
-	    playerScore.setPlayerNumber(i);
-	}
-	
+	resetPlayerNumbers();
 	notifyDataSetChanged();
     }
 
     public void shuffle() {
 
 	Collections.shuffle(items);
+	resetPlayerNumbers();
+	notifyDataSetChanged();
+    }
+    
+    private void resetPlayerNumbers() {
 	for (int i = 0; i < items.size(); i++) {
 	    items.get(i).setPlayerNumber(i);
 	}
-	notifyDataSetChanged();
     }
 
     public void setOnDeleteListener(Callback<PlayerScore> callback) {
