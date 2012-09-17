@@ -63,10 +63,13 @@ public class DialogHelper {
 				    int which) {
 
 				if (resultListener != null) {
-				    int result = TextUtils.isEmpty(editText
-					    .getText()) ? 0 : Integer
-					    .parseInt(editText.getText()
-						    .toString());
+				    int result = 0;
+				    if (!TextUtils.isEmpty(editText.getText())) {
+				    	try {
+				    		result = Integer.parseInt(editText.getText().toString());
+				    	} catch (NumberFormatException ignore) {}
+				    }
+					  
 
 				    resultListener.onResult(result);
 				}
