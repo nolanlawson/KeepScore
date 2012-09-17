@@ -20,7 +20,7 @@ import com.nolanlawson.keepscore.helper.DialogHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.StringUtil;
-import com.nolanlawson.keepscore.widget.dragndrop.DragNDropListView;
+import com.nolanlawson.keepscore.widget.dragndrop.DragSortListView;
 
 public class OrganizePlayersActivity extends ListActivity implements OnClickListener {
 
@@ -68,7 +68,8 @@ public class OrganizePlayersActivity extends ListActivity implements OnClickList
 		}
 	    }});
 	
-	((DragNDropListView)getListView()).setDropListener(adapter);
+	((DragSortListView)getListView()).setDropListener(adapter);
+	
     }
 
 

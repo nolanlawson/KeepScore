@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dslv="http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
     android:id="@+id/record_dialog_linear_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -18,11 +19,13 @@
 		android:layout_marginTop="5dp"
 		android:layout_marginBottom="5dp"/>
 	
-    <com.nolanlawson.keepscore.widget.dragndrop.DragNDropListView
+    <com.nolanlawson.keepscore.widget.dragndrop.DragSortListView
         android:id="@android:id/list"
         android:layout_width="wrap_content"
         android:layout_height="0px"
-        android:layout_weight="1" />
+        android:layout_weight="1" 
+        android:dividerHeight="0px"
+        dslv:float_alpha="128"/>
 
     <LinearLayout
         android:id="@+id/LinearLayout02"
@@ -30,7 +33,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/darker_gray"
         android:orientation="horizontal"
-        android:padding="3dp" >
+        android:padding="3dp">
 
         <Button
             android:id="@android:id/button1"
