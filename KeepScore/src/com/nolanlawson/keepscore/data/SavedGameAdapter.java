@@ -29,8 +29,6 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 
 	private static UtilLogger log = new UtilLogger(SavedGameAdapter.class);
 	
-	private static final String DATE_FORMAT = "MMM dd hh:mmaa";
-	
 	private Set<Game> checked = new HashSet<Game>();
 	private Runnable onCheckChangedRunnable;
 	
@@ -99,7 +97,7 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 		
 		subtitleTextView.setText(rounds);
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getContext().getString(R.string.date_format));
 
 		savedTextView.setText(simpleDateFormat.format(new Date(game.getDateSaved())));
 		

@@ -2,6 +2,8 @@
 <resources>
 	<string name="app_name">KeepScore</string>
 
+	<string name="date_format">M月dd日　aahh:mm</string>
+	
 	<string name="button_new_game">新しいゲーム</string>
 	<string name="button_resume_game">最後のゲームを続ける</string>
 	<string name="button_load_game">保存したゲーム</string>
