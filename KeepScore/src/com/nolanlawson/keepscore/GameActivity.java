@@ -1,6 +1,7 @@
 package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -28,6 +29,8 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.nolanlawson.keepscore.data.RecordedChange;
+import com.nolanlawson.keepscore.data.RecordedChange.Type;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
@@ -36,9 +39,12 @@ import com.nolanlawson.keepscore.helper.CompatibilityHelper;
 import com.nolanlawson.keepscore.helper.PlayerTextFormat;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.VersionHelper;
+import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
+import com.nolanlawson.keepscore.util.DataExpiringStack;
 import com.nolanlawson.keepscore.util.Functions;
+import com.nolanlawson.keepscore.util.Pair;
 import com.nolanlawson.keepscore.util.StopWatch;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.PlayerView;
@@ -56,10 +62,24 @@ public class GameActivity extends SherlockActivity {
     public static final String EXTRA_GAME = "game";
 
     public static final int REQUEST_CODE_ADD_EDIT_PLAYERS = 2;
-    
-    private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS
-	    .toMillis(30);
 
+    private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS
+            .toMillis(30);
+    
+    // how many changes to keep in memory?
+    private static final int UNDO_STACK_SIZE = 100;
+
+    @SuppressWarnings("unchecked")
+    private static final List<Pair<Type,Type>> ACCEPTABLE_UNDO_TRANSITIONS = Arrays.asList(
+            Pair.create(Type.ModifyLast, Type.ModifyLast),
+            Pair.create(Type.ModifyLast, Type.AddNew)
+            );
+    @SuppressWarnings("unchecked")
+    private static final List<Pair<Type,Type>> ACCEPTABLE_REDO_TRANSITIONS = Arrays.asList(
+            Pair.create(Type.ModifyLast, Type.ModifyLast),
+            Pair.create(Type.AddNew, Type.ModifyLast)
+            );
+    
     private static final UtilLogger log = new UtilLogger(GameActivity.class);
 
     private LinearLayout rootLayout, rowLayout2, rowLayout3, rowLayout4;
@@ -77,474 +97,560 @@ public class GameActivity extends SherlockActivity {
     private GameDBHelper dbHelper;
     private boolean savedGameBeforeExit;
     private boolean deleteGameOnExit;
+    
+    private DataExpiringStack<RecordedChange> undoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
+    private DataExpiringStack<RecordedChange> redoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
+    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
-	createGame();
+        createGame();
 
-	PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-	wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK,
-		getPackageName());
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK,
+                getPackageName());
 
-	setContentView(R.layout.game);
-	setUpWidgets();
+        setContentView(R.layout.game);
+        setUpWidgets();
     }
 
     @Override
     protected void onDestroy() {
-	super.onDestroy();
-	log.d("onDestroy()");
+        super.onDestroy();
+        log.d("onDestroy()");
     }
 
     @Override
     protected void onPause() {
-	super.onPause();
-	log.d("onPause()");
+        super.onPause();
+        log.d("onPause()");
 
-	if (wakeLock.isHeld()) {
-	    log.d("Releasing wakelock");
-	    wakeLock.release();
-	}
+        if (wakeLock.isHeld()) {
+            log.d("Releasing wakelock");
+            wakeLock.release();
+        }
 
-	paused = true;
+        paused = true;
 
-	if (shouldAutosave()) {
-	    saveGame(game, false, null);
-	}
+        if (shouldAutosave()) {
+            saveGame(game, false, null);
+        }
 
-	if (deleteGameOnExit) {
-	    getDbHelper().deleteGame(game);
-	}
-	
-	if (dbHelper != null) {
-	    dbHelper.close();
-	    dbHelper = null;
-	}
+        if (deleteGameOnExit) {
+            getDbHelper().deleteGame(game);
+        }
 
-	if (savedGameBeforeExit) { // if nothing was changed in the game, don't
-				   // show this message
-	    Toast.makeText(this, R.string.toast_game_saved, Toast.LENGTH_SHORT)
-		    .show();
-	}
+        if (dbHelper != null) {
+            dbHelper.close();
+            dbHelper = null;
+        }
+
+        if (savedGameBeforeExit) { // if nothing was changed in the game, don't
+            // show this message
+            Toast.makeText(this, R.string.toast_game_saved, Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     @Override
     protected void onResume() {
-	super.onResume();
+        super.onResume();
 
-	boolean useWakeLock = PreferenceHelper.getBooleanPreference(
-		R.string.pref_use_wake_lock,
-		R.string.pref_use_wake_lock_default, this);
-	if (useWakeLock && !wakeLock.isHeld()) {
-	    log.d("Acquiring wakelock");
-	    wakeLock.acquire();
-	}
+        boolean useWakeLock = PreferenceHelper.getBooleanPreference(
+                R.string.pref_use_wake_lock,
+                R.string.pref_use_wake_lock_default, this);
+        if (useWakeLock && !wakeLock.isHeld()) {
+            log.d("Acquiring wakelock");
+            wakeLock.acquire();
+        }
 
-	startPeriodicSave();
+        startPeriodicSave();
 
-	updateRoundTotalViewText();
+        updateRoundTotalViewText();
 
-	setOrUpdateColorScheme();
+        setOrUpdateColorScheme();
 
-	setPlayerViewTextSizes();
+        setPlayerViewTextSizes();
 
-	paused = false;
-	savedGameBeforeExit = false;
-	
-	getSupportActionBar().hide();
+        paused = false;
+        savedGameBeforeExit = false;
+
+        getSupportActionBar().hide();
     }
 
     private GameDBHelper getDbHelper() {
-	if (dbHelper == null) {
-	    dbHelper = new GameDBHelper(this);
-	}
-	return dbHelper;
+        if (dbHelper == null) {
+            dbHelper = new GameDBHelper(this);
+        }
+        return dbHelper;
     }
 
     private void startPeriodicSave() {
-	handler.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
 
-	    @Override
-	    public void run() {
-		if (shouldAutosave()) {
-		    saveGame(game, true, new Runnable() {
+            @Override
+            public void run() {
+                if (shouldAutosave()) {
+                    saveGame(game, true, new Runnable() {
 
-			@Override
-			public void run() {
-			    if (!paused) {
-				startPeriodicSave();
-			    }
-			}
-		    });
-		} else {
-		    log.d("no need to do periodic save");
-		    if (!paused) {
-			startPeriodicSave();
-		    }
-		}
-	    }
-	}, PERIODIC_SAVE_PERIOD);
+                        @Override
+                        public void run() {
+                            if (!paused) {
+                                startPeriodicSave();
+                            }
+                        }
+                    });
+                } else {
+                    log.d("no need to do periodic save");
+                    if (!paused) {
+                        startPeriodicSave();
+                    }
+                }
+            }
+        }, PERIODIC_SAVE_PERIOD);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-	MenuInflater inflater = getSupportMenuInflater();
-	inflater.inflate(R.menu.game_menu, menu);
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.game_menu, menu);
 
-	return true;
+        return true;
+    }
+    
+    
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // show/hide undo/redo menu items
+        MenuItem undoMenuItem = menu.findItem(R.id.menu_undo);
+        MenuItem redoMenuItem = menu.findItem(R.id.menu_redo);
+        
+        boolean showUndo = !undoStack.isEmpty();
+        boolean showRedo = !redoStack.isEmpty();
+        
+        undoMenuItem.setEnabled(showUndo);
+        redoMenuItem.setEnabled(showRedo);
+        
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-	switch (item.getItemId()) {
-	case R.id.menu_history:
-	    Intent historyIntent = new Intent(this, HistoryActivity.class);
-	    historyIntent.putExtra(HistoryActivity.EXTRA_GAME, game);
-	    startActivity(historyIntent);
-	    break;
-	case R.id.menu_settings:
-	    Intent settingsIntent = new Intent(GameActivity.this,
-		    SettingsActivity.class);
-	    startActivity(settingsIntent);
-	    break;
-	case R.id.menu_add_edit_players:
-	    startOrganizePlayersActivity();
-	    break;
-	case R.id.menu_rematch:
-	    showRematchDialogue();
-	    break;
-	}
-	return false;
+        switch (item.getItemId()) {
+        case R.id.menu_history:
+            Intent historyIntent = new Intent(this, HistoryActivity.class);
+            historyIntent.putExtra(HistoryActivity.EXTRA_GAME, game);
+            startActivity(historyIntent);
+            break;
+        case R.id.menu_settings:
+            Intent settingsIntent = new Intent(GameActivity.this,
+                    SettingsActivity.class);
+            startActivity(settingsIntent);
+            break;
+        case R.id.menu_add_edit_players:
+            startOrganizePlayersActivity();
+            break;
+        case R.id.menu_rematch:
+            showRematchDialogue();
+            break;
+        case R.id.menu_undo:
+            undoOrRedo(true);
+            break;
+        case R.id.menu_redo:
+            undoOrRedo(false);
+            break;
+        }
+        return false;
+    }
+
+    private void undoOrRedo(boolean undo) {
+        
+        DataExpiringStack<RecordedChange> stackToPoll = undo ? undoStack : redoStack;
+        DataExpiringStack<RecordedChange> stackToPop = !undo ? undoStack : redoStack;
+        
+        
+        RecordedChange recordedChange = null;
+        int lastPlayerNumber = -1;
+        RecordedChange.Type lastType = null;
+        while ((recordedChange = stackToPoll.peek()) != null 
+                && (lastPlayerNumber == -1 || lastPlayerNumber == recordedChange.getPlayerNumber())
+                // only apply multiple changes to the same PlayerScore
+                && (lastType == null || 
+                    isAcceptableUndoOrRedoTransition(undo, lastType, recordedChange.getType()))) { 
+            
+            
+            recordedChange = stackToPoll.poll();
+            PlayerView playerView = playerViews.get(recordedChange.getPlayerNumber());
+            if (undo) {
+                playerView.revertChange(recordedChange);
+            } else {
+                playerView.reexecuteChange(recordedChange);
+            }
+            stackToPop.pop(recordedChange);
+            
+            lastPlayerNumber = recordedChange.getPlayerNumber();
+            lastType = recordedChange.getType();
+        }
+        
+        if (lastPlayerNumber != -1) {
+            PlayerView playerView = playerViews.get(lastPlayerNumber);
+            playerView.resetLastIncremented(); // keeps the badge from showing
+            playerView.updateViews();
+        }
+    }
+
+    private boolean isAcceptableUndoOrRedoTransition(boolean undo, Type lastType, Type type) {
+        // consider "modify last" to be part of a larger task that is being undone
+        // so e.g. when undoing, MMMMMA is acceptable, whereas with redoing,
+        // AMMMMM is acceptable
+        
+        if (undo) {
+            return ACCEPTABLE_UNDO_TRANSITIONS.contains(Pair.create(lastType, type));
+        } else { // redo
+            return ACCEPTABLE_REDO_TRANSITIONS.contains(Pair.create(lastType, type));
+        }
     }
 
     private void startOrganizePlayersActivity() {
-	
-	Intent intent = new Intent(this, OrganizePlayersActivity.class);
-	intent.putExtra(EXTRA_GAME, game);
-	startActivityForResult(intent, REQUEST_CODE_ADD_EDIT_PLAYERS);
+
+        Intent intent = new Intent(this, OrganizePlayersActivity.class);
+        intent.putExtra(EXTRA_GAME, game);
+        startActivityForResult(intent, REQUEST_CODE_ADD_EDIT_PLAYERS);
     }
 
     private void showRematchDialogue() {
-	new AlertDialog.Builder(this)
-	        .setCancelable(true)
-	        .setTitle(R.string.text_confirm)
-	        .setMessage(R.string.text_confirm_rematch)
-		.setNegativeButton(android.R.string.cancel, null)
-		.setPositiveButton(android.R.string.ok,
-			new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle(R.string.text_confirm)
+                .setMessage(R.string.text_confirm_rematch)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok,
+                        new DialogInterface.OnClickListener() {
 
-			    @Override
-			    public void onClick(DialogInterface dialog,
-				    int which) {
-				createRematchGame();
-			    }
-			}).show();
-	
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                    int which) {
+                                createRematchGame();
+                            }
+                        }).show();
+
     }
 
     private void setOrUpdateColorScheme() {
 
-	ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
+        ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
 
-	int foregroundColor = getResources().getColor(
-		colorScheme.getForegroundColorResId());
-	int backgroundColor = getResources().getColor(
-		colorScheme.getBackgroundColorResId());
-	int dividerColor = getResources().getColor(
-		colorScheme.getDividerColorResId());
+        int foregroundColor = getResources().getColor(
+                colorScheme.getForegroundColorResId());
+        int backgroundColor = getResources().getColor(
+                colorScheme.getBackgroundColorResId());
+        int dividerColor = getResources().getColor(
+                colorScheme.getDividerColorResId());
 
-	rootLayout.setBackgroundColor(backgroundColor);
-	for (PlayerView playerView : playerViews) {
-	    playerView.getNameTextView().setTextColor(foregroundColor);
-	    playerView.getScoreTextView().setTextColor(foregroundColor);
+        rootLayout.setBackgroundColor(backgroundColor);
+        for (PlayerView playerView : playerViews) {
+            playerView.getNameTextView().setTextColor(foregroundColor);
+            playerView.getScoreTextView().setTextColor(foregroundColor);
 
-	    playerView.setNewColorScheme(colorScheme);
+            playerView.setNewColorScheme(colorScheme);
 
-	    playerView.getDivider1().setBackgroundColor(dividerColor);
-	    if (playerView.getDivider2() != null) {
-		playerView.getDivider2().setBackgroundColor(dividerColor);
-	    }
+            playerView.getDivider1().setBackgroundColor(dividerColor);
+            if (playerView.getDivider2() != null) {
+                playerView.getDivider2().setBackgroundColor(dividerColor);
+            }
 
-	    for (Button button : new Button[] { playerView.getPlusButton(),
-		    playerView.getMinusButton(), playerView.getDeltaButton1(),
-		    playerView.getDeltaButton2(), playerView.getDeltaButton3(),
-		    playerView.getDeltaButton4(), }) {
-		if (button != null) {
-		    button.setBackgroundDrawable(getResources().getDrawable(
-			    colorScheme.getButtonBackgroundDrawableResId()));
-		    button.setTextColor(getResources().getColor(
-			    colorScheme.getForegroundColorResId()));
-		}
-	    }
+            for (Button button : new Button[] { playerView.getPlusButton(),
+                    playerView.getMinusButton(), playerView.getDeltaButton1(),
+                    playerView.getDeltaButton2(), playerView.getDeltaButton3(),
+                    playerView.getDeltaButton4(), }) {
+                if (button != null) {
+                    button.setBackgroundDrawable(getResources().getDrawable(
+                            colorScheme.getButtonBackgroundDrawableResId()));
+                    button.setTextColor(getResources().getColor(
+                            colorScheme.getForegroundColorResId()));
+                }
+            }
 
-	    playerView.updateViews();
-	}
-	if (roundTotalTextView != null) {
-	    roundTotalTextView.setTextColor(getResources().getColor(
-		    colorScheme.getForegroundColorResId()));
-	}
+            playerView.updateViews();
+        }
+        if (roundTotalTextView != null) {
+            roundTotalTextView.setTextColor(getResources().getColor(
+                    colorScheme.getForegroundColorResId()));
+        }
     }
 
     private void createRematchGame() {
 
-	saveGame(game, true, null); // save the original game
-	
-	for (PlayerView playerView : playerViews) {
-	    playerView.cancelPendingUpdates();
-	}
+        saveGame(game, true, null); // save the original game
 
-	game = game.makeCleanCopy();
-	playerScores = game.getPlayerScores();
+        for (PlayerView playerView : playerViews) {
+            playerView.cancelPendingUpdates();
+        }
 
-	setUpWidgets();
-	
-	for (PlayerView playerView : playerViews) {
-	    playerView.reset(GameActivity.this);
-	}
-	saveGame(game, true, null); // save the new game
-	
-	updateRoundTotalViewText();
-	
-	Toast.makeText(this, R.string.toast_rematch_created, Toast.LENGTH_SHORT).show();
+        game = game.makeCleanCopy();
+        playerScores = game.getPlayerScores();
+
+        setUpWidgets();
+
+        for (PlayerView playerView : playerViews) {
+            playerView.reset(GameActivity.this);
+        }
+        saveGame(game, true, null); // save the new game
+
+        updateRoundTotalViewText();
+        undoStack.clear();
+        redoStack.clear();
+
+        Toast.makeText(this, R.string.toast_rematch_created, Toast.LENGTH_SHORT)
+                .show();
     }
 
     private boolean shouldAutosave() {
-	// only autosave if the user has changed SOMETHING, i.e. the scores
-	// aren't all just zero
+        // only autosave if the user has changed SOMETHING, i.e. the scores
+        // aren't all just zero
 
-	for (PlayerView playerView : playerViews) {
-	    if (playerView.getShouldAutosave().get()) {
-		return true;
-	    }
-	}
+        for (PlayerView playerView : playerViews) {
+            if (playerView.getShouldAutosave().get()) {
+                return true;
+            }
+        }
 
-	return false;
+        return false;
     }
 
     private void createGame() {
 
-	if (getIntent().hasExtra(EXTRA_PLAYER_NAMES)) {
-	    // starting a new game
-	    createNewGame();
-	} else if (getIntent().hasExtra(EXTRA_GAME_ID)) {
-	    // loading an existing game
-	    createExistingGameFromId();
-	} else {
-	    // game object parceled into intent
-	    game = getIntent().getParcelableExtra(EXTRA_GAME);
-	    playerScores = game.getPlayerScores();
-	    log.d("unparceled game is: %s", game);
-	}
+        if (getIntent().hasExtra(EXTRA_PLAYER_NAMES)) {
+            // starting a new game
+            createNewGame();
+        } else if (getIntent().hasExtra(EXTRA_GAME_ID)) {
+            // loading an existing game
+            createExistingGameFromId();
+        } else {
+            // game object parceled into intent
+            game = getIntent().getParcelableExtra(EXTRA_GAME);
+            playerScores = game.getPlayerScores();
+            log.d("unparceled game is: %s", game);
+        }
 
-	log.d("loaded game: %s", game);
-	log.d("loaded playerScores: %s", playerScores);
+        log.d("loaded game: %s", game);
+        log.d("loaded playerScores: %s", playerScores);
     }
 
     private void createExistingGameFromId() {
-	int gameId = getIntent().getIntExtra(EXTRA_GAME_ID, 0);
+        int gameId = getIntent().getIntExtra(EXTRA_GAME_ID, 0);
 
-	game = getDbHelper().findGameById(gameId);
-	playerScores = game.getPlayerScores();
+        game = getDbHelper().findGameById(gameId);
+        playerScores = game.getPlayerScores();
     }
 
     private void createNewGame() {
 
-	String[] playerNames = getIntent().getStringArrayExtra(
-		EXTRA_PLAYER_NAMES);
+        String[] playerNames = getIntent().getStringArrayExtra(
+                EXTRA_PLAYER_NAMES);
 
-	game = new Game();
+        game = new Game();
 
-	playerScores = new ArrayList<PlayerScore>();
+        playerScores = new ArrayList<PlayerScore>();
 
-	game.setDateStarted(System.currentTimeMillis());
-	game.setPlayerScores(playerScores);
+        game.setDateStarted(System.currentTimeMillis());
+        game.setPlayerScores(playerScores);
 
-	for (int i = 0; i < playerNames.length; i++) {
+        for (int i = 0; i < playerNames.length; i++) {
 
-	    PlayerScore playerScore = new PlayerScore();
+            PlayerScore playerScore = new PlayerScore();
 
-	    playerScore.setName(playerNames[i]);
-	    playerScore.setPlayerNumber(i);
-	    playerScore.setHistory(new ArrayList<Integer>());
-	    playerScore.setScore(PreferenceHelper.getIntPreference(
-		    R.string.pref_initial_score,
-		    R.string.pref_initial_score_default, GameActivity.this));
+            playerScore.setName(playerNames[i]);
+            playerScore.setPlayerNumber(i);
+            playerScore.setHistory(new ArrayList<Integer>());
+            playerScore.setScore(PreferenceHelper.getIntPreference(
+                    R.string.pref_initial_score,
+                    R.string.pref_initial_score_default, GameActivity.this));
 
-	    playerScores.add(playerScore);
-	}
+            playerScores.add(playerScore);
+        }
 
-	log.d("created new game: %s", game);
-	log.d("created new playerScores: %s", playerScores);
+        log.d("created new game: %s", game);
+        log.d("created new playerScores: %s", playerScores);
     }
 
     private synchronized void saveGame(final Game gameToSave,
-	    boolean inBackground, final Runnable onFinished) {
+            boolean inBackground, final Runnable onFinished) {
 
-	for (PlayerView playerView : playerViews) {
-	    playerView.getShouldAutosave().set(false);
-	}
+        for (PlayerView playerView : playerViews) {
+            playerView.getShouldAutosave().set(false);
+        }
 
-	if (inBackground) {
-	    // do in the background to avoid jankiness
-	    new AsyncTask<Void, Void, Void>() {
+        if (inBackground) {
+            // do in the background to avoid jankiness
+            new AsyncTask<Void, Void, Void>() {
 
-		@Override
-		protected Void doInBackground(Void... params) {
+                @Override
+                protected Void doInBackground(Void... params) {
 
-		    saveGame(gameToSave);
+                    saveGame(gameToSave);
 
-		    return null;
-		}
+                    return null;
+                }
 
-		@Override
-		protected void onPostExecute(Void result) {
-		    super.onPostExecute(result);
-		    if (onFinished != null) {
-			onFinished.run();
-		    }
-		}
+                @Override
+                protected void onPostExecute(Void result) {
+                    super.onPostExecute(result);
+                    if (onFinished != null) {
+                        onFinished.run();
+                    }
+                }
 
-	    }.execute((Void) null);
-	} else {
-	    // do in foreground to ensure the game gets saved before the
-	    // activity finishes
-	    saveGame(gameToSave);
-	    if (onFinished != null) {
-		onFinished.run();
-	    }
-	}
+            }.execute((Void) null);
+        } else {
+            // do in foreground to ensure the game gets saved before the
+            // activity finishes
+            saveGame(gameToSave);
+            if (onFinished != null) {
+                onFinished.run();
+            }
+        }
     }
 
     private synchronized void saveGame(Game gameToSave) {
-	StopWatch stopWatch = new StopWatch("saveGame()");
+        StopWatch stopWatch = new StopWatch("saveGame()");
 
-	getDbHelper().saveGame(gameToSave);
-	log.d("saved game: %s", gameToSave);
-	savedGameBeforeExit = true;
+        getDbHelper().saveGame(gameToSave);
+        log.d("saved game: %s", gameToSave);
+        savedGameBeforeExit = true;
 
-	stopWatch.log(log);
+        stopWatch.log(log);
     }
 
     private void setUpWidgets() {
 
-	rootLayout = (LinearLayout) findViewById(R.id.game_root_layout);
-	rowLayout2 = (LinearLayout) findViewById(R.id.game_row_2);
-	rowLayout3 = (LinearLayout) findViewById(R.id.game_row_3);
-	rowLayout4 = (LinearLayout) findViewById(R.id.game_row_4);
+        rootLayout = (LinearLayout) findViewById(R.id.game_root_layout);
+        rowLayout2 = (LinearLayout) findViewById(R.id.game_row_2);
+        rowLayout3 = (LinearLayout) findViewById(R.id.game_row_3);
+        rowLayout4 = (LinearLayout) findViewById(R.id.game_row_4);
 
-	// set which rows are visible based on how many players there are
-	rowLayout2.setVisibility(playerScores.size() > 2 ? View.VISIBLE
-		: View.GONE);
-	rowLayout3.setVisibility(playerScores.size() > 4 ? View.VISIBLE
-		: View.GONE);
-	rowLayout4.setVisibility(playerScores.size() > 6 ? View.VISIBLE
-		: View.GONE);
+        // set which rows are visible based on how many players there are
+        rowLayout2.setVisibility(playerScores.size() > 2 ? View.VISIBLE
+                : View.GONE);
+        rowLayout3.setVisibility(playerScores.size() > 4 ? View.VISIBLE
+                : View.GONE);
+        rowLayout4.setVisibility(playerScores.size() > 6 ? View.VISIBLE
+                : View.GONE);
 
-	// add top and bottom spacing on the two-player game. it looks nicer
-	rootPadding1 = findViewById(R.id.game_root_padding_1);
-	rootPadding2 = findViewById(R.id.game_root_padding_2);
-	rootPadding1.setVisibility(playerScores.size() <= 2 ? View.VISIBLE
-		: View.GONE);
-	rootPadding2.setVisibility(playerScores.size() <= 2 ? View.VISIBLE
-		: View.GONE);
+        // add top and bottom spacing on the two-player game. it looks nicer
+        rootPadding1 = findViewById(R.id.game_root_padding_1);
+        rootPadding2 = findViewById(R.id.game_root_padding_2);
+        rootPadding1.setVisibility(playerScores.size() <= 2 ? View.VISIBLE
+                : View.GONE);
+        rootPadding2.setVisibility(playerScores.size() <= 2 ? View.VISIBLE
+                : View.GONE);
 
-	// inflate the round total view stub if we're in Eclair (due to an
-	// Eclair bug), or
-	// if the round totals are enabled
-	try {
-	    roundTotalViewStub = (ViewStub) findViewById(R.id.round_totals);
-	    int versionInt = VersionHelper.getVersionSdkIntCompat();
-	    if (versionInt > VersionHelper.VERSION_DONUT
-		    && versionInt < VersionHelper.VERSION_FROYO) {
-		roundTotalTextView = (TextView) roundTotalViewStub.inflate();
-	    }
-	} catch (ClassCastException ignore) {
-	    // view stub already inflated
-	}
+        // inflate the round total view stub if we're in Eclair (due to an
+        // Eclair bug), or
+        // if the round totals are enabled
+        try {
+            roundTotalViewStub = (ViewStub) findViewById(R.id.round_totals);
+            int versionInt = VersionHelper.getVersionSdkIntCompat();
+            if (versionInt > VersionHelper.VERSION_DONUT
+                    && versionInt < VersionHelper.VERSION_FROYO) {
+                roundTotalTextView = (TextView) roundTotalViewStub.inflate();
+            }
+        } catch (ClassCastException ignore) {
+            // view stub already inflated
+        }
 
-	playerViews = new ArrayList<PlayerView>();
+        playerViews = new ArrayList<PlayerView>();
 
-	// only show the onscreen delta buttons if space allows
-	boolean showOnscreenDeltaButtons = playerScores.size() <= getResources()
-		.getInteger(R.integer.max_players_for_onscreen_delta_buttons);
+        // only show the onscreen delta buttons if space allows
+        boolean showOnscreenDeltaButtons = playerScores.size() <= getResources()
+                .getInteger(R.integer.max_players_for_onscreen_delta_buttons);
 
-	for (int i = 0; i < playerScores.size(); i++) {
+        for (int i = 0; i < playerScores.size(); i++) {
 
-	    PlayerScore playerScore = playerScores.get(i);
-	    int resId = getPlayerViewResId(i);
-	    View view = getPlayerScoreView(resId);
+            PlayerScore playerScore = playerScores.get(i);
+            int resId = getPlayerViewResId(i);
+            View view = getPlayerScoreView(resId);
 
-	    PlayerView playerView = new PlayerView(this, view, playerScore,
-		    handler, showOnscreenDeltaButtons);
+            PlayerView playerView = new PlayerView(this, view, playerScore,
+                    handler, showOnscreenDeltaButtons);
 
-	    playerView.setOnChangeListener(new Runnable() {
+            playerView.setChangeRecorder(new Callback<RecordedChange>() {
+                
+                @Override
+                public void onCallback(RecordedChange recordedChange) {
+                    undoStack.pop(recordedChange);
+                    redoStack.clear();
+                }
+            });
+            playerView.setOnChangeListener(new Runnable() {
 
-		@Override
-		public void run() {
-		    updateRoundTotalViewText();
-		}
-	    });
+                @Override
+                public void run() {
+                    updateRoundTotalViewText();
+                }
+            });
 
-	    // set to autosave if the player names are filled in. This feels
-	    // intuitive to me. There's no point
-	    // in saving an empty game, but if the player names are included,
-	    // the game feels non-empty and therefore
-	    // worth saving. This only applies for newly created games.
-	    if (game.getId() == -1 && !TextUtils.isEmpty(playerScore.getName())) {
-		playerView.getShouldAutosave().set(true);
-	    }
+            // set to autosave if the player names are filled in. This feels
+            // intuitive to me. There's no point
+            // in saving an empty game, but if the player names are included,
+            // the game feels non-empty and therefore
+            // worth saving. This only applies for newly created games.
+            if (game.getId() == -1 && !TextUtils.isEmpty(playerScore.getName())) {
+                playerView.getShouldAutosave().set(true);
+            }
 
-	    playerViews.add(playerView);
-	}
+            playerViews.add(playerView);
+        }
 
-	if (playerScores.size() == 3) {
-	    // hide the "fourth" player
-	    getPlayerScoreView(R.id.player_4).setVisibility(View.INVISIBLE);
-	} else if (playerScores.size() == 5) {
-	    // hide the "sixth" player
-	    getPlayerScoreView(R.id.player_6).setVisibility(View.INVISIBLE);
-	} else if (playerScores.size() == 7) {
-	    // hide the "eighth" player
-	    getPlayerScoreView(R.id.player_8).setVisibility(View.INVISIBLE);
-	}
+        if (playerScores.size() == 3) {
+            // hide the "fourth" player
+            getPlayerScoreView(R.id.player_4).setVisibility(View.INVISIBLE);
+        } else if (playerScores.size() == 5) {
+            // hide the "sixth" player
+            getPlayerScoreView(R.id.player_6).setVisibility(View.INVISIBLE);
+        } else if (playerScores.size() == 7) {
+            // hide the "eighth" player
+            getPlayerScoreView(R.id.player_8).setVisibility(View.INVISIBLE);
+        }
     }
 
     private void updateRoundTotalViewText() {
 
-	boolean showRoundTotal = PreferenceHelper.getShowRoundTotals(this);
+        boolean showRoundTotal = PreferenceHelper.getShowRoundTotals(this);
 
-	if (!showRoundTotal) {
-	    if (roundTotalTextView != null) {
-		roundTotalTextView.setVisibility(View.GONE);
-	    }
-	    return;
-	}
+        if (!showRoundTotal) {
+            if (roundTotalTextView != null) {
+                roundTotalTextView.setVisibility(View.GONE);
+            }
+            return;
+        }
 
-	final int round = CollectionUtil.max(playerScores,
-		Functions.PLAYER_SCORE_TO_HISTORY_SIZE);
+        final int round = CollectionUtil.max(playerScores,
+                Functions.PLAYER_SCORE_TO_HISTORY_SIZE);
 
-	int roundTotal = round == 0 ? 0 : CollectionUtil.sum(playerScores,
-		new Function<PlayerScore, Integer>() {
+        int roundTotal = round == 0 ? 0 : CollectionUtil.sum(playerScores,
+                new Function<PlayerScore, Integer>() {
 
-		    @Override
-		    public Integer apply(PlayerScore obj) {
-			return obj.getHistory().size() >= round ? obj
-				.getHistory().get(round - 1) : 0;
-		    }
-		});
+                    @Override
+                    public Integer apply(PlayerScore obj) {
+                        return obj.getHistory().size() >= round ? obj
+                                .getHistory().get(round - 1) : 0;
+                    }
+                });
 
-	String text = String.format(getString(R.string.text_round_total),
-		Math.max(round, 1), roundTotal);
+        String text = String.format(getString(R.string.text_round_total),
+                Math.max(round, 1), roundTotal);
 
-	if (roundTotalTextView == null) {
-	    roundTotalTextView = (TextView) roundTotalViewStub.inflate();
-	}
-	roundTotalTextView.setVisibility(View.VISIBLE);
-	roundTotalTextView.setText(text);
+        if (roundTotalTextView == null) {
+            roundTotalTextView = (TextView) roundTotalViewStub.inflate();
+        }
+        roundTotalTextView.setVisibility(View.VISIBLE);
+        roundTotalTextView.setText(text);
     }
 
     /**
@@ -553,180 +659,180 @@ public class GameActivity extends SherlockActivity {
      */
     private void setPlayerViewTextSizes() {
 
-	PlayerTextFormat textFormat = PlayerTextFormat
-		.forNumPlayers(playerScores.size());
+        PlayerTextFormat textFormat = PlayerTextFormat
+                .forNumPlayers(playerScores.size());
 
-	for (PlayerView playerView : playerViews) {
-	    setPlayerViewTextSizes(playerView, textFormat);
-	}
+        for (PlayerView playerView : playerViews) {
+            setPlayerViewTextSizes(playerView, textFormat);
+        }
     }
 
     private void setPlayerViewTextSizes(PlayerView playerView,
-	    PlayerTextFormat textFormat) {
-	playerView.getNameTextView().setTextSize(
-		TypedValue.COMPLEX_UNIT_PX,
-		getResources().getDimensionPixelSize(
-			textFormat.getPlayerNameTextSize()));
-	playerView.getBadgeTextView().setTextSize(
-		TypedValue.COMPLEX_UNIT_PX,
-		getResources().getDimensionPixelSize(
-			textFormat.getBadgeTextSize()));
-	playerView.getScoreTextView().setTextSize(
-		TypedValue.COMPLEX_UNIT_PX,
-		getResources().getDimensionPixelSize(
-			textFormat.getPlayerScoreTextSize()));
+            PlayerTextFormat textFormat) {
+        playerView.getNameTextView().setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(
+                        textFormat.getPlayerNameTextSize()));
+        playerView.getBadgeTextView().setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(
+                        textFormat.getBadgeTextSize()));
+        playerView.getScoreTextView().setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(
+                        textFormat.getPlayerScoreTextSize()));
 
-	Button plusButton = playerView.getPlusButton();
-	Button minusButton = playerView.getMinusButton();
+        Button plusButton = playerView.getPlusButton();
+        Button minusButton = playerView.getMinusButton();
 
-	// if the round totals are showing, we have a little less space to work
-	// with
-	int plusMinusButtonHeight = PreferenceHelper.getShowRoundTotals(this) ? textFormat
-		.getPlusMinusButtonHeightWithRoundTotals() : textFormat
-		.getPlusMinusButtonHeight();
+        // if the round totals are showing, we have a little less space to work
+        // with
+        int plusMinusButtonHeight = PreferenceHelper.getShowRoundTotals(this) ? textFormat
+                .getPlusMinusButtonHeightWithRoundTotals() : textFormat
+                .getPlusMinusButtonHeight();
 
-	// in some cases I manually define it to just be 'fill parent'
-	if (plusMinusButtonHeight != LinearLayout.LayoutParams.MATCH_PARENT) {
-	    plusMinusButtonHeight = getResources().getDimensionPixelSize(
-		    plusMinusButtonHeight);
-	}
+        // in some cases I manually define it to just be 'fill parent'
+        if (plusMinusButtonHeight != LinearLayout.LayoutParams.MATCH_PARENT) {
+            plusMinusButtonHeight = getResources().getDimensionPixelSize(
+                    plusMinusButtonHeight);
+        }
 
-	for (Button button : new Button[] { plusButton, minusButton }) {
-	    button.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources()
-		    .getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
-	    button.setLayoutParams(new LinearLayout.LayoutParams(
-		    LayoutParams.MATCH_PARENT, plusMinusButtonHeight));
-	}
+        for (Button button : new Button[] { plusButton, minusButton }) {
+            button.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources()
+                    .getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
+            button.setLayoutParams(new LinearLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT, plusMinusButtonHeight));
+        }
 
-	for (Button button : new Button[] { playerView.getDeltaButton1(),
-		playerView.getDeltaButton2(), playerView.getDeltaButton3(),
-		playerView.getDeltaButton4() }) {
-	    if (button != null) {
-		button.setTextSize(
-			TypedValue.COMPLEX_UNIT_PX,
-			getResources().getDimensionPixelSize(
-				textFormat.getOnscreenDeltaButtonTextSize()));
-	    }
-	}
-	if (playerView.getOnscreenDeltaButtonsLayout() != null) {
-	    playerView
-		    .getOnscreenDeltaButtonsLayout()
-		    .setLayoutParams(
-			    new RelativeLayout.LayoutParams(
-				    LayoutParams.MATCH_PARENT,
-				    getResources()
-					    .getDimensionPixelSize(
-						    textFormat
-							    .getOnscreenDeltaButtonHeight())));
-	}
+        for (Button button : new Button[] { playerView.getDeltaButton1(),
+                playerView.getDeltaButton2(), playerView.getDeltaButton3(),
+                playerView.getDeltaButton4() }) {
+            if (button != null) {
+                button.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(
+                                textFormat.getOnscreenDeltaButtonTextSize()));
+            }
+        }
+        if (playerView.getOnscreenDeltaButtonsLayout() != null) {
+            playerView
+                    .getOnscreenDeltaButtonsLayout()
+                    .setLayoutParams(
+                            new RelativeLayout.LayoutParams(
+                                    LayoutParams.MATCH_PARENT,
+                                    getResources()
+                                            .getDimensionPixelSize(
+                                                    textFormat
+                                                            .getOnscreenDeltaButtonHeight())));
+        }
 
-	playerView.getBadgeTextView().setPadding(
-		getResources().getDimensionPixelSize(
-			textFormat.getBadgePaddingLeftRight()), // left
-		getResources().getDimensionPixelSize(
-			textFormat.getBadgePaddingTopBottom()), // top
-		getResources().getDimensionPixelSize(
-			textFormat.getBadgePaddingLeftRight()), // right
-		getResources().getDimensionPixelSize(
-			textFormat.getBadgePaddingTopBottom()) // bottom
-		);
+        playerView.getBadgeTextView().setPadding(
+                getResources().getDimensionPixelSize(
+                        textFormat.getBadgePaddingLeftRight()), // left
+                getResources().getDimensionPixelSize(
+                        textFormat.getBadgePaddingTopBottom()), // top
+                getResources().getDimensionPixelSize(
+                        textFormat.getBadgePaddingLeftRight()), // right
+                getResources().getDimensionPixelSize(
+                        textFormat.getBadgePaddingTopBottom()) // bottom
+                );
 
-	// the offset is from the top right corner only
-	playerView.getBadgeLinearLayout().setPadding(
-		0,
-		getResources().getDimensionPixelSize(
-			textFormat.getBadgeOffset()),
-		getResources().getDimensionPixelSize(
-			textFormat.getBadgeOffset()), 0);
+        // the offset is from the top right corner only
+        playerView.getBadgeLinearLayout().setPadding(
+                0,
+                getResources().getDimensionPixelSize(
+                        textFormat.getBadgeOffset()),
+                getResources().getDimensionPixelSize(
+                        textFormat.getBadgeOffset()), 0);
 
     }
 
     private View getPlayerScoreView(int resId) {
-	// either get the view, or inflate from the ViewStub
-	View view = findViewById(resId);
-	if (view instanceof ViewStub) {
-	    return ((ViewStub) view).inflate();
-	}
-	return view;
+        // either get the view, or inflate from the ViewStub
+        View view = findViewById(resId);
+        if (view instanceof ViewStub) {
+            return ((ViewStub) view).inflate();
+        }
+        return view;
     }
 
     private int getPlayerViewResId(int playerNumber) {
-	switch (playerNumber) {
-	case 0:
-	    return R.id.player_1;
-	case 1:
-	    return R.id.player_2;
-	case 2:
-	    return R.id.player_3;
-	case 3:
-	    return R.id.player_4;
-	case 4:
-	    return R.id.player_5;
-	case 5:
-	    return R.id.player_6;
-	case 6:
-	    return R.id.player_7;
-	case 7:
-	default:
-	    return R.id.player_8;
+        switch (playerNumber) {
+        case 0:
+            return R.id.player_1;
+        case 1:
+            return R.id.player_2;
+        case 2:
+            return R.id.player_3;
+        case 3:
+            return R.id.player_4;
+        case 4:
+            return R.id.player_5;
+        case 5:
+            return R.id.player_6;
+        case 6:
+            return R.id.player_7;
+        case 7:
+        default:
+            return R.id.player_8;
 
-	}
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	super.onActivityResult(requestCode, resultCode, data);
-	
-	if (requestCode == REQUEST_CODE_ADD_EDIT_PLAYERS && resultCode == RESULT_OK) {
-	    final List<PlayerScore> newPlayerScores = data.getParcelableArrayListExtra(
-		    OrganizePlayersActivity.EXTRA_PLAYER_SCORES);
-	    handler.post(new Runnable() {
-	        
-	        @Override
-	        public void run() {
-	            saveWithNewPlayerScores(newPlayerScores);
-	        }
-	    });
-	}
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_ADD_EDIT_PLAYERS
+                && resultCode == RESULT_OK) {
+            final List<PlayerScore> newPlayerScores = data
+                    .getParcelableArrayListExtra(OrganizePlayersActivity.EXTRA_PLAYER_SCORES);
+            handler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    saveWithNewPlayerScores(newPlayerScores);
+                }
+            });
+        }
     }
-    
+
     private void saveWithNewPlayerScores(List<PlayerScore> newPlayerScores) {
-	// delete the old game before starting new one
-	deleteGameOnExit = true;
-	
-	// delete the game and recreate it with the new data
-	
-	final Game newGame = (Game)game.clone();
-	newGame.setId(-1);
-	newGame.setPlayerScores(newPlayerScores);
-	for (PlayerScore playerScore : newGame.getPlayerScores()) {
-	    playerScore.setId(-1);
-	}
-	
-	Runnable onFinished = new Runnable() {
+        // delete the old game before starting new one
+        deleteGameOnExit = true;
 
-	    @Override
-	    public void run() {
-		log.d("game to parcel is: %s", game);
-		
-		// start a new activity so that the layout can refresh correctly
-		// TODO: don't start a new activity; just refresh the layout
+        // delete the game and recreate it with the new data
 
-		Intent intent = new Intent(GameActivity.this,
-			GameActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra(EXTRA_GAME, newGame);
+        final Game newGame = (Game) game.clone();
+        newGame.setId(-1);
+        newGame.setPlayerScores(newPlayerScores);
+        for (PlayerScore playerScore : newGame.getPlayerScores()) {
+            playerScore.setId(-1);
+        }
 
-		startActivity(intent);
+        Runnable onFinished = new Runnable() {
 
-		CompatibilityHelper.overridePendingTransition(
-			GameActivity.this, android.R.anim.fade_in,
-			android.R.anim.fade_out);
-	    }
+            @Override
+            public void run() {
+                log.d("game to parcel is: %s", game);
 
-	};
-	saveGame(newGame, true, onFinished); // automatically save the game
+                // start a new activity so that the layout can refresh correctly
+                // TODO: don't start a new activity; just refresh the layout
+
+                Intent intent = new Intent(GameActivity.this,
+                        GameActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(EXTRA_GAME, newGame);
+
+                startActivity(intent);
+
+                CompatibilityHelper.overridePendingTransition(
+                        GameActivity.this, android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+            }
+
+        };
+        saveGame(newGame, true, onFinished); // automatically save the game
     }
-    
-    
+
 }
