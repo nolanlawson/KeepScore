@@ -72,7 +72,7 @@
     <string name="hint_game_name">Game Name</string>
     
     <string name="menu_about">About</string>
-    <string name="menu_add_edit_players">Modify Players</string>
+    <string name="menu_add_edit_players">Edit Players</string>
     <string name="menu_add_player">Add Player</string>
     <string name="menu_copy">Copy Game</string>
     <string name="menu_history">History</string>
