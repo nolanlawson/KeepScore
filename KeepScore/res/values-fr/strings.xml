@@ -18,7 +18,7 @@
     <string name="menu_add_edit_players">Modifier les joueurs</string>
     <string name="menu_add_player">Ajouter un joueur</string>
     <string name="menu_copy">Copier la partie</string>
-    <string name="menu_history">Résumé</string>
+    <string name="menu_history">Historique</string>
     <string name="menu_home">Accueil</string>
     <string name="menu_load_backup">Importer</string>
     <string name="menu_randomize">Mélanger</string>

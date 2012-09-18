@@ -1,0 +1,32 @@
+KeepScore - compteur de points
+Compteur de points convivial
+
+Besoin de compter les points d'un jeu? Jetez le stylo et le papier!
+
+KeepScore est un compteur de points gratuit et open-source qui peut être utilisé avec n'importe quel jeu basé sur des points, de cribbage à Carcassonne. Moi j'adore les jeux de societé, alors j'ai écrit cette appli pour aider mes amis et moi quand nous jouons ensemble à des jeux.
+
+Caractéristiques:
+
+- Sauvegardement automatique des points
+
+- Possible d'afficher un historique complète des points depuis le début d'une partie
+
+- L'historique des points se met à jour automatiquement après 10 secondes (configurable)
+
+- L'écran reste éveillé
+
+- 2-8 joueurs
+
+- Sauvegardement de jeux multiples
+
+- Appuyer et maintenez sur un bouton pour ajouter / soustraire plusieurs valeurs
+
+- Configurer les boutons
+
+- Ajouter, supprimer, ou modifier les joueurs pendant un jeu
+
+- Exporter/importer à/de la carte SD
+
+Amusez-vous bien!
+
+SEO: score,point,comptage

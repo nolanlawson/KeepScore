@@ -1,0 +1,32 @@
+KeepScore - Score Keeper
+User-friendly score keeper for Android
+
+Need to keep score for a game? Throw away the pen and paper!
+
+KeepScore is a free and open-source score keeper that can be used with any points-based game, from cribbage to Carcassonne. I'm a big board gamer, so I wrote it to help me and my friends when we play games together.
+
+Features:
+
+- Automatically saves scores as you go
+
+- Shows a complete scoring history of every game
+
+- History automatically updates after 10 seconds (configurable)
+
+- Keeps the screen awake
+
+- Supports 2-8 players
+
+- Saves multiple games
+
+- Long-press on a button to add/subtract different values
+
+- Configure the add/subtract buttons
+
+- Add/edit/remove players during play
+
+- Backup/restore to SD card
+
+Enjoy!
+
+seo: score sheet, score pad, score card, tally, counter, count, counting, point, points, scorer, keeping, scorekeeper, scorecard, scorepad, scoresheet
