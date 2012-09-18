@@ -103,7 +103,7 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 			public void onClick(View v) {
 				// edit
 				DialogHelper.showPlayerNameDialog(getContext(),
-						R.string.tile_change_name, playerScore.getName(),
+						R.string.title_change_name, playerScore.getName(),
 						playerScore.getPlayerNumber(), new Callback<String>() {
 
 							@Override

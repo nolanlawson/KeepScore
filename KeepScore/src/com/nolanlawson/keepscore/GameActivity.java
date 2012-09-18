@@ -537,7 +537,7 @@ public class GameActivity extends SherlockActivity {
 		    }
 		});
 
-	String text = String.format(getString(R.string.round_total),
+	String text = String.format(getString(R.string.text_round_total),
 		Math.max(round, 1), roundTotal);
 
 	if (roundTotalTextView == null) {

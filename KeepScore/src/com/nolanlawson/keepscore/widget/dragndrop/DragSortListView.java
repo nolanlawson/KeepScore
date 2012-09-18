@@ -1144,7 +1144,7 @@ public class DragSortListView extends ListView {
 		//int backGroundColor = context.getResources().getColor(R.color.dragndrop_background);
 		v.setBackgroundColor(mFloatBGColor);
 		v.setAlpha(mFloatAlpha);
-		//v.setBackgroundResource(R.drawable.playlist_tile_drag);
+		//v.setBackgroundResource(R.drawable.playlist_title_drag);
 		v.setPadding(0, 0, 0, 0);
 		v.setImageBitmap(bm);
 		mDragBitmap = bm;

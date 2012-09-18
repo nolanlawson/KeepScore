@@ -1,73 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- non-translateable strings-->
+    
+    
     <string name="app_name">KeepScore</string>
-    
-    <string name="date_format">MMM dd hh:mmaa</string>
-    
-    <string name="button_new_game">New Game</string>
-    <string name="button_resume_game">Resume Last Game</string>
-    <string name="button_load_game">Load Game</string>
-    <string name="button_select_all">Select All</string>
-    <string name="button_deselect_all">Deselect All</string>
-    
-    <string name="text_num_players">Number of players</string>
-    
-    <string name="text_saved_games">Saved Games</string>
-    <string name="text_player_names">Player names (optional)</string>
-    <string name="text_player">Player</string>
-    <string name="text_no_saved_games">Your saved games will appear here.</string>
-    <string name="text_players">%s players</string>
-    <string name="text_delete">Delete</string>
-    <string name="text_edit_name">Edit Name</string>
-    <string name="text_reset_confirm">All settings will be reset.</string>
-    <string name="text_about">About KeepScore</string>
-    <string name="text_reset_scores_confirm">All scores will be reset.</string>
-    <string name="text_undo_last">Undo Last</string>
-    <string name="text_confirm">Confirm</string>
-    <string name="text_add_zero">Add Zero</string>
-    <string name="text_version_number">Version %s</string>
-    <string name="text_copy">Copy</string>
-    <string name="round_total" formatted="false">Round #%d Total: %d</string>
-    
-    <string name="text_game_will_be_deleted">The game will be deleted.</string>
-    <string name="text_games_will_be_deleted">%d games will be deleted.</string>
-    <string name="text_players_will_be_randomized">The players will be randomly shuffled.</string>
-    <string name="text_format_rounds">%d Rounds</string>
-    <string name="text_format_rounds_singular">%d Round</string>
-    <string name="text_enter_saved_settings_name">Enter name, e.g. \'cribbage\'</string>
-    <string name="text_delete_saved_settings">The backup \"%s\" will be deleted.</string>
-    
-    <string name="menu_rematch">Rematch</string>
-    <string name="text_confirm_rematch">Start a rematch with the same players?</string>
-    <string name="toast_rematch_created">Created a rematch game.</string>
-    
-    <string name="menu_add_edit_players">Modify Players</string>
-    <string name="text_confirm_delete_player">The following player will be deleted: %s.</string>
-    <string name="text_confirm_delete_player_plural">The following players will be deleted: %s.</string>
-    
-    <string name="menu_save_backup">Backup</string>
-    <string name="menu_load_backup">Restore</string>
-    <string name="text_save_backup" formatted="false">Export %d game to the SD card?</string>
-    <string name="text_save_backup_plural" formatted="false">Export %d games to the SD card?</string>
-    <string name="toast_save_backup_failed">Unable to export file.</string>
-    <string name="text_save_backup_succeeded" formatted="false">%d game saved to \'%s\'.</string>
-    <string name="text_save_backup_succeeded_plural" formatted="false">%d games saved to \'%s\'.</string>
-    <string name="text_duplicates_info">(Duplicate games will be ignored.)</string>
-    <string name="toast_error_with_backup">Error importing games.</string>
-    <string name="toast_no_backups">No export files found.</string>
-    <string name="title_choose_backup">Restore Games from File</string>
-    <string name="text_game_count">%d game</string>
-    <string name="text_game_count_plural">%d games</string>
-    <string name="text_saving">Exporting&#8230;</string>
-    <string name="text_loading">Importing&#8230;</string>
-    <string name="title_success">Success</string>
-    <string name="text_load_backup" formatted="false">\'%s\' successfully imported.\n\n\
-Found: %d\n\
-Loaded: %d\n\
-Duplicates: %d</string>
-    <string name="toast_no_sdcard">SD card not found.</string>
-    
-    <string name="text_epsilon">Σ</string>
     
     <string name="button_2_players">2</string>
     <string name="button_3_players">3</string>
@@ -76,138 +13,187 @@ Duplicates: %d</string>
     <string name="button_6_players">6</string>
     <string name="button_7_players">7</string>
     <string name="button_8_players">8</string>
-    <string name="button_customize">Customize&#8230;</string>
-
+    
+    <string name="pref_2p_button_1">2p_button1</string>
+    <string name="pref_2p_button_1_default">-10</string>
+    <string name="pref_2p_button_2">2p_button2</string>
+    <string name="pref_2p_button_2_default">-5</string>
+    <string name="pref_2p_button_3">2p_button3</string>
+    <string name="pref_2p_button_3_default">5</string>
+    <string name="pref_2p_button_4">2p_button4</string>
+    <string name="pref_2p_button_4_default">10</string>
+    <string name="pref_about">about</string>
+    <string name="pref_button_1">button1</string>
+    <string name="pref_button_1_default">-1</string>
+    <string name="pref_button_2">button2</string>
+    <string name="pref_button_2_default">1</string>
+    <string name="pref_button_3">button3</string>
+    <string name="pref_button_3_default">5</string>
+    <string name="pref_button_4">button4</string>
+    <string name="pref_button_4_default">10</string>
+    <string name="pref_color_scheme">color_scheme</string>
+    <string name="pref_color_scheme_choice_android">android</string>
+    <string name="pref_color_scheme_choice_dark">dark</string>
+    <string name="pref_color_scheme_choice_light">light</string>
+    <string name="pref_color_scheme_default">@string/pref_color_scheme_choice_light</string>
+    <string name="pref_green_text">green_text</string>
+    <string name="pref_green_text_default">false</string>
+    <string name="pref_initial_score">initial_score</string>
+    <string name="pref_initial_score_default">0</string>
+    <string name="pref_load_settings">load_settings</string>
+    <string name="pref_player_names">PlayerNames</string>
+    <string name="pref_reset">reset</string>
+    <string name="pref_save_settings">save_settings</string>
+    <string name="pref_show_round_totals">show_round_totals</string>
+    <string name="pref_show_round_totals_default">false</string>
+    <string name="pref_update_delay">update_delay</string>
+    <string name="pref_update_delay_default">10</string>
+    <string name="pref_use_wake_lock">use_wake_lock</string>
+    <string name="pref_use_wake_lock_default">true</string>
+    
+    <string name="text_epsilon">Σ</string>
+    
+    
+    <!-- translateable strings-->
+    
+    
+    <string name="button_by_chart">Chart</string>
     <string name="button_by_player">By Player</string>
     <string name="button_by_round">By Round</string>
-    <string name="button_by_chart">Chart</string>
+    <string name="button_customize">Customize…</string>
+    <string name="button_deselect_all">Deselect All</string>
+    <string name="button_load_game">Load Game</string>
+    <string name="button_new_game">New Game</string>
+    <string name="button_resume_game">Resume Last Game</string>
+    <string name="button_select_all">Select All</string>
+    
+    <string name="date_format">MMM dd hh:mmaa</string>
     
     <string name="hint_game_name">Game Name</string>
     
-    <string name="toast_deleted">Game deleted.</string>
-    <string name="toast_multiple_deleted">Games deleted.</string>
-    <string name="toast_no_zeroes">You must enter a valid nonzero number.</string>
-    <string name="toast_valid_update_delay_values">You must enter a number between 1 and 600.</string>
-    <string name="toast_valid_initial_score">You must enter a valid number.</string>
-    <string name="toast_settings_reset">Settings reset.</string>
-    <string name="toast_game_copied">Game copied.</string>
-    <string name="toast_players_randomized">Players shuffled.</string>
-    <string name="toast_game_saved">Game saved.</string>
-    <string name="toast_no_saved_settings">No backups found.</string>
-    <string name="toast_loaded_setting_set">Loaded settings for \"%s\".</string>
-    <string name="toast_invalid_setting_set_name">Invalid name.</string>
-    <string name="toast_saved_setting_set_name">Saved backup \"%s\".</string>
+    <string name="menu_about">About</string>
+    <string name="menu_add_edit_players">Modify Players</string>
+    <string name="menu_add_player">Add Player</string>
+    <string name="menu_copy">Copy Game</string>
+    <string name="menu_history">History</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_load_backup">Restore</string>
+    <string name="menu_randomize">Shuffle</string>
+    <string name="menu_rematch">Rematch</string>
+    <string name="menu_reset_scores">Reset</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_save_backup">Backup</string>
+    <string name="menu_settings">Settings</string>
     
-    <string name="pref_button_1">button1</string>
-    <string name="pref_button_2">button2</string>
-    <string name="pref_button_3">button3</string>
-    <string name="pref_button_4">button4</string>
-    <string name="pref_2p_button_1">2p_button1</string>
-    <string name="pref_2p_button_2">2p_button2</string>
-    <string name="pref_2p_button_3">2p_button3</string>
-    <string name="pref_2p_button_4">2p_button4</string>
-    
-    <string name="pref_green_text">green_text</string>
-    <string name="pref_green_text_name">Green Text</string>
-    <string name="pref_green_text_summary">Toggle green or blue increment text.</string>
-    <string name="pref_green_text_default">false</string>
-    
-    <string name="pref_update_delay">update_delay</string>
-    <string name="pref_use_wake_lock">use_wake_lock</string>
-    <string name="pref_initial_score">initial_score</string>
-    <string name="pref_reset">reset</string>
-    <string name="pref_color_scheme">color_scheme</string>
-    
-    <string name="pref_button_1_default">-1</string>
-    <string name="pref_button_2_default">1</string>
-    <string name="pref_button_3_default">5</string>
-    <string name="pref_button_4_default">10</string>
-    <string name="pref_2p_button_1_default">-10</string>
-    <string name="pref_2p_button_2_default">-5</string>
-    <string name="pref_2p_button_3_default">5</string>
-    <string name="pref_2p_button_4_default">10</string>
-    
-    <string name="pref_update_delay_default">10</string>
-    <string name="pref_use_wake_lock_default">true</string>
-    <string name="pref_initial_score_default">0</string>
-	<string name="pref_color_scheme_default">@string/pref_color_scheme_choice_light</string>
-    
-    <string name="pref_button_1_name">Popup Button #1</string>
-    <string name="pref_button_2_name">Popup Button #2</string>
-    <string name="pref_button_3_name">Popup Button #3</string>
-    <string name="pref_button_4_name">Popup Button #4</string>
     <string name="pref_2p_button_1_name">On-Screen Button #1</string>
     <string name="pref_2p_button_2_name">On-Screen Button #2</string>
     <string name="pref_2p_button_3_name">On-Screen Button #3</string>
     <string name="pref_2p_button_4_name">On-Screen Button #4</string>
-    
-    
-    <string name="pref_update_delay_name">Update Delay</string>
-    <string name="pref_use_wake_lock_name">Keep Screen Awake</string>
-    <string name="pref_initial_score_name">Starting Score</string>
-    <string name="pref_reset_name">Reset to Defaults</string>
-    <string name="pref_color_scheme_name">Color Scheme</string>
-    
-    <string name="pref_update_delay_summary">Seconds to wait before adding a new history value (default: 10)</string>
-    <string name="pref_use_wake_lock_summary">Lock screen while playing</string>
-    
+    <string name="pref_button_1_name">Popup Button #1</string>
+    <string name="pref_button_2_name">Popup Button #2</string>
+    <string name="pref_button_3_name">Popup Button #3</string>
+    <string name="pref_button_4_name">Popup Button #4</string>
+    <string name="pref_cat_about">About</string>
+    <string name="pref_cat_advanced">Advanced</string>
     <string name="pref_cat_appearance">Appearance</string>
     <string name="pref_cat_config">Configuration</string>
-    <string name="pref_cat_advanced">Advanced</string>
     <string name="pref_cat_manage">Manage Settings</string>
-    <string name="pref_cat_about">About</string>
-    
-    <string name="pref_about">about</string>
-    
-    <string name="pref_color_scheme_choice_dark">dark</string>
-    <string name="pref_color_scheme_choice_light">light</string>
-    <string name="pref_color_scheme_choice_android">android</string>
-    
+    <string name="pref_color_scheme_choice_android_name">Android</string>
     <string name="pref_color_scheme_choice_dark_name">Dark</string>
     <string name="pref_color_scheme_choice_light_name">Light</string>
-    <string name="pref_color_scheme_choice_android_name">Android</string>
-    <string name="pref_player_names">PlayerNames</string>
-    
-    <string name="pref_show_round_totals">show_round_totals</string>
-    <string name="pref_show_round_totals_name">Show Round Totals</string>
-    <string name="pref_show_round_totals_default">false</string>
-    
-    <string name="pref_load_settings">load_settings</string>
+    <string name="pref_color_scheme_name">Color Scheme</string>
+    <string name="pref_green_text_name">Green Text</string>
+    <string name="pref_green_text_summary">Toggle green or blue increment text.</string>
+    <string name="pref_initial_score_name">Starting Score</string>
     <string name="pref_load_settings_name">Load Backup</string>
     <string name="pref_load_settings_summary">Import settings from a saved backup.</string>
-    
-    <string name="pref_save_settings">save_settings</string>
+    <string name="pref_reset_name">Reset to Defaults</string>
     <string name="pref_save_settings_name">Save Backup</string>
     <string name="pref_save_settings_summary">Save a backup of the current settings.</string>
+    <string name="pref_show_round_totals_name">Show Round Totals</string>
+    <string name="pref_update_delay_name">Update Delay</string>
+    <string name="pref_update_delay_summary">Seconds to wait before adding a new history value (default: 10)</string>
+    <string name="pref_use_wake_lock_name">Keep Screen Awake</string>
+    <string name="pref_use_wake_lock_summary">Lock screen while playing</string>
     
-    <string name="tile_add">Add Value</string>
-    <string name="tile_subtract">Subtract Value</string>
-    <string name="tile_change_name">Change Name</string>
-    <string name="title_edit_game_name">Edit Game Name</string>
-    <string name="title_name_game">Enter Game Name</string>
-    <string name="title_confirm">Confirm</string>
-    <string name="title_confirm_reset">Confirm Reset</string>
+    <string name="text_about">About KeepScore</string>
+    <string name="text_add_zero">Add Zero</string>
+    <string name="text_confirm">Confirm</string>
+    <string name="text_confirm_delete_player">The following player will be deleted: %s.</string>
+    <string name="text_confirm_delete_player_plural">The following players will be deleted: %s.</string>
+    <string name="text_confirm_rematch">Start a rematch with the same players?</string>
+    <string name="text_copy">Copy</string>
+    <string name="text_delete">Delete</string>
+    <string name="text_delete_saved_settings">The backup \&quot;%s\&quot; will be deleted.</string>
+    <string name="text_duplicates_info">(Duplicate games will be ignored.)</string>
+    <string name="text_edit_name">Edit Name</string>
+    <string name="text_enter_saved_settings_name">Enter name, e.g. \'cribbage\'</string>
+    <string name="text_format_rounds">%d Rounds</string>
+    <string name="text_format_rounds_singular">%d Round</string>
+    <string name="text_game_count">%d game</string>
+    <string name="text_game_count_plural">%d games</string>
+    <string name="text_game_will_be_deleted">The game will be deleted.</string>
+    <string name="text_games_will_be_deleted">%d games will be deleted.</string>
+    <string formatted="false" name="text_load_backup">\'%s\' successfully imported.\n\n\
+Found: %d\n\
+Loaded: %d\n\
+Duplicates: %d</string>
+    <string name="text_loading">Importing…</string>
+    <string name="text_no_saved_games">Your saved games will appear here.</string>
+    <string name="text_num_players">Number of players</string>
+    <string name="text_player">Player</string>
+    <string name="text_player_names">Player names (optional)</string>
+    <string name="text_players">%s players</string>
+    <string name="text_players_will_be_randomized">The players will be randomly shuffled.</string>
+    <string name="text_reset_confirm">All settings will be reset.</string>
+    <string name="text_reset_scores_confirm">All scores will be reset.</string>
+    <string formatted="false" name="text_round_total">Round #%d Total: %d</string>
+    <string formatted="false" name="text_save_backup">Export %d game to the SD card?</string>
+    <string formatted="false" name="text_save_backup_plural">Export %d games to the SD card?</string>
+    <string formatted="false" name="text_save_backup_succeeded">%d game saved to \'%s\'.</string>
+    <string formatted="false" name="text_save_backup_succeeded_plural">%d games saved to \'%s\'.</string>
+    <string name="text_saved_games">Saved Games</string>
+    <string name="text_saving">Exporting…</string>
+    <string name="text_undo_last">Undo Last</string>
+    <string name="text_version_number">Version %s</string>
+    
+    <string name="title_add">Add Value</string>
     <string name="title_add_player">Enter Player Name</string>
+    <string name="title_change_name">Change Name</string>
+    <string name="title_choose_backup">Restore Games from File</string>
+    <string name="title_confirm">Confirm</string>
     <string name="title_confirm_delete">Confirm Delete</string>
-    <string name="title_save_setting_set">Backup All Settings</string>
-    <string name="title_load_setting_set">Load \"%s\"?</string>
-    
-    <string name="menu_settings">Settings</string>
-    <string name="menu_history">History</string>
-    <string name="menu_save">Save</string>
-    <string name="menu_home">Home</string>
-    <string name="menu_reset_scores">Reset</string>
-    <string name="menu_about">About</string>
-    <string name="menu_add_player">Add Player</string>
-    <string name="menu_copy">Copy Game</string>
-    <string name="menu_randomize">Shuffle</string>
-    
-    <string name="title_today">Today</string>
-    <string name="title_yesterday">Yesterday</string>
-    <string name="title_two_days_ago">Two Days Ago</string>
-    <string name="title_last_week">The Past Week</string>
+    <string name="title_confirm_reset">Confirm Reset</string>
+    <string name="title_edit_game_name">Edit Game Name</string>
     <string name="title_last_month">The Past Month</string>
+    <string name="title_last_week">The Past Week</string>
     <string name="title_last_year">The Past Year</string>
+    <string name="title_load_setting_set">Load \&quot;%s\&quot;?</string>
+    <string name="title_name_game">Enter Game Name</string>
     <string name="title_older">Older</string>
+    <string name="title_save_setting_set">Backup All Settings</string>
+    <string name="title_subtract">Subtract Value</string>
+    <string name="title_success">Success</string>
+    <string name="title_today">Today</string>
+    <string name="title_two_days_ago">Two Days Ago</string>
+    <string name="title_yesterday">Yesterday</string>
     
+    <string name="toast_deleted">Game deleted.</string>
+    <string name="toast_error_with_backup">Error importing games.</string>
+    <string name="toast_game_copied">Game copied.</string>
+    <string name="toast_game_saved">Game saved.</string>
+    <string name="toast_invalid_setting_set_name">Invalid name.</string>
+    <string name="toast_loaded_setting_set">Loaded settings for \&quot;%s\&quot;.</string>
+    <string name="toast_multiple_deleted">Games deleted.</string>
+    <string name="toast_no_backups">No export files found.</string>
+    <string name="toast_no_saved_settings">No backups found.</string>
+    <string name="toast_no_sdcard">SD card not found.</string>
+    <string name="toast_no_zeroes">You must enter a valid nonzero number.</string>
+    <string name="toast_players_randomized">Players shuffled.</string>
+    <string name="toast_rematch_created">Created a rematch game.</string>
+    <string name="toast_save_backup_failed">Unable to export file.</string>
+    <string name="toast_saved_setting_set_name">Saved backup \&quot;%s\&quot;.</string>
+    <string name="toast_settings_reset">Settings reset.</string>
+    <string name="toast_valid_initial_score">You must enter a valid number.</string>
+    <string name="toast_valid_update_delay_values">You must enter a number between 1 and 600.</string>
 </resources>

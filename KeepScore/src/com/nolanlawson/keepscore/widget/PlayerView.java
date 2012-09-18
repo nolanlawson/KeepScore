@@ -649,7 +649,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
     private void showChangeNameDialog() {
 
-	DialogHelper.showPlayerNameDialog(context, R.string.tile_change_name,
+	DialogHelper.showPlayerNameDialog(context, R.string.title_change_name,
 		playerScore.getName(), playerScore.getPlayerNumber(),
 		new Callback<String>() {
 

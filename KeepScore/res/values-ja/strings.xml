@@ -1,159 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">KeepScore</string>
-
-	<string name="date_format">M月dd日　aahh:mm</string>
-	
-	<string name="button_new_game">新しいゲーム</string>
-	<string name="button_resume_game">最後のゲームを続ける</string>
-	<string name="button_load_game">保存したゲーム</string>
-	<string name="button_by_player">選手で</string>
-    <string name="button_by_round">ラウンドで</string>
     <string name="button_by_chart">チャート</string>
-    <string name="button_select_all">全て選択</string>
+    <string name="button_by_player">選手で</string>
+    <string name="button_by_round">ラウンドで</string>
+    <string name="button_customize">カスタマイズ…</string>
     <string name="button_deselect_all">全て解除</string>
-
-	<string name="text_num_players">選手の数</string>
-
-	<string name="text_saved_games">保存したゲーム</string>
-	<string name="text_player_names">選手の名 （随意）</string>
-	<string name="text_player">選手</string>
-	<string name="text_no_saved_games">保存したゲームはここで現れます。</string>
-	<string name="text_players">選手%s人</string>
-	<string name="text_delete">削除</string>
-	<string name="text_edit_name">名をエディット</string>
-	<string name="text_reset_confirm">全部の設定はリセットします。</string>
-	<string name="text_about">KeepScoreについて</string>
-	<string name="text_reset_scores_confirm">点は全部リセットします。</string>
-	<string name="text_undo_last">最後の点をアンドゥ</string>
-	<string name="text_confirm">確認</string>
-	<string name="text_add_zero">ゼロを増加</string>
-	<string name="text_version_number">バージョン%s</string>
-	<string name="text_copy">複写</string>
-	<string name="text_format_rounds">%dラウンド</string>
-	<string name="text_format_rounds_singular">%dラウンド</string>
-
-	<string name="text_game_will_be_deleted">ゲームは削除されます。</string>
-	<string name="text_games_will_be_deleted">%dのゲームは削除されます。</string>
-	<string name="text_players_will_be_randomized">選手はランダムにシャッフルされます。</string>
-
-	<string name="button_customize">カスタマイズ&#8230;</string>
-
-	<string name="hint_game_name">ゲームの名</string>
-	
-	    
-    <string name="text_enter_saved_settings_name">名を入力、たとえ\'カタン\'</string>
-    <string name="text_delete_saved_settings">「%s」のバックアップは削除されます.</string>
-    <string name="toast_no_saved_settings">バックアップはまだありません。</string>
-    <string name="toast_loaded_setting_set">「%s」野バックアップはロードされました。</string>
-    <string name="toast_invalid_setting_set_name">妥当な名を入力ください。</string>
-    <string name="toast_saved_setting_set_name">「%s」は保存されました。</string>
+    <string name="button_load_game">保存したゲーム</string>
+    <string name="button_new_game">新しいゲーム</string>
+    <string name="button_resume_game">最後のゲームを続ける</string>
+    <string name="button_select_all">全て選択</string>
+    
+    <string name="date_format">M月dd日　aahh:mm</string>
+    
+    <string name="hint_game_name">ゲームの名</string>
+    
+    <string name="menu_about">KeepScoreについて</string>
+    <string name="menu_add_edit_players">選手エディと</string>
+    <string name="menu_add_player">新しい選手</string>
+    <string name="menu_copy">ゲーム複写</string>
+    <string name="menu_history">歴史</string>
+    <string name="menu_home">ホーム</string>
+    <string name="menu_load_backup">インポート</string>
+    <string name="menu_randomize">シャッフル</string>
+    <string name="menu_rematch">再戦</string>
+    <string name="menu_reset_scores">リセット</string>
+    <string name="menu_save_backup">バックアップ</string>
+    <string name="menu_settings">設定</string>
+    
+    <string name="pref_2p_button_1_name">オンスクリーンボタン＃１</string>
+    <string name="pref_2p_button_2_name">オンスクリーンボタン＃２</string>
+    <string name="pref_2p_button_3_name">オンスクリーンボタン＃３</string>
+    <string name="pref_2p_button_4_name">オンスクリーンボタン＃４</string>
+    <string name="pref_button_1_name">ポップアップのボタン＃１</string>
+    <string name="pref_button_2_name">ポップアップのボタン＃２</string>
+    <string name="pref_button_3_name">ポップアップのボタン＃３</string>
+    <string name="pref_button_4_name">ポップアップのボタン＃４</string>
+    <string name="pref_cat_about">情報</string>
+    <string name="pref_cat_advanced">アドバンスド</string>
+    <string name="pref_cat_appearance">表示</string>
+    <string name="pref_cat_config">コンフィギュレーション</string>
+    <string name="pref_cat_manage">設定の使い方</string>
+    <string name="pref_color_scheme_choice_android_name">アンドロイド</string>
+    <string name="pref_color_scheme_choice_dark_name">暗い</string>
+    <string name="pref_color_scheme_choice_light_name">明るい</string>
+    <string name="pref_color_scheme_name">配色</string>
+    <string name="pref_green_text_name">緑のテクスト</string>
+    <string name="pref_green_text_summary">緑か青のテクストを選択します。</string>
+    <string name="pref_initial_score_name">最初の点</string>
     <string name="pref_load_settings_name">バックアップをロード</string>
     <string name="pref_load_settings_summary">バックアップの設定をロードします。</string>
+    <string name="pref_reset_name">デフォルトにリセット</string>
     <string name="pref_save_settings_name">バックアップを保存</string>
     <string name="pref_save_settings_summary">今の設定をバックアップに保存します。</string>
-    <string name="title_save_setting_set">設定のバックアップを作る</string>
-    <string name="title_load_setting_set">「%s」をロード？</string>
-
-	<string name="toast_deleted">ゲームは削除されました。</string>
-	<string name="toast_multiple_deleted">@string/toast_deleted</string>
-	<string name="toast_no_zeroes">ゼロじゃない妥当な数を入力してください。</string>
-	<string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>
-	<string name="toast_valid_initial_score">妥当な数を入力してください。</string>
-	<string name="toast_settings_reset">設定はリセットされました。</string>
-	<string name="toast_game_copied">ゲーム複写されました。</string>
-	<string name="toast_players_randomized">選手は混ぜられました。</string>
-	<string name="toast_game_saved">ゲーム保存しました。</string>
-	<string name="round_total" formatted="false">ロウンド%dのトータル：%d</string>
-	
-	<string name="pref_button_1_name">ポップアップのボタン＃１</string>
-	<string name="pref_button_2_name">ポップアップのボタン＃２</string>
-	<string name="pref_button_3_name">ポップアップのボタン＃３</string>
-	<string name="pref_button_4_name">ポップアップのボタン＃４</string>
-	<string name="pref_2p_button_1_name">オンスクリーンボタン＃１</string>
-	<string name="pref_2p_button_2_name">オンスクリーンボタン＃２</string>
-	<string name="pref_2p_button_3_name">オンスクリーンボタン＃３</string>
-	<string name="pref_2p_button_4_name">オンスクリーンボタン＃４</string>
-	
-	<string name="pref_green_text_name">緑のテクスト</string>
-    <string name="pref_green_text_summary">緑か青のテクストを選択します。</string>
-	
-	<string name="pref_update_delay_name">アップデートの遅れ</string>
-	<string name="pref_use_wake_lock_name">画面を起こし続ける</string>
-	<string name="pref_initial_score_name">最初の点</string>
-	<string name="pref_reset_name">デフォルトにリセット</string>
-	<string name="pref_color_scheme_name">配色</string>
-
-	<string name="pref_update_delay_summary">新しい歴史の点を作る前に何秒待つ（デフォルト： 10）</string>
-	<string name="pref_use_wake_lock_summary">ゲームする間に画面をロックする</string>
-
-	<string name="pref_cat_appearance">表示</string>
-	<string name="pref_cat_config">コンフィギュレーション</string>
-	<string name="pref_cat_advanced">アドバンスド</string>
-	<string name="pref_cat_manage">設定の使い方</string>
-    <string name="pref_cat_about">情報</string>
-
-	<string name="pref_color_scheme_choice_dark_name">暗い</string>
-	<string name="pref_color_scheme_choice_light_name">明るい</string>
-	<string name="pref_color_scheme_choice_android_name">アンドロイド</string>
-
-	<string name="pref_show_round_totals_name">ロウンドのトータルを表示</string>
-	
-	<string name="tile_add">増加</string>
-	<string name="tile_subtract">減</string>
-	<string name="tile_change_name">名を変換</string>
-	<string name="title_edit_game_name">名をエディと</string>
-	<string name="title_name_game">ゲームの名を入力</string>
-	<string name="title_confirm">確認</string>
-	<string name="title_confirm_reset">リセットを確認</string>
-	<string name="title_add_player">選手のなを入力</string>
-	<string name="title_confirm_delete">削除確認</string>
-	
-	<string name="menu_rematch">再戦</string>
-	<string name="text_confirm_rematch">同じ選手で再戦しますか？</string>
-	<string name="toast_rematch_created">再戦のゲーム作りました。</string>
-	
-	<string name="menu_add_edit_players">選手エディと</string>
-    <string name="text_confirm_delete_player">この選手は削除されます：%s。</string>    
-    <string name="text_confirm_delete_player_plural">@string/text_confirm_delete_player</string> 
+    <string name="pref_show_round_totals_name">ロウンドのトータルを表示</string>
+    <string name="pref_update_delay_name">アップデートの遅れ</string>
+    <string name="pref_update_delay_summary">新しい歴史の点を作る前に何秒待つ（デフォルト： 10）</string>
+    <string name="pref_use_wake_lock_name">画面を起こし続ける</string>
+    <string name="pref_use_wake_lock_summary">ゲームする間に画面をロックする</string>
     
-    <string name="menu_save_backup">バックアップ</string>
-    <string name="menu_load_backup">インポート</string>
-    <string name="text_save_backup" formatted="false">ゲームをSDカードに%dバックアップしますか？</string>
-    <string name="text_save_backup_plural" formatted="false">@string/text_save_backup</string>
-    <string name="toast_save_backup_failed">ファイルに書けませんでした。</string>
-    <string name="text_save_backup_succeeded" formatted="false">ゲームを%d保存しました。ファイルは「%s」です。</string>
-    <string name="text_save_backup_succeeded_plural" formatted="false">@string/text_save_backup_succeeded</string>
+    <string name="text_about">KeepScoreについて</string>
+    <string name="text_add_zero">ゼロを増加</string>
+    <string name="text_confirm">確認</string>
+    <string name="text_confirm_delete_player">この選手は削除されます：%s。</string>
+    <string name="text_confirm_delete_player_plural">@string/text_confirm_delete_player</string>
+    <string name="text_confirm_rematch">同じ選手で再戦しますか？</string>
+    <string name="text_copy">複写</string>
+    <string name="text_delete">削除</string>
+    <string name="text_delete_saved_settings">「%s」のバックアップは削除されます.</string>
     <string name="text_duplicates_info">（複写は二回インポートしません。）</string>
-    <string name="toast_error_with_backup">インポートのエラーはありました。</string>
-    <string name="toast_no_backups">バックアップのファイルはありません。</string>
-    <string name="title_choose_backup">バックアップをインポート</string>
+    <string name="text_edit_name">名をエディット</string>
+    <string name="text_enter_saved_settings_name">名を入力、たとえ\'カタン\'</string>
+    <string name="text_format_rounds">%dラウンド</string>
+    <string name="text_format_rounds_singular">%dラウンド</string>
     <string name="text_game_count">ゲームは%d</string>
     <string name="text_game_count_plural">@string/text_game_count</string>
-    <string name="text_saving">バックアップ&#8230;</string>
-    <string name="text_loading">インポート&#8230;</string>
-    <string name="title_success">成功</string>
-    <string name="text_load_backup" formatted="false">\'%s\' 野インポートは成功です。\n\n\
+    <string name="text_game_will_be_deleted">ゲームは削除されます。</string>
+    <string name="text_games_will_be_deleted">%dのゲームは削除されます。</string>
+    <string formatted="false" name="text_load_backup">\'%s\' 野インポートは成功です。\n\n\
 ファイル： %d\n\
 インポートした： %d\n\
 複写： %d</string>
-    <string name="toast_no_sdcard">Aucune carte SD trouvée.</string>
+    <string name="text_loading">インポート…</string>
+    <string name="text_no_saved_games">保存したゲームはここで現れます。</string>
+    <string name="text_num_players">選手の数</string>
+    <string name="text_player">選手</string>
+    <string name="text_player_names">選手の名 （随意）</string>
+    <string name="text_players">選手%s人</string>
+    <string name="text_players_will_be_randomized">選手はランダムにシャッフルされます。</string>
+    <string name="text_reset_confirm">全部の設定はリセットします。</string>
+    <string name="text_reset_scores_confirm">点は全部リセットします。</string>
+    <string formatted="false" name="text_round_total">ロウンド%dのトータル：%d</string>
+    <string formatted="false" name="text_save_backup">ゲームをSDカードに%dバックアップしますか？</string>
+    <string formatted="false" name="text_save_backup_plural">@string/text_save_backup</string>
+    <string formatted="false" name="text_save_backup_succeeded">ゲームを%d保存しました。ファイルは「%s」です。</string>
+    <string formatted="false" name="text_save_backup_succeeded_plural">@string/text_save_backup_succeeded</string>
+    <string name="text_saved_games">保存したゲーム</string>
+    <string name="text_saving">バックアップ…</string>
+    <string name="text_undo_last">最後の点をアンドゥ</string>
+    <string name="text_version_number">バージョン%s</string>
     
-	<string name="menu_settings">設定</string>
-	<string name="menu_history">歴史</string>
-	<string name="menu_home">ホーム</string>
-	<string name="menu_reset_scores">リセット</string>
-	<string name="menu_about">KeepScoreについて</string>
-	<string name="menu_add_player">新しい選手</string>
-	<string name="menu_copy">ゲーム複写</string>
-	<string name="menu_randomize">シャッフル</string>
-	
-    <string name="title_today">今日</string>
-    <string name="title_yesterday">昨日</string>
-    <string name="title_two_days_ago">一昨日</string>
-    <string name="title_last_week">一週間前から</string>
+    <string name="title_add">増加</string>
+    <string name="title_add_player">選手のなを入力</string>
+    <string name="title_change_name">名を変換</string>
+    <string name="title_choose_backup">バックアップをインポート</string>
+    <string name="title_confirm">確認</string>
+    <string name="title_confirm_delete">削除確認</string>
+    <string name="title_confirm_reset">リセットを確認</string>
+    <string name="title_edit_game_name">名をエディと</string>
     <string name="title_last_month">一ヶ月前から</string>
+    <string name="title_last_week">一週間前から</string>
     <string name="title_last_year">一年前から</string>
+    <string name="title_load_setting_set">「%s」をロード？</string>
+    <string name="title_name_game">ゲームの名を入力</string>
     <string name="title_older">それより前</string>
-
+    <string name="title_save_setting_set">設定のバックアップを作る</string>
+    <string name="title_subtract">減</string>
+    <string name="title_success">成功</string>
+    <string name="title_today">今日</string>
+    <string name="title_two_days_ago">一昨日</string>
+    <string name="title_yesterday">昨日</string>
+    
+    <string name="toast_deleted">ゲームは削除されました。</string>
+    <string name="toast_error_with_backup">インポートのエラーはありました。</string>
+    <string name="toast_game_copied">ゲーム複写されました。</string>
+    <string name="toast_game_saved">ゲーム保存しました。</string>
+    <string name="toast_invalid_setting_set_name">妥当な名を入力ください。</string>
+    <string name="toast_loaded_setting_set">「%s」野バックアップはロードされました。</string>
+    <string name="toast_multiple_deleted">@string/toast_deleted</string>
+    <string name="toast_no_backups">バックアップのファイルはありません。</string>
+    <string name="toast_no_saved_settings">バックアップはまだありません。</string>
+    <string name="toast_no_sdcard">SDカードは存在ありません。</string>
+    <string name="toast_no_zeroes">ゼロじゃない妥当な数を入力してください。</string>
+    <string name="toast_players_randomized">選手は混ぜられました。</string>
+    <string name="toast_rematch_created">再戦のゲーム作りました。</string>
+    <string name="toast_save_backup_failed">ファイルに書けませんでした。</string>
+    <string name="toast_saved_setting_set_name">「%s」は保存されました。</string>
+    <string name="toast_settings_reset">設定はリセットされました。</string>
+    <string name="toast_valid_initial_score">妥当な数を入力してください。</string>
+    <string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>
 </resources>

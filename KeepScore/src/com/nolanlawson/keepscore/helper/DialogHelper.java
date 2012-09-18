@@ -54,7 +54,7 @@ public class DialogHelper {
 
 	new AlertDialog.Builder(context)
 		.setCancelable(true)
-		.setTitle(positive ? R.string.tile_add : R.string.tile_subtract)
+		.setTitle(positive ? R.string.title_add : R.string.title_subtract)
 		.setPositiveButton(android.R.string.ok,
 			new DialogInterface.OnClickListener() {
 
