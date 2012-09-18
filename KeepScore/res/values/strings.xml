@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">KeepScore</string>
     
+    <string name="date_format">MMM dd hh:mmaa</string>
     
     <string name="button_new_game">New Game</string>
     <string name="button_resume_game">Resume Last Game</string>

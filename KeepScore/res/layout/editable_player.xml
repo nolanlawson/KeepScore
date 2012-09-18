@@ -6,7 +6,7 @@
     android:paddingLeft="2dp"
     android:paddingRight="2dp"
     android:paddingTop="2dp"
-    android:paddingBottom="2dp"
+    android:background="@drawable/editable_player_background"
     >
     
     <Button
@@ -35,7 +35,7 @@
 		android:layout_alignParentLeft="true"
 		android:layout_centerVertical="true"
 		android:src="@drawable/icmpmove"
-		android:id="@+id/img_drag_drop"
+		android:id="@+id/drag"
 		/>
 	        
     <TextView
@@ -43,7 +43,7 @@
         style="@style/simpleHoloLightTextView"
         android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_toRightOf="@+id/img_drag_drop"
+		android:layout_toRightOf="@+id/drag"
 		android:layout_centerVertical="true"
 		android:paddingRight="5dp"
 		android:paddingLeft="5dp"

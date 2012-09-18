@@ -30,6 +30,7 @@ public class SettingSetHelper {
 	public static boolean isValidSettingSetName(String name) {
 		return !StringUtil.isEmptyOrWhitespace(name)
 				&& name.length() <= 50 // come on, dude - too long
+				&& !name.contains("/") // file path separator
 				&& !name.contains(","); // used for comma-separated list
 	}
 
