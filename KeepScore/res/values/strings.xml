@@ -187,7 +187,8 @@ Duplicates: %d</string>
     <string name="toast_invalid_setting_set_name">Invalid name.</string>
     <string name="toast_loaded_setting_set">Loaded settings for \&quot;%s\&quot;.</string>
     <string name="toast_multiple_deleted">Games deleted.</string>
-    <string name="toast_no_backups">No export files found.</string>
+    <string name="toast_no_backups">No backup files found.</string>
+    <string name="toast_no_saved_games">No saved games to back up.</string>
     <string name="toast_no_saved_settings">No backups found.</string>
     <string name="toast_no_sdcard">SD card not found.</string>
     <string name="toast_no_zeroes">You must enter a valid nonzero number.</string>

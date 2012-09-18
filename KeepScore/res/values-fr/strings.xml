@@ -131,6 +131,7 @@ Doublets: %d</string>
     <string name="toast_loaded_setting_set">Les paramètres pour \&quot;%s\&quot; étaient chargées.</string>
     <string name="toast_multiple_deleted">Parties supprimées.</string>
     <string name="toast_no_backups">Aucun fichier de backup trouvé.</string>
+    <string name="toast_no_saved_games">Aucune partie sauvegardée pour faire un backup.</string>
     <string name="toast_no_saved_settings">Aucune sauvegarde trouvée.</string>
     <string name="toast_no_sdcard">Aucune carte SD trouvée.</string>
     <string name="toast_no_zeroes">Entrez un chiffre non-nul.</string>

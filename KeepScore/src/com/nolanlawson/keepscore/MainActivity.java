@@ -232,7 +232,7 @@ public class MainActivity extends SherlockListActivity implements
     private void showSaveBackupDialog() {
 
 	if (adapter.isEmpty()) {
-	    ToastHelper.showShort(this, R.string.text_no_saved_games);
+	    ToastHelper.showShort(this, R.string.toast_no_saved_games);
 	    return;
 	}
 

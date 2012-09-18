@@ -131,6 +131,7 @@
     <string name="toast_loaded_setting_set">「%s」野バックアップはロードされました。</string>
     <string name="toast_multiple_deleted">@string/toast_deleted</string>
     <string name="toast_no_backups">バックアップのファイルはありません。</string>
+    <string name="toast_no_saved_games">バックアップする保存したゲームありません。</string>
     <string name="toast_no_saved_settings">バックアップはまだありません。</string>
     <string name="toast_no_sdcard">SDカードは存在ありません。</string>
     <string name="toast_no_zeroes">ゼロじゃない妥当な数を入力してください。</string>
