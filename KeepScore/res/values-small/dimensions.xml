@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="player_score_2_to_6">36sp</dimen>
+	<dimen name="player_score_7_to_8">32sp</dimen>
+	
+	<dimen name="player_score_history">12sp</dimen>
+	
+	<dimen name="game_root_padding">15dp</dimen>
+	
+	<dimen name="round_total_text_size">14sp</dimen>
+	
+	<dimen name="delta_button_width">50dp</dimen>
+	<dimen name="history_width">35dp</dimen>
+	
+	<dimen name="chart_item_width">50dp</dimen>
+</resources>
