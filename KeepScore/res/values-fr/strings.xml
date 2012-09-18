@@ -22,11 +22,13 @@
     <string name="menu_home">Accueil</string>
     <string name="menu_load_backup">Importer</string>
     <string name="menu_randomize">Mélanger</string>
+    <string name="menu_redo">Refaire</string>
     <string name="menu_rematch">Nouvelle partie</string>
     <string name="menu_reset_scores">Réinitialiser</string>
     <string name="menu_save">Sauvegarder</string>
     <string name="menu_save_backup">Exporter</string>
     <string name="menu_settings">Paramètres</string>
+    <string name="menu_undo">Annuler</string>
     
     <string name="pref_2p_button_1_name">Bouton sur l\'écran #1</string>
     <string name="pref_2p_button_2_name">Bouton sur l\'écran #2</string>
@@ -97,7 +99,7 @@ Doublets: %d</string>
     <string formatted="false" name="text_save_backup_succeeded_plural">%d jeux sauvegardés à \'%s\'.</string>
     <string name="text_saved_games">Parties sauvegardées</string>
     <string name="text_saving">Exportation…</string>
-    <string name="text_undo_last">Annuler la dernière entrée</string>
+    <string name="text_undo_last">Supprimer la dernière entrée</string>
     <string name="text_version_number">Version %s</string>
     
     <string name="title_add">Additionner</string>

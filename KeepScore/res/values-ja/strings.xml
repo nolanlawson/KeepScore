@@ -22,10 +22,13 @@
     <string name="menu_home">ホーム</string>
     <string name="menu_load_backup">インポート</string>
     <string name="menu_randomize">シャッフル</string>
+    <string name="menu_redo">やり直す</string>
     <string name="menu_rematch">再戦</string>
     <string name="menu_reset_scores">リセット</string>
+    <string name="menu_save">保存</string>
     <string name="menu_save_backup">バックアップ</string>
     <string name="menu_settings">設定</string>
+    <string name="menu_undo">アンドゥ</string>
     
     <string name="pref_2p_button_1_name">オンスクリーンボタン＃１</string>
     <string name="pref_2p_button_2_name">オンスクリーンボタン＃２</string>
@@ -96,7 +99,7 @@
     <string formatted="false" name="text_save_backup_succeeded_plural">@string/text_save_backup_succeeded</string>
     <string name="text_saved_games">保存したゲーム</string>
     <string name="text_saving">バックアップ…</string>
-    <string name="text_undo_last">最後の点をアンドゥ</string>
+    <string name="text_undo_last">最後の点を削除</string>
     <string name="text_version_number">バージョン%s</string>
     
     <string name="title_add">増加</string>
