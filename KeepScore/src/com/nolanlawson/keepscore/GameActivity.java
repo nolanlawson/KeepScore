@@ -67,7 +67,7 @@ public class GameActivity extends SherlockActivity {
             .toMillis(30);
     
     // how many changes to keep in memory?
-    private static final int UNDO_STACK_SIZE = 100;
+    private static final int UNDO_STACK_SIZE = 500;
 
     @SuppressWarnings("unchecked")
     private static final List<Pair<Type,Type>> ACCEPTABLE_UNDO_TRANSITIONS = Arrays.asList(
