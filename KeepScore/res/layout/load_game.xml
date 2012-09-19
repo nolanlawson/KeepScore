@@ -15,7 +15,6 @@
             android:layout_width="fill_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:layout_above="@+id/view_spacer"
             fastscroll:overlayHeight="75dp"
             fastscroll:overlayScrollThumbWidth="60dp"
             fastscroll:overlayTextSize="22dp"
@@ -25,6 +24,7 @@
                 android:id="@android:id/list"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:scrollbars="none"
                 android:cacheColorHint="@android:color/background_light" />
 
             <TextView
@@ -40,7 +40,6 @@
             android:id="@+id/view_spacer"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/button_row_height"
-            android:layout_alignParentBottom="true" 
             android:visibility="gone"/>
     </LinearLayout>
     
