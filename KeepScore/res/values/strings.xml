@@ -150,8 +150,8 @@ Duplicates: %d</string>
     <string name="text_reset_confirm">All settings will be reset.</string>
     <string name="text_reset_scores_confirm">All scores will be reset.</string>
     <string formatted="false" name="text_round_total">Round #%d Total: %d</string>
-    <string formatted="false" name="text_save_backup">Export %d game to the SD card?</string>
-    <string formatted="false" name="text_save_backup_plural">Export %d games to the SD card?</string>
+    <string formatted="false" name="text_save_backup">Backup %d game to the SD card?</string>
+    <string formatted="false" name="text_save_backup_plural">Backup %d games to the SD card?</string>
     <string formatted="false" name="text_save_backup_succeeded">%d game saved to \'%s\'.</string>
     <string formatted="false" name="text_save_backup_succeeded_plural">%d games saved to \'%s\'.</string>
     <string name="text_saved_games">Saved Games</string>
@@ -188,7 +188,7 @@ Duplicates: %d</string>
     <string name="toast_loaded_setting_set">Loaded settings for \&quot;%s\&quot;.</string>
     <string name="toast_multiple_deleted">Games deleted.</string>
     <string name="toast_no_backups">No backup files found.</string>
-    <string name="toast_no_saved_games">No saved games to back up.</string>
+    <string name="toast_no_saved_games">No saved games to backup.</string>
     <string name="toast_no_saved_settings">No backups found.</string>
     <string name="toast_no_sdcard">SD card not found.</string>
     <string name="toast_no_zeroes">You must enter a valid nonzero number.</string>
