@@ -25,13 +25,15 @@
         android:typeface="monospace"
         android:textColor="@android:color/darker_gray"
         android:textSize="17sp"
-        android:textStyle="bold" />
+        android:textStyle="bold" 
+        android:layout_centerVertical="true"/>
     
         
     <CheckBox android:id="@android:id/checkbox" android:layout_width="28dp"
         android:layout_height="fill_parent" android:layout_alignParentRight="true"
         android:button="@drawable/btn_check"
         android:focusable="false"
+        android:layout_centerVertical="true"
         />
 
     <TextView
