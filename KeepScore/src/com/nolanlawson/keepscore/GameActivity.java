@@ -96,7 +96,6 @@ public class GameActivity extends SherlockActivity {
     private boolean paused = true;
     private GameDBHelper dbHelper;
     private boolean savedGameBeforeExit;
-    private boolean deleteGameOnExit;
     
     private DataExpiringStack<RecordedChange> undoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
     private DataExpiringStack<RecordedChange> redoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
@@ -136,10 +135,6 @@ public class GameActivity extends SherlockActivity {
 
         if (shouldAutosave()) {
             saveGame(game, false, null);
-        }
-
-        if (deleteGameOnExit) {
-            getDbHelper().deleteGame(game);
         }
 
         if (dbHelper != null) {
@@ -797,42 +792,55 @@ public class GameActivity extends SherlockActivity {
         }
     }
 
-    private void saveWithNewPlayerScores(List<PlayerScore> newPlayerScores) {
-        // delete the old game before starting new one
-        deleteGameOnExit = true;
+    private void saveWithNewPlayerScores(final List<PlayerScore> newPlayerScores) {
 
         // delete the game and recreate it with the new data
 
-        final Game newGame = (Game) game.clone();
-        newGame.setId(-1);
-        newGame.setPlayerScores(newPlayerScores);
-        for (PlayerScore playerScore : newGame.getPlayerScores()) {
-            playerScore.setId(-1);
-        }
-
-        Runnable onFinished = new Runnable() {
+        // do in the background to avoid jank
+        new AsyncTask<Void, Void, Void>(){
 
             @Override
-            public void run() {
-                log.d("game to parcel is: %s", game);
+            protected Void doInBackground(Void... params) {
+                
+                // delete the old game before starting new one
+                getDbHelper().deleteGame(game);
+                // after this, because the id is not -1, only UPDATEs will be performed,
+                // so the delete is clean even if the background saver keeps running
+                
+                final Game newGame = (Game) game.clone();
+                newGame.setId(-1);
+                newGame.setPlayerScores(newPlayerScores);
+                for (PlayerScore playerScore : newGame.getPlayerScores()) {
+                    playerScore.setId(-1);
+                }
 
-                // start a new activity so that the layout can refresh correctly
-                // TODO: don't start a new activity; just refresh the layout
+                Runnable onFinished = new Runnable() {
 
-                Intent intent = new Intent(GameActivity.this,
-                        GameActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra(EXTRA_GAME, newGame);
+                    @Override
+                    public void run() {
+                        log.d("game to parcel is: %s", game);
 
-                startActivity(intent);
+                        // start a new activity so that the layout can refresh correctly
+                        // TODO: don't start a new activity; just refresh the layout
 
-                CompatibilityHelper.overridePendingTransition(
-                        GameActivity.this, android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-            }
+                        Intent intent = new Intent(GameActivity.this,
+                                GameActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra(EXTRA_GAME, newGame);
 
-        };
-        saveGame(newGame, true, onFinished); // automatically save the game
+                        startActivity(intent);
+
+                        CompatibilityHelper.overridePendingTransition(
+                                GameActivity.this, android.R.anim.fade_in,
+                                android.R.anim.fade_out);
+                    }
+
+                };
+                saveGame(newGame, true, onFinished); // automatically save the game
+                
+                return null;
+            }}.execute((Void)null);
+        
     }
 
 }

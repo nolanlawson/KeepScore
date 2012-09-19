@@ -83,7 +83,7 @@
 ファイル： %d\n\
 インポートした： %d\n\
 複写： %d</string>
-    <string name="text_loading">インポート…</string>
+    <string name="text_loading">インポート中…</string>
     <string name="text_no_saved_games">保存したゲームはここで現れます。</string>
     <string name="text_num_players">選手の数</string>
     <string name="text_player">選手</string>
