@@ -17,10 +17,10 @@
     
     <string name="menu_about">Über</string>
     <!-- TO TRANSLATE -->
-    <string name="menu_add_edit_players">Modify Players</string>
+    <string name="menu_add_edit_players">Edit Players</string>
     <string name="menu_add_player">Neue Spieler</string>
-    <string name="menu_copy">Spiel kopieren Jeu</string>
     <string name="menu_history">Zusammenfassung</string>
+    <!-- TO TRANSLATE -->
     <string name="menu_home">Home</string>
     <!-- TO TRANSLATE -->
     <string name="menu_load_backup">Restore</string>
@@ -30,7 +30,6 @@
     <!-- TO TRANSLATE -->
     <string name="menu_rematch">Rematch</string>
     <string name="menu_reset_scores">Zurücksetzen</string>
-    <string name="menu_save">Speichern</string>
     <!-- TO TRANSLATE -->
     <string name="menu_save_backup">Backup</string>
     <string name="menu_settings">Parameter</string>
@@ -87,8 +86,6 @@
     <string name="text_delete">Entfernen</string>
     <!-- TO TRANSLATE -->
     <string name="text_delete_saved_settings">The backup \&quot;%s\&quot; will be deleted.</string>
-    <!-- TO TRANSLATE -->
-    <string name="text_duplicates_info">(Duplicate games will be ignored.)</string>
     <string name="text_edit_name">Namen bearbeiten</string>
     <!-- TO TRANSLATE -->
     <string name="text_enter_saved_settings_name">Enter name, e.g. \'cribbage\'</string>
@@ -112,14 +109,12 @@ Duplicates: %d</string>
     <string name="text_player">Spieler</string>
     <string name="text_player_names">Spielernamen</string>
     <string name="text_players">%s Spieler</string>
-    <string name="text_players_will_be_randomized">Die Spieler werden gemischt werden (Random).</string>
     <string name="text_reset_confirm">Die Einstellungen werden zurückgesetzt.</string>
-    <string name="text_reset_scores_confirm">Die Werten werden zurückgesetzt.</string>
     <string formatted="false" name="text_round_total">Runde %d Punkten pro Runde : %d</string>
     <!-- TO TRANSLATE -->
-    <string formatted="false" name="text_save_backup">Export %d game to the SD card?</string>
+    <string formatted="false" name="text_save_backup">Backup %d game to the SD card?</string>
     <!-- TO TRANSLATE -->
-    <string formatted="false" name="text_save_backup_plural">Export %d games to the SD card?</string>
+    <string formatted="false" name="text_save_backup_plural">Backup %d games to the SD card?</string>
     <!-- TO TRANSLATE -->
     <string formatted="false" name="text_save_backup_succeeded">%d game saved to \'%s\'.</string>
     <!-- TO TRANSLATE -->
@@ -129,6 +124,7 @@ Duplicates: %d</string>
     <!-- TO TRANSLATE -->
     <string name="text_saving">Exporting…</string>
     <string name="text_undo_last">letzten Eintrag brechen</string>
+    <!-- TO TRANSLATE -->
     <string name="text_version_number">Version %s</string>
     
     <string name="title_add">Hinzufügen</string>
@@ -167,13 +163,14 @@ Duplicates: %d</string>
     <string name="toast_loaded_setting_set">Loaded settings for \&quot;%s\&quot;.</string>
     <string name="toast_multiple_deleted">Spielen gelöscht.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_no_backups">No export files found.</string>
+    <string name="toast_no_backups">No backup files found.</string>
+    <!-- TO TRANSLATE -->
+    <string name="toast_no_saved_games">No saved games to backup.</string>
     <!-- TO TRANSLATE -->
     <string name="toast_no_saved_settings">No backups found.</string>
     <!-- TO TRANSLATE -->
     <string name="toast_no_sdcard">SD card not found.</string>
     <string name="toast_no_zeroes">Geben Sie eine gültige Zahl (ungleich Null).</string>
-    <string name="toast_players_randomized">Spielen sind gemischt.</string>
     <!-- TO TRANSLATE -->
     <string name="toast_rematch_created">Created a rematch game.</string>
     <!-- TO TRANSLATE -->

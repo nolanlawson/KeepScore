@@ -17,7 +17,6 @@
     <string name="menu_about">A propos</string>
     <string name="menu_add_edit_players">Modifier les joueurs</string>
     <string name="menu_add_player">Ajouter un joueur</string>
-    <string name="menu_copy">Copier la partie</string>
     <string name="menu_history">Historique</string>
     <string name="menu_home">Accueil</string>
     <string name="menu_load_backup">Importer</string>
@@ -25,7 +24,6 @@
     <string name="menu_redo">Refaire</string>
     <string name="menu_rematch">Nouvelle partie</string>
     <string name="menu_reset_scores">Réinitialiser</string>
-    <string name="menu_save">Sauvegarder</string>
     <string name="menu_save_backup">Exporter</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_undo">Annuler</string>
@@ -70,7 +68,6 @@
     <string name="text_copy">Copier</string>
     <string name="text_delete">Supprimer</string>
     <string name="text_delete_saved_settings">La sauvegarde \&quot;%s\&quot; sera supprimée.</string>
-    <string name="text_duplicates_info">(Les jeux doublets ne compteront pas.)</string>
     <string name="text_edit_name">Editer le nom</string>
     <string name="text_enter_saved_settings_name">Entrer un nom, e.g. \'carcassonne\'</string>
     <string name="text_format_rounds">%d tours</string>
@@ -89,9 +86,7 @@ Doublets: %d</string>
     <string name="text_player">Joueur</string>
     <string name="text_player_names">Noms des joueurs (optionnel)</string>
     <string name="text_players">%s joueurs</string>
-    <string name="text_players_will_be_randomized">Les joueurs vont être mélangés au hasard.</string>
     <string name="text_reset_confirm">Tous les paramètres seront réinitialisés.</string>
-    <string name="text_reset_scores_confirm">Toutes les scores seront réinitialisés.</string>
     <string formatted="false" name="text_round_total">Tour #%d (%d points marqués)</string>
     <string formatted="false" name="text_save_backup">Exporter %d jeu à la carte SD?</string>
     <string formatted="false" name="text_save_backup_plural">Exporter %d jeux à la carte SD?</string>
@@ -135,7 +130,6 @@ Doublets: %d</string>
     <string name="toast_no_saved_settings">Aucune sauvegarde trouvée.</string>
     <string name="toast_no_sdcard">Aucune carte SD trouvée.</string>
     <string name="toast_no_zeroes">Entrez un chiffre non-nul.</string>
-    <string name="toast_players_randomized">Joueurs mélangés.</string>
     <string name="toast_rematch_created">Nouvelle partie créée.</string>
     <string name="toast_save_backup_failed">Impossible de exporter le fichier.</string>
     <string name="toast_saved_setting_set_name">\&quot;%s\&quot; sauvgardé.</string>
