@@ -2,7 +2,9 @@ package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import android.app.AlertDialog;
@@ -70,15 +72,23 @@ public class GameActivity extends SherlockActivity {
     private static final int UNDO_STACK_SIZE = 500;
 
     @SuppressWarnings("unchecked")
-    private static final List<Pair<Type,Type>> ACCEPTABLE_UNDO_TRANSITIONS = Arrays.asList(
+    private static final Set<Pair<Type,Type>> ACCEPTABLE_UNDO_TRANSITIONS = new HashSet<Pair<Type,Type>>(Arrays.asList(
             Pair.create(Type.ModifyLast, Type.ModifyLast),
-            Pair.create(Type.ModifyLast, Type.AddNew)
-            );
+            Pair.create(Type.ModifyLast, Type.AddNew),
+            Pair.create(Type.DeleteLastZero, Type.AddNew),
+            Pair.create(Type.DeleteLastZero, Type.ModifyLast),
+            Pair.create(Type.ModifyLast, Type.DeleteLastZero),
+            Pair.create(Type.DeleteLastZero, Type.DeleteLastZero)
+            ));
     @SuppressWarnings("unchecked")
-    private static final List<Pair<Type,Type>> ACCEPTABLE_REDO_TRANSITIONS = Arrays.asList(
+    private static final Set<Pair<Type,Type>> ACCEPTABLE_REDO_TRANSITIONS = new HashSet<Pair<Type,Type>>(Arrays.asList(
             Pair.create(Type.ModifyLast, Type.ModifyLast),
-            Pair.create(Type.AddNew, Type.ModifyLast)
-            );
+            Pair.create(Type.AddNew, Type.ModifyLast),
+            Pair.create(Type.AddNew, Type.DeleteLastZero),
+            Pair.create(Type.DeleteLastZero, Type.ModifyLast),
+            Pair.create(Type.ModifyLast, Type.DeleteLastZero),
+            Pair.create(Type.DeleteLastZero, Type.DeleteLastZero)
+            ));
     
     private static final UtilLogger log = new UtilLogger(GameActivity.class);
 
