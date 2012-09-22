@@ -128,6 +128,25 @@ public class StringUtil {
 	}
 	
 	/**
+	 * count the occurrences of substring within str
+	 * @param str
+	 * @param substring
+	 * @return
+	 */
+	public static int count(String str, String substring) {
+	    int count = 0;
+	    int index = 0 - substring.length();
+	    do {
+		index += substring.length();
+		index = str.indexOf(substring, index);
+		if (index != -1) {
+		    count++;
+		}
+	    } while (index != -1);
+	    return count;
+	}
+	
+	/**
 	 * Pad a string on the left until it reaches the designated height
 	 * @param str
 	 * @param padding
