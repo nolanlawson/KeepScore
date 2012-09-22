@@ -54,6 +54,7 @@ import com.nolanlawson.keepscore.util.UtilLogger;
  */
 public class PlayerView implements OnClickListener, OnLongClickListener {
 
+    private static final int MIN_NUM_HISTORY_CHARS = 3;
     private static final int ANIMATION_TIME = 1000;
 
     private static final UtilLogger log = new UtilLogger(PlayerView.class);
@@ -501,7 +502,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	// if e.g. there is a double-digit delta (e.g. "+10"), then all other
 	// strings need to be padded
 	// so that they line up correctly
-	int maxChars = CollectionUtil.maxValue(history, Functions.INTEGER_TO_LENGTH_WITH_SIGN);
+	// but ensure there's always at least enough space for 3 chars (e.g. '+10'), because
+	// I think it looks nicer and more consistent with most games
+	int maxChars = Math.max(MIN_NUM_HISTORY_CHARS,
+		CollectionUtil.maxValue(history, Functions.INTEGER_TO_LENGTH_WITH_SIGN));
 
 	List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
 

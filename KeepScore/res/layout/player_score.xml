@@ -27,7 +27,7 @@
         android:paddingTop="5dp"
         android:textSize="@dimen/player_score_history"
         android:typeface="monospace" 
-        android:gravity="center"/>
+        android:gravity="center_horizontal|top"/>
 
     <View
         android:id="@+id/player_score_divider_1"
