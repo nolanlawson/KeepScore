@@ -21,13 +21,13 @@
         android:background="@drawable/history_background"
         android:clickable="true"
         android:focusable="true"
-        android:gravity="left"
         android:paddingBottom="5dp"
         android:paddingLeft="3dp"
-        paddingRight="2dp"
+        android:paddingRight="3dp"
         android:paddingTop="5dp"
         android:textSize="@dimen/player_score_history"
-        android:typeface="monospace" />
+        android:typeface="monospace" 
+        android:gravity="center"/>
 
     <View
         android:id="@+id/player_score_divider_1"
