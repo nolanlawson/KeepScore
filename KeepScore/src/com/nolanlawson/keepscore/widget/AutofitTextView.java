@@ -19,8 +19,8 @@ import com.nolanlawson.keepscore.util.StringUtil;
  */
 public class AutofitTextView extends TextView {
 
-    private static final int START_ALPHA = 200;
-    private static final int END_ALPHA = 00;
+    private static final int START_ALPHA = 255;
+    private static final int END_ALPHA = 32;
 
     public AutofitTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -71,14 +71,15 @@ public class AutofitTextView extends TextView {
                 int endColor = (END_ALPHA << 24) | (0x00FFFFFF & originalColor);
 
                 int numLines = StringUtil.count(getText().subSequence(0, cutoffIndex).toString(), "\n");
-                float startY = getCompoundPaddingTop() + (numLines * getLineHeight());
+                float startY = (numLines * getLineHeight());
                 float endY = startY + getLineHeight();
                 
                 // build up a new spannable
                 SpannableStringBuilder builder = new SpannableStringBuilder()
                         .append(getText().subSequence(0, startOfLastLine))
                         .append(getText().subSequence(startOfLastLine, cutoffIndex).toString());
-                builder.setSpan(new TopDownGradientSpan(startColor, endColor, startY, endY), 0, cutoffIndex, 0);
+                builder.setSpan(new TopDownGradientSpan(startColor, endColor, startY, endY), 
+                	startOfLastLine, cutoffIndex, 0);
                 setText(builder);
 
             }
