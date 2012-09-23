@@ -1,6 +1,11 @@
 package com.nolanlawson.keepscore.android;
 
+import com.nolanlawson.keepscore.helper.VersionHelper;
+
 import android.graphics.LinearGradient;
+import android.graphics.Paint.FontMetrics;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.Shader.TileMode;
 import android.os.Parcel;
@@ -54,12 +59,16 @@ public class GradientSpan extends CharacterStyle implements UpdateAppearance, Pa
 
     @Override
     public void updateDrawState(TextPaint ds) {
-	// not sure if textSize / 2 is correct, but it seems to look okay
-	Shader shader = new LinearGradient(0, 0, 0, ds.getTextSize() / 2,
-	            new int[]{mStartColor,mEndColor},
-	            null, TileMode.MIRROR);
+	// can't figure out what the good y2 value should be.  A high enough
+	// number seems to enusre it doesn't repeat, though
+	float bottom = ds.getFontSpacing();
+	// lineargradient is backwards post-honeyomb
+	int[] gradient = VersionHelper.getVersionSdkIntCompat() >= VersionHelper.VERSION_HONEYCOMB
+		? new int[]{mEndColor, mStartColor}
+		: new int[]{mStartColor, mEndColor};
+	Shader shader = new LinearGradient(0, 0, 0, bottom,
+	            gradient, null, TileMode.MIRROR);
 	ds.setShader(shader);
     }
-    
     
 }

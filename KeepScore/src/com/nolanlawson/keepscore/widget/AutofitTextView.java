@@ -19,8 +19,8 @@ import com.nolanlawson.keepscore.util.StringUtil;
  */
 public class AutofitTextView extends TextView {
 
-    private static final int START_ALPHA = 230;
-    private static final int END_ALPHA = 32;
+    private static final int START_ALPHA = 255;
+    private static final int END_ALPHA = 64;
     
     
     public AutofitTextView(Context context, AttributeSet attrs, int defStyle) {
@@ -74,7 +74,6 @@ public class AutofitTextView extends TextView {
 			.append(getText().subSequence(0, startOfLastLine))
 			.append(getText().subSequence(startOfLastLine, cutoffIndex));
 		builder.setSpan(new GradientSpan(startColor, endColor), startOfLastLine, cutoffIndex, 0);
-		
 		setText(builder);
 		
 	    }
