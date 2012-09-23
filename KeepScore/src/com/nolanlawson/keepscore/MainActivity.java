@@ -49,6 +49,8 @@ import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
 import com.nolanlawson.keepscore.data.TimePeriod;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
+import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper;
 import com.nolanlawson.keepscore.helper.ToastHelper;
 import com.nolanlawson.keepscore.helper.VersionHelper;
@@ -60,16 +62,14 @@ import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.CustomFastScrollView;
 
-public class MainActivity extends SherlockListActivity implements
-	OnClickListener, OnItemLongClickListener {
+public class MainActivity extends SherlockListActivity implements OnClickListener, OnItemLongClickListener {
 
     private static UtilLogger log = new UtilLogger(MainActivity.class);
 
     private SeparatedListAdapter<SavedGameAdapter> adapter;
     private CustomFastScrollView fastScrollView;
     private LinearLayout buttonRow;
-    private Button newGameButton, selectAllButton, deselectAllButton,
-	    deleteButton;
+    private Button newGameButton, selectAllButton, deselectAllButton, deleteButton;
     private View spacerView;
 
     private Integer lastPosition;
@@ -79,911 +79,856 @@ public class MainActivity extends SherlockListActivity implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setListAdapter(adapter);
+        super.onCreate(savedInstanceState);
+        setListAdapter(adapter);
 
-	setContentView(R.layout.main);
+        setContentView(R.layout.main);
 
-	setUpWidgets();
-	
-	getSupportActionBar().setHomeButtonEnabled(false);
+        setUpWidgets();
+
+        getSupportActionBar().setHomeButtonEnabled(false);
     }
 
     @Override
     protected void onPause() {
-	super.onPause();
+        super.onPause();
 
-	// save which items were checked and where we are in the list
-	lastChecked = new HashSet<Game>();
-	for (SavedGameAdapter subAdapter : adapter.getSubAdapters()) {
-	    lastChecked.addAll(subAdapter.getChecked());
-	}
-	lastPosition = getListView().getFirstVisiblePosition();
+        // save which items were checked and where we are in the list
+        lastChecked = new HashSet<Game>();
+        for (SavedGameAdapter subAdapter : adapter.getSubAdapters()) {
+            lastChecked.addAll(subAdapter.getChecked());
+        }
+        lastPosition = getListView().getFirstVisiblePosition();
     }
 
     @Override
     public void onResume() {
-	super.onResume();
+        super.onResume();
 
-	List<Game> games = getAllGames();
-	Collections.sort(games, Game.byRecentlySaved());
-	log.d("loaded games %s", games);
+        List<Game> games = getAllGames();
+        Collections.sort(games, Game.byRecentlySaved());
+        log.d("loaded games %s", games);
 
-	SortedMap<TimePeriod, List<Game>> organizedGames = organizeGamesByTimePeriod(games);
+        SortedMap<TimePeriod, List<Game>> organizedGames = organizeGamesByTimePeriod(games);
 
-	adapter = new SeparatedListAdapter<SavedGameAdapter>(this);
-	for (Entry<TimePeriod, List<Game>> entry : organizedGames.entrySet()) {
-	    TimePeriod timePeriod = entry.getKey();
-	    List<Game> gamesSection = entry.getValue();
-	    SavedGameAdapter subAdapter = new SavedGameAdapter(this,
-		    gamesSection);
-	    if (lastChecked != null) {
-		// reload the checked items from when the user last quit
-		subAdapter.setChecked(lastChecked);
-	    }
-	    subAdapter.setOnCheckChangedRunnable(new Runnable() {
+        adapter = new SeparatedListAdapter<SavedGameAdapter>(this);
+        for (Entry<TimePeriod, List<Game>> entry : organizedGames.entrySet()) {
+            TimePeriod timePeriod = entry.getKey();
+            List<Game> gamesSection = entry.getValue();
+            SavedGameAdapter subAdapter = new SavedGameAdapter(this, gamesSection);
+            if (lastChecked != null) {
+                // reload the checked items from when the user last quit
+                subAdapter.setChecked(lastChecked);
+            }
+            subAdapter.setOnCheckChangedRunnable(new Runnable() {
 
-		@Override
-		public void run() {
-		    showOrHideButtonRow();
-		}
-	    });
-	    adapter.addSection(getString(timePeriod.getTitleResId()),
-		    subAdapter);
-	}
-	setListAdapter(adapter);
+                @Override
+                public void run() {
+                    showOrHideButtonRow();
+                }
+            });
+            adapter.addSection(getString(timePeriod.getTitleResId()), subAdapter);
+        }
+        setListAdapter(adapter);
 
-	if (lastPosition != null) {
-	    // scroll to the user's last position when they quit
-	    getListView().setSelection(lastPosition);
-	}
-	lastPosition = null;
-	lastChecked = null;
+        if (lastPosition != null) {
+            // scroll to the user's last position when they quit
+            getListView().setSelection(lastPosition);
+        }
+        lastPosition = null;
+        lastChecked = null;
     }
-    
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-	
-	MenuItem loadBackupMenuItem = menu.findItem(R.id.menu_load_backup);
-	MenuItem saveBackupMenuItem = menu.findItem(R.id.menu_save_backup);
-	
-	// hide the menu if we're in less than Froyo, because
-	// the XML Transformer stuff is only available in Froyo and above
-	boolean postFroyo = VersionHelper.getVersionSdkIntCompat() >= VersionHelper.VERSION_FROYO;
-	
-	
-	loadBackupMenuItem.setVisible(postFroyo);
-	loadBackupMenuItem.setEnabled(postFroyo);
-	saveBackupMenuItem.setVisible(postFroyo);
-	saveBackupMenuItem.setEnabled(postFroyo);
-	
-	boolean preHoneycomb = VersionHelper.getVersionSdkIntCompat() < VersionHelper.VERSION_HONEYCOMB;
-	
-	if (preHoneycomb) {
-	    // if pre-Honeycomb and icon is not in the action bar (i.e. we're in portrait mode),
-	    // then use the dark theme instead.
-	    // otherwise, the icons don't show up at all
 
-	    boolean portrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;
-	    
-	    MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
-	    settingsMenuItem.setIcon(portrait ? R.drawable.ic_menu_preferences : R.drawable.action_settings);
-	    
-	    MenuItem aboutMenuItem = menu.findItem(R.id.menu_about);
-	    aboutMenuItem.setIcon(portrait ? R.drawable.ic_menu_info_details : R.drawable.action_about);
-	    
-	}
-	
-	return true;
+        MenuItem loadBackupMenuItem = menu.findItem(R.id.menu_load_backup);
+        MenuItem saveBackupMenuItem = menu.findItem(R.id.menu_save_backup);
+
+        // hide the menu if we're in less than Froyo, because
+        // the XML Transformer stuff is only available in Froyo and above
+        boolean postFroyo = VersionHelper.getVersionSdkIntCompat() >= VersionHelper.VERSION_FROYO;
+
+        loadBackupMenuItem.setVisible(postFroyo);
+        loadBackupMenuItem.setEnabled(postFroyo);
+        saveBackupMenuItem.setVisible(postFroyo);
+        saveBackupMenuItem.setEnabled(postFroyo);
+
+        boolean preHoneycomb = VersionHelper.getVersionSdkIntCompat() < VersionHelper.VERSION_HONEYCOMB;
+
+        if (preHoneycomb) {
+            // if pre-Honeycomb and icon is not in the action bar (i.e. we're in
+            // portrait mode),
+            // then use the dark theme instead.
+            // otherwise, the icons don't show up at all
+
+            boolean portrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;
+
+            MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
+            settingsMenuItem.setIcon(portrait ? R.drawable.ic_menu_preferences : R.drawable.action_settings);
+
+            MenuItem aboutMenuItem = menu.findItem(R.id.menu_about);
+            aboutMenuItem.setIcon(portrait ? R.drawable.ic_menu_info_details : R.drawable.action_about);
+
+        }
+
+        return true;
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-	MenuInflater inflater = getSupportMenuInflater();
-	inflater.inflate(R.menu.main_menu, menu);
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
 
-	return true;
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-	switch (item.getItemId()) {
-	case R.id.menu_settings:
-	    Intent settingsIntent = new Intent(MainActivity.this,
-		    SettingsActivity.class);
-	    startActivity(settingsIntent);
-	    break;
-	case R.id.menu_about:
-	    Intent aboutIntent = new Intent(MainActivity.this,
-		    AboutActivity.class);
-	    startActivity(aboutIntent);
-	    break;
-	case R.id.menu_save_backup:
-	    showSaveBackupDialog();
-	    break;
-	case R.id.menu_load_backup:
-	    showLoadBackupDialog();
-	    break;
-	}
-	return false;
+        switch (item.getItemId()) {
+        case R.id.menu_settings:
+            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            break;
+        case R.id.menu_about:
+            Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(aboutIntent);
+            break;
+        case R.id.menu_save_backup:
+            showSaveBackupDialog();
+            break;
+        case R.id.menu_load_backup:
+            showLoadBackupDialog();
+            break;
+        }
+        return false;
     }
 
     private void setUpWidgets() {
 
-	newGameButton = (Button) findViewById(R.id.button_new_game);
+        newGameButton = (Button) findViewById(R.id.button_new_game);
 
-	getListView().setOnItemLongClickListener(this);
-	fastScrollView = (CustomFastScrollView) findViewById(R.id.fast_scroll_view);
+        getListView().setOnItemLongClickListener(this);
+        fastScrollView = (CustomFastScrollView) findViewById(R.id.fast_scroll_view);
 
-	buttonRow = (LinearLayout) findViewById(R.id.layout_button_row);
-	selectAllButton = (Button) findViewById(R.id.button_select_all);
-	deselectAllButton = (Button) findViewById(R.id.button_deselect_all);
-	deleteButton = (Button) findViewById(R.id.button_delete);
+        buttonRow = (LinearLayout) findViewById(R.id.layout_button_row);
+        selectAllButton = (Button) findViewById(R.id.button_select_all);
+        deselectAllButton = (Button) findViewById(R.id.button_deselect_all);
+        deleteButton = (Button) findViewById(R.id.button_delete);
 
-	for (Button button : new Button[] { selectAllButton, deselectAllButton,
-		deleteButton, newGameButton }) {
-	    button.setOnClickListener(this);
-	}
+        for (Button button : new Button[] { selectAllButton, deselectAllButton, deleteButton, newGameButton }) {
+            button.setOnClickListener(this);
+        }
 
-	spacerView = findViewById(R.id.view_spacer);
+        spacerView = findViewById(R.id.view_spacer);
     }
 
     private void showSaveBackupDialog() {
 
-	if (adapter.isEmpty()) {
-	    ToastHelper.showShort(this, R.string.toast_no_saved_games);
-	    return;
-	}
+        if (adapter.isEmpty()) {
+            ToastHelper.showShort(this, R.string.toast_no_saved_games);
+            return;
+        }
 
-	final String filename = SdcardHelper.createBackupFilename();
-	final int gameCount = adapter.getCount()
-		- adapter.getSectionsMap().keySet().size();
+        final String filename = SdcardHelper.createBackupFilename();
+        final int gameCount = adapter.getCount() - adapter.getSectionsMap().keySet().size();
 
-	String message = String.format(
-		getString(gameCount == 1 ? R.string.text_save_backup
-			: R.string.text_save_backup_plural), gameCount);
+        String message = String.format(getString(gameCount == 1 ? R.string.text_save_backup
+                : R.string.text_save_backup_plural), gameCount);
 
-	new AlertDialog.Builder(this)
-		.setCancelable(true)
-		.setTitle(R.string.menu_save_backup)
-		.setMessage(message)
-		.setNegativeButton(android.R.string.cancel, null)
-		.setPositiveButton(android.R.string.ok,
-			new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.menu_save_backup).setMessage(message)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-			    @Override
-			    public void onClick(DialogInterface dialog,
-				    int which) {
-				dialog.dismiss();
-				saveBackup(filename, gameCount);
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        saveBackup(filename, gameCount);
 
-			    }
-			}).show();
+                    }
+                }).show();
 
     }
 
     private void saveBackup(final String filename, final int gameCount) {
 
-	if (!SdcardHelper.isAvailable()) {
-	    ToastHelper.showLong(this, R.string.toast_no_sdcard);
-	    return;
-	}
+        if (!SdcardHelper.isAvailable()) {
+            ToastHelper.showLong(this, R.string.toast_no_sdcard);
+            return;
+        }
 
-	final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
 
-	progressDialog.setCancelable(false);
-	progressDialog.setTitle(R.string.text_saving);
-	progressDialog.setIndeterminate(false);
-	progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-	progressDialog.setMax(gameCount);
-	progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle(R.string.text_saving);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMax(gameCount);
+        progressDialog.show();
 
-	new AsyncTask<Void, Void, Boolean>() {
+        new AsyncTask<Void, Void, Boolean>() {
 
-	    @Override
-	    protected Boolean doInBackground(Void... params) {
-		List<Game> games = new ArrayList<Game>();
-		for (int i = 0; i < adapter.getCount(); i++) {
-		    Object obj = adapter.getItem(i);
-		    if (!(obj instanceof Game)) {
-			continue;
-		    }
-		    Game game = (Game) obj;
-		    games.add(game);
-		    publishProgress((Void) null);
-		}
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                List<Game> games = new ArrayList<Game>();
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    Object obj = adapter.getItem(i);
+                    if (!(obj instanceof Game)) {
+                        continue;
+                    }
+                    Game game = (Game) obj;
+                    games.add(game);
+                    publishProgress((Void) null);
+                }
 
-		GamesBackup gamesBackup = new GamesBackup();
-		gamesBackup.setVersion(GamesBackup.BACKUP_VERSION);
-		gamesBackup.setDateSaved(System.currentTimeMillis());
-		gamesBackup.setGameCount(games.size());
-		gamesBackup.setGames(games);
-		String xmlData = GamesBackupSerializer.serialize(gamesBackup);
+                GamesBackup gamesBackup = new GamesBackup();
+                gamesBackup.setVersion(GamesBackup.BACKUP_VERSION);
+                gamesBackup.setDateSaved(System.currentTimeMillis());
+                gamesBackup.setGameCount(games.size());
+                gamesBackup.setGames(games);
+                String xmlData = GamesBackupSerializer.serialize(gamesBackup);
 
-		return SdcardHelper.save(filename, xmlData);
-	    }
+                return SdcardHelper.save(filename, xmlData);
+            }
 
-	    @Override
-	    protected void onPostExecute(Boolean result) {
-		super.onPostExecute(result);
-		if (result) {
-		    String message = String
-			    .format(getString(gameCount == 1 ? R.string.text_save_backup_succeeded
-				    : R.string.text_save_backup_succeeded_plural),
-				    gameCount, filename);
-		    new AlertDialog.Builder(MainActivity.this)
-			    .setCancelable(true)
-			    .setTitle(R.string.title_success)
-			    .setMessage(message)
-			    .setPositiveButton(android.R.string.ok, null)
-			    .show();
-		} else {
-		    ToastHelper.showLong(MainActivity.this,
-			    R.string.toast_save_backup_failed);
-		}
-		progressDialog.dismiss();
-	    }
+            @Override
+            protected void onPostExecute(Boolean result) {
+                super.onPostExecute(result);
+                if (result) {
+                    String message = String.format(getString(gameCount == 1 ? R.string.text_save_backup_succeeded
+                            : R.string.text_save_backup_succeeded_plural), gameCount, filename);
+                    new AlertDialog.Builder(MainActivity.this).setCancelable(true).setTitle(R.string.title_success)
+                            .setMessage(message).setPositiveButton(android.R.string.ok, null).show();
+                } else {
+                    ToastHelper.showLong(MainActivity.this, R.string.toast_save_backup_failed);
+                }
+                progressDialog.dismiss();
+            }
 
-	    @Override
-	    protected void onProgressUpdate(Void... values) {
-		super.onProgressUpdate(values);
-		progressDialog.incrementProgressBy(1);
-	    }
+            @Override
+            protected void onProgressUpdate(Void... values) {
+                super.onProgressUpdate(values);
+                progressDialog.incrementProgressBy(1);
+            }
 
-	}.execute((Void) null);
+        }.execute((Void) null);
 
     }
 
     private void showLoadBackupDialog() {
 
-	if (!SdcardHelper.isAvailable()) {
-	    ToastHelper.showLong(this, R.string.toast_no_sdcard);
-	    return;
-	}
+        if (!SdcardHelper.isAvailable()) {
+            ToastHelper.showLong(this, R.string.toast_no_sdcard);
+            return;
+        }
 
-	List<String> backups = SdcardHelper.list();
-	if (backups.isEmpty()) {
-	    ToastHelper.showShort(this, R.string.toast_no_backups);
-	    return;
-	}
+        List<String> backups = SdcardHelper.list();
+        if (backups.isEmpty()) {
+            ToastHelper.showShort(this, R.string.toast_no_backups);
+            return;
+        }
 
-	// show most recent ones first
-	Map<String, String> backupsToGameCountMessages = new TreeMap<String, String>(
-		Collections.reverseOrder());
-	final Map<String, Integer> backupsToGameCounts = new HashMap<String, Integer>();
+        // show most recent ones first
+        Map<String, String> backupsToGameCountMessages = new TreeMap<String, String>(Collections.reverseOrder());
+        final Map<String, Integer> backupsToGameCounts = new HashMap<String, Integer>();
 
-	for (String backup : backups) {
-	    int gameCount = GamesBackupSerializer.readGameCount(SdcardHelper
-		    .getBackupFile(backup));
-	    String gameCountMessage = String.format(
-		    getString(gameCount == 1 ? R.string.text_game_count
-			    : R.string.text_game_count_plural), gameCount);
-	    backupsToGameCounts.put(backup, gameCount);
-	    backupsToGameCountMessages.put(backup, gameCountMessage);
-	}
+        for (String backup : backups) {
+            int gameCount = GamesBackupSerializer.readGameCount(SdcardHelper.getBackupFile(backup));
+            String gameCountMessage = String.format(getString(gameCount == 1 ? R.string.text_game_count
+                    : R.string.text_game_count_plural), gameCount);
+            backupsToGameCounts.put(backup, gameCount);
+            backupsToGameCountMessages.put(backup, gameCountMessage);
+        }
 
-	final SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this,
-		backupsToGameCountMessages.entrySet(), false);
+        final SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this, backupsToGameCountMessages.entrySet(),
+                false);
 
-	new AlertDialog.Builder(this)
-		.setCancelable(true)
-		.setTitle(R.string.title_choose_backup)
-		.setAdapter(adapter, new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.title_choose_backup)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
 
-		    @Override
-		    public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-			String filename = (String) adapter.getItem(which)
-				.getKey();
-			int gameCount = backupsToGameCounts.get(filename);
-			loadBackup(filename, gameCount);
+                        String filename = (String) adapter.getItem(which).getKey();
+                        int gameCount = backupsToGameCounts.get(filename);
+                        loadBackup(filename, gameCount);
 
-		    }
-		}).setNegativeButton(android.R.string.cancel, null).show();
+                    }
+                }).setNegativeButton(android.R.string.cancel, null).show();
     }
 
     private void loadBackup(final String filename, final int gameCount) {
 
-	final ProgressDialog progressDialog = new ProgressDialog(this);
-	progressDialog.setTitle(R.string.text_loading);
-	progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-	progressDialog.setIndeterminate(false);
-	progressDialog.setMax(gameCount);
-	progressDialog.show();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(R.string.text_loading);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setMax(gameCount);
+        progressDialog.show();
 
-	new AsyncTask<Void, Void, LoadGamesBackupResult>() {
+        new AsyncTask<Void, Void, LoadGamesBackupResult>() {
 
-	    @Override
-	    protected LoadGamesBackupResult doInBackground(Void... params) {
-		return loadBackupInBackground(filename, new Runnable() {
+            @Override
+            protected LoadGamesBackupResult doInBackground(Void... params) {
+                return loadBackupInBackground(filename, new Runnable() {
 
-		    @Override
-		    public void run() {
-			publishProgress((Void) null);
-		    }
-		});
-	    }
+                    @Override
+                    public void run() {
+                        publishProgress((Void) null);
+                    }
+                });
+            }
 
-	    @Override
-	    protected void onProgressUpdate(Void... values) {
-		super.onProgressUpdate(values);
-		progressDialog.incrementProgressBy(1);
-	    }
+            @Override
+            protected void onProgressUpdate(Void... values) {
+                super.onProgressUpdate(values);
+                progressDialog.incrementProgressBy(1);
+            }
 
-	    @Override
-	    protected void onPostExecute(LoadGamesBackupResult result) {
-		super.onPostExecute(result);
-		onReceiveLoadGamesBackupResult(result);
-		progressDialog.dismiss();
-	    }
+            @Override
+            protected void onPostExecute(LoadGamesBackupResult result) {
+                super.onPostExecute(result);
+                onReceiveLoadGamesBackupResult(result);
+                progressDialog.dismiss();
+            }
 
-	}.execute((Void) null);
+        }.execute((Void) null);
     }
 
     private void onReceiveLoadGamesBackupResult(LoadGamesBackupResult result) {
 
-	if (result == null) {
-	    // failed to load the backup for some reason
-	    ToastHelper.showLong(this, R.string.toast_error_with_backup);
-	    return;
-	}
+        if (result == null) {
+            // failed to load the backup for some reason
+            ToastHelper.showLong(this, R.string.toast_error_with_backup);
+            return;
+        }
 
-	// load the new games into the existing adapter
-	for (Game game : result.getLoadedGames()) {
-	    onNewGameCreated(game);
-	}
+        // load the new games into the existing adapter
+        for (Game game : result.getLoadedGames()) {
+            onNewGameCreated(game);
+        }
 
-	// create a nice summary message
+        // create a nice summary message
 
-	String message = String.format(getString(R.string.text_load_backup),
-		result.getFilename(), result.getNumFound(), result
-			.getLoadedGames().size(), result.getNumDuplicates());
+        String message = String.format(getString(R.string.text_load_backup), result.getFilename(),
+                result.getNumFound(), result.getLoadedGames().size(), result.getNumDuplicates());
 
-	new AlertDialog.Builder(this).setCancelable(true)
-		.setTitle(R.string.title_success).setMessage(message)
-		.setPositiveButton(android.R.string.ok, null).show();
+        new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.title_success).setMessage(message)
+                .setPositiveButton(android.R.string.ok, null).show();
     }
 
-    private LoadGamesBackupResult loadBackupInBackground(String filename,
-	    Runnable onProgress) {
+    private LoadGamesBackupResult loadBackupInBackground(String filename, Runnable onProgress) {
 
-	// use the start date as a unique identifier; it's a
-	// millisecond-timestamp, so it should work
+        // use the start date as a unique identifier; it's a
+        // millisecond-timestamp, so it should work
 
-	GamesBackup gamesBackup;
-	try {
-	    gamesBackup = GamesBackupSerializer.deserialize(SdcardHelper
-		    .open(filename));
-	} catch (Exception e) {
-	    log.e(e, "unexpected");
-	    return null;
-	}
-	List<Game> loadedGames = new ArrayList<Game>();
-	int numFound = 0, numDuplicates = 0;
-	GameDBHelper dbHelper = null;
-	try {
-	    dbHelper = new GameDBHelper(this);
-	    for (Game game : gamesBackup.getGames()) {
-		numFound++;
-		if (dbHelper.existsByDateStarted(game.getDateStarted())) {
-		    numDuplicates++;
-		} else {
-		    dbHelper.saveGame(game, false); // don't update 'dateSaved'
-						    // value - keep original
-		    loadedGames.add(game);
-		}
-		onProgress.run();
-	    }
-	} finally {
-	    if (dbHelper != null) {
-		dbHelper.close();
-	    }
-	}
+        GamesBackup gamesBackup;
+        try {
+            gamesBackup = GamesBackupSerializer.deserialize(SdcardHelper.open(filename));
+        } catch (Exception e) {
+            log.e(e, "unexpected");
+            return null;
+        }
+        List<Game> loadedGames = new ArrayList<Game>();
+        int numFound = 0, numDuplicates = 0;
+        GameDBHelper dbHelper = null;
+        try {
+            dbHelper = new GameDBHelper(this);
+            for (Game game : gamesBackup.getGames()) {
+                numFound++;
+                if (dbHelper.existsByDateStarted(game.getDateStarted())) {
+                    numDuplicates++;
+                } else {
+                    dbHelper.saveGame(game, false); // don't update 'dateSaved'
+                    // value - keep original
+                    loadedGames.add(game);
+                }
+                onProgress.run();
+            }
+        } finally {
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
 
-	LoadGamesBackupResult result = new LoadGamesBackupResult();
-	result.setLoadedGames(loadedGames);
-	result.setNumDuplicates(numDuplicates);
-	result.setNumFound(numFound);
-	result.setFilename(filename);
+        LoadGamesBackupResult result = new LoadGamesBackupResult();
+        result.setLoadedGames(loadedGames);
+        result.setNumDuplicates(numDuplicates);
+        result.setNumFound(numFound);
+        result.setFilename(filename);
 
-	return result;
+        return result;
     }
 
     private List<Game> getAllGames() {
-	GameDBHelper dbHelper = null;
-	try {
-	    dbHelper = new GameDBHelper(this);
-	    return dbHelper.findAllGames();
-	} finally {
-	    if (dbHelper != null) {
-		dbHelper.close();
-	    }
-	}
+        GameDBHelper dbHelper = null;
+        try {
+            dbHelper = new GameDBHelper(this);
+            return dbHelper.findAllGames();
+        } finally {
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-	super.onListItemClick(l, v, position, id);
+        super.onListItemClick(l, v, position, id);
 
-	Game game = (Game) adapter.getItem(position);
+        Game game = (Game) adapter.getItem(position);
 
-	Intent intent = new Intent(this, GameActivity.class);
-	intent.putExtra(GameActivity.EXTRA_GAME_ID, game.getId());
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(GameActivity.EXTRA_GAME_ID, game.getId());
 
-	startActivity(intent);
+        startActivity(intent);
 
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> adapter, View view,
-	    int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
 
-	showOptionsMenu((Game) (this.adapter.getItem(position)));
+        showOptionsMenu((Game) (this.adapter.getItem(position)));
 
-	return true;
+        return true;
     }
 
     @Override
     public void onClick(View v) {
 
-	switch (v.getId()) {
-	case R.id.button_new_game:
-	    Intent newGameIntent = new Intent(this, NewGameActivity.class);
-	    startActivity(newGameIntent);
-	    break;
-	case R.id.button_select_all: // select all
-	    selectAll();
-	    break;
-	case R.id.button_deselect_all: // deselect all
-	    deselectAll();
-	    break;
-	case R.id.button_delete: // delete
-	    showDeleteSelectedDialog();
-	    break;
-	}
+        switch (v.getId()) {
+        case R.id.button_new_game:
+            Intent newGameIntent = new Intent(this, NewGameActivity.class);
+            startActivity(newGameIntent);
+            break;
+        case R.id.button_select_all: // select all
+            selectAll();
+            break;
+        case R.id.button_deselect_all: // deselect all
+            deselectAll();
+            break;
+        case R.id.button_delete: // delete
+            showDeleteSelectedDialog();
+            break;
+        }
     }
 
     private void selectAll() {
-	for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
-	    for (int i = 0; i < subAdapter.getCount(); i++) {
-		Game game = subAdapter.getItem(i);
-		subAdapter.getChecked().add(game);
-	    }
-	}
-	adapter.notifyDataSetChanged();
+        for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
+            for (int i = 0; i < subAdapter.getCount(); i++) {
+                Game game = subAdapter.getItem(i);
+                subAdapter.getChecked().add(game);
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void deselectAll() {
-	for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
-	    subAdapter.getChecked().clear();
-	}
+        for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
+            subAdapter.getChecked().clear();
+        }
 
-	adapter.notifyDataSetChanged();
-	hideButtonRow();
+        adapter.notifyDataSetChanged();
+        hideButtonRow();
     }
 
     private void showDeleteSelectedDialog() {
-	final Set<Game> games = new HashSet<Game>();
-	for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
-	    games.addAll(subAdapter.getChecked());
-	}
-	String message = games.size() == 1 ? getString(R.string.text_game_will_be_deleted)
-		: String.format(getString(R.string.text_games_will_be_deleted),
-			games.size());
+        final Set<Game> games = new HashSet<Game>();
+        for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
+            games.addAll(subAdapter.getChecked());
+        }
+        String message = games.size() == 1 ? getString(R.string.text_game_will_be_deleted) : String.format(
+                getString(R.string.text_games_will_be_deleted), games.size());
 
-	new AlertDialog.Builder(this)
-		.setCancelable(true)
-		.setTitle(R.string.title_confirm_delete)
-		.setMessage(message)
-		.setNegativeButton(android.R.string.cancel, null)
-		.setPositiveButton(android.R.string.ok,
-			new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.title_confirm_delete).setMessage(message)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-			    @Override
-			    public void onClick(DialogInterface dialog,
-				    int which) {
-				deleteGames(games);
-			    }
-			}).show();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteGames(games);
+                    }
+                }).show();
     }
 
     private void deleteGames(final Set<Game> games) {
 
-	// do in background to avoid jankiness
-	new AsyncTask<Void, Void, Void>() {
+        // do in background to avoid jankiness
+        new AsyncTask<Void, Void, Void>() {
 
-	    @Override
-	    protected Void doInBackground(Void... params) {
+            @Override
+            protected Void doInBackground(Void... params) {
 
-		GameDBHelper dbHelper = null;
-		try {
-		    dbHelper = new GameDBHelper(MainActivity.this);
-		    dbHelper.deleteGames(games);
+                GameDBHelper dbHelper = null;
+                try {
+                    dbHelper = new GameDBHelper(MainActivity.this);
+                    dbHelper.deleteGames(games);
 
-		} finally {
-		    if (dbHelper != null) {
-			dbHelper.close();
-		    }
-		}
-		return null;
-	    }
+                } finally {
+                    if (dbHelper != null) {
+                        dbHelper.close();
+                    }
+                }
+                return null;
+            }
 
-	    @Override
-	    protected void onPostExecute(Void result) {
-		super.onPostExecute(result);
-		int toast = games.size() == 1 ? R.string.toast_deleted
-			: R.string.toast_multiple_deleted;
-		Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT)
-			.show();
-		for (Game game : games) {
-		    onGameDeleted(game);
-		}
-		// clear from the selected sets
-	    }
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+                int toast = games.size() == 1 ? R.string.toast_deleted : R.string.toast_multiple_deleted;
+                Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show();
+                for (Game game : games) {
+                    onGameDeleted(game);
+                }
+                // clear from the selected sets
+            }
 
-	}.execute((Void) null);
+        }.execute((Void) null);
     }
 
     private void showOptionsMenu(final Game game) {
 
-	String editTitle = getString(TextUtils.isEmpty(game.getName()) ? R.string.title_name_game
-		: R.string.title_edit_game_name);
+        String editTitle = getString(TextUtils.isEmpty(game.getName()) ? R.string.title_name_game
+                : R.string.title_edit_game_name);
 
-	CharSequence[] options = new CharSequence[] {
-		getString(R.string.text_delete), getString(R.string.text_copy),
-		getString(R.string.menu_history), editTitle };
+        CharSequence[] options = new CharSequence[] { 
+                getString(R.string.text_delete), 
+                getString(R.string.text_copy),
+                getString(R.string.menu_rematch), 
+                getString(R.string.menu_history), 
+                editTitle };
 
-	new AlertDialog.Builder(this).setCancelable(true)
-		.setItems(options, new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setCancelable(true).setItems(options, new DialogInterface.OnClickListener() {
 
-		    @Override
-		    public void onClick(DialogInterface dialog, int which) {
-			dialog.dismiss();
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
 
-			switch (which) {
-			case 0: // delete
-			    showDeleteDialog(game);
-			    break;
-			case 1: // copy
-			    copyGame(game);
-			    break;
-			case 2: // history
-			    showHistory(game);
-			    break;
-			case 3: // edit name
-			    showEditGameNameDialog(game);
-			    break;
-			}
-		    }
-		}).show();
+                switch (which) {
+                case 0: // delete
+                    showDeleteDialog(game);
+                    break;
+                case 1: // copy
+                    copyGame(game, false);
+                    break;    
+                case 2: // rematch
+                    copyGame(game, true);
+                    break;
+                case 3: // history
+                    showHistory(game);
+                    break;
+                case 4: // edit name
+                    showEditGameNameDialog(game);
+                    break;
+                }
+            }
+        }).show();
 
     }
 
-    private void copyGame(Game game) {
+    private void copyGame(Game game, final boolean resetScores) {
 
-	final Game newGame = game.makeCleanCopy();
+        final Game newGame = game.makeCleanCopy();
+        
+        if (resetScores) {
+            for (PlayerScore playerScore : newGame.getPlayerScores()) {
+                playerScore.setScore(PreferenceHelper.getIntPreference(R.string.pref_initial_score,
+                        R.string.pref_initial_score_default, this));
+                playerScore.setHistory(new ArrayList<Integer>());
+            }
+        }
 
-	new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, Void>() {
 
-	    @Override
-	    protected Void doInBackground(Void... params) {
-		GameDBHelper dbHelper = null;
-		try {
-		    dbHelper = new GameDBHelper(MainActivity.this);
-		    dbHelper.saveGame(newGame);
-		} finally {
-		    if (dbHelper != null) {
-			dbHelper.close();
-		    }
-		}
-		return null;
-	    }
+            @Override
+            protected Void doInBackground(Void... params) {
+                GameDBHelper dbHelper = null;
+                try {
+                    dbHelper = new GameDBHelper(MainActivity.this);
+                    dbHelper.saveGame(newGame);
+                } finally {
+                    if (dbHelper != null) {
+                        dbHelper.close();
+                    }
+                }
+                return null;
+            }
 
-	    @Override
-	    protected void onPostExecute(Void result) {
-		super.onPostExecute(result);
-		onNewGameCreated(newGame);
-		ToastHelper.showShort(MainActivity.this,
-			R.string.toast_game_copied);
-	    }
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+                onNewGameCreated(newGame);
+                ToastHelper.showShort(MainActivity.this, 
+                        resetScores ? R.string.toast_rematch_created : R.string.toast_game_copied);
+            }
 
-	}.execute((Void) null);
+        }.execute((Void) null);
     }
 
     private void onNewGameCreated(Game newGame) {
 
-	// if the appropriate section doesn't exist, need to create it
-	TimePeriod timePeriodForThisGame = getTimePeriod(new Date(), newGame);
-	String sectionForThisGame = getString(timePeriodForThisGame
-		.getTitleResId());
+        // if the appropriate section doesn't exist, need to create it
+        TimePeriod timePeriodForThisGame = getTimePeriod(new Date(), newGame);
+        String sectionForThisGame = getString(timePeriodForThisGame.getTitleResId());
 
-	if (adapter.getCount() == 0
-		|| !adapter.getSectionsMap().keySet()
-			.contains(sectionForThisGame)) {
-	    SavedGameAdapter subAdapter = new SavedGameAdapter(
-		    MainActivity.this, new ArrayList<Game>(
-			    Collections.singleton(newGame)));
-	    subAdapter.setOnCheckChangedRunnable(new Runnable() {
+        if (adapter.getCount() == 0 || !adapter.getSectionsMap().keySet().contains(sectionForThisGame)) {
+            SavedGameAdapter subAdapter = new SavedGameAdapter(MainActivity.this, new ArrayList<Game>(
+                    Collections.singleton(newGame)));
+            subAdapter.setOnCheckChangedRunnable(new Runnable() {
 
-		@Override
-		public void run() {
-		    showOrHideButtonRow();
-		}
-	    });
-	    Map<String, Integer> sectionsToOrder = new HashMap<String, Integer>();
-	    for (TimePeriod timePeriod : TimePeriod.values()) {
-		sectionsToOrder.put(getString(timePeriod.getTitleResId()),
-			timePeriod.ordinal());
-	    }
-	    int index = 0;
-	    for (int i = 0; i < adapter.getSectionHeaders().getCount(); i++) {
-		String section = adapter.getSectionHeaders().getItem(i);
+                @Override
+                public void run() {
+                    showOrHideButtonRow();
+                }
+            });
+            Map<String, Integer> sectionsToOrder = new HashMap<String, Integer>();
+            for (TimePeriod timePeriod : TimePeriod.values()) {
+                sectionsToOrder.put(getString(timePeriod.getTitleResId()), timePeriod.ordinal());
+            }
+            int index = 0;
+            for (int i = 0; i < adapter.getSectionHeaders().getCount(); i++) {
+                String section = adapter.getSectionHeaders().getItem(i);
 
-		if (sectionsToOrder.get(sectionForThisGame) < sectionsToOrder
-			.get(section)) {
-		    break;
-		}
-		index++;
-	    }
+                if (sectionsToOrder.get(sectionForThisGame) < sectionsToOrder.get(section)) {
+                    break;
+                }
+                index++;
+            }
 
-	    adapter.insertSection(sectionForThisGame, index, subAdapter);
-	} else { // just insert it into the proper section
-	    SavedGameAdapter subAdapter = adapter.getSectionsMap().get(
-		    sectionForThisGame);
-	    subAdapter.add(newGame);
-	    subAdapter.sort(Game.byRecentlySaved());
-	}
-	adapter.notifyDataSetChanged();
-	adapter.refreshSections();
-	fastScrollView.listItemsChanged();
+            adapter.insertSection(sectionForThisGame, index, subAdapter);
+        } else { // just insert it into the proper section
+            SavedGameAdapter subAdapter = adapter.getSectionsMap().get(sectionForThisGame);
+            subAdapter.add(newGame);
+            subAdapter.sort(Game.byRecentlySaved());
+        }
+        adapter.notifyDataSetChanged();
+        adapter.refreshSections();
+        fastScrollView.listItemsChanged();
 
     }
 
     private void showOrHideButtonRow() {
 
-	boolean shouldShow = CollectionUtil.any(adapter.getSectionsMap()
-		.values(), new Predicate<SavedGameAdapter>() {
+        boolean shouldShow = CollectionUtil.any(adapter.getSectionsMap().values(), new Predicate<SavedGameAdapter>() {
 
-	    @Override
-	    public boolean apply(SavedGameAdapter obj) {
-		return !obj.getChecked().isEmpty();
-	    }
-	});
+            @Override
+            public boolean apply(SavedGameAdapter obj) {
+                return !obj.getChecked().isEmpty();
+            }
+        });
 
-	if (shouldShow) {
-	    showButtonRow();
-	} else {
-	    hideButtonRow();
-	}
+        if (shouldShow) {
+            showButtonRow();
+        } else {
+            hideButtonRow();
+        }
     }
 
     private void showButtonRow() {
-	if (buttonRow.getVisibility() == View.VISIBLE) {
-	    // already visible; don't show slide animation
-	    return;
-	}
+        if (buttonRow.getVisibility() == View.VISIBLE) {
+            // already visible; don't show slide animation
+            return;
+        }
 
-	handler.post(new Runnable() {
+        handler.post(new Runnable() {
 
-	    @Override
-	    public void run() {
-		startShowButtonRowAnimation();
-	    }
-	});
+            @Override
+            public void run() {
+                startShowButtonRowAnimation();
+            }
+        });
 
     }
 
     private void hideButtonRow() {
-	if (buttonRow.getVisibility() == View.GONE) {
-	    return; // nothing to do
-	}
+        if (buttonRow.getVisibility() == View.GONE) {
+            return; // nothing to do
+        }
 
-	handler.post(new Runnable() {
+        handler.post(new Runnable() {
 
-	    @Override
-	    public void run() {
-		startHideButtonRowAnimation();
-	    }
-	});
+            @Override
+            public void run() {
+                startHideButtonRowAnimation();
+            }
+        });
 
     }
 
     private void startHideButtonRowAnimation() {
-	Animation animation = AnimationUtils.loadAnimation(this,
-		R.anim.slide_top_to_bottom);
-	animation.setAnimationListener(new AnimationListener() {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_top_to_bottom);
+        animation.setAnimationListener(new AnimationListener() {
 
-	    @Override
-	    public void onAnimationStart(Animation animation) {
-	    }
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
 
-	    @Override
-	    public void onAnimationRepeat(Animation animation) {
-	    }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
 
-	    @Override
-	    public void onAnimationEnd(Animation animation) {
-		buttonRow.setVisibility(View.GONE);
-	    }
-	});
-	spacerView.setVisibility(View.GONE);
-	buttonRow.setAnimation(animation);
-	buttonRow.startAnimation(animation);
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                buttonRow.setVisibility(View.GONE);
+            }
+        });
+        spacerView.setVisibility(View.GONE);
+        buttonRow.setAnimation(animation);
+        buttonRow.startAnimation(animation);
     }
 
     private void startShowButtonRowAnimation() {
-	Animation animation = AnimationUtils.loadAnimation(this,
-		R.anim.slide_bottom_to_top);
-	animation.setAnimationListener(new AnimationListener() {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_to_top);
+        animation.setAnimationListener(new AnimationListener() {
 
-	    @Override
-	    public void onAnimationStart(Animation animation) {
-	    }
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
 
-	    @Override
-	    public void onAnimationRepeat(Animation animation) {
-	    }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
 
-	    @Override
-	    public void onAnimationEnd(Animation animation) {
-		// propertly shrink the scroll view
-		spacerView.setVisibility(View.VISIBLE);
-	    }
-	});
-	buttonRow.setAnimation(animation);
-	buttonRow.setVisibility(View.VISIBLE);
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                // propertly shrink the scroll view
+                spacerView.setVisibility(View.VISIBLE);
+            }
+        });
+        buttonRow.setAnimation(animation);
+        buttonRow.setVisibility(View.VISIBLE);
 
-	buttonRow.startAnimation(animation);
+        buttonRow.startAnimation(animation);
     }
 
     private void showHistory(Game game) {
 
-	Intent intent = new Intent(this, HistoryActivity.class);
-	intent.putExtra(HistoryActivity.EXTRA_GAME, game);
+        Intent intent = new Intent(this, HistoryActivity.class);
+        intent.putExtra(HistoryActivity.EXTRA_GAME, game);
 
-	startActivity(intent);
+        startActivity(intent);
 
     }
 
     private void showEditGameNameDialog(final Game game) {
 
-	final EditText editText = new EditText(this);
-	editText.setHint(R.string.hint_game_name);
-	editText.setText(StringUtil.nullToEmpty(game.getName()));
-	editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-	editText.setSingleLine();
-	new AlertDialog.Builder(this)
-		.setTitle(R.string.title_edit_game_name)
-		.setView(editText)
-		.setCancelable(true)
-		.setPositiveButton(android.R.string.ok,
-			new DialogInterface.OnClickListener() {
+        final EditText editText = new EditText(this);
+        editText.setHint(R.string.hint_game_name);
+        editText.setText(StringUtil.nullToEmpty(game.getName()));
+        editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        editText.setSingleLine();
+        new AlertDialog.Builder(this).setTitle(R.string.title_edit_game_name).setView(editText).setCancelable(true)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-			    @Override
-			    public void onClick(final DialogInterface dialog,
-				    int which) {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
 
-				final String newName = StringUtil
-					.nullToEmpty(editText.getText()
-						.toString());
+                        final String newName = StringUtil.nullToEmpty(editText.getText().toString());
 
-				// update database in the background to avoid
-				// jankiness
-				new AsyncTask<Void, Void, Void>() {
+                        // update database in the background to avoid
+                        // jankiness
+                        new AsyncTask<Void, Void, Void>() {
 
-				    @Override
-				    protected Void doInBackground(
-					    Void... params) {
-					GameDBHelper dbHelper = null;
-					try {
-					    dbHelper = new GameDBHelper(
-						    MainActivity.this);
-					    dbHelper.updateGameName(game,
-						    newName);
-					} finally {
-					    if (dbHelper != null) {
-						dbHelper.close();
-					    }
-					}
-					return null;
-				    }
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                GameDBHelper dbHelper = null;
+                                try {
+                                    dbHelper = new GameDBHelper(MainActivity.this);
+                                    dbHelper.updateGameName(game, newName);
+                                } finally {
+                                    if (dbHelper != null) {
+                                        dbHelper.close();
+                                    }
+                                }
+                                return null;
+                            }
 
-				    @Override
-				    protected void onPostExecute(Void result) {
-					super.onPostExecute(result);
+                            @Override
+                            protected void onPostExecute(Void result) {
+                                super.onPostExecute(result);
 
-					game.setName(newName.trim());
-					adapter.notifyDataSetChanged();
+                                game.setName(newName.trim());
+                                adapter.notifyDataSetChanged();
 
-					dialog.dismiss();
-				    }
+                                dialog.dismiss();
+                            }
 
-				}.execute((Void) null);
+                        }.execute((Void) null);
 
-			    }
-			}).setNegativeButton(android.R.string.cancel, null)
-		.show();
+                    }
+                }).setNegativeButton(android.R.string.cancel, null).show();
 
     }
 
     private void showDeleteDialog(final Game game) {
-	new AlertDialog.Builder(this)
-		.setCancelable(true)
-		.setTitle(R.string.title_confirm_delete)
-		.setMessage(R.string.text_game_will_be_deleted)
-		.setPositiveButton(android.R.string.ok,
-			new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.title_confirm_delete)
+                .setMessage(R.string.text_game_will_be_deleted)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-			    @Override
-			    public void onClick(DialogInterface dialog,
-				    int which) {
-				dialog.dismiss();
-				deleteGames(Collections.singleton(game));
-			    }
-			}).setNegativeButton(android.R.string.cancel, null)
-		.show();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        deleteGames(Collections.singleton(game));
+                    }
+                }).setNegativeButton(android.R.string.cancel, null).show();
     }
 
     private void onGameDeleted(Game game) {
-	// delete the game from the adapter
+        // delete the game from the adapter
 
-	for (Entry<String, SavedGameAdapter> entry : new HashMap<String, SavedGameAdapter>(
-		adapter.getSectionsMap()).entrySet()) {
-	    SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
-	    if (subAdapter.getCount() == 1
-		    && subAdapter.getItem(0).equals(game)) {
-		// special case where there's only one item left - don't want
-		// the adapter to be left empty
-		// So delete the entire section
-		adapter.removeSection(entry.getKey());
-	    } else {
-		subAdapter.remove(game);
-	    }
-	    subAdapter.getChecked().remove(game); // remove from the checked
-						  // list
-	}
+        for (Entry<String, SavedGameAdapter> entry : new HashMap<String, SavedGameAdapter>(adapter.getSectionsMap())
+                .entrySet()) {
+            SavedGameAdapter subAdapter = (SavedGameAdapter) entry.getValue();
+            if (subAdapter.getCount() == 1 && subAdapter.getItem(0).equals(game)) {
+                // special case where there's only one item left - don't want
+                // the adapter to be left empty
+                // So delete the entire section
+                adapter.removeSection(entry.getKey());
+            } else {
+                subAdapter.remove(game);
+            }
+            subAdapter.getChecked().remove(game); // remove from the checked
+            // list
+        }
 
-	adapter.notifyDataSetChanged();
-	adapter.refreshSections();
-	fastScrollView.listItemsChanged();
+        adapter.notifyDataSetChanged();
+        adapter.refreshSections();
+        fastScrollView.listItemsChanged();
 
-	showOrHideButtonRow();
+        showOrHideButtonRow();
     }
 
-    private SortedMap<TimePeriod, List<Game>> organizeGamesByTimePeriod(
-	    List<Game> games) {
-	SortedMap<TimePeriod, List<Game>> result = new TreeMap<TimePeriod, List<Game>>();
+    private SortedMap<TimePeriod, List<Game>> organizeGamesByTimePeriod(List<Game> games) {
+        SortedMap<TimePeriod, List<Game>> result = new TreeMap<TimePeriod, List<Game>>();
 
-	Iterator<TimePeriod> timePeriodIterator = Arrays.asList(
-		TimePeriod.values()).iterator();
-	TimePeriod timePeriod = timePeriodIterator.next();
-	Date date = new Date();
-	for (Game game : games) {
-	    // time periods are sorted from newest to oldest, just like the
-	    // games. So we can just walk through
-	    // them in order
-	    while (!timePeriodMatches(date, timePeriod, game)) {
-		timePeriod = timePeriodIterator.next();
-	    }
-	    List<Game> existing = result.get(timePeriod);
-	    if (existing == null) {
-		result.put(timePeriod,
-			new ArrayList<Game>(Collections.singleton(game)));
-	    } else {
-		existing.add(game);
-	    }
-	}
-	return result;
+        Iterator<TimePeriod> timePeriodIterator = Arrays.asList(TimePeriod.values()).iterator();
+        TimePeriod timePeriod = timePeriodIterator.next();
+        Date date = new Date();
+        for (Game game : games) {
+            // time periods are sorted from newest to oldest, just like the
+            // games. So we can just walk through
+            // them in order
+            while (!timePeriodMatches(date, timePeriod, game)) {
+                timePeriod = timePeriodIterator.next();
+            }
+            List<Game> existing = result.get(timePeriod);
+            if (existing == null) {
+                result.put(timePeriod, new ArrayList<Game>(Collections.singleton(game)));
+            } else {
+                existing.add(game);
+            }
+        }
+        return result;
     }
 
     private TimePeriod getTimePeriod(Date date, Game game) {
-	for (TimePeriod timePeriod : TimePeriod.values()) {
-	    if (timePeriodMatches(date, timePeriod, game)) {
-		return timePeriod;
-	    }
-	}
-	return TimePeriod.Older;
+        for (TimePeriod timePeriod : TimePeriod.values()) {
+            if (timePeriodMatches(date, timePeriod, game)) {
+                return timePeriod;
+            }
+        }
+        return TimePeriod.Older;
     }
 
     /**
@@ -994,13 +939,11 @@ public class MainActivity extends SherlockListActivity implements
      * @param currentGame
      * @return
      */
-    private boolean timePeriodMatches(Date date, TimePeriod timePeriod,
-	    Game currentGame) {
-	Date start = timePeriod.getStartDateFunction().apply(date);
-	Date end = timePeriod.getEndDateFunction().apply(date);
+    private boolean timePeriodMatches(Date date, TimePeriod timePeriod, Game currentGame) {
+        Date start = timePeriod.getStartDateFunction().apply(date);
+        Date end = timePeriod.getEndDateFunction().apply(date);
 
-	return currentGame.getDateSaved() < end.getTime()
-		&& currentGame.getDateSaved() >= start.getTime();
+        return currentGame.getDateSaved() < end.getTime() && currentGame.getDateSaved() >= start.getTime();
     }
 
 }
