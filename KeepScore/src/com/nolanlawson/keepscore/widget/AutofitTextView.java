@@ -7,7 +7,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.nolanlawson.keepscore.android.GradientSpan;
+import com.nolanlawson.keepscore.android.TopDownGradientSpan;
 import com.nolanlawson.keepscore.util.StringUtil;
 
 /**
@@ -78,7 +78,7 @@ public class AutofitTextView extends TextView {
                 SpannableStringBuilder builder = new SpannableStringBuilder()
                         .append(getText().subSequence(0, startOfLastLine))
                         .append(getText().subSequence(startOfLastLine, cutoffIndex).toString());
-                builder.setSpan(new GradientSpan(startColor, endColor, startY, endY), 0, cutoffIndex, 0);
+                builder.setSpan(new TopDownGradientSpan(startColor, endColor, startY, endY), 0, cutoffIndex, 0);
                 setText(builder);
 
             }

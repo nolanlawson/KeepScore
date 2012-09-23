@@ -1,11 +1,6 @@
 package com.nolanlawson.keepscore.android;
 
-import com.nolanlawson.keepscore.helper.VersionHelper;
-
 import android.graphics.LinearGradient;
-import android.graphics.Paint.FontMetrics;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.Shader.TileMode;
 import android.os.Parcel;
@@ -21,7 +16,7 @@ import android.text.style.UpdateAppearance;
  * @author nolan
  * 
  */
-public class GradientSpan extends CharacterStyle implements UpdateAppearance, ParcelableSpan {
+public class TopDownGradientSpan extends CharacterStyle implements UpdateAppearance, ParcelableSpan {
 
     private static final int ID = 234710600; // random
 
@@ -30,14 +25,14 @@ public class GradientSpan extends CharacterStyle implements UpdateAppearance, Pa
     private final float mStartY;
     private final float mEndY;
 
-    public GradientSpan(int startColor, int endColor, float startY, float endY) {
+    public TopDownGradientSpan(int startColor, int endColor, float startY, float endY) {
         mStartColor = startColor;
         mEndColor = endColor;
         mStartY = startY;
         mEndY = endY;
     }
 
-    public GradientSpan(Parcel src) {
+    public TopDownGradientSpan(Parcel src) {
         mStartColor = src.readInt();
         mEndColor = src.readInt();
         mStartY = src.readFloat();
@@ -65,6 +60,14 @@ public class GradientSpan extends CharacterStyle implements UpdateAppearance, Pa
 
     public int getEndColor() {
         return mEndColor;
+    }
+    
+    public float getStartY() {
+        return mStartY;
+    }
+    
+    public float getEndY() {
+        return mEndY;
     }
 
     @Override
