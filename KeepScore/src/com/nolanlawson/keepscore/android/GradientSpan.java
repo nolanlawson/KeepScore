@@ -15,9 +15,11 @@ import android.text.style.CharacterStyle;
 import android.text.style.UpdateAppearance;
 
 /**
- * Like the ForegroundColorSpan, but draws a gradient from top (startColor) to bottom (endColor).
+ * Like the ForegroundColorSpan, but draws a gradient from top (startColor) to
+ * bottom (endColor).
+ * 
  * @author nolan
- *
+ * 
  */
 public class GradientSpan extends CharacterStyle implements UpdateAppearance, ParcelableSpan {
 
@@ -25,50 +27,52 @@ public class GradientSpan extends CharacterStyle implements UpdateAppearance, Pa
 
     private final int mStartColor;
     private final int mEndColor;
+    private final float mStartY;
+    private final float mEndY;
 
-    public GradientSpan(int startColor, int endColor) {
-	mStartColor = startColor;
-	mEndColor = endColor;
+    public GradientSpan(int startColor, int endColor, float startY, float endY) {
+        mStartColor = startColor;
+        mEndColor = endColor;
+        mStartY = startY;
+        mEndY = endY;
     }
 
     public GradientSpan(Parcel src) {
-	mStartColor = src.readInt();
-	mEndColor = src.readInt();
+        mStartColor = src.readInt();
+        mEndColor = src.readInt();
+        mStartY = src.readFloat();
+        mEndY = src.readFloat();
     }
 
     public int getSpanTypeId() {
-	return ID;
+        return ID;
     }
 
     public int describeContents() {
-	return 0;
+        return 0;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
-	dest.writeInt(mStartColor);
-	dest.writeInt(mEndColor);
+        dest.writeInt(mStartColor);
+        dest.writeInt(mEndColor);
+        dest.writeFloat(mStartY);
+        dest.writeFloat(mEndY);
     }
 
     public int getStartColor() {
-	return mStartColor;
+        return mStartColor;
     }
-    
+
     public int getEndColor() {
-	return mEndColor;
+        return mEndColor;
     }
 
     @Override
     public void updateDrawState(TextPaint ds) {
-	// can't figure out what the good y2 value should be.  A high enough
-	// number seems to enusre it doesn't repeat, though
-	float bottom = ds.getFontSpacing();
-	// lineargradient is backwards post-honeyomb
-	int[] gradient = VersionHelper.getVersionSdkIntCompat() >= VersionHelper.VERSION_HONEYCOMB
-		? new int[]{mEndColor, mStartColor}
-		: new int[]{mStartColor, mEndColor};
-	Shader shader = new LinearGradient(0, 0, 0, bottom,
-	            gradient, null, TileMode.MIRROR);
-	ds.setShader(shader);
+        Shader shader = new LinearGradient(0, mStartY, 0, mEndY, 
+                new int[] { mStartColor, mEndColor }, null,
+                TileMode.CLAMP);
+        ds.setShader(shader);
     }
-    
+
 }

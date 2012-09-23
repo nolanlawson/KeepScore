@@ -159,4 +159,17 @@ public class StringUtil {
 	public static String emptyToNull(CharSequence name) {
 		return TextUtils.isEmpty(name) ? null : name.toString();
 	}
+
+    public static int count(String str, String substring) {
+        int index = 0;
+        int count = 0;
+        while (index != -1) {
+            index = str.indexOf(substring, index);
+            if (index != -1) {
+                count++;
+                index += substring.length();
+            }
+        }
+        return count;
+    }
 }
