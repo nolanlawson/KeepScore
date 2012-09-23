@@ -7,7 +7,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/player_score_divider_2"
         android:layout_width="fill_parent"
-        android:layout_height="2px"
+        android:layout_height="@dimen/player_score_divider"
         android:layout_alignParentTop="true"
         android:background="@color/light_blue_2" />
 

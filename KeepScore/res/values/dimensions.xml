@@ -63,4 +63,6 @@
 	<dimen name="chart_dot_radius">2dp</dimen>
 	<dimen name="chart_font_size">16dp</dimen>
 	<dimen name="chart_line_width">1dp</dimen>
+	
+	<dimen name="player_score_divider">2px</dimen>
 </resources>

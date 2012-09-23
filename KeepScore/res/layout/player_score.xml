@@ -31,7 +31,7 @@
 
     <View
         android:id="@+id/player_score_divider_1"
-        android:layout_width="2px"
+        android:layout_width="@dimen/player_score_divider"
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@+id/text_history"
         android:layout_above="@+id/onscreen_delta_buttons_stub"
