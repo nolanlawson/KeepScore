@@ -1,0 +1,9 @@
+ 新たな許可はゲームをSDカードにバックアップするために含まれました。よろこんで！　 (＾▽＾)
+
+別のアップデート：
+　＊　新たななインタフェース
+　＊　歴史のチャート
+　＊　アンドゥ・やり直す
+　＊　「選手エディット」のモード
+
+詳しく(英語）：　https://github.com/nolanlawson/KeepScore/wiki wordpress.com/something

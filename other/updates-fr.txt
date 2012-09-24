@@ -1,0 +1,15 @@
+La nouvelle permission, c'est pour faire des backups des parties au stockage USB. 
+
+Autres mises à jour:
+
+- Nouvelle interface
+- Charte affichante les scores au fil du temps
+- Annuler/défaire
+- Ecran "modifier les joueurs" avec drag-and-drop
+
+Plus de détails sur mon blog et le wiki: https://github.com/nolanlawson/KeepScore/wiki
+
+KeepScore est open-source et sans publicités.  Si vous voulez le soutenir, vous pouvez faire don sur ma page Internet.  :)
+
+http://nolanlawson.com/donate
+wordpress.com/somethingsomething

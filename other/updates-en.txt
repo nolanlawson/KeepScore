@@ -1,0 +1,16 @@
+The new permission is to backup/restore your games to USB storage. Hope you like it!  :)
+
+Other updates:
+
+- Brand spankin' new interface
+- Chart showing scores over time
+- Undo/redo function
+- "Edit Players" screen with drag-and-drop
+- Better German translations
+
+Full changelog: https://github.com/nolanlawson/KeepScore/wiki
+Blog post with more details: http://wordpress.com/somethingsomething
+
+KeepScore is ad-free and open-source.  If you'd like to support it,  you can donate at my website. :)
+
+http://nolanlawson.com/donate
