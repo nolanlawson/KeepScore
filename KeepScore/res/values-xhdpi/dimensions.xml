@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<dimen name="chart_font_size">14dp</dimen>
+	<dimen name="chart_line_width">1dp</dimen>
 </resources>
