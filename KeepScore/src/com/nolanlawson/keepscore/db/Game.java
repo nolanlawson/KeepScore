@@ -8,6 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.LongUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class Game implements Parcelable, Cloneable {
@@ -79,7 +80,7 @@ public class Game implements Parcelable, Cloneable {
 
 			@Override
 			public int compare(Game object1, Game object2) {
-				return new Long(object2.getDateSaved()).compareTo(object1.getDateSaved());
+			    return LongUtil.compare(object2.getDateSaved(), object1.getDateSaved());
 			}
 		};
 	}
