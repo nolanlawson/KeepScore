@@ -21,6 +21,7 @@
                       android:textOn="@string/button_by_chart"
                       android:textOff="@string/button_by_chart"
                       android:checked="true"
+                      android:singleLine="true"
                       android:drawableTop="@drawable/ic_menu_chartsettings_small"
                 />
                   
@@ -32,6 +33,7 @@
                       android:textOn="@string/button_by_round"
                       android:textOff="@string/button_by_round"
                       android:checked="false"
+                      android:singleLine="true"
                       android:drawableTop="@drawable/ic_menu_agenda_small"
                 />
           
@@ -43,6 +45,7 @@
                       android:textSize="14sp"
                       android:textOn="@string/button_by_player"
                       android:textOff="@string/button_by_player"
+                      android:singleLine="true"
                       android:drawableTop="@drawable/ic_menu_cc_small"
                 />
         

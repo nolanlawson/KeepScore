@@ -1,183 +1,183 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- TO TRANSLATE -->
-    <string name="button_by_chart">Chart</string>
+    <string name="button_by_chart">Grafische Darstellung</string>
     <string name="button_by_player">Pro Spieler</string>
     <string name="button_by_round">Pro Spielrunde</string>
-    <string name="button_customize">Personalisieren…</string>
-    <string name="button_deselect_all">Vergess die Auswahl</string>
-    <string name="button_load_game">Gespeicherte Spiele</string>
+    <string name="button_customize">Einstellungen personalisieren…</string>
+    <string name="button_deselect_all">Auswahl löschen</string>
+    <string name="button_load_game">Spiel laden</string>
     <string name="button_new_game">Neues Spiel</string>
-    <string name="button_resume_game">Letztes Spiel</string>
+    <string name="button_resume_game">Letztes Spiel fortsetzen</string>
     <string name="button_select_all">Alle wählen</string>
     
     <string name="date_format">dd MMM HH\'h\'mm</string>
     
     <string name="hint_game_name">Spielname</string>
     
-    <string name="menu_about">Über</string>
+    <string name="menu_about">Über KeepScore</string>
     <!-- TO TRANSLATE -->
-    <string name="menu_add_edit_players">Edit Players</string>
-    <string name="menu_add_player">Neue Spieler</string>
-    <string name="menu_history">Zusammenfassung</string>
+    <string name="menu_add_edit_players">Spieler ändern</string>
+    <string name="menu_add_player">Spieler hinzufügen</string>
+    <string name="menu_history">Chronik</string>
     <!-- TO TRANSLATE -->
     <string name="menu_home">Home</string>
     <!-- TO TRANSLATE -->
-    <string name="menu_load_backup">Restore</string>
+    <string name="menu_load_backup">Neu laden</string>
     <string name="menu_randomize">Mischen</string>
     <!-- TO TRANSLATE -->
-    <string name="menu_redo">Redo</string>
+    <string name="menu_redo">Rückgängig machen</string>
     <!-- TO TRANSLATE -->
-    <string name="menu_rematch">Rematch</string>
+    <string name="menu_rematch">Neues Spiel</string>
     <string name="menu_reset_scores">Zurücksetzen</string>
     <!-- TO TRANSLATE -->
     <string name="menu_save_backup">Backup</string>
-    <string name="menu_settings">Parameter</string>
+    <string name="menu_settings">Einstellungen</string>
     <!-- TO TRANSLATE -->
-    <string name="menu_undo">Undo</string>
+    <string name="menu_undo">Löschen</string>
     
-    <string name="pref_2p_button_1_name">On-screen Taste #1</string>
-    <string name="pref_2p_button_2_name">On-screen Taste #2</string>
-    <string name="pref_2p_button_3_name">On-screen Taste #3</string>
-    <string name="pref_2p_button_4_name">On-screen Taste #4</string>
-    <string name="pref_button_1_name">Pop-up Taste #1</string>
-    <string name="pref_button_2_name">Pop-up Taste #2</string>
-    <string name="pref_button_3_name">Pop-up Taste #3</string>
-    <string name="pref_button_4_name">Pop-up Taste #4</string>
-    <string name="pref_cat_about">Über</string>
-    <string name="pref_cat_advanced">fortgeschritten</string>
+    <string name="pref_2p_button_1_name">Bildschirm-Taste #1</string>
+    <string name="pref_2p_button_2_name">Bildschirm-Taste #2</string>
+    <string name="pref_2p_button_3_name">Bildschirm-Taste #3</string>
+    <string name="pref_2p_button_4_name">Bildschirm-Taste #4</string>
+    <string name="pref_button_1_name">Pop-up-Taste #1</string>
+    <string name="pref_button_2_name">Pop-up-Taste #2</string>
+    <string name="pref_button_3_name">Pop-up-Taste #3</string>
+    <string name="pref_button_4_name">Pop-up-Taste #4</string>
+    <string name="pref_cat_about">Über KeepScore</string>
+    <string name="pref_cat_advanced">Fortgeschritten</string>
     <string name="pref_cat_appearance">Bildschirm</string>
     <string name="pref_cat_config">Konfiguration</string>
     <!-- TO TRANSLATE -->
-    <string name="pref_cat_manage">Manage Settings</string>
+    <string name="pref_cat_manage">Einstellungen ändern</string>
     <string name="pref_color_scheme_choice_android_name">Grün Android</string>
-    <string name="pref_color_scheme_choice_dark_name">Dunkel</string>
-    <string name="pref_color_scheme_choice_light_name">Klar</string>
+    <string name="pref_color_scheme_choice_dark_name">Schwarz</string>
+    <string name="pref_color_scheme_choice_light_name">Weiss</string>
     <string name="pref_color_scheme_name">Punktzahl pro Runden in Grün</string>
     <string name="pref_green_text_name">Grüner Text</string>
-    <string name="pref_green_text_summary">Punktzahl pro Spieler pro Runden in grün (Standard : blau).</string>
-    <string name="pref_initial_score_name">Basisbewertung</string>
+    <string name="pref_green_text_summary">Punktzahl pro Spieler pro Runde in grün (Standard : blau).</string>
+    <string name="pref_initial_score_name">Anfangspunktzahl</string>
     <!-- TO TRANSLATE -->
-    <string name="pref_load_settings_name">Load Backup</string>
+    <string name="pref_load_settings_name">Einstellungen speichern</string>
     <!-- TO TRANSLATE -->
-    <string name="pref_load_settings_summary">Import settings from a saved backup.</string>
-    <string name="pref_reset_name">Zurücksetzen zum standard</string>
+    <string name="pref_load_settings_summary">Einstellungen aus einem gespeicherten Backup importieren.</string>
+    <string name="pref_reset_name">Zu Standardeinstellungen zurücksetzen</string>
     <!-- TO TRANSLATE -->
-    <string name="pref_save_settings_name">Save Backup</string>
+    <string name="pref_save_settings_name">Backup speichern</string>
     <!-- TO TRANSLATE -->
-    <string name="pref_save_settings_summary">Save a backup of the current settings.</string>
-    <string name="pref_show_round_totals_name">Rundenanzahl anzeigen</string>
-    <string name="pref_update_delay_name">Aktualisierung zeit</string>
-    <string name="pref_update_delay_summary">Wartezeit bis zur Speicherung der eingegebenen Punkte (Standard: 10)</string>
-    <string name="pref_use_wake_lock_name">Displayleucht halten</string>
+    <string name="pref_save_settings_summary">Backup mit den aktuellen Einsellungen speichern.</string>
+    <string name="pref_show_round_totals_name">Anzahl Runden anzeigen</string>
+    <string name="pref_update_delay_name">Verzögerung aktualisieren</string>
+    <string name="pref_update_delay_summary">Verzögerung, mit welcher erzielte Punkte gespeichert werden (Standard: 10)</string>
+    <string name="pref_use_wake_lock_name">Bildschirm nicht im Bereitschaftsmodus halten</string>
     <!-- TO TRANSLATE -->
-    <string name="pref_use_wake_lock_summary">Lock screen while playing</string>
+    <string name="pref_use_wake_lock_summary">Bildschirm während Spiel beleuchtet halten</string>
     
     <string name="text_about">Über KeepScore</string>
     <string name="text_add_zero">Null hinzufügen</string>
     <string name="text_confirm">Bestätigen</string>
     <!-- TO TRANSLATE -->
-    <string name="text_confirm_delete_player">The following player will be deleted: %s.</string>
+    <string name="text_confirm_delete_player">Folgenden Spieler löschen: %s.</string>
     <!-- TO TRANSLATE -->
-    <string name="text_confirm_delete_player_plural">The following players will be deleted: %s.</string>
+    <string name="text_confirm_delete_player_plural">Folgende Spieler löschen: %s.</string>
     <!-- TO TRANSLATE -->
-    <string name="text_confirm_rematch">Start a rematch with the same players?</string>
+    <string name="text_confirm_rematch">Ein neues Spiel mit denselben Spielern starten?</string>
     <string name="text_copy">Kopieren</string>
     <string name="text_delete">Entfernen</string>
     <!-- TO TRANSLATE -->
-    <string name="text_delete_saved_settings">The backup \&quot;%s\&quot; will be deleted.</string>
-    <string name="text_edit_name">Namen bearbeiten</string>
+    <string name="text_delete_saved_settings">Backup \&quot;%s\&quot; löschen.</string>
+    <string name="text_edit_name">Name ändern</string>
     <!-- TO TRANSLATE -->
-    <string name="text_enter_saved_settings_name">Enter name, e.g. \'cribbage\'</string>
-    <string name="text_format_rounds">%d Runde</string>
-    <string name="text_format_rounds_singular">%d Runden</string>
+    <string name="text_enter_saved_settings_name">Name eingeben, z.B. \'cribbage\'</string>
+    <string name="text_format_rounds">%d Runden</string>
+    <string name="text_format_rounds_singular">%d Runde</string>
     <!-- TO TRANSLATE -->
-    <string name="text_game_count">%d game</string>
+    <string name="text_game_count">%d Spiel</string>
     <!-- TO TRANSLATE -->
-    <string name="text_game_count_plural">%d games</string>
+    <string name="text_game_count_plural">%d Spiele</string>
     <string name="text_game_will_be_deleted">Das Spiel wird gelöscht.</string>
-    <string name="text_games_will_be_deleted">%d Spielen werden gelöscht.</string>
+    <string name="text_games_will_be_deleted">%d Die Spiele werden gelöscht.</string>
     <!-- TO TRANSLATE -->
-    <string formatted="false" name="text_load_backup">\'%s\' successfully imported.\n\n\
-Found: %d\n\
-Loaded: %d\n\
-Duplicates: %d</string>
+    <string formatted="false" name="text_load_backup">\'%s\' Import erfolgreich\n\n\
+Gefunden: %d\n\
+Gespeichert: %d\n\
+Kopien: %d</string>
     <!-- TO TRANSLATE -->
-    <string name="text_loading">Importing…</string>
-    <string name="text_no_saved_games">Kein gespeichertes Spiel.</string>
+    <string name="text_loading">Wird importiert…</string>
+    <string name="text_no_saved_games">Deine gespeicherten Spiele erscheinen hier.</string>
     <string name="text_num_players">Anzahl Spieler</string>
     <string name="text_player">Spieler</string>
-    <string name="text_player_names">Spielernamen</string>
+    <string name="text_player_names">Name der Spieler (freiwillig)</string>
     <string name="text_players">%s Spieler</string>
-    <string name="text_reset_confirm">Die Einstellungen werden zurückgesetzt.</string>
-    <string formatted="false" name="text_round_total">Runde %d Punkten pro Runde : %d</string>
+    <string name="text_reset_confirm">Alle Einstellungen werden zurückgesetzt.</string>
+    <string formatted="false" name="text_round_total">Runde %d Punkte pro Runde : %d</string>
     <!-- TO TRANSLATE -->
-    <string formatted="false" name="text_save_backup">Backup %d game to the SD card?</string>
+    <string formatted="false" name="text_save_backup"> %d Spiel auf SD-Karte exportieren?</string>
     <!-- TO TRANSLATE -->
-    <string formatted="false" name="text_save_backup_plural">Backup %d games to the SD card?</string>
+    <string formatted="false" name="text_save_backup_plural"> %d Spiele auf SD-Karte exportieren?</string>
     <!-- TO TRANSLATE -->
-    <string formatted="false" name="text_save_backup_succeeded">%d game saved to \'%s\'.</string>
+    <string formatted="false" name="text_save_backup_succeeded">%d Spiel gespeichert unter \'%s\'.</string>
     <!-- TO TRANSLATE -->
-    <string formatted="false" name="text_save_backup_succeeded_plural">%d games saved to \'%s\'.</string>
+    <string formatted="false" name="text_save_backup_succeeded_plural">%d Spiele gespeichert unter \'%s\'.</string>
     <!-- TO TRANSLATE -->
-    <string name="text_saved_games">Saved Games</string>
+    <string name="text_saved_games">Gespeicherte Spiele</string>
     <!-- TO TRANSLATE -->
-    <string name="text_saving">Exporting…</string>
-    <string name="text_undo_last">letzten Eintrag brechen</string>
+    <string name="text_saving">Wird exportiert…</string>
+    <string name="text_undo_last">Letzten Eintrag löschen</string>
     <!-- TO TRANSLATE -->
     <string name="text_version_number">Version %s</string>
     
-    <string name="title_add">Hinzufügen</string>
+    <string name="title_add">Wert hinzufügen</string>
     <string name="title_add_player">Spielername eingeben</string>
     <string name="title_change_name">Name ändern</string>
     <!-- TO TRANSLATE -->
-    <string name="title_choose_backup">Restore Games from File</string>
+    <string name="title_choose_backup">Spiele aus einem Dokument importieren</string>
     <string name="title_confirm">Bestätigen</string>
     <string name="title_confirm_delete">Löschung bestätigen</string>
-    <string name="title_confirm_reset">Zurücksetzen bestätigen</string>
+    <string name="title_confirm_reset">Zurücksetzung bestätigen</string>
     <string name="title_edit_game_name">Spielname ändern</string>
-    <string name="title_last_month">Dieser Monat</string>
-    <string name="title_last_week">Diese Woche</string>
-    <string name="title_last_year">Dieses Jahr</string>
+    <string name="title_last_month">Letzter Monat</string>
+    <string name="title_last_week">Letzte Woche</string>
+    <string name="title_last_year">Letztes Jahr</string>
     <!-- TO TRANSLATE -->
-    <string name="title_load_setting_set">Load \&quot;%s\&quot;?</string>
+    <string name="title_load_setting_set">Speichern \&quot;%s\&quot;?</string>
     <string name="title_name_game">Spielname eingeben</string>
-    <string name="title_older">Älteste</string>
+    <string name="title_older">Ältere</string>
     <!-- TO TRANSLATE -->
-    <string name="title_save_setting_set">Backup All Settings</string>
-    <string name="title_subtract">Subtrahieren</string>
+    <string name="title_save_setting_set">Alle Einstellungen speichern</string>
+    <string name="title_subtract">Wert Substrahieren</string>
     <!-- TO TRANSLATE -->
-    <string name="title_success">Success</string>
+    <string name="title_success">Erfolg</string>
     <string name="title_today">Heute</string>
     <string name="title_two_days_ago">Vorgestern</string>
     <string name="title_yesterday">Gestern</string>
     
-    <string name="toast_deleted">Spiel gelöscht.</string>
+    <string name="toast_deleted">Spiel wurde gelöscht.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_error_with_backup">Error importing games.</string>
-    <string name="toast_game_copied">Spiel ist kopiert.</string>
+    <string name="toast_error_with_backup">Fehler beim Import von Spielen.</string>
+    <string name="toast_game_copied">Spiel wurde kopiert.</string>
     <string name="toast_game_saved">Spiel wurde gespeichert.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_invalid_setting_set_name">Invalid name.</string>
+    <string name="toast_invalid_setting_set_name">Ungültiger Name.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_loaded_setting_set">Loaded settings for \&quot;%s\&quot;.</string>
-    <string name="toast_multiple_deleted">Spielen gelöscht.</string>
+    <string name="toast_loaded_setting_set">Die Einstellungen für \&quot;%s\&quot; wurden gespeichert.</string>
+    <string name="toast_multiple_deleted">Spiele wurden gelöscht.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_no_backups">No backup files found.</string>
+    <string name="toast_no_backups">Keine Backup-Dateien gefunden.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_no_saved_games">No saved games to backup.</string>
+    <string name="toast_no_saved_games">Keine gespeicherten Spiele um ein Backup zu erstellen.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_no_saved_settings">No backups found.</string>
+    <string name="toast_no_saved_settings">Keine Backup-Dateien gefunden.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_no_sdcard">SD card not found.</string>
-    <string name="toast_no_zeroes">Geben Sie eine gültige Zahl (ungleich Null).</string>
+    <string name="toast_no_sdcard">SD-Karte nicht gefunden.</string>
+    <string name="toast_no_zeroes">Geben Sie eine gültige Zahl ein (ungleich Null).</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_rematch_created">Created a rematch game.</string>
+    <string name="toast_rematch_created">Neues Spiel wurde erstellt.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_save_backup_failed">Unable to export file.</string>
+    <string name="toast_save_backup_failed">Datei kann nicht exportiert werden.</string>
     <!-- TO TRANSLATE -->
-    <string name="toast_saved_setting_set_name">Saved backup \&quot;%s\&quot;.</string>
-    <string name="toast_settings_reset">Einstellungen zurückgesetzt.</string>
-    <string name="toast_valid_initial_score">Bitte geben Sie eine gültige Zahl.</string>
-    <string name="toast_valid_update_delay_values">Bitte geben Sie eine Zahl zwischen 1 und 600.</string>
+    <string name="toast_saved_setting_set_name">Backup \&quot;%s\&quot; gespeichert.</string>
+    <string name="toast_settings_reset">Einstellungen wurden zurückgesetzt.</string>
+    <string name="toast_valid_initial_score">Bitte geben Sie eine gültige Zahl ein.</string>
+    <string name="toast_valid_update_delay_values">Bitte geben Sie eine Zahl zwischen 1 und 600 ein.</string>
 </resources>

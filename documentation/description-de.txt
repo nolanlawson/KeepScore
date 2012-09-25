@@ -1,0 +1,22 @@
+KeepScore - Punktezähler
+Benutzerfreundliches Tool für Android zum Registrieren des Spielstandes
+
+Möchtest du den Spielstand eines Games notieren? Vergiss Stift und Papier! KeepScore ist ein gratis Open-Source-Punktezähler, der sich für alle Punktspiele eignet, von Cribagge bis zu Carcassonne. Ich bin ein grosser Fan von Brettspielen und habe deshalb KeepScore für mich und meine Freunde entwickelt. 
+
+Eigenschaften:
+
+- Speichert Punktzahl im Verlauf eines Spiels automatisch
+
+- Zeigt bei jedem Spiel eine vollständige Chronik der erzielten Punkte an
+
+- Die Chronik wird nach zehn Sekunden automatisch aktualisiert (Einstellung konfigurierbar)
+
+- Bildschirm bleibt beleuchtet- Für 2-8 Spieler
+
+- Speichern mehrerer Spiele möglich
+
+- Elemente können per Knopfdruck (Taste lange halten) hinzugefügt oder entfernt werden
+
+- Die Tasten zum Hinzufügen oder Entfernen von Elementen können konfiguriert werden
+
+- Spieler können während dem Spiel hinzugefügt, entfernt oder geändert werden.

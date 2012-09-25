@@ -7,9 +7,11 @@ Autres mises à jour:
 - Annuler/défaire
 - Ecran "modifier les joueurs" avec drag-and-drop
 
-Plus de détails sur mon blog et le wiki: https://github.com/nolanlawson/KeepScore/wiki
+Plus de détails sur mon blog et le wiki: 
 
-KeepScore est open-source et sans publicités.  Si vous voulez le soutenir, vous pouvez faire don sur ma page Internet.  :)
+http://wp.me/p1t8Ca-uw
+https://github.com/nolanlawson/KeepScore/wiki
+
+KeepScore est open-source et sans publicités.  Pour le soutenir, vous pouvez faire don sur ma page Internet.  :)
 
 http://nolanlawson.com/donate
-wordpress.com/somethingsomething
