@@ -74,6 +74,7 @@
     <string name="text_format_rounds_singular">%dラウンド</string>
     <string name="text_game_count">ゲームは%d</string>
     <string name="text_game_count_plural">@string/text_game_count</string>
+    <string name="text_game_name_separator">：</string>
     <string name="text_game_will_be_deleted">ゲームは削除されます。</string>
     <string name="text_games_will_be_deleted">%dのゲームは削除されます。</string>
     <string formatted="false" name="text_load_backup">\'%s\' 野インポートは成功です。\n\n\

@@ -160,11 +160,10 @@ public class Game implements Parcelable, Cloneable {
 		
 		Game newGame = (Game) clone();
 		
-		// reset everything except the player names
+		// reset everything except the player names and game name
 		newGame.setId(-1);
 		newGame.setDateStarted(System.currentTimeMillis());
 		newGame.setDateSaved(0);
-		newGame.setName(null);
 		
 		for (PlayerScore playerScore : newGame.getPlayerScores()) {
 			playerScore.setId(-1);

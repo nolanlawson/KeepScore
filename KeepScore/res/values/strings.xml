@@ -131,6 +131,7 @@
     <string name="text_format_rounds_singular">%d Round</string>
     <string name="text_game_count">%d game</string>
     <string name="text_game_count_plural">%d games</string>
+    <string name="text_game_name_separator">-</string>
     <string name="text_game_will_be_deleted">The game will be deleted.</string>
     <string name="text_games_will_be_deleted">%d games will be deleted.</string>
     <string formatted="false" name="text_load_backup">\'%s\' successfully imported.\n\n\
