@@ -53,7 +53,7 @@
     <string name="pref_color_scheme_choice_android_name">Grün Android</string>
     <string name="pref_color_scheme_choice_dark_name">Schwarz</string>
     <string name="pref_color_scheme_choice_light_name">Weiss</string>
-    <string name="pref_color_scheme_name">Punktzahl pro Runden in Grün</string>
+    <string name="pref_color_scheme_name">Farben</string>
     <string name="pref_green_text_name">Grüner Text</string>
     <string name="pref_green_text_summary">Punktzahl pro Spieler pro Runde in grün (Standard : blau).</string>
     <string name="pref_initial_score_name">Anfangspunktzahl</string>
