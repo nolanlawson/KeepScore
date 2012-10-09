@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -63,13 +62,7 @@ public class DialogHelper {
 				    int which) {
 
 				if (resultListener != null) {
-				    int result = 0;
-				    if (!TextUtils.isEmpty(editText.getText())) {
-				    	try {
-				    		result = Integer.parseInt(editText.getText().toString());
-				    	} catch (NumberFormatException ignore) {}
-				    }
-					  
+				    int result = IntegerUtil.parseIntOrZero(editText.getText());
 
 				    resultListener.onResult(result);
 				}
@@ -140,8 +133,7 @@ public class DialogHelper {
 	    @Override
 	    public void onClick(View v) {
 
-		int editTextValue = TextUtils.isEmpty(editText.getText()) ? 0
-			: Integer.parseInt(editText.getText().toString());
+		int editTextValue = IntegerUtil.parseIntOrZero(editText.getText());
 		editText.setText(Integer.toString(editTextValue + delta));
 	    }
 	};
