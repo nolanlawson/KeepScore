@@ -57,7 +57,6 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="0px"
 	    android:layout_weight="1.0"
-	    android:background="@android:color/darker_gray"
 	    android:padding="5dp">
 	    <com.nolanlawson.keepscore.widget.chart.LineChartView    
 	        android:id="@+id/by_chart_view"
