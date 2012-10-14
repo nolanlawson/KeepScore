@@ -46,13 +46,13 @@
     <color name="chart_secondary">#FFCCCCCC</color>
     <color name="chart_tertiary">#FF999999</color>
     
-	<color name="chart_line_01">#FFed008c</color>
-	<color name="chart_line_02">#FF41b4e1</color>
+	<color name="chart_line_01">#FFdb1119</color>
+	<color name="chart_line_02">#FF0d21ec</color>
 	<color name="chart_line_03">#FFf28b26</color>
 	<color name="chart_line_04">#FF9b1b97</color>
 	<color name="chart_line_05">#FF1fbb1f</color>
-	<color name="chart_line_06">#FFdb1119</color>
-	<color name="chart_line_07">#FF0d21ec</color>
-	<color name="chart_line_08">#FFcc83f5</color>
+	<color name="chart_line_08">#FFff008c</color>
+	<color name="chart_line_07">#FF41b4e1</color>
+	<color name="chart_line_06">#FFcc83f5</color>
 
 </resources>
