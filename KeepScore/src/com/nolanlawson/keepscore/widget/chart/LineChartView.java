@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
@@ -27,19 +26,17 @@ import com.nolanlawson.keepscore.util.CollectionUtil.Function;
  */
 public class LineChartView extends View {
 
-	private static final int MAIN_COLOR = Color.BLACK;
-	private static final int SECONDARY_COLOR = Color.LTGRAY;
-	private static final int TERTIARY_COLOR = 0xFF999999; // gray
-	
-	private static final List<Integer> LINE_COLORS = Arrays.asList(
-			Color.BLUE,
-			0xFFCC0000, // dark red 
-			Color.GREEN, 
-			Color.CYAN, 
-			0xFFCC00CC, // dark magenta
-			0xFF993300, // brown
-			Color.YELLOW, 
-			Color.DKGRAY);
+        private static final List<Integer> LINE_COLORS = Arrays.asList(
+                R.color.chart_line_01,
+                R.color.chart_line_02,
+                R.color.chart_line_03,
+                R.color.chart_line_04,
+                R.color.chart_line_05,
+                R.color.chart_line_06,
+                R.color.chart_line_07,
+                R.color.chart_line_08
+                );
+    
 	private static final int MIN_INTERVAL = 5;  // round to nearest five
 	private static final List<Integer> INTERVAL_ROUNDING_POINTS = Arrays.asList(5, 10, 50, 100, 1000); // possible roundings
 
@@ -84,6 +81,10 @@ public class LineChartView extends View {
 		super(context);
 		init();
 	}
+	
+	private int getColor(int colorId) {
+	    return getContext().getResources().getColor(colorId);
+	}
 
 	private void init() {
 		chartPadding = getContext().getResources().getDimensionPixelSize(
@@ -98,14 +99,16 @@ public class LineChartView extends View {
 				R.dimen.chart_line_width);
 
 		mainPaint = new Paint();
-		mainPaint.setColor(MAIN_COLOR);
+		mainPaint.setColor(getColor(R.color.chart_main));
 		mainPaint.setTextSize(fontSize);
 		mainPaint.setTypeface(Typeface.MONOSPACE);
 		
 		secondaryPaint = new Paint();
-		secondaryPaint.setColor(SECONDARY_COLOR);
+		secondaryPaint.setColor(getColor(R.color.chart_secondary));
 		tertiaryPaint = new Paint();
-		tertiaryPaint.setColor(TERTIARY_COLOR);
+		tertiaryPaint.setColor(getColor(R.color.chart_tertiary));
+		
+		
 		
 		linePaints = CollectionUtil.transform(LINE_COLORS,
 				new Function<Integer, Paint>() {
@@ -113,7 +116,7 @@ public class LineChartView extends View {
 					@Override
 					public Paint apply(Integer colorId) {
 						Paint paint = new Paint();
-						paint.setColor(colorId);
+						paint.setColor(getColor(colorId));
 						paint.setStyle(Paint.Style.STROKE);
 						paint.setStrokeWidth(lineWidth);
 						paint.setStyle(Style.FILL_AND_STROKE);
@@ -128,7 +131,7 @@ public class LineChartView extends View {
 					@Override
 					public Paint apply(Integer colorId) {
 						Paint paint = new Paint();
-						paint.setColor(colorId);
+						paint.setColor(getColor(colorId));
 						paint.setTextSize(fontSize);
 						return paint;
 					}

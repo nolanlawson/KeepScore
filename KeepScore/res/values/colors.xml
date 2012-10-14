@@ -1,62 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="light_blue">#CC0c6995</color>
-	<color name="light_blue_2">#330c6995</color>
-	<color name="light_blue_3">#770c6995</color>
-	
-	<color name="faint_blue">#FFF0FFFF</color>
-	<color name="faint_blue_2">#110c6995</color>
-	
-	<color name="green">#FF00BB00</color>
-	<color name="red">#FFCC3333</color>
-	
-	<color name="blue_1">#FF1177EE</color>
-	<color name="blue_2">#DD3388EE</color>
-	<color name="blue_3">#DD005599</color>
-	<color name="blue_4">#DD3377FF</color>
-	<color name="blue_5">#DD000099</color>
-	
-	
-	<color name="green_2">#DD00DD00</color>
-	<color name="green_3">#DD008800</color>
-	<color name="green_4">#DD00ee33</color>
-	<color name="green_5">#FF009900</color>
-	
-	<color name="green_6">#FF9eC033</color>
-	<color name="green_7">#FF8eB023</color>
-	
-	
-	<color name="red_2">#DDDD0000</color>
-	<color name="red_3">#DD880000</color>
-	<color name="red_4">#DDff0000</color>
-	
-	<color name="android_color">#FFA4C639</color>
-	
-	<color name="gray_1">#FF999999</color>
-	<color name="gray_2">#FF666666</color>
-	<color name="gray_3">#FFCCCCCC</color>
-	<color name="gray_4">#FF999999</color>
-	<color name="gray_5">#FFF9F9F9</color>
-	<color name="gray_6">#FFE9E9E9</color>	
-	<color name="gray_7">#FF191919</color>
-	<color name="gray_8">#FF090909</color>
-	<color name="gray_9">#FFCCCCCC</color>
-	<color name="gray_10">#FFDDDDDD</color>
-	<color name="gray_11">#FFCCCCCC</color>
-	
-	<color name="light_gray">#FFE9F3F9</color>	
-	
-	
-	<color name="orange_1">#FFf26700</color>
-	<color name="orange_2">#FFff9000</color>
+
+    <color name="light_blue">#CC0c6995</color>
+    <color name="light_blue_2">#330c6995</color>
+    <color name="light_blue_3">#770c6995</color>
+    <color name="faint_blue">#FFF0FFFF</color>
+    <color name="faint_blue_2">#110c6995</color>
+    <color name="green">#FF00BB00</color>
+    <color name="red">#FFCC3333</color>
+    <color name="blue_1">#FF1177EE</color>
+    <color name="blue_2">#DD3388EE</color>
+    <color name="blue_3">#DD005599</color>
+    <color name="blue_4">#DD3377FF</color>
+    <color name="blue_5">#DD000099</color>
+    <color name="green_2">#DD00DD00</color>
+    <color name="green_3">#DD008800</color>
+    <color name="green_4">#DD00ee33</color>
+    <color name="green_5">#FF009900</color>
+    <color name="green_6">#FF9eC033</color>
+    <color name="green_7">#FF8eB023</color>
+    <color name="red_2">#DDDD0000</color>
+    <color name="red_3">#DD880000</color>
+    <color name="red_4">#DDff0000</color>
+    <color name="android_color">#FFA4C639</color>
+    <color name="gray_1">#FF999999</color>
+    <color name="gray_2">#FF666666</color>
+    <color name="gray_3">#FFCCCCCC</color>
+    <color name="gray_4">#FF999999</color>
+    <color name="gray_5">#FFF9F9F9</color>
+    <color name="gray_6">#FFE9E9E9</color>
+    <color name="gray_7">#FF191919</color>
+    <color name="gray_8">#FF090909</color>
+    <color name="gray_9">#FFCCCCCC</color>
+    <color name="gray_10">#FFDDDDDD</color>
+    <color name="gray_11">#FFCCCCCC</color>
+    <color name="light_gray">#FFE9F3F9</color>
+    <color name="orange_1">#FFf26700</color>
+    <color name="orange_2">#FFff9000</color>
     <color name="yellow_1">#FFfbad00</color>
-    <color name="yellow_2">#FFffc600</color>	
-    
+    <color name="yellow_2">#FFffc600</color>
     <color name="emphasis">#31b6e7</color>
     <color name="bg_gray">#cecbce</color>
+    <color name="dark_divider">#33cccccc</color>
+    <color name="chart_main">#FF000000</color>
+    <color name="chart_secondary">#FFCCCCCC</color>
+    <color name="chart_tertiary">#FF999999</color>
     
-    
-	<color name="dark_divider">#33cccccc</color>
-    
-	
+    <!--  generated with saturation .99, value .99 -->
+    <color name="chart_line_01">#FF0397fc</color>
+    <color name="chart_line_02">#FFe0fc03</color>
+    <color name="chart_line_03">#FFd003fc</color>
+    <color name="chart_line_04">#FF03fc87</color>
+    <color name="chart_line_05">#FFfc3e03</color>
+    <color name="chart_line_06">#FF0310fc</color>
+    <color name="chart_line_07">#FF59fc03</color>
+    <color name="chart_line_08">#FFfc03a2</color>
+
 </resources>
