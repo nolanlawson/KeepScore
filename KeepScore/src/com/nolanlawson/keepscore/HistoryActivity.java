@@ -31,6 +31,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.data.HistoryItem;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.ColorScheme;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
@@ -396,7 +398,11 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
 
             SpannableString deltaSpannable = new SpannableString(IntegerUtil.toStringWithSign(delta));
 
-            int colorResId = delta >= 0 ? R.color.green : R.color.red;
+            int colorResId = delta >= 0 
+                    ? (PreferenceHelper.getGreenTextPreference(this) 
+                            ? ColorScheme.Light.getGreenPositiveColorResId() // green
+                            : ColorScheme.Light.getPositiveColorResId()) // blue
+                    : ColorScheme.Light.getNegativeColorResId(); // red
             ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(colorResId));
             deltaSpannable.setSpan(colorSpan, 0, deltaSpannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
