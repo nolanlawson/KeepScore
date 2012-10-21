@@ -1,62 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center_horizontal">
-
-    <TextView android:text="@string/menu_history"
-        android:layout_width="fill_parent" android:layout_height="wrap_content"
-        style="@style/sectionHeader"
-        />	    
-    
-    <RadioGroup android:id="@android:id/toggle"
-        android:layout_height="wrap_content" android:layout_width="fill_parent"
-        android:orientation="horizontal"
-        android:paddingTop="3dp" android:paddingLeft="5dp" android:paddingRight="5dp">
-          
-          <ToggleButton android:id="@+id/by_chart_button"
-                      android:layout_height="wrap_content"
-                      android:layout_width="0px"
-                      android:layout_weight="1.0"
-                      android:textSize="14sp"
-                      android:textOn="@string/button_by_chart"
-                      android:textOff="@string/button_by_chart"
-                      android:checked="true"
-                      android:singleLine="true"
-                      android:drawableTop="@drawable/ic_menu_chartsettings_small"
-                />
-                  
-          <ToggleButton android:id="@+id/by_round_button"
-                      android:layout_height="wrap_content"
-                      android:layout_width="0px"
-                      android:layout_weight="1.0"
-                      android:textSize="14sp"
-                      android:textOn="@string/button_by_round"
-                      android:textOff="@string/button_by_round"
-                      android:checked="false"
-                      android:singleLine="true"
-                      android:drawableTop="@drawable/ic_menu_agenda_small"
-                />
-          
-        <View android:layout_width="5dp" android:layout_height="0px"/>  
-        <ToggleButton android:id="@+id/by_player_button"
-                      android:layout_height="wrap_content"
-                      android:layout_width="0px"
-                      android:layout_weight="1.0"
-                      android:textSize="14sp"
-                      android:textOn="@string/button_by_player"
-                      android:textOff="@string/button_by_player"
-                      android:singleLine="true"
-                      android:drawableTop="@drawable/ic_menu_cc_small"
-                />
-        
-        
-    </RadioGroup>
     
     <HorizontalScrollView
         android:id="@+id/by_chart_scroll_view"
 	    android:layout_width="fill_parent"
-	    android:layout_height="0px"
-	    android:layout_weight="1.0"
+	    android:layout_height="fill_parent"
 	    android:padding="5dp">
 	    <com.nolanlawson.keepscore.widget.chart.LineChartView    
 	        android:id="@+id/by_chart_view"
@@ -69,8 +19,7 @@
     <ScrollView
         android:id="@+id/by_round_scroll_view"
 	    android:layout_width="fill_parent"
-	    android:layout_height="0px"
-	    android:layout_weight="1.0"
+	    android:layout_height="fill_parent"
 	    android:background="@android:color/darker_gray"
 	    android:visibility="gone">
 	    <TableLayout    
@@ -84,8 +33,7 @@
     <ScrollView
         android:id="@+id/by_player_scroll_view"
 	    android:layout_width="fill_parent"
-	    android:layout_height="0px"
-	    android:layout_weight="1.0"
+	    android:layout_height="fill_parent"	    
 	    android:background="@android:color/darker_gray"
 	    android:visibility="gone">
 	    <TableLayout    
@@ -98,4 +46,4 @@
 	    </TableLayout>
     </ScrollView>
 
-</LinearLayout>
+</FrameLayout>
