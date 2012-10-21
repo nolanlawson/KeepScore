@@ -20,25 +20,25 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="3dp"
-        android:background="@drawable/gray_menu_background">
+        android:background="@drawable/abs__ab_bottom_solid_light_holo">
         
         <Button
             android:id="@+id/button_ok"
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:text="@android:string/ok" />
+            android:text="@android:string/ok"
+            style="@style/simpleHoloLightMenuItemTextView" 
+            android:background="@drawable/abs__tab_indicator_ab_holo"/>
         
         <Button
             android:id="@+id/button_cancel"
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:text="@android:string/cancel" />
+            android:text="@android:string/cancel"
+            style="@style/simpleHoloLightMenuItemTextView"
+            android:background="@drawable/abs__tab_indicator_ab_holo" />
         
     </LinearLayout>
 
