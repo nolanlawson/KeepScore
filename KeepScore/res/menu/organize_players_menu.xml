@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<item android:id="@+id/menu_add_player" android:title="@string/menu_add_player"
+		android:alphabeticShortcut="@string/menu_add_player" android:icon="@drawable/ic_action_user_add"
+		android:showAsAction="ifRoom" />
+	
+	<item android:id="@+id/menu_randomize" android:title="@string/menu_randomize"
+		android:alphabeticShortcut="@string/menu_randomize" android:icon="@drawable/ic_action_shuffle"
+		android:showAsAction="ifRoom" />
+	
+</menu>

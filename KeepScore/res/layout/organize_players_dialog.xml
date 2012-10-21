@@ -6,19 +6,6 @@
     android:orientation="vertical" 
     android:gravity="center_horizontal">
 
-    <TextView
-        style="@style/sectionHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_add_edit_players" />
-    
-	<Button android:id="@+id/button_new_player" android:text="@string/menu_add_player"
-		android:layout_width="wrap_content"
-		android:minWidth="200dp"
-		android:layout_height="wrap_content" 
-		android:layout_marginTop="5dp"
-		android:layout_marginBottom="5dp"/>
-	
     <com.nolanlawson.keepscore.widget.dragndrop.DragSortListView
         android:id="@android:id/list"
         android:layout_width="wrap_content"
@@ -28,36 +15,31 @@
         dslv:float_alpha="128"/>
 
     <LinearLayout
-        android:id="@+id/LinearLayout02"
+        android:id="@+id/button_row_linear_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
         android:orientation="horizontal"
-        android:padding="3dp">
-
+        android:padding="3dp"
+        android:background="@drawable/gray_menu_background">
+        
         <Button
-            android:id="@android:id/button1"
+            android:id="@+id/button_ok"
             android:layout_width="0px"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:minWidth="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
             android:text="@android:string/ok" />
-
+        
         <Button
-            android:id="@android:id/button2"
+            android:id="@+id/button_cancel"
             android:layout_width="0px"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:minWidth="50dp"
-            android:text="@string/menu_randomize" />
-
-        <Button
-            android:id="@android:id/button3"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:minWidth="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
             android:text="@android:string/cancel" />
+        
     </LinearLayout>
 
 </LinearLayout>
