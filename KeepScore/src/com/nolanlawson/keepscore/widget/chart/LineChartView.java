@@ -98,14 +98,14 @@ public class LineChartView extends View {
 		lineWidth = getContext().getResources().getDimensionPixelSize(
 				R.dimen.chart_line_width);
 
-		mainPaint = new Paint();
+		mainPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mainPaint.setColor(getColor(R.color.chart_main));
 		mainPaint.setTextSize(fontSize);
 		mainPaint.setTypeface(Typeface.MONOSPACE);
 		
-		secondaryPaint = new Paint();
+		secondaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		secondaryPaint.setColor(getColor(R.color.chart_secondary));
-		tertiaryPaint = new Paint();
+		tertiaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		tertiaryPaint.setColor(getColor(R.color.chart_tertiary));
 		
 		
@@ -115,7 +115,7 @@ public class LineChartView extends View {
 
 					@Override
 					public Paint apply(Integer colorId) {
-						Paint paint = new Paint();
+						Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 						paint.setColor(getColor(colorId));
 						paint.setStyle(Paint.Style.STROKE);
 						paint.setStrokeWidth(lineWidth);
@@ -130,7 +130,7 @@ public class LineChartView extends View {
 
 					@Override
 					public Paint apply(Integer colorId) {
-						Paint paint = new Paint();
+						Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 						paint.setColor(getColor(colorId));
 						paint.setTextSize(fontSize);
 						return paint;
