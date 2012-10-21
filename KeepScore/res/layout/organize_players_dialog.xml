@@ -19,7 +19,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="3dp"
         android:background="@drawable/abs__ab_bottom_solid_light_holo">
         
         <Button
@@ -27,15 +26,23 @@
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:minHeight="50dp"
             android:text="@android:string/ok"
             style="@style/simpleHoloLightMenuItemTextView" 
             android:background="@drawable/abs__tab_indicator_ab_holo"/>
+        
+        <!--  divider -->
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:src="@color/gray_12"/>
         
         <Button
             android:id="@+id/button_cancel"
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:minHeight="50dp"
             android:text="@android:string/cancel"
             style="@style/simpleHoloLightMenuItemTextView"
             android:background="@drawable/abs__tab_indicator_ab_holo" />
