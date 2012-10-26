@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="button_by_chart">Charte</string>
+    <string name="button_by_chart">Graphique</string>
     <string name="button_by_player">Par joueur</string>
     <string name="button_by_round">Par tour</string>
     <string name="button_customize">Personnaliser…</string>
