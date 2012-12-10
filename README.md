@@ -32,25 +32,26 @@ KeepScore is currently localized into English, French, Japanese, and German.  Fo
 board gamers around the world, though, I'm
 always happy to get new translations!
 
-All you need to do is add some additional files, fork the project on GitHub, and send me a pull request
+All you need to do is add some additional files, fork the project on GitHub, and send me a pull request.
 
 For instance,
-if your language is Esperanto (2-digit ISO code: 'eo'), you would need to add the following files:
+if your language is Esperanto (ISO code 'eo'), you would need to add the following files:
 
 ```
 documentation/description-eo.txt              # Play Store description
 documentation/updates-eo.txt                  # Play Store "updates" section (not guaranteed I will maintain this)
 KeepScore/res/values-eo/strings.xml           # main translations
 KeepScore/res/values-eo/dimensions.xml        # useful if Esperanto has really long words, see e.g. French
-KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About"
+KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About KeepScore"
 ```
 
 Note that not all strings in ```strings.xml``` need to be translated.  If you look at [the English strings.xml file][6],
-you'll see I've helpfully divided it into "translatable strings" and "non-translatable" strings.  For any non-English
-```strings.xml``` file, you only have to translate the latter group.
+you'll see that I've helpfully divided it into "non-translatable strings" and "translatable" strings.  For any non-English
+```strings.xml``` file, you only have to translate the latter group.  The other ones are just constants.
 
-Please also tell me what name and email address you would like me to use in the "About" section to give you credit, or
-just fork and modify the file ```KeepScore/res/raw/translations.htm``` yourself.  Thanks!
+Please also tell me what name and email address you would like me to use in the "About" section, so I 
+can give you proper credit.  Or just fork and modify the file ```KeepScore/res/raw/translations.htm```
+yourself.  Thanks!
 
 [1]: http://sam.zoy.org/wtfpl/
 [2]: http://nolanwlawson.files.wordpress.com/2012/09/device-2012-09-19-225256.png?w=252&h=450
