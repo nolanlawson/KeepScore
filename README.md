@@ -46,9 +46,38 @@ KeepScore/res/values-eo/dimensions.xml        # useful if Esperanto has really l
 KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About KeepScore"
 ```
 
+You can use this table of the English, French, and Japanese translations to get an idea of what you should be doing:
+
+<table border='0'>
+<tr>
+<td align='center'><b>English</b></td>
+<td align='center'><b>French</b></td>
+<td align='center'><b>Japanese</b></td>
+</tr>
+<tr>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-en.txt'>description-en.txt</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-fr.txt'>description-fr.txt</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-ja.txt'>description-ja.txt</a></td>
+</tr>
+<tr>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values/strings.xml'>strings.xml</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-fr/strings.xml'>strings.xml</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-ja/strings.xml'>strings.xml</a></td>
+</tr>
+<tr>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values/dimensions.xml#L57'>dimensions.xml</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-fr/dimensions.xml'>dimensions.xml</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-ja/dimensions.xml'>dimensions.xml</a></td>
+</tr>
+<tr>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/raw/version_and_credits.htm'>version_and_credits.htm</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/raw-fr/version_and_credits.htm'>version_and_credits.htm</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/raw-ja/version_and_credits.htm'>version_and_credits.htm</a></td>
+</tr>
+</table>
+
 Note that not all strings in ```strings.xml``` need to be translated.  If you look at [the English strings.xml file][6],
-you'll see that I've helpfully divided it into "non-translatable strings" and "translatable" strings.  For any non-English
-```strings.xml``` file, you only have to translate the latter group.  The other ones are just constants.
+you'll see that I've helpfully divided it into "non-translatable strings" and "translatable" strings.  The "non-translatable" ones are just constants, so you only have to translate the latter group.
 
 Please also tell me what name and email address you would like me to use in the "About" section, so I 
 can give you proper credit.  Or just fork and modify the file ```KeepScore/res/raw/translations.htm```
