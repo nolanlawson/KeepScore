@@ -18,7 +18,7 @@ KeepScore is a free and open-source score-keeping app for Android.  Feel free to
 
 More details about the app can be found on [my website][3] or the [Google Play Store][4].
 
-Build it Yourself
+Build it yourself
 ------------------
 
 KeepScore requires the [Action Bar Sherlock][5] library in order to be built.  The easiest thing to do is just to download
