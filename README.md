@@ -33,14 +33,14 @@ board gamers around the world, though, I'm
 always happy to get new translations!
 
 All you need to do is add some additional files, fork the project on GitHub, and send me a pull request. 
-And thanks to GitHub file creation[7], you can do all of this through the web interface.
+And thanks to GitHub [file creation][7], you can do all of this through the web interface.
 
 For instance,
 if your language is Esperanto (ISO code 'eo'), you would need to add the following files:
 
 ```
 documentation/description-eo.txt              # Play Store description
-documentation/updates-eo.txt                  # Play Store "updates" section (optional! I'm not sure I will maintain this)
+documentation/updates-eo.txt                  # Play Store "What's New" (optional - not sure I'll maintain this)
 KeepScore/res/values-eo/strings.xml           # main translations
 KeepScore/res/values-eo/dimensions.xml        # useful if Esperanto has really long words, see e.g. French
 KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About KeepScore"
