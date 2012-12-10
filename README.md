@@ -32,14 +32,15 @@ KeepScore is currently localized into English, French, Japanese, and German.  Fo
 board gamers around the world, though, I'm
 always happy to get new translations!
 
-All you need to do is add some additional files, fork the project on GitHub, and send me a pull request.
+All you need to do is add some additional files, fork the project on GitHub, and send me a pull request. 
+And thanks to GitHub file creation[7], you can do all of this through the web interface.
 
 For instance,
 if your language is Esperanto (ISO code 'eo'), you would need to add the following files:
 
 ```
 documentation/description-eo.txt              # Play Store description
-documentation/updates-eo.txt                  # Play Store "updates" section (not guaranteed I will maintain this)
+documentation/updates-eo.txt                  # Play Store "updates" section (optional! I'm not sure I will maintain this)
 KeepScore/res/values-eo/strings.xml           # main translations
 KeepScore/res/values-eo/dimensions.xml        # useful if Esperanto has really long words, see e.g. French
 KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About KeepScore"
@@ -59,3 +60,4 @@ yourself.  Thanks!
 [4]: https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore
 [5]: http://actionbarsherlock.com/
 [6]: https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values/strings.xml
+[7]: https://github.com/blog/1327-creating-files-on-github
