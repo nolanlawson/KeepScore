@@ -45,6 +45,10 @@ KeepScore/res/values-eo/dimensions.xml        # useful if Esperanto has really l
 KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About"
 ```
 
+Note that not all strings in ```strings.xml``` need to be translated.  If you look at [the English strings.xml file][6],
+you'll see I've helpfully divided it into "translatable strings" and "non-translatable" strings.  For any non-English
+```strings.xml``` file, you only have to translate the latter group.
+
 Please also tell me what name and email address you would like me to use in the "About" section to give you credit, or
 just fork and modify the file ```KeepScore/res/raw/translations.htm``` yourself.  Thanks!
 
@@ -53,3 +57,4 @@ just fork and modify the file ```KeepScore/res/raw/translations.htm``` yourself.
 [3]: http://nolanlawson.com/tag/keepscore
 [4]: https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore
 [5]: http://actionbarsherlock.com/
+[6]: https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values/strings.xml
