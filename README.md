@@ -21,9 +21,15 @@ More details about the app can be found on [my website][3] or the [Google Play S
 Build it yourself
 ------------------
 
-KeepScore requires the [Action Bar Sherlock][5] library in order to be built.  The easiest thing to do is just to download
-Action Bar Sherlock to a directory called ```ActionBarSherlock/``` in your workspace, then add it into Eclipse
-as an existing project.  The Eclipse project for KeepScore will be looking for a directory with this exact name.
+KeepScore is built using [Maven][8].  To build, install, and run on your device, simply cd to the ```KeepScore/``` directory and do:
+
+```mvn clean install android:deploy android:run```
+
+To run the unit tests, cd to the ```KeepScoreTest/``` directory and do:
+
+```mvn clean install```
+
+You must have Maven 3.0.3+ installed in order for this to work.
 
 Add a translation
 -------------------
@@ -90,3 +96,4 @@ yourself.  Thanks!
 [5]: http://actionbarsherlock.com/
 [6]: https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values/strings.xml
 [7]: https://github.com/blog/1327-creating-files-on-github
+[8]: http://maven.apache.org/
