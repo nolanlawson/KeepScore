@@ -94,7 +94,7 @@
 	        android:typeface="monospace" />
 	    </LinearLayout>    
 	    
-    <TextView
+    <com.nolanlawson.keepscore.widget.AutoResizeTextView
         android:id="@+id/text_score"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -106,6 +106,7 @@
         android:paddingBottom="4dp"
         android:gravity="center_horizontal|center_vertical"
         android:singleLine="true"
+        android:ellipsize="none"
         android:text="0"
         android:textStyle="bold" />    
         

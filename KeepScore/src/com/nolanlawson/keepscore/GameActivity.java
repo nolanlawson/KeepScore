@@ -686,6 +686,7 @@ public class GameActivity extends SherlockActivity {
                 TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(
                         textFormat.getPlayerScoreTextSize()));
+        playerView.getScoreTextView().resizeText();
 
         Button plusButton = playerView.getPlusButton();
         Button minusButton = playerView.getMinusButton();

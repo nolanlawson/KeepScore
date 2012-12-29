@@ -68,7 +68,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     private Drawable borderDrawable;
 
     private View view, divider1, divider2, deltaButtonsViewStub;
-    private TextView nameTextView, scoreTextView, historyTextView, badgeTextView;
+    private AutoResizeTextView scoreTextView;
+    private TextView nameTextView, historyTextView, badgeTextView;
     private LinearLayout badgeLinearLayout, onscreenDeltaButtonsLayout;
     private Button minusButton, plusButton, deltaButton1, deltaButton2, deltaButton3, deltaButton4;
     private Context context;
@@ -113,7 +114,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	divider1 = view.findViewById(R.id.player_score_divider_1);
 	divider2 = view.findViewById(R.id.player_score_divider_2);
 	nameTextView = (TextView) view.findViewById(R.id.text_name);
-	scoreTextView = (TextView) view.findViewById(R.id.text_score);
+	scoreTextView = (AutoResizeTextView) view.findViewById(R.id.text_score);
+	scoreTextView.resizeText();
 	historyTextView = (TextView) view.findViewById(R.id.text_history);
 	badgeTextView = (TextView) view.findViewById(R.id.text_badge);
 	badgeLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_badge);
@@ -171,7 +173,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	return badgeLinearLayout;
     }
 
-    public TextView getScoreTextView() {
+    public AutoResizeTextView getScoreTextView() {
 	return scoreTextView;
     }
 
@@ -306,6 +308,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	nameTextView.setText(playerName);
 
 	scoreTextView.setText(Long.toString(playerScore.getScore()));
+	scoreTextView.resizeText();
 
 	if (currentTime < (lastIncremented.get() + getUpdateDelayInMs()) && !playerScore.getHistory().isEmpty()) { // still
 														   // modifiable
