@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transition xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item>
-        <shape
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="oval" >
-            <gradient
-                android:angle="270"
-                android:endColor="@color/green_3"
-                android:startColor="@color/green_2" />
-        </shape>
-    </item>
+    <item android:drawable="@drawable/badge_green_selector"/>
     <item android:drawable="@android:color/transparent"/>
 
 </transition>

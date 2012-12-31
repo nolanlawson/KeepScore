@@ -119,7 +119,9 @@
         android:background="@drawable/badge_green_fade_out"
         android:paddingRight="3dp"
         android:paddingTop="3dp"
-        android:visibility="visible" >
+        android:visibility="visible"
+        android:clickable="true"
+        android:focusable="true" >
 
         <TextView
             android:id="@+id/text_badge"

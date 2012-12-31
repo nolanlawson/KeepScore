@@ -120,7 +120,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	historyTextView = (TextView) view.findViewById(R.id.text_history);
 	badgeTextView = (TextView) view.findViewById(R.id.text_badge);
 	badgeLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_badge);
-
+	
 	minusButton = (Button) view.findViewById(R.id.button_minus);
 	plusButton = (Button) view.findViewById(R.id.button_plus);
 	deltaButton1 = (Button) view.findViewById(android.R.id.button1);
@@ -136,6 +136,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	nameTextView.setOnLongClickListener(this);
 	historyTextView.setOnClickListener(this);
 	historyTextView.setOnLongClickListener(this);
+	badgeLinearLayout.setOnClickListener(this);
 
 	ColorScheme colorScheme = PreferenceHelper.getColorScheme(context);
 	setNewColorScheme(colorScheme);
@@ -247,6 +248,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	    break;
 	case R.id.button4: // 2p-mode button #4
 	    increment(PreferenceHelper.getTwoPlayerDeltaButtonValue(3, context));
+	    break;
+	case R.id.linear_layout_badge: // badge linear layout
+	    confirmHistory();
 	    break;
 	}
     }
