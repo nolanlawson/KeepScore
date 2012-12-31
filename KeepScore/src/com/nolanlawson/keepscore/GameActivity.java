@@ -682,8 +682,7 @@ public class GameActivity extends SherlockActivity {
                 TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(
                         textFormat.getBadgeTextSize()));
-        playerView.getScoreTextView().setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
+        playerView.getScoreTextView().setMaxTextSize(
                 getResources().getDimensionPixelSize(
                         textFormat.getPlayerScoreTextSize()));
         playerView.getScoreTextView().resizeText();

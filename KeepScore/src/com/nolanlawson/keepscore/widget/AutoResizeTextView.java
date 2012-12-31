@@ -25,17 +25,29 @@ public class AutoResizeTextView extends TextView {
 
     // don't make it any smaller than this, no matter what
     private static final float MIN_TEXT_SIZE = 20.0F;
+    
+    private float maxTextSize;
 
     public AutoResizeTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        maxTextSize = getTextSize();
     }
 
     public AutoResizeTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        maxTextSize = getTextSize();
     }
 
     public AutoResizeTextView(Context context) {
         super(context);
+        maxTextSize = getTextSize();
+    }
+    
+    /**
+     * Set the maximum allowable text size for this textview.
+     */
+    public void setMaxTextSize(int pixels) {
+        maxTextSize = pixels;
     }
 
     @Override
@@ -58,7 +70,9 @@ public class AutoResizeTextView extends TextView {
         TextPaint textPaint = getPaint();
         String text = getText().toString();
 
-        float oldTextSize = textPaint.getTextSize();
+        textPaint.setTextSize(maxTextSize);
+        
+        float oldTextSize = maxTextSize;
 
         int widthLimit = getMeasuredWidth() - getCompoundPaddingLeft() - getCompoundPaddingRight();
 
