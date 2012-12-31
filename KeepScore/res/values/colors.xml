@@ -56,5 +56,8 @@
 	<color name="chart_line_08">#FFff008c</color>
 	<color name="chart_line_07">#FF41b4e1</color>
 	<color name="chart_line_06">#FFcc83f5</color>
+	
+	<color name="odd_column_light_bg">#08222220</color>
+	<color name="odd_column_dark_bg">#18FFFFFF</color>
 
 </resources>
