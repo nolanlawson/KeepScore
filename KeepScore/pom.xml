@@ -20,6 +20,7 @@
 			<artifactId>actionbarsherlock</artifactId>
 			<version>4.2.0</version>
 			<type>apklib</type>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
