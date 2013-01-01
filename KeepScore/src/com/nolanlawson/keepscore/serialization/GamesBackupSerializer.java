@@ -53,7 +53,6 @@ public class GamesBackupSerializer {
     public static GamesBackupSummary readGamesBackupSummary(File file) {
         
         GamesBackupSummary result = new GamesBackupSummary();
-        result.setDateSaved(file.lastModified());
         result.setFilename(file.getName());
         
         int infoReceived = 0;
@@ -104,11 +103,15 @@ public class GamesBackupSerializer {
                                     result.setAutomatic(Boolean.parseBoolean(text));
                                     infoReceived++;
                                     break;
+                                case dateGameSaved:
+                                    result.setDateSaved(Long.parseLong(text));
+                                    infoReceived++;
+                                    break;
                             }
                         break;
                     }
                     
-                    if (infoReceived == 3) {
+                    if (infoReceived == 4) {
                         // this is all the info required to create a summary
                         return result;
                     }
