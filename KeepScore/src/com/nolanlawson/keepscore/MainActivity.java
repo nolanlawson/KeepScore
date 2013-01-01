@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -90,7 +91,17 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         setUpWidgets();
 
         getSupportActionBar().setHomeButtonEnabled(false);
+        
+        loadBackupFileIfApplicable(getIntent());
     }
+    
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        
+        loadBackupFileIfApplicable(intent);
+    }
+
 
     @Override
     protected void onPause() {
@@ -208,6 +219,51 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         return false;
     }
 
+    private void loadBackupFileIfApplicable(Intent intent) {
+        
+        // if the user opened up a games-20xxxxxxxxx.xml.gz file from a file browser, open it here
+        if (intent == null || intent.getData() == null) {
+            return;
+        }
+        
+        log.i("Received intent: %s", intent);
+        log.i("Received data: %s", intent.getData());
+        
+        File file = new File(intent.getData().getPath());
+        
+        GamesBackupSummary summary;
+        try {
+            summary = GamesBackupSerializer.readGamesBackupSummary(file);
+        } catch (Exception e) {
+            log.e(e, "Unexpected error loading %s", intent.getData());
+            Toast.makeText(this, R.string.toast_error_with_backup, Toast.LENGTH_LONG).show();
+            return;
+        }
+        
+        final GamesBackupSummary finalSummary = summary;
+        
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        
+        GamesBackupSummaryAdapter adapter =  new GamesBackupSummaryAdapter(this, displayMetrics, 
+                new ArrayList<GamesBackupSummary>(Collections.singleton(finalSummary)));
+
+        DialogInterface.OnClickListener onClick = new DialogInterface.OnClickListener() {
+            
+            public void onClick(DialogInterface dialog, int which) {
+                loadBackup(finalSummary);
+            }
+        };
+        
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle(R.string.title_choose_backup)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, onClick)
+                .setAdapter(adapter, onClick)
+                .show();
+        
+    }
     private void setUpWidgets() {
 
         newGameButton = (Button) findViewById(R.id.button_new_game);
@@ -360,29 +416,27 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
 
                         GamesBackupSummary summary = adapter.getItem(which);
-                        String filename = summary.getFilename();
-                        int gameCount = summary.getGameCount();
                         
-                        loadBackup(filename, gameCount);
+                        loadBackup(summary);
 
                     }
                 }).setNegativeButton(android.R.string.cancel, null).show();
     }
 
-    private void loadBackup(final String filename, final int gameCount) {
+    private void loadBackup(final GamesBackupSummary summary) {
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle(R.string.text_loading);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setIndeterminate(false);
-        progressDialog.setMax(gameCount);
+        progressDialog.setMax(summary.getGameCount());
         progressDialog.show();
 
         new AsyncTask<Void, Void, LoadGamesBackupResult>() {
 
             @Override
             protected LoadGamesBackupResult doInBackground(Void... params) {
-                return loadBackupInBackground(filename, new Runnable() {
+                return loadBackupInBackground(summary.getFilename(), new Runnable() {
 
                     @Override
                     public void run() {
