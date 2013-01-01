@@ -118,6 +118,9 @@
     
     <string name="text_about">About KeepScore</string>
     <string name="text_add_zero">Add Zero</string>
+    <string name="text_backup_automatic">Auto\nBackup</string>
+    <string name="text_backup_manual">Manual\nBackup</string>
+    <string name="text_backup_date_format">MMM dd yyyy hh:mmaa</string>
     <string name="text_confirm">Confirm</string>
     <string name="text_confirm_delete_player">The following player will be deleted: %s.</string>
     <string name="text_confirm_delete_player_plural">The following players will be deleted: %s.</string>

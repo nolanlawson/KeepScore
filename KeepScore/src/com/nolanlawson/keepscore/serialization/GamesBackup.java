@@ -11,7 +11,7 @@ import com.nolanlawson.keepscore.db.Game;
  */
 public class GamesBackup {
 
-	public static final int BACKUP_VERSION = 1; // current version number; may change with time
+	public static final int CURRENT_BACKUP_VERSION = 1; // current version number; may change with time
 	
 	private int gameCount;
 	private int version;

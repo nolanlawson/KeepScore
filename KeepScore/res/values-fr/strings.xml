@@ -61,6 +61,9 @@
     
     <string name="text_about">A propos de KeepScore</string>
     <string name="text_add_zero">Additionner zéro</string>
+    <string name="text_backup_automatic">Backup\nauto.</string>
+    <string name="text_backup_manual">Backup\nmanuel</string>
+    <string name="text_backup_date_format">dd MMM yyyy HH\'h\'mm</string>
     <string name="text_confirm">Confirmer</string>
     <string name="text_confirm_delete_player">Le joueur suivant sera supprimé: %s.</string>
     <string name="text_confirm_delete_player_plural">Les joueurs suivants seront supprimés: %s.</string>

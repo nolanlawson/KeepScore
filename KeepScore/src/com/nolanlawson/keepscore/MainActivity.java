@@ -3,6 +3,7 @@ package com.nolanlawson.keepscore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -42,10 +44,10 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.nolanlawson.keepscore.data.GamesBackupSummaryAdapter;
 import com.nolanlawson.keepscore.data.LoadGamesBackupResult;
 import com.nolanlawson.keepscore.data.SavedGameAdapter;
 import com.nolanlawson.keepscore.data.SeparatedListAdapter;
-import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
 import com.nolanlawson.keepscore.data.TimePeriod;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
@@ -56,6 +58,7 @@ import com.nolanlawson.keepscore.helper.ToastHelper;
 import com.nolanlawson.keepscore.helper.VersionHelper;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
 import com.nolanlawson.keepscore.serialization.GamesBackupSerializer;
+import com.nolanlawson.keepscore.serialization.GamesBackupSummary;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -283,7 +286,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 }
 
                 GamesBackup gamesBackup = new GamesBackup();
-                gamesBackup.setVersion(GamesBackup.BACKUP_VERSION);
+                gamesBackup.setVersion(GamesBackup.CURRENT_BACKUP_VERSION);
                 gamesBackup.setDateSaved(System.currentTimeMillis());
                 gamesBackup.setGameCount(games.size());
                 gamesBackup.setGames(games);
@@ -329,20 +332,26 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             return;
         }
 
-        // show most recent ones first
-        Map<String, String> backupsToGameCountMessages = new TreeMap<String, String>(Collections.reverseOrder());
-        final Map<String, Integer> backupsToGameCounts = new HashMap<String, Integer>();
+        List<GamesBackupSummary> summaries = new ArrayList<GamesBackupSummary>();
 
         for (String backup : backups) {
-            int gameCount = GamesBackupSerializer.readGameCount(SdcardHelper.getBackupFile(backup));
-            String gameCountMessage = String.format(getString(gameCount == 1 ? R.string.text_game_count
-                    : R.string.text_game_count_plural), gameCount);
-            backupsToGameCounts.put(backup, gameCount);
-            backupsToGameCountMessages.put(backup, gameCountMessage);
+            GamesBackupSummary summary = GamesBackupSerializer.readGamesBackupSummary(
+                    SdcardHelper.getBackupFile(backup));
+            summaries.add(summary);
         }
 
-        final SimpleTwoLineAdapter adapter = SimpleTwoLineAdapter.create(this, backupsToGameCountMessages.entrySet(),
-                false);
+        // show most recent ones first
+        Collections.sort(summaries, new Comparator<GamesBackupSummary>(){
+
+            public int compare(GamesBackupSummary lhs, GamesBackupSummary rhs) {
+                return Long.valueOf(rhs.getDateSaved()).compareTo(lhs.getDateSaved());
+            }
+        });
+        
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        
+        final GamesBackupSummaryAdapter adapter =  new GamesBackupSummaryAdapter(this, displayMetrics, summaries);
 
         new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.title_choose_backup)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -350,8 +359,10 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        String filename = (String) adapter.getItem(which).getKey();
-                        int gameCount = backupsToGameCounts.get(filename);
+                        GamesBackupSummary summary = adapter.getItem(which);
+                        String filename = summary.getFilename();
+                        int gameCount = summary.getGameCount();
+                        
                         loadBackup(filename, gameCount);
 
                     }
@@ -592,12 +603,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         String editTitle = getString(TextUtils.isEmpty(game.getName()) ? R.string.title_name_game
                 : R.string.title_edit_game_name);
 
-        CharSequence[] options = new CharSequence[] { 
-                getString(R.string.text_delete), 
-                getString(R.string.text_copy),
-                getString(R.string.menu_rematch), 
-                getString(R.string.menu_history), 
-                editTitle };
+        CharSequence[] options = new CharSequence[] { getString(R.string.text_delete), getString(R.string.text_copy),
+                getString(R.string.menu_rematch), getString(R.string.menu_history), editTitle };
 
         new AlertDialog.Builder(this).setCancelable(true).setItems(options, new DialogInterface.OnClickListener() {
 
@@ -611,7 +618,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                     break;
                 case 1: // copy
                     copyGame(game, false);
-                    break;    
+                    break;
                 case 2: // rematch
                     copyGame(game, true);
                     break;
@@ -630,7 +637,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     private void copyGame(Game game, final boolean resetScores) {
 
         final Game newGame = game.makeCleanCopy();
-        
+
         if (resetScores) {
             for (PlayerScore playerScore : newGame.getPlayerScores()) {
                 playerScore.setScore(PreferenceHelper.getIntPreference(R.string.pref_initial_score,
@@ -659,8 +666,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
                 onNewGameCreated(newGame);
-                ToastHelper.showShort(MainActivity.this, 
-                        resetScores ? R.string.toast_rematch_created : R.string.toast_game_copied);
+                ToastHelper.showShort(MainActivity.this, resetScores ? R.string.toast_rematch_created
+                        : R.string.toast_game_copied);
             }
 
         }.execute((Void) null);

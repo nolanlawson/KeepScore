@@ -45,12 +45,17 @@ public class GamesBackupSerializer {
     }
 
     /**
-     * Don't read the entire file; just read the game count;
+     * Don't read the entire file; just read the game count and other basic, summarized information.
      * 
      * @param filename
      * @return
      */
-    public static int readGameCount(File file) {
+    public static GamesBackupSummary readGamesBackupSummary(File file) {
+        
+        GamesBackupSummary result = new GamesBackupSummary();
+        result.setDateSaved(file.lastModified());
+        result.setFilename(file.getName());
+        
         try {
 
             XmlPullParser parser = null;
@@ -75,8 +80,10 @@ public class GamesBackupSerializer {
                         break;
                     case XmlPullParser.TEXT:
                         if (tag == Tag.gameCount) {
-                            return Integer.parseInt(parser.getText());
+                            result.setGameCount(Integer.parseInt(parser.getText()));
+                            return result;
                         }
+                        
                         break;
                     }
                 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- TO TRANSLATE -->
+    
     <string name="button_by_chart">Grafische Darstellung</string>
     <string name="button_by_player">Pro Spieler</string>
     <string name="button_by_round">Pro Spielrunde</string>
@@ -16,24 +16,24 @@
     <string name="hint_game_name">Spielname</string>
     
     <string name="menu_about">Über KeepScore</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="menu_add_edit_players">Spieler ändern</string>
     <string name="menu_add_player">Spieler hinzufügen</string>
     <string name="menu_history">Chronik</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="menu_home">Home</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="menu_load_backup">Neu laden</string>
     <string name="menu_randomize">Mischen</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="menu_redo">Rückgängig machen</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="menu_rematch">Neues Spiel</string>
     <string name="menu_reset_scores">Zurücksetzen</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="menu_save_backup">Backup</string>
     <string name="menu_settings">Einstellungen</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="menu_undo">Löschen</string>
     
     <string name="pref_2p_button_1_name">Bildschirm-Taste #1</string>
@@ -48,7 +48,7 @@
     <string name="pref_cat_advanced">Fortgeschritten</string>
     <string name="pref_cat_appearance">Bildschirm</string>
     <string name="pref_cat_config">Konfiguration</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="pref_cat_manage">Einstellungen ändern</string>
     <string name="pref_color_scheme_choice_android_name">Grün Android</string>
     <string name="pref_color_scheme_choice_dark_name">Schwarz</string>
@@ -57,52 +57,55 @@
     <string name="pref_green_text_name">Grüner Text</string>
     <string name="pref_green_text_summary">Punktzahl pro Spieler pro Runde in grün (Standard : blau).</string>
     <string name="pref_initial_score_name">Anfangspunktzahl</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="pref_load_settings_name">Einstellungen speichern</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="pref_load_settings_summary">Einstellungen aus einem gespeicherten Backup importieren.</string>
     <string name="pref_reset_name">Zu Standardeinstellungen zurücksetzen</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="pref_save_settings_name">Backup speichern</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="pref_save_settings_summary">Backup mit den aktuellen Einsellungen speichern.</string>
     <string name="pref_show_round_totals_name">Anzahl Runden anzeigen</string>
     <string name="pref_update_delay_name">Verzögerung aktualisieren</string>
     <string name="pref_update_delay_summary">Verzögerung, mit welcher erzielte Punkte gespeichert werden (Standard: 10)</string>
     <string name="pref_use_wake_lock_name">Bildschirm nicht im Bereitschaftsmodus halten</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="pref_use_wake_lock_summary">Bildschirm während Spiel beleuchtet halten</string>
     
     <string name="text_about">Über KeepScore</string>
     <string name="text_add_zero">Null hinzufügen</string>
+    <string name="text_backup_automatic">Automat.\nBackup</string>
+    <string name="text_backup_manual">Manuelle\nBackup</string>
+    <string name="text_backup_date_format">dd MMM yyyy HH\'h\'mm</string>
     <string name="text_confirm">Bestätigen</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_confirm_delete_player">Folgenden Spieler löschen: %s.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_confirm_delete_player_plural">Folgende Spieler löschen: %s.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_confirm_rematch">Ein neues Spiel mit denselben Spielern starten?</string>
     <string name="text_copy">Kopieren</string>
     <string name="text_delete">Entfernen</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_delete_saved_settings">Backup \&quot;%s\&quot; löschen.</string>
     <string name="text_edit_name">Name ändern</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_enter_saved_settings_name">Name eingeben, z.B. \'cribbage\'</string>
     <string name="text_format_rounds">%d Runden</string>
     <string name="text_format_rounds_singular">%d Runde</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_game_count">%d Spiel</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_game_count_plural">%d Spiele</string>
     <string name="text_game_will_be_deleted">Das Spiel wird gelöscht.</string>
     <string name="text_games_will_be_deleted">%d Die Spiele werden gelöscht.</string>
-    <!-- TO TRANSLATE -->
+    
     <string formatted="false" name="text_load_backup">\'%s\' Import erfolgreich\n\n\
 Gefunden: %d\n\
 Gespeichert: %d\n\
 Kopien: %d</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_loading">Wird importiert…</string>
     <string name="text_no_saved_games">Deine gespeicherten Spiele erscheinen hier.</string>
     <string name="text_num_players">Anzahl Spieler</string>
@@ -111,26 +114,26 @@ Kopien: %d</string>
     <string name="text_players">%s Spieler</string>
     <string name="text_reset_confirm">Alle Einstellungen werden zurückgesetzt.</string>
     <string formatted="false" name="text_round_total">Runde %d Punkte pro Runde : %d</string>
-    <!-- TO TRANSLATE -->
+    
     <string formatted="false" name="text_save_backup"> %d Spiel auf SD-Karte exportieren?</string>
-    <!-- TO TRANSLATE -->
+    
     <string formatted="false" name="text_save_backup_plural"> %d Spiele auf SD-Karte exportieren?</string>
-    <!-- TO TRANSLATE -->
+    
     <string formatted="false" name="text_save_backup_succeeded">%d Spiel gespeichert unter \'%s\'.</string>
-    <!-- TO TRANSLATE -->
+    
     <string formatted="false" name="text_save_backup_succeeded_plural">%d Spiele gespeichert unter \'%s\'.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_saved_games">Gespeicherte Spiele</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_saving">Wird exportiert…</string>
     <string name="text_undo_last">Letzten Eintrag löschen</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="text_version_number">Version %s</string>
     
     <string name="title_add">Wert hinzufügen</string>
     <string name="title_add_player">Spielername eingeben</string>
     <string name="title_change_name">Name ändern</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="title_choose_backup">Spiele aus einem Dokument importieren</string>
     <string name="title_confirm">Bestätigen</string>
     <string name="title_confirm_delete">Löschung bestätigen</string>
@@ -139,43 +142,43 @@ Kopien: %d</string>
     <string name="title_last_month">Letzter Monat</string>
     <string name="title_last_week">Letzte Woche</string>
     <string name="title_last_year">Letztes Jahr</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="title_load_setting_set">Speichern \&quot;%s\&quot;?</string>
     <string name="title_name_game">Spielname eingeben</string>
     <string name="title_older">Ältere</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="title_save_setting_set">Alle Einstellungen speichern</string>
     <string name="title_subtract">Wert Substrahieren</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="title_success">Erfolg</string>
     <string name="title_today">Heute</string>
     <string name="title_two_days_ago">Vorgestern</string>
     <string name="title_yesterday">Gestern</string>
     
     <string name="toast_deleted">Spiel wurde gelöscht.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_error_with_backup">Fehler beim Import von Spielen.</string>
     <string name="toast_game_copied">Spiel wurde kopiert.</string>
     <string name="toast_game_saved">Spiel wurde gespeichert.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_invalid_setting_set_name">Ungültiger Name.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_loaded_setting_set">Die Einstellungen für \&quot;%s\&quot; wurden gespeichert.</string>
     <string name="toast_multiple_deleted">Spiele wurden gelöscht.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_no_backups">Keine Backup-Dateien gefunden.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_no_saved_games">Keine gespeicherten Spiele um ein Backup zu erstellen.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_no_saved_settings">Keine Backup-Dateien gefunden.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_no_sdcard">SD-Karte nicht gefunden.</string>
     <string name="toast_no_zeroes">Geben Sie eine gültige Zahl ein (ungleich Null).</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_rematch_created">Neues Spiel wurde erstellt.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_save_backup_failed">Datei kann nicht exportiert werden.</string>
-    <!-- TO TRANSLATE -->
+    
     <string name="toast_saved_setting_set_name">Backup \&quot;%s\&quot; gespeichert.</string>
     <string name="toast_settings_reset">Einstellungen wurden zurückgesetzt.</string>
     <string name="toast_valid_initial_score">Bitte geben Sie eine gültige Zahl ein.</string>
