@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="button_actions">Actions&#8230;</string>
     <string name="button_by_chart">Graphique</string>
     <string name="button_by_player">Par joueur</string>
     <string name="button_by_round">Par tour</string>
@@ -25,6 +26,7 @@
     <string name="menu_rematch">Nouvelle partie</string>
     <string name="menu_reset_scores">Réinitialiser</string>
     <string name="menu_save_backup">Exporter</string>
+    <string name="menu_share">Partager</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_undo">Annuler</string>
     
@@ -77,6 +79,7 @@
     <string name="text_format_rounds_singular">%d tour</string>
     <string name="text_game_count">%d jeu</string>
     <string name="text_game_count_plural">%d jeux</string>
+    <string name="text_game_name_separator">-</string>
     <string name="text_game_will_be_deleted">La partie va être supprimée.</string>
     <string name="text_games_will_be_deleted">%d parties enregistrées vont être supprimées.</string>
     <string formatted="false" name="text_load_backup">\'%s\' importé avec succès.\n\n\
@@ -97,6 +100,20 @@ Doublets: %d</string>
     <string formatted="false" name="text_save_backup_succeeded_plural">%d jeux sauvegardés à \'%s\'.</string>
     <string name="text_saved_games">Parties sauvegardées</string>
     <string name="text_saving">Exportation…</string>
+    <plurals name="text_share_with_friend">
+        <item quantity="one">Voulez-vous partagez cette partie avec un(e) ami(e)?</item>
+        <item quantity="other">Voulez-vous partagez %d parties avec un(e) ami(e)?</item>
+    </plurals>
+    <plurals name="text_share_mail_subject">
+        <item quantity="one">Une partie KeepScore pour vous!</item>
+        <item quantity="other">%d parties KeepScore pour vous!</item>
+    </plurals>
+    <string name="text_share_mail_body">Veuillez trouver joint un fichier backup de KeepScore.\
+\n\nPour importer dans KeepScore, il faut simplement ouvrir la pièce joint avec votre appli email préférée.\
+\n\nSi jamais, vous pouvez également sauvegarder le fichier sous /sdcard/keepscore/backups et sélectionner \
+\"Importer\" depuis le menu principal de KeepScore.\
+\n\nPour télécharger KeepScore, veuillez aller sur \
+https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore.</string>
     <string name="text_undo_last">Supprimer la dernière entrée</string>
     <string name="text_version_number">Version %s</string>
     
@@ -136,6 +153,7 @@ Doublets: %d</string>
     <string name="toast_rematch_created">Nouvelle partie créée.</string>
     <string name="toast_save_backup_failed">Impossible de exporter le fichier.</string>
     <string name="toast_saved_setting_set_name">\&quot;%s\&quot; sauvgardé.</string>
+    <string name="toast_share_error_no_app">Aucune appli email trouvée.</string>
     <string name="toast_settings_reset">Paramètres réinitialisés.</string>
     <string name="toast_valid_initial_score">Le chiffre entré n\'est pas valable.</string>
     <string name="toast_valid_update_delay_values">Entrez un chiffre entre 1 et 600.</string>

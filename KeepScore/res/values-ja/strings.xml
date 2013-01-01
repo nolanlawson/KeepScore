@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="button_actions">行動&#8230;</string>
     <string name="button_by_chart">チャート</string>
     <string name="button_by_player">選手で</string>
     <string name="button_by_round">ラウンドで</string>
@@ -25,6 +26,7 @@
     <string name="menu_rematch">再戦</string>
     <string name="menu_reset_scores">リセット</string>
     <string name="menu_save_backup">バックアップ</string>
+    <string name="menu_share">送信</string>
     <string name="menu_settings">設定</string>
     <string name="menu_undo">アンドゥ</string>
     
@@ -98,6 +100,17 @@
     <string formatted="false" name="text_save_backup_succeeded_plural">@string/text_save_backup_succeeded</string>
     <string name="text_saved_games">保存したゲーム</string>
     <string name="text_saving">バックアップ…</string>
+    <plurals name="text_share_with_friend">
+        <item quantity="other">%dのゲームを友達に送ります？</item>
+    </plurals>
+    <plurals name="text_share_mail_subject">
+        <item quantity="other">%dのKeepScoreのゲーム</item>
+    </plurals>
+    <string name="text_share_mail_body">このメールにKeepScoreのバックアップファイルの添付があります。\
+\n\nKeepScoreにインポートするために、このファイルをどのメールのアプリでも使って開けてください。\
+\n\nその方法は無理だったら、/sdcard/keepscore/backupsにファイルを保存して、その後KeepScoreのメーンメニューで「インポート」をタッチしてください。\
+\n\nKeepScoreをダウンロードするために、ここにクリックしてください：　\
+https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore.</string>
     <string name="text_undo_last">最後の点を削除</string>
     <string name="text_version_number">バージョン%s</string>
     
@@ -137,6 +150,7 @@
     <string name="toast_rematch_created">再戦のゲーム作りました。</string>
     <string name="toast_save_backup_failed">ファイルに書けませんでした。</string>
     <string name="toast_saved_setting_set_name">「%s」は保存されました。</string>
+    <string name="toast_share_error_no_app">メールのアプリはありません。</string>
     <string name="toast_settings_reset">設定はリセットされました。</string>
     <string name="toast_valid_initial_score">妥当な数を入力してください。</string>
     <string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>
