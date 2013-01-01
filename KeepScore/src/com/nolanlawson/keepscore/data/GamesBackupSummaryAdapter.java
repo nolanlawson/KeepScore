@@ -32,12 +32,11 @@ public class GamesBackupSummaryAdapter extends ArrayAdapter<GamesBackupSummary> 
     private static final int LAYOUT_RES_ID = R.layout.games_backup_item;
 
     private static UtilLogger log = new UtilLogger(GamesBackupSummaryAdapter.class);
-    
+
     private DateFormat dateFormat;
     private int gameCountMinWidth;
 
-    public GamesBackupSummaryAdapter(Context context, DisplayMetrics displayMetrics, 
-            List<GamesBackupSummary> objects) {
+    public GamesBackupSummaryAdapter(Context context, DisplayMetrics displayMetrics, List<GamesBackupSummary> objects) {
         super(context, LAYOUT_RES_ID, new ArrayList<GamesBackupSummary>(objects));
 
         dateFormat = new SimpleDateFormat(context.getString(R.string.text_backup_date_format));
@@ -59,35 +58,84 @@ public class GamesBackupSummaryAdapter extends ArrayAdapter<GamesBackupSummary> 
         });
 
         log.d("max num chars is %d", maxNumChars);
-        
+
         int spValue = 20 * maxNumChars;
-        
+
         // Convert the sp to pixels
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, displayMetrics);
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
+
+        // view wrapper optimization per Romain Guy
+        final Context context = parent.getContext();
+        ViewWrapper viewWrapper;
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(LAYOUT_RES_ID, null, false);
+            LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = vi.inflate(LAYOUT_RES_ID, parent, false);
+            viewWrapper = new ViewWrapper(view);
+            view.setTag(viewWrapper);
+        } else {
+            viewWrapper = (ViewWrapper) view.getTag();
         }
-
-        TextView autoOrManualTextView = (TextView) view.findViewById(R.id.text_auto_or_manual);
-        TextView dateTextView = (TextView) view.findViewById(R.id.text_date_saved);
-        TextView filenameTextView = (TextView) view.findViewById(R.id.text_filename);
-        TextView numGamesTextView = (TextView) view.findViewById(R.id.text_num_games);
-
+        
         GamesBackupSummary summary = getItem(position);
 
-        autoOrManualTextView.setText(summary.isAutomatic() ? R.string.text_backup_automatic
+        viewWrapper.getAutoOrManualTextView().setText(summary.isAutomatic() ? R.string.text_backup_automatic
                 : R.string.text_backup_manual);
-        dateTextView.setText(dateFormat.format(new Date(summary.getDateSaved())));
-        filenameTextView.setText(summary.getFilename());
-        numGamesTextView.setText(Integer.toString(summary.getGameCount()));
+        viewWrapper.getDateTextView().setText(dateFormat.format(new Date(summary.getDateSaved())));
+        viewWrapper.getFilenameTextView().setText(summary.getFilename());
+        viewWrapper.getNumGamesTextView().setText(Integer.toString(summary.getGameCount()));
 
         log.d("setting minWidth to %d", gameCountMinWidth);
-        numGamesTextView.setMinWidth(gameCountMinWidth);
+        viewWrapper.getNumGamesTextView().setMinWidth(gameCountMinWidth);
 
         return view;
+    }
+
+    /**
+     * ViewWrapper optimization per Romain Guy on some blog post.
+     * 
+     * @author nolan
+     * 
+     */
+    private static class ViewWrapper {
+
+        private View view;
+        private TextView autoOrManualTextView, dateTextView, filenameTextView, numGamesTextView;
+
+        public ViewWrapper(View view) {
+            this.view = view;
+        }
+
+        public TextView getAutoOrManualTextView() {
+            if (autoOrManualTextView == null) {
+                autoOrManualTextView = (TextView) view.findViewById(R.id.text_auto_or_manual);
+            }
+            return autoOrManualTextView;
+        }
+
+        public TextView getDateTextView() {
+            if (dateTextView == null) {
+                dateTextView = (TextView) view.findViewById(R.id.text_date_saved);
+            }
+            return dateTextView;
+        }
+
+        public TextView getFilenameTextView() {
+            if (filenameTextView == null) {
+                filenameTextView = (TextView) view.findViewById(R.id.text_filename);
+            }
+            return filenameTextView;
+        }
+
+        public TextView getNumGamesTextView() {
+            if (numGamesTextView == null) {
+                numGamesTextView = (TextView) view.findViewById(R.id.text_num_games);
+            }
+            return numGamesTextView;
+        }
+
     }
 }
