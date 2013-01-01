@@ -61,9 +61,9 @@
     
     <string name="text_about">KeepScoreについて</string>
     <string name="text_add_zero">ゼロを増加</string>
-    <string name="text_backup_automatic">自動\nバックアップ</string>
-    <string name="text_backup_manual">手動\nバックアップ</string>
-    <string name="text_backup_date_format">yyyy年M月dd日　aahh:mm</string>
+    <string name="text_backup_automatic">自動\nﾊﾞｯｸｱｯﾌﾟ</string>
+    <string name="text_backup_manual">手動\nﾊﾞｯｸｱｯﾌﾟ</string>
+    <string name="text_backup_date_format">yyyy年M月dd日 HH:mm</string>
     <string name="text_confirm">確認</string>
     <string name="text_confirm_delete_player">この選手は削除されます：%s。</string>
     <string name="text_confirm_delete_player_plural">@string/text_confirm_delete_player</string>

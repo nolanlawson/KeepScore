@@ -12,7 +12,15 @@ public class GamesBackupSummary {
         private long dateSaved;
         private String filename;
         private boolean automatic;
+        private int version;
         
+        
+        public int getVersion() {
+            return version;
+        }
+        public void setVersion(int version) {
+            this.version = version;
+        }
         public boolean isAutomatic() {
             return automatic;
         }

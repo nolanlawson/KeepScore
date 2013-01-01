@@ -41,7 +41,7 @@ public class GamesBackupSerializer {
     private static final String ATTRIBUTE_EMPTY = "isEmpty";
 
     private static enum Tag {
-        PlayerScore, Game, GamesBackup, gameCount, version, dateGameSaved, dateBackupSaved, dateGameStarted, gameName, playerName, score, playerNumber, history, Games, PlayerScores;
+        PlayerScore, Game, GamesBackup, gameCount, version, automatic, dateGameSaved, dateBackupSaved, dateGameStarted, gameName, playerName, score, playerNumber, history, Games, PlayerScores;
     }
 
     /**
@@ -55,6 +55,8 @@ public class GamesBackupSerializer {
         GamesBackupSummary result = new GamesBackupSummary();
         result.setDateSaved(file.lastModified());
         result.setFilename(file.getName());
+        
+        int infoReceived = 0;
         
         try {
 
@@ -72,19 +74,43 @@ public class GamesBackupSerializer {
                 parser.setInput(reader);
                 parserEvent = parser.getEventType();
                 Tag tag = null;
+                String text = null;
+                
                 while (parserEvent != XmlPullParser.END_DOCUMENT) {
                     parserEvent = parser.next();
                     switch (parserEvent) {
-                    case XmlPullParser.START_TAG:
-                        tag = Tag.valueOf(parser.getName());
+                        case XmlPullParser.START_TAG:
+                            tag = Tag.valueOf(parser.getName());
+                            break;
+                        case XmlPullParser.TEXT:
+                            text = parser.getText();
+                            break;
+                        case XmlPullParser.END_TAG:
+                            switch (tag) {
+                                case gameCount:
+                                    result.setGameCount(Integer.parseInt(text));
+                                    infoReceived++;
+                                    break;
+                                case version:
+                                    result.setVersion(Integer.parseInt(text));
+                                    infoReceived++;
+                                    if (result.getVersion() < GamesBackup.VERSION_TWO) {
+                                        // no automatic vs. manual distinction in version one
+                                        result.setAutomatic(false);
+                                        infoReceived++;
+                                    }
+                                    break;
+                                case automatic:
+                                    result.setAutomatic(Boolean.parseBoolean(text));
+                                    infoReceived++;
+                                    break;
+                            }
                         break;
-                    case XmlPullParser.TEXT:
-                        if (tag == Tag.gameCount) {
-                            result.setGameCount(Integer.parseInt(parser.getText()));
-                            return result;
-                        }
-                        
-                        break;
+                    }
+                    
+                    if (infoReceived == 3) {
+                        // this is all the info required to create a summary
+                        return result;
                     }
                 }
             } finally {
@@ -92,14 +118,17 @@ public class GamesBackupSerializer {
                     reader.close();
                 }
             }
+        } catch (NumberFormatException e) {
+            log.e(e, "unexpected exception for " + file.getName());
+            throw new RuntimeException(e);
         } catch (IOException e) {
-            log.e(e, "unexpected");
+            log.e(e, "unexpected exception for " + file.getName());
             throw new RuntimeException(e);
         } catch (XmlPullParserException e) {
-            log.e(e, "unexpected");
+            log.e(e, "unexpected exception for " + file.getName());
             throw new RuntimeException(e);
         }
-        throw new RuntimeException("failed to find gameCount");
+        throw new RuntimeException("failed to find summary for filename " + file.getName());
     }
 
     public static GamesBackup deserialize(String xmlData) {
@@ -180,6 +209,9 @@ public class GamesBackupSerializer {
         case version:
             gamesBackup.setVersion(Integer.parseInt(text));
             break;
+        case automatic:
+            gamesBackup.setAutomatic(Boolean.parseBoolean(text));
+            break;            
         case dateBackupSaved:
             gamesBackup.setDateSaved(Long.parseLong(text));
             break;
@@ -235,6 +267,7 @@ public class GamesBackupSerializer {
             serializer.startTag("", Tag.GamesBackup.name());
             addTag(serializer, Tag.gameCount, gamesBackup.getGameCount());
             addTag(serializer, Tag.version, gamesBackup.getVersion());
+            addTag(serializer, Tag.automatic, gamesBackup.isAutomatic());
             addTag(serializer, Tag.dateBackupSaved, gamesBackup.getDateSaved());
             serializer.startTag("", Tag.Games.name());
             for (Game game : gamesBackup.getGames()) {

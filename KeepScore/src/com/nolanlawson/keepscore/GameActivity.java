@@ -2,12 +2,17 @@ package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,31 +70,24 @@ public class GameActivity extends SherlockActivity {
 
     public static final int REQUEST_CODE_ADD_EDIT_PLAYERS = 2;
 
-    private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS
-            .toMillis(30);
-    
+    private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS.toMillis(30);
+
     // how many changes to keep in memory?
     private static final int UNDO_STACK_SIZE = 500;
 
     @SuppressWarnings("unchecked")
-    private static final Set<Pair<Type,Type>> ACCEPTABLE_UNDO_TRANSITIONS = new HashSet<Pair<Type,Type>>(Arrays.asList(
-            Pair.create(Type.ModifyLast, Type.ModifyLast),
-            Pair.create(Type.ModifyLast, Type.AddNew),
-            Pair.create(Type.DeleteLastZero, Type.AddNew),
-            Pair.create(Type.DeleteLastZero, Type.ModifyLast),
-            Pair.create(Type.ModifyLast, Type.DeleteLastZero),
-            Pair.create(Type.DeleteLastZero, Type.DeleteLastZero)
-            ));
+    private static final Set<Pair<Type, Type>> ACCEPTABLE_UNDO_TRANSITIONS = new HashSet<Pair<Type, Type>>(
+            Arrays.asList(Pair.create(Type.ModifyLast, Type.ModifyLast), Pair.create(Type.ModifyLast, Type.AddNew),
+                    Pair.create(Type.DeleteLastZero, Type.AddNew), Pair.create(Type.DeleteLastZero, Type.ModifyLast),
+                    Pair.create(Type.ModifyLast, Type.DeleteLastZero),
+                    Pair.create(Type.DeleteLastZero, Type.DeleteLastZero)));
     @SuppressWarnings("unchecked")
-    private static final Set<Pair<Type,Type>> ACCEPTABLE_REDO_TRANSITIONS = new HashSet<Pair<Type,Type>>(Arrays.asList(
-            Pair.create(Type.ModifyLast, Type.ModifyLast),
-            Pair.create(Type.AddNew, Type.ModifyLast),
-            Pair.create(Type.AddNew, Type.DeleteLastZero),
-            Pair.create(Type.DeleteLastZero, Type.ModifyLast),
-            Pair.create(Type.ModifyLast, Type.DeleteLastZero),
-            Pair.create(Type.DeleteLastZero, Type.DeleteLastZero)
-            ));
-    
+    private static final Set<Pair<Type, Type>> ACCEPTABLE_REDO_TRANSITIONS = new HashSet<Pair<Type, Type>>(
+            Arrays.asList(Pair.create(Type.ModifyLast, Type.ModifyLast), Pair.create(Type.AddNew, Type.ModifyLast),
+                    Pair.create(Type.AddNew, Type.DeleteLastZero), Pair.create(Type.DeleteLastZero, Type.ModifyLast),
+                    Pair.create(Type.ModifyLast, Type.DeleteLastZero),
+                    Pair.create(Type.DeleteLastZero, Type.DeleteLastZero)));
+
     private static final UtilLogger log = new UtilLogger(GameActivity.class);
 
     private LinearLayout rootLayout, rowLayout2, rowLayout3, rowLayout4;
@@ -106,10 +104,9 @@ public class GameActivity extends SherlockActivity {
     private boolean paused = true;
     private GameDBHelper dbHelper;
     private boolean savedGameBeforeExit;
-    
+
     private DataExpiringStack<RecordedChange> undoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
     private DataExpiringStack<RecordedChange> redoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
-    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,11 +115,11 @@ public class GameActivity extends SherlockActivity {
         createGame();
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK,
-                getPackageName());
+        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, getPackageName());
 
         setContentView(R.layout.game);
         setUpWidgets();
+        scheduleAutomaticBackup();
     }
 
     @Override
@@ -154,8 +151,7 @@ public class GameActivity extends SherlockActivity {
 
         if (savedGameBeforeExit) { // if nothing was changed in the game, don't
             // show this message
-            Toast.makeText(this, R.string.toast_game_saved, Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, R.string.toast_game_saved, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -163,8 +159,7 @@ public class GameActivity extends SherlockActivity {
     protected void onResume() {
         super.onResume();
 
-        boolean useWakeLock = PreferenceHelper.getBooleanPreference(
-                R.string.pref_use_wake_lock,
+        boolean useWakeLock = PreferenceHelper.getBooleanPreference(R.string.pref_use_wake_lock,
                 R.string.pref_use_wake_lock_default, this);
         if (useWakeLock && !wakeLock.isHeld()) {
             log.d("Acquiring wakelock");
@@ -183,6 +178,32 @@ public class GameActivity extends SherlockActivity {
         savedGameBeforeExit = false;
 
         getSupportActionBar().hide();
+    }
+
+    private void scheduleAutomaticBackup() {
+        // schedule a backup to run around 4AM the next day, to ensure that this
+        // game is saved as an XML backup when the user is probably done modifying it
+
+        Intent intent = new Intent(this, PeriodicAutomaticBackupService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 
+                PeriodicAutomaticBackupService.INTENT_REQUEST_CODE, intent, 
+                PendingIntent.FLAG_CANCEL_CURRENT);
+        
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+
+        Calendar dateCal = Calendar.getInstance();
+        // make it tomorrow (+1 day)
+        dateCal.setTime(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24)));
+        // Set it to 4AM
+        dateCal.set(Calendar.HOUR_OF_DAY, 4);
+        dateCal.set(Calendar.MINUTE, 0);
+        dateCal.set(Calendar.SECOND, 0);
+        dateCal.set(Calendar.MILLISECOND, 0);
+
+        log.d("Setting automatic backup for %s", dateCal);
+        
+        // Create an offset from the current time in which the alarm will go off.
+        alarmManager.set(AlarmManager.RTC_WAKEUP, dateCal.getTimeInMillis(), pendingIntent);
     }
 
     private GameDBHelper getDbHelper() {
@@ -225,21 +246,19 @@ public class GameActivity extends SherlockActivity {
 
         return true;
     }
-    
-    
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // show/hide undo/redo menu items
         MenuItem undoMenuItem = menu.findItem(R.id.menu_undo);
         MenuItem redoMenuItem = menu.findItem(R.id.menu_redo);
-        
+
         boolean showUndo = !undoStack.isEmpty();
         boolean showRedo = !redoStack.isEmpty();
-        
+
         undoMenuItem.setEnabled(showUndo);
         redoMenuItem.setEnabled(showRedo);
-        
+
         return true;
     }
 
@@ -253,8 +272,7 @@ public class GameActivity extends SherlockActivity {
             startActivity(historyIntent);
             break;
         case R.id.menu_settings:
-            Intent settingsIntent = new Intent(GameActivity.this,
-                    SettingsActivity.class);
+            Intent settingsIntent = new Intent(GameActivity.this, SettingsActivity.class);
             startActivity(settingsIntent);
             break;
         case R.id.menu_add_edit_players:
@@ -274,21 +292,18 @@ public class GameActivity extends SherlockActivity {
     }
 
     private void undoOrRedo(boolean undo) {
-        
+
         DataExpiringStack<RecordedChange> stackToPoll = undo ? undoStack : redoStack;
         DataExpiringStack<RecordedChange> stackToPop = !undo ? undoStack : redoStack;
-        
-        
+
         RecordedChange recordedChange = null;
         int lastPlayerNumber = -1;
         RecordedChange.Type lastType = null;
-        while ((recordedChange = stackToPoll.peek()) != null 
+        while ((recordedChange = stackToPoll.peek()) != null
                 && (lastPlayerNumber == -1 || lastPlayerNumber == recordedChange.getPlayerNumber())
                 // only apply multiple changes to the same PlayerScore
-                && (lastType == null || 
-                    isAcceptableUndoOrRedoTransition(undo, lastType, recordedChange.getType()))) { 
-            
-            
+                && (lastType == null || isAcceptableUndoOrRedoTransition(undo, lastType, recordedChange.getType()))) {
+
             recordedChange = stackToPoll.poll();
             PlayerView playerView = playerViews.get(recordedChange.getPlayerNumber());
             if (undo) {
@@ -297,11 +312,11 @@ public class GameActivity extends SherlockActivity {
                 playerView.reexecuteChange(recordedChange);
             }
             stackToPop.pop(recordedChange);
-            
+
             lastPlayerNumber = recordedChange.getPlayerNumber();
             lastType = recordedChange.getType();
         }
-        
+
         if (lastPlayerNumber != -1) {
             PlayerView playerView = playerViews.get(lastPlayerNumber);
             playerView.resetLastIncremented(); // keeps the badge from showing
@@ -310,10 +325,11 @@ public class GameActivity extends SherlockActivity {
     }
 
     private boolean isAcceptableUndoOrRedoTransition(boolean undo, Type lastType, Type type) {
-        // consider "modify last" to be part of a larger task that is being undone
+        // consider "modify last" to be part of a larger task that is being
+        // undone
         // so e.g. when undoing, MMMMMA is acceptable, whereas with redoing,
         // AMMMMM is acceptable
-        
+
         if (undo) {
             return ACCEPTABLE_UNDO_TRANSITIONS.contains(Pair.create(lastType, type));
         } else { // redo
@@ -329,20 +345,15 @@ public class GameActivity extends SherlockActivity {
     }
 
     private void showRematchDialogue() {
-        new AlertDialog.Builder(this)
-                .setCancelable(true)
-                .setTitle(R.string.text_confirm)
-                .setMessage(R.string.text_confirm_rematch)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.text_confirm)
+                .setMessage(R.string.text_confirm_rematch).setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                createRematchGame();
-                            }
-                        }).show();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        createRematchGame();
+                    }
+                }).show();
 
     }
 
@@ -350,12 +361,9 @@ public class GameActivity extends SherlockActivity {
 
         ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
 
-        int foregroundColor = getResources().getColor(
-                colorScheme.getForegroundColorResId());
-        int backgroundColor = getResources().getColor(
-                colorScheme.getBackgroundColorResId());
-        int dividerColor = getResources().getColor(
-                colorScheme.getDividerColorResId());
+        int foregroundColor = getResources().getColor(colorScheme.getForegroundColorResId());
+        int backgroundColor = getResources().getColor(colorScheme.getBackgroundColorResId());
+        int dividerColor = getResources().getColor(colorScheme.getDividerColorResId());
 
         rootLayout.setBackgroundColor(backgroundColor);
         for (PlayerView playerView : playerViews) {
@@ -369,23 +377,20 @@ public class GameActivity extends SherlockActivity {
                 playerView.getDivider2().setBackgroundColor(dividerColor);
             }
 
-            for (Button button : new Button[] { playerView.getPlusButton(),
-                    playerView.getMinusButton(), playerView.getDeltaButton1(),
-                    playerView.getDeltaButton2(), playerView.getDeltaButton3(),
+            for (Button button : new Button[] { playerView.getPlusButton(), playerView.getMinusButton(),
+                    playerView.getDeltaButton1(), playerView.getDeltaButton2(), playerView.getDeltaButton3(),
                     playerView.getDeltaButton4(), }) {
                 if (button != null) {
                     button.setBackgroundDrawable(getResources().getDrawable(
                             colorScheme.getButtonBackgroundDrawableResId()));
-                    button.setTextColor(getResources().getColor(
-                            colorScheme.getForegroundColorResId()));
+                    button.setTextColor(getResources().getColor(colorScheme.getForegroundColorResId()));
                 }
             }
 
             playerView.updateViews();
         }
         if (roundTotalTextView != null) {
-            roundTotalTextView.setTextColor(getResources().getColor(
-                    colorScheme.getForegroundColorResId()));
+            roundTotalTextView.setTextColor(getResources().getColor(colorScheme.getForegroundColorResId()));
         }
     }
 
@@ -411,8 +416,7 @@ public class GameActivity extends SherlockActivity {
         undoStack.clear();
         redoStack.clear();
 
-        Toast.makeText(this, R.string.toast_rematch_created, Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(this, R.string.toast_rematch_created, Toast.LENGTH_SHORT).show();
     }
 
     private boolean shouldAutosave() {
@@ -456,8 +460,7 @@ public class GameActivity extends SherlockActivity {
 
     private void createNewGame() {
 
-        String[] playerNames = getIntent().getStringArrayExtra(
-                EXTRA_PLAYER_NAMES);
+        String[] playerNames = getIntent().getStringArrayExtra(EXTRA_PLAYER_NAMES);
 
         game = new Game();
 
@@ -473,8 +476,7 @@ public class GameActivity extends SherlockActivity {
             playerScore.setName(playerNames[i]);
             playerScore.setPlayerNumber(i);
             playerScore.setHistory(new ArrayList<Integer>());
-            playerScore.setScore(PreferenceHelper.getIntPreference(
-                    R.string.pref_initial_score,
+            playerScore.setScore(PreferenceHelper.getIntPreference(R.string.pref_initial_score,
                     R.string.pref_initial_score_default, GameActivity.this));
 
             playerScores.add(playerScore);
@@ -484,8 +486,7 @@ public class GameActivity extends SherlockActivity {
         log.d("created new playerScores: %s", playerScores);
     }
 
-    private synchronized void saveGame(final Game gameToSave,
-            boolean inBackground, final Runnable onFinished) {
+    private synchronized void saveGame(final Game gameToSave, boolean inBackground, final Runnable onFinished) {
 
         for (PlayerView playerView : playerViews) {
             playerView.getShouldAutosave().set(false);
@@ -540,20 +541,15 @@ public class GameActivity extends SherlockActivity {
         rowLayout4 = (LinearLayout) findViewById(R.id.game_row_4);
 
         // set which rows are visible based on how many players there are
-        rowLayout2.setVisibility(playerScores.size() > 2 ? View.VISIBLE
-                : View.GONE);
-        rowLayout3.setVisibility(playerScores.size() > 4 ? View.VISIBLE
-                : View.GONE);
-        rowLayout4.setVisibility(playerScores.size() > 6 ? View.VISIBLE
-                : View.GONE);
+        rowLayout2.setVisibility(playerScores.size() > 2 ? View.VISIBLE : View.GONE);
+        rowLayout3.setVisibility(playerScores.size() > 4 ? View.VISIBLE : View.GONE);
+        rowLayout4.setVisibility(playerScores.size() > 6 ? View.VISIBLE : View.GONE);
 
         // add top and bottom spacing on the two-player game. it looks nicer
         rootPadding1 = findViewById(R.id.game_root_padding_1);
         rootPadding2 = findViewById(R.id.game_root_padding_2);
-        rootPadding1.setVisibility(playerScores.size() <= 2 ? View.VISIBLE
-                : View.GONE);
-        rootPadding2.setVisibility(playerScores.size() <= 2 ? View.VISIBLE
-                : View.GONE);
+        rootPadding1.setVisibility(playerScores.size() <= 2 ? View.VISIBLE : View.GONE);
+        rootPadding2.setVisibility(playerScores.size() <= 2 ? View.VISIBLE : View.GONE);
 
         // inflate the round total view stub if we're in Eclair (due to an
         // Eclair bug), or
@@ -561,8 +557,7 @@ public class GameActivity extends SherlockActivity {
         try {
             roundTotalViewStub = (ViewStub) findViewById(R.id.round_totals);
             int versionInt = VersionHelper.getVersionSdkIntCompat();
-            if (versionInt > VersionHelper.VERSION_DONUT
-                    && versionInt < VersionHelper.VERSION_FROYO) {
+            if (versionInt > VersionHelper.VERSION_DONUT && versionInt < VersionHelper.VERSION_FROYO) {
                 roundTotalTextView = (TextView) roundTotalViewStub.inflate();
             }
         } catch (ClassCastException ignore) {
@@ -572,8 +567,8 @@ public class GameActivity extends SherlockActivity {
         playerViews = new ArrayList<PlayerView>();
 
         // only show the onscreen delta buttons if space allows
-        boolean showOnscreenDeltaButtons = playerScores.size() <= getResources()
-                .getInteger(R.integer.max_players_for_onscreen_delta_buttons);
+        boolean showOnscreenDeltaButtons = playerScores.size() <= getResources().getInteger(
+                R.integer.max_players_for_onscreen_delta_buttons);
 
         for (int i = 0; i < playerScores.size(); i++) {
 
@@ -581,11 +576,10 @@ public class GameActivity extends SherlockActivity {
             int resId = getPlayerViewResId(i);
             View view = getPlayerScoreView(resId);
 
-            PlayerView playerView = new PlayerView(this, view, playerScore,
-                    handler, showOnscreenDeltaButtons);
+            PlayerView playerView = new PlayerView(this, view, playerScore, handler, showOnscreenDeltaButtons);
 
             playerView.setChangeRecorder(new Callback<RecordedChange>() {
-                
+
                 @Override
                 public void onCallback(RecordedChange recordedChange) {
                     undoStack.pop(recordedChange);
@@ -635,21 +629,17 @@ public class GameActivity extends SherlockActivity {
             return;
         }
 
-        final int round = CollectionUtil.max(playerScores,
-                Functions.PLAYER_SCORE_TO_HISTORY_SIZE);
+        final int round = CollectionUtil.max(playerScores, Functions.PLAYER_SCORE_TO_HISTORY_SIZE);
 
-        int roundTotal = round == 0 ? 0 : CollectionUtil.sum(playerScores,
-                new Function<PlayerScore, Integer>() {
+        int roundTotal = round == 0 ? 0 : CollectionUtil.sum(playerScores, new Function<PlayerScore, Integer>() {
 
-                    @Override
-                    public Integer apply(PlayerScore obj) {
-                        return obj.getHistory().size() >= round ? obj
-                                .getHistory().get(round - 1) : 0;
-                    }
-                });
+            @Override
+            public Integer apply(PlayerScore obj) {
+                return obj.getHistory().size() >= round ? obj.getHistory().get(round - 1) : 0;
+            }
+        });
 
-        String text = String.format(getString(R.string.text_round_total),
-                Math.max(round, 1), roundTotal);
+        String text = String.format(getString(R.string.text_round_total), Math.max(round, 1), roundTotal);
 
         if (roundTotalTextView == null) {
             roundTotalTextView = (TextView) roundTotalViewStub.inflate();
@@ -664,27 +654,20 @@ public class GameActivity extends SherlockActivity {
      */
     private void setPlayerViewTextSizes() {
 
-        PlayerTextFormat textFormat = PlayerTextFormat
-                .forNumPlayers(playerScores.size());
+        PlayerTextFormat textFormat = PlayerTextFormat.forNumPlayers(playerScores.size());
 
         for (PlayerView playerView : playerViews) {
             setPlayerViewTextSizes(playerView, textFormat);
         }
     }
 
-    private void setPlayerViewTextSizes(PlayerView playerView,
-            PlayerTextFormat textFormat) {
-        playerView.getNameTextView().setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                getResources().getDimensionPixelSize(
-                        textFormat.getPlayerNameTextSize()));
-        playerView.getBadgeTextView().setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                getResources().getDimensionPixelSize(
-                        textFormat.getBadgeTextSize()));
+    private void setPlayerViewTextSizes(PlayerView playerView, PlayerTextFormat textFormat) {
+        playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));
+        playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(textFormat.getBadgeTextSize()));
         playerView.getScoreTextView().setMaxTextSize(
-                getResources().getDimensionPixelSize(
-                        textFormat.getPlayerScoreTextSize()));
+                getResources().getDimensionPixelSize(textFormat.getPlayerScoreTextSize()));
         playerView.getScoreTextView().resizeText();
 
         Button plusButton = playerView.getPlusButton();
@@ -693,62 +676,43 @@ public class GameActivity extends SherlockActivity {
         // if the round totals are showing, we have a little less space to work
         // with
         int plusMinusButtonHeight = PreferenceHelper.getShowRoundTotals(this) ? textFormat
-                .getPlusMinusButtonHeightWithRoundTotals() : textFormat
-                .getPlusMinusButtonHeight();
+                .getPlusMinusButtonHeightWithRoundTotals() : textFormat.getPlusMinusButtonHeight();
 
         // in some cases I manually define it to just be 'fill parent'
         if (plusMinusButtonHeight != LinearLayout.LayoutParams.MATCH_PARENT) {
-            plusMinusButtonHeight = getResources().getDimensionPixelSize(
-                    plusMinusButtonHeight);
+            plusMinusButtonHeight = getResources().getDimensionPixelSize(plusMinusButtonHeight);
         }
 
         for (Button button : new Button[] { plusButton, minusButton }) {
-            button.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources()
-                    .getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
-            button.setLayoutParams(new LinearLayout.LayoutParams(
-                    LayoutParams.MATCH_PARENT, plusMinusButtonHeight));
+            button.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    getResources().getDimensionPixelSize(textFormat.getPlusMinusTextSize()));
+            button.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, plusMinusButtonHeight));
         }
 
-        for (Button button : new Button[] { playerView.getDeltaButton1(),
-                playerView.getDeltaButton2(), playerView.getDeltaButton3(),
-                playerView.getDeltaButton4() }) {
+        for (Button button : new Button[] { playerView.getDeltaButton1(), playerView.getDeltaButton2(),
+                playerView.getDeltaButton3(), playerView.getDeltaButton4() }) {
             if (button != null) {
-                button.setTextSize(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        getResources().getDimensionPixelSize(
-                                textFormat.getOnscreenDeltaButtonTextSize()));
+                button.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(textFormat.getOnscreenDeltaButtonTextSize()));
             }
         }
         if (playerView.getOnscreenDeltaButtonsLayout() != null) {
-            playerView
-                    .getOnscreenDeltaButtonsLayout()
-                    .setLayoutParams(
-                            new RelativeLayout.LayoutParams(
-                                    LayoutParams.MATCH_PARENT,
-                                    getResources()
-                                            .getDimensionPixelSize(
-                                                    textFormat
-                                                            .getOnscreenDeltaButtonHeight())));
+            playerView.getOnscreenDeltaButtonsLayout().setLayoutParams(
+                    new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(
+                            textFormat.getOnscreenDeltaButtonHeight())));
         }
 
         playerView.getBadgeTextView().setPadding(
-                getResources().getDimensionPixelSize(
-                        textFormat.getBadgePaddingLeftRight()), // left
-                getResources().getDimensionPixelSize(
-                        textFormat.getBadgePaddingTopBottom()), // top
-                getResources().getDimensionPixelSize(
-                        textFormat.getBadgePaddingLeftRight()), // right
-                getResources().getDimensionPixelSize(
-                        textFormat.getBadgePaddingTopBottom()) // bottom
+                getResources().getDimensionPixelSize(textFormat.getBadgePaddingLeftRight()), // left
+                getResources().getDimensionPixelSize(textFormat.getBadgePaddingTopBottom()), // top
+                getResources().getDimensionPixelSize(textFormat.getBadgePaddingLeftRight()), // right
+                getResources().getDimensionPixelSize(textFormat.getBadgePaddingTopBottom()) // bottom
                 );
 
         // the offset is from the top right corner only
-        playerView.getBadgeLinearLayout().setPadding(
-                0,
-                getResources().getDimensionPixelSize(
-                        textFormat.getBadgeOffset()),
-                getResources().getDimensionPixelSize(
-                        textFormat.getBadgeOffset()), 0);
+        playerView.getBadgeLinearLayout().setPadding(0,
+                getResources().getDimensionPixelSize(textFormat.getBadgeOffset()),
+                getResources().getDimensionPixelSize(textFormat.getBadgeOffset()), 0);
 
     }
 
@@ -788,8 +752,7 @@ public class GameActivity extends SherlockActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_ADD_EDIT_PLAYERS
-                && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_ADD_EDIT_PLAYERS && resultCode == RESULT_OK) {
             final List<PlayerScore> newPlayerScores = data
                     .getParcelableArrayListExtra(OrganizePlayersActivity.EXTRA_PLAYER_SCORES);
             handler.post(new Runnable() {
@@ -807,16 +770,18 @@ public class GameActivity extends SherlockActivity {
         // delete the game and recreate it with the new data
 
         // do in the background to avoid jank
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... params) {
-                
+
                 // delete the old game before starting new one
                 getDbHelper().deleteGame(game);
-                // after this, because the id is not -1, only UPDATEs will be performed,
-                // so the delete is clean even if the background saver keeps running
-                
+                // after this, because the id is not -1, only UPDATEs will be
+                // performed,
+                // so the delete is clean even if the background saver keeps
+                // running
+
                 final Game newGame = (Game) game.clone();
                 newGame.setId(-1);
                 newGame.setPlayerScores(newPlayerScores);
@@ -830,27 +795,29 @@ public class GameActivity extends SherlockActivity {
                     public void run() {
                         log.d("game to parcel is: %s", game);
 
-                        // start a new activity so that the layout can refresh correctly
-                        // TODO: don't start a new activity; just refresh the layout
+                        // start a new activity so that the layout can refresh
+                        // correctly
+                        // TODO: don't start a new activity; just refresh the
+                        // layout
 
-                        Intent intent = new Intent(GameActivity.this,
-                                GameActivity.class);
+                        Intent intent = new Intent(GameActivity.this, GameActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra(EXTRA_GAME, newGame);
 
                         startActivity(intent);
 
-                        CompatibilityHelper.overridePendingTransition(
-                                GameActivity.this, android.R.anim.fade_in,
+                        CompatibilityHelper.overridePendingTransition(GameActivity.this, android.R.anim.fade_in,
                                 android.R.anim.fade_out);
                     }
 
                 };
-                saveGame(newGame, true, onFinished); // automatically save the game
-                
+                saveGame(newGame, true, onFinished); // automatically save the
+                                                     // game
+
                 return null;
-            }}.execute((Void)null);
-        
+            }
+        }.execute((Void) null);
+
     }
 
 }

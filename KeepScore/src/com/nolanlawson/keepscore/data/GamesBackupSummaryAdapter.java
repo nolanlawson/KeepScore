@@ -76,6 +76,9 @@ public class GamesBackupSummaryAdapter extends ArrayAdapter<GamesBackupSummary> 
             view = vi.inflate(LAYOUT_RES_ID, parent, false);
             viewWrapper = new ViewWrapper(view);
             view.setTag(viewWrapper);
+            
+            // set the min width to match the max number of digits on the numGames
+            viewWrapper.getNumGamesTextView().setMinWidth(gameCountMinWidth);
         } else {
             viewWrapper = (ViewWrapper) view.getTag();
         }
@@ -87,9 +90,6 @@ public class GamesBackupSummaryAdapter extends ArrayAdapter<GamesBackupSummary> 
         viewWrapper.getDateTextView().setText(dateFormat.format(new Date(summary.getDateSaved())));
         viewWrapper.getFilenameTextView().setText(summary.getFilename());
         viewWrapper.getNumGamesTextView().setText(Integer.toString(summary.getGameCount()));
-
-        log.d("setting minWidth to %d", gameCountMinWidth);
-        viewWrapper.getNumGamesTextView().setMinWidth(gameCountMinWidth);
 
         return view;
     }
