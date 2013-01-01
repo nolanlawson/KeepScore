@@ -3,7 +3,6 @@
     
     <!-- non-translateable strings-->
     
-    
     <string name="CONSTANT_app_name">KeepScore</string>
     
     <string name="CONSTANT_button_2_players">2</string>
@@ -52,7 +51,6 @@
     <string name="CONSTANT_pref_use_wake_lock_default">true</string>
     
     <string name="CONSTANT_text_epsilon">Σ</string>
-    
     
     <!-- translateable strings-->
     
