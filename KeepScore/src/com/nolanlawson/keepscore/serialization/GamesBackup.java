@@ -12,21 +12,35 @@ import com.nolanlawson.keepscore.db.Game;
  */
 public class GamesBackup {
 
-    /** version without "automatic" - i.e., everything was manual */
+    /** Version without "automatic" - i.e., everything was manual */
     public static final int VERSION_ONE = 1;
     
-    /** version where "automatic" was added, to distinguish automatic backups from manual backups */
+    /** Version where "automatic" was added, to distinguish automatic backups from manual backups */
     public static final int VERSION_TWO = 2;
     
+    /** 
+     * Version where "backupFilename" was added, for cases where the filename could not easily be determined
+     * (e.g. from Gmail attachments)
+     */
+    public static final int VERSION_THREE = 3;
+    
     /** current version number; may change with time */
-    public static final int CURRENT_BACKUP_VERSION = VERSION_TWO;
+    public static final int CURRENT_BACKUP_VERSION = VERSION_THREE;
     
     private int gameCount;
     private int version;
     private long dateSaved;
     private boolean automatic;
+    private String filename;
     private List<Game> games;
 
+    
+    public String getFilename() {
+        return filename;
+    }
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
     public boolean isAutomatic() {
         return automatic;
     }

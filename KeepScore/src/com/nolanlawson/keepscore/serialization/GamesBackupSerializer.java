@@ -1,8 +1,6 @@
 package com.nolanlawson.keepscore.serialization;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,11 +15,14 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Xml;
 
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.SdcardHelper.Format;
 import com.nolanlawson.keepscore.helper.XmlHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -41,19 +42,18 @@ public class GamesBackupSerializer {
     private static final String ATTRIBUTE_EMPTY = "isEmpty";
 
     private static enum Tag {
-        PlayerScore, Game, GamesBackup, gameCount, version, automatic, dateGameSaved, dateBackupSaved, dateGameStarted, gameName, playerName, score, playerNumber, history, Games, PlayerScores;
+        PlayerScore, Game, GamesBackup, gameCount, version, automatic, backupFilename, dateGameSaved, dateBackupSaved, dateGameStarted, gameName, playerName, score, playerNumber, history, Games, PlayerScores;
     }
 
     /**
      * Don't read the entire file; just read the game count and other basic, summarized information.
      * 
-     * @param filename
+     * @param backupFilename
      * @return
      */
-    public static GamesBackupSummary readGamesBackupSummary(File file) {
+    public static GamesBackupSummary readGamesBackupSummary(Uri uri, Format format, ContentResolver contentResolver) {
         
         GamesBackupSummary result = new GamesBackupSummary();
-        result.setFilename(file.getName());
         
         int infoReceived = 0;
         
@@ -65,8 +65,8 @@ public class GamesBackupSerializer {
             try {
                 XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance();
                 parser = parserFactory.newPullParser();
-                InputStream inputStream = new FileInputStream(file);
-                if (file.getName().endsWith(".gz")) { // new, gzipped format
+                InputStream inputStream = contentResolver.openInputStream(uri);
+                if (format == Format.GZIP) { // new, gzipped format
                     inputStream = new GZIPInputStream(inputStream);
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 0x1000);
@@ -98,6 +98,11 @@ public class GamesBackupSerializer {
                                         result.setAutomatic(false);
                                         infoReceived++;
                                     }
+                                    if (result.getVersion() < GamesBackup.VERSION_THREE) {                         
+                                        // filename not stored in XML file itself until version three
+                                        result.setFilename(uri.getLastPathSegment());
+                                        infoReceived++;
+                                    }
                                     break;
                                 case automatic:
                                     result.setAutomatic(Boolean.parseBoolean(text));
@@ -107,11 +112,15 @@ public class GamesBackupSerializer {
                                     result.setDateSaved(Long.parseLong(text));
                                     infoReceived++;
                                     break;
+                                case backupFilename:
+                                    result.setFilename(text);
+                                    infoReceived++;
+                                    break;
                             }
                         break;
                     }
                     
-                    if (infoReceived == 4) {
+                    if (infoReceived == 5) {
                         // this is all the info required to create a summary
                         return result;
                     }
@@ -122,16 +131,16 @@ public class GamesBackupSerializer {
                 }
             }
         } catch (NumberFormatException e) {
-            log.e(e, "unexpected exception for " + file.getName());
+            log.e(e, "unexpected exception for " + uri);
             throw new RuntimeException(e);
         } catch (IOException e) {
-            log.e(e, "unexpected exception for " + file.getName());
+            log.e(e, "unexpected exception for " + uri);
             throw new RuntimeException(e);
         } catch (XmlPullParserException e) {
-            log.e(e, "unexpected exception for " + file.getName());
+            log.e(e, "unexpected exception for " + uri);
             throw new RuntimeException(e);
         }
-        throw new RuntimeException("failed to find summary for filename " + file.getName());
+        throw new RuntimeException("failed to find summary for " + uri);
     }
 
     public static GamesBackup deserialize(String xmlData) {
@@ -209,6 +218,9 @@ public class GamesBackupSerializer {
         case gameCount:
             gamesBackup.setGameCount(Integer.parseInt(text));
             break;
+        case backupFilename:
+            gamesBackup.setFilename(text);
+            break;
         case version:
             gamesBackup.setVersion(Integer.parseInt(text));
             break;
@@ -271,6 +283,7 @@ public class GamesBackupSerializer {
             addTag(serializer, Tag.gameCount, gamesBackup.getGameCount());
             addTag(serializer, Tag.version, gamesBackup.getVersion());
             addTag(serializer, Tag.automatic, gamesBackup.isAutomatic());
+            addTag(serializer, Tag.backupFilename, gamesBackup.getFilename());
             addTag(serializer, Tag.dateBackupSaved, gamesBackup.getDateSaved());
             serializer.startTag("", Tag.Games.name());
             for (Game game : gamesBackup.getGames()) {

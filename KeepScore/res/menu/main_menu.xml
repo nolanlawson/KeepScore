@@ -9,6 +9,10 @@
 		android:alphabeticShortcut="@string/menu_load_backup" android:icon="@drawable/action_av_download" 
 		android:showAsAction="ifRoom|withText" />	
     
+	<item android:id="@+id/menu_share" android:title="@string/menu_share"
+		android:alphabeticShortcut="@string/menu_share" android:icon="@drawable/action_share" 
+		android:showAsAction="ifRoom" />
+	
 	<item android:id="@+id/menu_settings" android:title="@string/menu_settings"
 		android:alphabeticShortcut="@string/menu_settings" android:icon="@drawable/action_settings" 
 		android:showAsAction="ifRoom" />

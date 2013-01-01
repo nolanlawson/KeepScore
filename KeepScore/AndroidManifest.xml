@@ -22,16 +22,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-           
-           <!--  associate with KeepScore xml.gz backup files -->
+            
+  			<!--  associate with KeepScore xml backup files -->
             <intent-filter>
 			    <action android:name="android.intent.action.VIEW" />
 			    <category android:name="android.intent.category.DEFAULT" />
-			    <data android:mimeType="application/x-gzip" />
+			    <data android:mimeType="text/xml" />
 			    <data android:scheme="content"/>
 			    <data android:scheme="file" />
 			    <data android:host="*" />
-			    <data android:pathPattern=".*\\.xml\\.gz" />
   			</intent-filter>
         </activity>
         <activity

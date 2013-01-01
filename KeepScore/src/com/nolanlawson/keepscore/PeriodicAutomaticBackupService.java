@@ -8,6 +8,7 @@ import android.content.Intent;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper;
+import com.nolanlawson.keepscore.helper.SdcardHelper.Format;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
 import com.nolanlawson.keepscore.serialization.GamesBackupSerializer;
 import com.nolanlawson.keepscore.util.UtilLogger;
@@ -37,7 +38,7 @@ public class PeriodicAutomaticBackupService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String filename = SdcardHelper.createBackupFilename();
+        String filename = SdcardHelper.createBackupFilename(Format.GZIP);
         GameDBHelper dbHelper =  null;
         try {
             dbHelper = new GameDBHelper(this);
@@ -51,10 +52,11 @@ public class PeriodicAutomaticBackupService extends IntentService {
             gamesBackup.setDateSaved(System.currentTimeMillis());
             gamesBackup.setGameCount(games.size());
             gamesBackup.setAutomatic(true);
+            gamesBackup.setFilename(filename);
             gamesBackup.setGames(games);
             
             String xmlData = GamesBackupSerializer.serialize(gamesBackup);
-            SdcardHelper.save(filename, xmlData);
+            SdcardHelper.save(filename, Format.GZIP, xmlData);
             
             log.i("KeepScore backed up %d games to \"%s\".", games.size(), filename);
         } finally {

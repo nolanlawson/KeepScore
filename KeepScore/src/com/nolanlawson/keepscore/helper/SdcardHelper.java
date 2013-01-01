@@ -3,7 +3,6 @@ package com.nolanlawson.keepscore.helper;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,6 +21,8 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.os.Environment;
 
 import com.nolanlawson.keepscore.util.UtilLogger;
@@ -53,15 +54,13 @@ public class SdcardHelper {
         return Arrays.asList(getBackupDir().list());
     }
 
-    public static String open(String filename) {
-        File logFile = new File(getBackupDir(), filename);
-
+    public static String open(Uri uri, Format format, ContentResolver contentResolver) {
         StringBuilder stringBuilder = new StringBuilder();
         BufferedReader bufferedReader = null;
 
         try {
-            InputStream fileInputStream = new FileInputStream(logFile);
-            if (filename.endsWith(".gz")) { // new, gzipped format
+            InputStream fileInputStream = contentResolver.openInputStream(uri);
+            if (format == Format.GZIP) { // new, gzipped format
                 fileInputStream = new GZIPInputStream(fileInputStream);
             }
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
@@ -91,7 +90,7 @@ public class SdcardHelper {
      * @param xmlData
      * @return
      */
-    public static boolean save(String filename, String xmlData) {
+    public static boolean save(String filename, Format format, String xmlData) {
         File newFile = new File(getBackupDir(), filename);
         try {
             if (!newFile.exists()) {
@@ -108,7 +107,10 @@ public class SdcardHelper {
 
             // specifying BUFFER gets rid of an annoying warning message in the logs
             out = new BufferedOutputStream(new FileOutputStream(newFile, true), BUFFER);
-            writer = new OutputStreamWriter(new GZIPOutputStream(out), "UTF-8");
+            if (format == Format.GZIP) {
+                out = new GZIPOutputStream(out);
+            }
+            writer = new OutputStreamWriter(out, "UTF-8");
             writer.write(xmlData);
         } catch (FileNotFoundException ex) {
             log.e(ex, "unexpected exception");
@@ -135,7 +137,7 @@ public class SdcardHelper {
         return true;
     }
 
-    public static String createBackupFilename() {
+    public static String createBackupFilename(Format format) {
         Date date = new Date();
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(date);
@@ -154,7 +156,10 @@ public class SdcardHelper {
 
         stringBuilder.append(year).append(month).append(day).append(hour).append(minute).append(second);
 
-        stringBuilder.append(".xml.gz");
+        stringBuilder.append(".xml");
+        if (format == Format.GZIP) {
+            stringBuilder.append(".gz");
+        }
 
         return stringBuilder.toString();
     }
@@ -169,6 +174,10 @@ public class SdcardHelper {
 
     public static File getBackupFile(String backup) {
         return new File(getBackupDir(), backup);
+    }
+    
+    public static enum Format {
+        XML, GZIP;
     }
 
 }
