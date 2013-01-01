@@ -141,6 +141,7 @@ Found: %d\n\
 Loaded: %d\n\
 Duplicates: %d</string>
     <string name="text_loading">Importing…</string>
+    <string name="text_loading_generic">Loading…</string>
     <string name="text_no_saved_games">Your saved games will appear here.</string>
     <string name="text_num_players">Number of players</string>
     <string name="text_player">Player</string>

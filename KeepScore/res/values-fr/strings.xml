@@ -87,6 +87,7 @@ Trouvés: %d\n\
 Importés: %d\n\
 Doublets: %d</string>
     <string name="text_loading">Importation…</string>
+    <string name="text_loading_generic">Chargement…</string>
     <string name="text_no_saved_games">Vos parties sauvegardées seront ici.</string>
     <string name="text_num_players">Nombre de joueurs</string>
     <string name="text_player">Joueur</string>

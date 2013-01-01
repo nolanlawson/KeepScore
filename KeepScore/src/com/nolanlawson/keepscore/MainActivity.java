@@ -506,50 +506,88 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             return;
         }
 
-        List<String> backups = SdcardHelper.list();
+        final List<String> backups = SdcardHelper.list();
+        
         if (backups.isEmpty()) {
             ToastHelper.showShort(this, R.string.toast_no_backups);
             return;
         }
-
-        List<GamesBackupSummary> summaries = new ArrayList<GamesBackupSummary>();
-
-        for (String backup : backups) {
-            File file = SdcardHelper.getBackupFile(backup);
-            Uri uri = Uri.fromFile(file);
-            
-            Format format = file.getName().endsWith(".gz") ? Format.GZIP : Format.XML;
-            
-            GamesBackupSummary summary = GamesBackupSerializer.readGamesBackupSummary(
-                    uri, format, getContentResolver());
-            summaries.add(summary);
-        }
-
-        // show most recent ones first
-        Collections.sort(summaries, new Comparator<GamesBackupSummary>(){
-
-            public int compare(GamesBackupSummary lhs, GamesBackupSummary rhs) {
-                return Long.valueOf(rhs.getDateSaved()).compareTo(lhs.getDateSaved());
-            }
-        });
         
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(R.string.text_loading_generic);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setMax(backups.size());
+        progressDialog.show();
+        
+        // show progress dialog to avoid jankiness
+        new AsyncTask<Void, Void, List<GamesBackupSummary>>(){
+
+            @Override
+            protected List<GamesBackupSummary> doInBackground(Void... params) {
+                List<GamesBackupSummary> summaries = new ArrayList<GamesBackupSummary>();
+
+                // fetch the summaries only, so that we don't have to read the entire XML file for each one
+                for (String backup : backups) {
+                    File file = SdcardHelper.getBackupFile(backup);
+                    Uri uri = Uri.fromFile(file);
+                    
+                    Format format = file.getName().endsWith(".gz") ? Format.GZIP : Format.XML;
+                    
+                    GamesBackupSummary summary = GamesBackupSerializer.readGamesBackupSummary(
+                            uri, format, getContentResolver());
+                    summaries.add(summary);
+                    
+                    publishProgress((Void)null);
+                }
+
+                // show most recent ones first
+                Collections.sort(summaries, new Comparator<GamesBackupSummary>(){
+
+                    public int compare(GamesBackupSummary lhs, GamesBackupSummary rhs) {
+                        return Long.valueOf(rhs.getDateSaved()).compareTo(lhs.getDateSaved());
+                    }
+                });
+                
+                return summaries;
+            }
+
+            @Override
+            protected void onProgressUpdate(Void... values) {
+                super.onProgressUpdate(values);
+                progressDialog.incrementProgressBy(1);
+            }
+
+            @Override
+            protected void onPostExecute(List<GamesBackupSummary> result) {
+                super.onPostExecute(result);
+                progressDialog.dismiss();
+                showLoadBackupDialogFinished(result);
+            }
+            
+        }.execute((Void)null);
+    }
+
+    private void showLoadBackupDialogFinished(List<GamesBackupSummary> summaries) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         
-        final GamesBackupSummaryAdapter adapter =  new GamesBackupSummaryAdapter(this, displayMetrics, summaries);
+        final GamesBackupSummaryAdapter adapter =  new GamesBackupSummaryAdapter(MainActivity.this,
+                displayMetrics, summaries);
 
-        new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.title_choose_backup)
+        new AlertDialog.Builder(MainActivity.this)
+                .setCancelable(true)
+                .setTitle(R.string.title_choose_backup)
+                .setNegativeButton(android.R.string.cancel, null)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                         GamesBackupSummary summary = adapter.getItem(which);
-                        
                         loadBackup(summary);
-
                     }
-                }).setNegativeButton(android.R.string.cancel, null).show();
+                }).show();        
     }
 
     private void loadBackup(final GamesBackupSummary summary) {
