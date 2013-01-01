@@ -103,7 +103,7 @@ public class GamesBackupSerializer {
                                     result.setAutomatic(Boolean.parseBoolean(text));
                                     infoReceived++;
                                     break;
-                                case dateGameSaved:
+                                case dateBackupSaved:
                                     result.setDateSaved(Long.parseLong(text));
                                     infoReceived++;
                                     break;
