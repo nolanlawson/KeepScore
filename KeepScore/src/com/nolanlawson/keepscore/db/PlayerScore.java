@@ -89,7 +89,8 @@ public class PlayerScore implements Parcelable, Cloneable {
 	public boolean isAtDefault(Context context) {
 		return (history == null || history.isEmpty()) 
 			&& score == PreferenceHelper.getIntPreference(
-					R.string.pref_initial_score, R.string.pref_initial_score_default, context);
+					R.string.CONSTANT_pref_initial_score, 
+					R.string.CONSTANT_pref_initial_score_default, context);
 	}
 	
 	public String toDisplayName(Context context) {

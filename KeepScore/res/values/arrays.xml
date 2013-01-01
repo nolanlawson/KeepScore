@@ -7,8 +7,8 @@
         </string-array>
         
         <string-array name="pref_color_scheme_entry_values">
-        	<item>@string/pref_color_scheme_choice_light</item>
-        	<item>@string/pref_color_scheme_choice_dark</item>
-        	<item>@string/pref_color_scheme_choice_android</item>
+        	<item>@string/CONSTANT_pref_color_scheme_choice_light</item>
+        	<item>@string/CONSTANT_pref_color_scheme_choice_dark</item>
+        	<item>@string/CONSTANT_pref_color_scheme_choice_android</item>
         </string-array>
     </resources>

@@ -100,24 +100,24 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 
     private void setUpPreferences() {
 
-        button1Pref = (EditTextPreference) findPreferenceById(R.string.pref_button_1);
-        button2Pref = (EditTextPreference) findPreferenceById(R.string.pref_button_2);
-        button3Pref = (EditTextPreference) findPreferenceById(R.string.pref_button_3);
-        button4Pref = (EditTextPreference) findPreferenceById(R.string.pref_button_4);
-        twoPlayerButton1Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_1);
-        twoPlayerButton2Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_2);
-        twoPlayerButton3Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_3);
-        twoPlayerButton4Pref = (EditTextPreference) findPreferenceById(R.string.pref_2p_button_4);
-        greenTextPref = (CheckBoxPreference) findPreferenceById(R.string.pref_green_text);
-        showRoundTotalsPref = (CheckBoxPreference) findPreferenceById(R.string.pref_show_round_totals);
+        button1Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_button_1);
+        button2Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_button_2);
+        button3Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_button_3);
+        button4Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_button_4);
+        twoPlayerButton1Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_2p_button_1);
+        twoPlayerButton2Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_2p_button_2);
+        twoPlayerButton3Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_2p_button_3);
+        twoPlayerButton4Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_2p_button_4);
+        greenTextPref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_green_text);
+        showRoundTotalsPref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_show_round_totals);
 
-        updateDelayPref = (EditTextPreference) findPreferenceById(R.string.pref_update_delay);
-        initialScorePref = (EditTextPreference) findPreferenceById(R.string.pref_initial_score);
-        resetPref = findPreferenceById(R.string.pref_reset);
-        aboutPref = findPreferenceById(R.string.pref_about);
-        colorSchemePref = (ListPreference) findPreferenceById(R.string.pref_color_scheme);
-        loadSettingsPref = findPreferenceById(R.string.pref_load_settings);
-        saveSettingsPref = findPreferenceById(R.string.pref_save_settings);
+        updateDelayPref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_update_delay);
+        initialScorePref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_initial_score);
+        resetPref = findPreferenceById(R.string.CONSTANT_pref_reset);
+        aboutPref = findPreferenceById(R.string.CONSTANT_pref_about);
+        colorSchemePref = (ListPreference) findPreferenceById(R.string.CONSTANT_pref_color_scheme);
+        loadSettingsPref = findPreferenceById(R.string.CONSTANT_pref_load_settings);
+        saveSettingsPref = findPreferenceById(R.string.CONSTANT_pref_save_settings);
 
         // update the preference's summary with whatever the value is, as it's
         // changed
@@ -417,14 +417,14 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 
     @Override
     public boolean onPreferenceClick(Preference pref) {
-        if (pref.getKey().equals(getString(R.string.pref_reset))) {
+        if (pref.getKey().equals(getString(R.string.CONSTANT_pref_reset))) {
             resetPrefs();
-        } else if (pref.getKey().equals(getString(R.string.pref_about))) {
+        } else if (pref.getKey().equals(getString(R.string.CONSTANT_pref_about))) {
             Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
             startActivity(intent);
-        } else if (pref.getKey().equals(getString(R.string.pref_save_settings))) {
+        } else if (pref.getKey().equals(getString(R.string.CONSTANT_pref_save_settings))) {
             saveSettings();
-        } else if (pref.getKey().equals(getString(R.string.pref_load_settings))) {
+        } else if (pref.getKey().equals(getString(R.string.CONSTANT_pref_load_settings))) {
             loadSettings();
         }
 

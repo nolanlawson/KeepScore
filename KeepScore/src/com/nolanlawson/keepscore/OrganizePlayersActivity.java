@@ -183,8 +183,8 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
         playerScore.setId(-1);
         playerScore.setName(StringUtil.nullToEmpty(name));
         playerScore.setPlayerNumber(adapter.getCount());
-        playerScore.setScore(PreferenceHelper.getIntPreference(R.string.pref_initial_score,
-                R.string.pref_initial_score_default, this));
+        playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
+                R.string.CONSTANT_pref_initial_score_default, this));
         playerScore.setHistory(new ArrayList<Integer>());
 
         adapter.add(playerScore);

@@ -671,8 +671,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
     public void reset(Context context) {
 	synchronized (lock) {
-	    playerScore.setScore(PreferenceHelper.getIntPreference(R.string.pref_initial_score,
-		    R.string.pref_initial_score_default, context));
+	    playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
+		    R.string.CONSTANT_pref_initial_score_default, context));
 	    playerScore.setHistory(new ArrayList<Integer>());
 	}
 	lastIncremented.set(0);

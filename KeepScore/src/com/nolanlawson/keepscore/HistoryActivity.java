@@ -236,7 +236,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         // add a column to the right with an epsilon sign (for the round total
         // sum)
         headerRow.addView(createDividerView(headerRow));
-        headerRow.addView(createListHeader(headerRow, getString(R.string.text_epsilon), false, true));
+        headerRow.addView(createListHeader(headerRow, getString(R.string.CONSTANT_text_epsilon), false, true));
 
         byRoundTableLayout.addView(headerRow);
 

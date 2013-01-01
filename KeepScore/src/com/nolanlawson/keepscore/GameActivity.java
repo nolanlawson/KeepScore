@@ -159,8 +159,8 @@ public class GameActivity extends SherlockActivity {
     protected void onResume() {
         super.onResume();
 
-        boolean useWakeLock = PreferenceHelper.getBooleanPreference(R.string.pref_use_wake_lock,
-                R.string.pref_use_wake_lock_default, this);
+        boolean useWakeLock = PreferenceHelper.getBooleanPreference(R.string.CONSTANT_pref_use_wake_lock,
+                R.string.CONSTANT_pref_use_wake_lock_default, this);
         if (useWakeLock && !wakeLock.isHeld()) {
             log.d("Acquiring wakelock");
             wakeLock.acquire();
@@ -476,8 +476,8 @@ public class GameActivity extends SherlockActivity {
             playerScore.setName(playerNames[i]);
             playerScore.setPlayerNumber(i);
             playerScore.setHistory(new ArrayList<Integer>());
-            playerScore.setScore(PreferenceHelper.getIntPreference(R.string.pref_initial_score,
-                    R.string.pref_initial_score_default, GameActivity.this));
+            playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
+                    R.string.CONSTANT_pref_initial_score_default, GameActivity.this));
 
             playerScores.add(playerScore);
         }

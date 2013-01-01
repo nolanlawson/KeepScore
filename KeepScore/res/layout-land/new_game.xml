@@ -31,36 +31,36 @@
 
 				<TableRow>
 					<View android:layout_width="fill_parent" android:layout_height="wrap_content"/>
-					<Button android:id="@+id/button_2_players" android:text="@string/button_2_players"
+					<Button android:id="@+id/button_2_players" android:text="@string/CONSTANT_button_2_players"
 						android:textStyle="bold" android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:textSize="18sp" />
 				</TableRow>
 
 				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_3_players" android:text="@string/button_3_players"
+					<Button android:id="@+id/button_3_players" android:text="@string/CONSTANT_button_3_players"
 						android:textStyle="bold" android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:textSize="18sp" />
-					<Button android:id="@+id/button_4_players" android:text="@string/button_4_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
-
-				</TableRow>
-
-				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_5_players" android:text="@string/button_5_players"
-						android:textStyle="bold" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:textSize="18sp" />
-					<Button android:id="@+id/button_6_players" android:text="@string/button_6_players"
+					<Button android:id="@+id/button_4_players" android:text="@string/CONSTANT_button_4_players"
 						android:textStyle="bold" android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:textSize="18sp" />
 
 				</TableRow>
 
 				<TableRow android:paddingTop="2dp">
-					<Button android:id="@+id/button_7_players" android:text="@string/button_7_players"
+					<Button android:id="@+id/button_5_players" android:text="@string/CONSTANT_button_5_players"
 						android:textStyle="bold" android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:textSize="18sp" />
-					<Button android:id="@+id/button_8_players" android:text="@string/button_8_players"
+					<Button android:id="@+id/button_6_players" android:text="@string/CONSTANT_button_6_players"
+						android:textStyle="bold" android:layout_width="fill_parent"
+						android:layout_height="wrap_content" android:textSize="18sp" />
+
+				</TableRow>
+
+				<TableRow android:paddingTop="2dp">
+					<Button android:id="@+id/button_7_players" android:text="@string/CONSTANT_button_7_players"
+						android:textStyle="bold" android:layout_width="fill_parent"
+						android:layout_height="wrap_content" android:textSize="18sp" />
+					<Button android:id="@+id/button_8_players" android:text="@string/CONSTANT_button_8_players"
 						android:textStyle="bold" android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:textSize="18sp" />
 				</TableRow>

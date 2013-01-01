@@ -809,8 +809,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
         if (resetScores) {
             for (PlayerScore playerScore : newGame.getPlayerScores()) {
-                playerScore.setScore(PreferenceHelper.getIntPreference(R.string.pref_initial_score,
-                        R.string.pref_initial_score_default, this));
+                playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
+                        R.string.CONSTANT_pref_initial_score_default, this));
                 playerScore.setHistory(new ArrayList<Integer>());
             }
         }

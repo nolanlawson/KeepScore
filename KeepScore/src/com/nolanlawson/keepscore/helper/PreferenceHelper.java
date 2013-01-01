@@ -24,42 +24,42 @@ public class PreferenceHelper {
 	public static int getPopupDeltaButtonValue(int index, Context context) {
 		switch (index) {
 			case 0:
-				return getIntPreference(R.string.pref_button_1, R.string.pref_button_1_default, context);
+				return getIntPreference(R.string.CONSTANT_pref_button_1, R.string.CONSTANT_pref_button_1_default, context);
 			case 1:
-				return getIntPreference(R.string.pref_button_2, R.string.pref_button_2_default, context);
+				return getIntPreference(R.string.CONSTANT_pref_button_2, R.string.CONSTANT_pref_button_2_default, context);
 			case 2:
-				return getIntPreference(R.string.pref_button_3, R.string.pref_button_3_default, context);
+				return getIntPreference(R.string.CONSTANT_pref_button_3, R.string.CONSTANT_pref_button_3_default, context);
 			case 3:
 			default:
-				return getIntPreference(R.string.pref_button_4, R.string.pref_button_4_default, context);
+				return getIntPreference(R.string.CONSTANT_pref_button_4, R.string.CONSTANT_pref_button_4_default, context);
 		}		
 	}
 	
 	public static int getTwoPlayerDeltaButtonValue(int index, Context context) {
 		switch (index) {
 		case 0:
-			return getIntPreference(R.string.pref_2p_button_1, R.string.pref_2p_button_1_default, context);
+			return getIntPreference(R.string.CONSTANT_pref_2p_button_1, R.string.CONSTANT_pref_2p_button_1_default, context);
 		case 1:
-			return getIntPreference(R.string.pref_2p_button_2, R.string.pref_2p_button_2_default, context);
+			return getIntPreference(R.string.CONSTANT_pref_2p_button_2, R.string.CONSTANT_pref_2p_button_2_default, context);
 		case 2:
-			return getIntPreference(R.string.pref_2p_button_3, R.string.pref_2p_button_3_default, context);
+			return getIntPreference(R.string.CONSTANT_pref_2p_button_3, R.string.CONSTANT_pref_2p_button_3_default, context);
 		case 3:
 		default:
-			return getIntPreference(R.string.pref_2p_button_4, R.string.pref_2p_button_4_default, context);
+			return getIntPreference(R.string.CONSTANT_pref_2p_button_4, R.string.CONSTANT_pref_2p_button_4_default, context);
 	}				
 	}
 	
 	public static boolean getShowRoundTotals(Context context) {
 		if (showRoundTotalsPref == null) {
-			showRoundTotalsPref = getBooleanPreference(R.string.pref_show_round_totals, 
-					R.string.pref_show_round_totals_default, context);
+			showRoundTotalsPref = getBooleanPreference(R.string.CONSTANT_pref_show_round_totals, 
+					R.string.CONSTANT_pref_show_round_totals_default, context);
 		}
 		return showRoundTotalsPref;
 	}
 	
 	public static ColorScheme getColorScheme(Context context) {
 		if (cachedColorScheme == null) {
-			String pref = getStringPreference(R.string.pref_color_scheme, R.string.pref_color_scheme_default, context);
+			String pref = getStringPreference(R.string.CONSTANT_pref_color_scheme, R.string.CONSTANT_pref_color_scheme_default, context);
 			cachedColorScheme = ColorScheme.findByPreference(pref, context);
 		}
 		return cachedColorScheme;
@@ -68,7 +68,7 @@ public class PreferenceHelper {
 	public static int getUpdateDelay(Context context) {
 		
 		if (cachedUpdateDelay == -1) {
-			cachedUpdateDelay = getIntPreference(R.string.pref_update_delay, R.string.pref_update_delay_default, context);
+			cachedUpdateDelay = getIntPreference(R.string.CONSTANT_pref_update_delay, R.string.CONSTANT_pref_update_delay_default, context);
 		}
 		return cachedUpdateDelay;
 	}
@@ -76,7 +76,7 @@ public class PreferenceHelper {
 	public static boolean getGreenTextPreference(Context context) {
 		
 		if (cachedGreenTextPref == null) {
-			cachedGreenTextPref = getBooleanPreference(R.string.pref_green_text, R.string.pref_green_text_default, context);
+			cachedGreenTextPref = getBooleanPreference(R.string.CONSTANT_pref_green_text, R.string.CONSTANT_pref_green_text_default, context);
 		}
 		return cachedGreenTextPref;
 	}

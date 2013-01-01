@@ -67,9 +67,9 @@ public enum ColorScheme {
 
 	public static ColorScheme findByPreference(String preference, Context context) {
 		
-		if (preference.equals(context.getString(R.string.pref_color_scheme_choice_light))) {
+		if (preference.equals(context.getString(R.string.CONSTANT_pref_color_scheme_choice_light))) {
 			return Light;
-		} else if (preference.equals(context.getString(R.string.pref_color_scheme_choice_dark))) {
+		} else if (preference.equals(context.getString(R.string.CONSTANT_pref_color_scheme_choice_dark))) {
 			return Dark;
 		} else { // Android
 			return Android;
