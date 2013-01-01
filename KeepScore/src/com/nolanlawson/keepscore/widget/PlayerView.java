@@ -15,7 +15,6 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,7 +41,6 @@ import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.Functions;
 import com.nolanlawson.keepscore.util.IntegerUtil;
-import com.nolanlawson.keepscore.util.Pair;
 import com.nolanlawson.keepscore.util.SpannableUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
@@ -64,7 +62,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     private PlayerScore playerScore;
     private AtomicBoolean shouldAutosave = new AtomicBoolean(false);
 
-    private int positiveTextColor, negativeTextColor, evenColumnBackgroundColor, oddColumnBackgroundColor;
+    private int positiveTextColor;
+    private int negativeTextColor;
     private int borderDrawableResId;
     private Drawable borderDrawable;
 
@@ -492,10 +491,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     }
 
     /**
-     * Add blue color for positive entries and red color for negative entries,
+     * Add green color for positive entries and red color for negative entries,
      * and convert ints to strings.
-     * 
-     * Also, alternate the background color based on the round number.
      * 
      * @param currentTime
      */
@@ -517,7 +514,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	int maxChars = Math.max(MIN_NUM_HISTORY_CHARS,
 		CollectionUtil.maxValue(history, Functions.INTEGER_TO_LENGTH_WITH_SIGN));
 
-	List<Spannable> spannables = CollectionUtil.transformWithIndex(history, historyToSpan(maxChars));
+	List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
 
 	Spannable result = new SpannableString(StringUtil.joinSpannables("\n",
 		CollectionUtil.toArray(spannables, Spannable.class)));
@@ -526,28 +523,18 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
     }
 
-    private Function<Pair<Integer,Integer>, Spannable> historyToSpan(final int maxChars) {
-	return new Function<Pair<Integer,Integer>, Spannable>() {
+    private Function<Integer, Spannable> historyToSpan(final int maxChars) {
+	return new Function<Integer, Spannable>() {
 
 	    @Override
-	    public Spannable apply(Pair<Integer,Integer> indexAndValue) {
-	        Integer index = indexAndValue.getFirst();
-	        Integer value = indexAndValue.getSecond();
-	        
-	        String str = IntegerUtil.toStringWithSign(value);
-                str = StringUtil.padLeft(str, ' ', maxChars);
-	        
-                // column background is gray for odd, transparent for even
-	        int bgColorResId = (index % 2 == 0) ? evenColumnBackgroundColor : oddColumnBackgroundColor;
-		BackgroundColorSpan bgColorSpan = new BackgroundColorSpan(context.getResources().getColor(bgColorResId));
-	        
-		// color is blue/green for positive increments, red for negative increments
-	        int colorResId = (value >= 0) ? positiveTextColor : negativeTextColor;
+	    public Spannable apply(Integer value) {
+		int colorResId = (value >= 0) ? positiveTextColor : negativeTextColor;
 		ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(colorResId));
-		
+		String str = IntegerUtil.toStringWithSign(value);
+		// log.v("max length is %s, str is '%s'", maxChars, str);
+		str = StringUtil.padLeft(str, ' ', maxChars);
 		Spannable spannable = new SpannableString(str);
 		SpannableUtil.setWholeSpan(spannable, colorSpan);
-		SpannableUtil.setWholeSpan(spannable, bgColorSpan);
 
 		return spannable;
 	    }
@@ -749,8 +736,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     public void setNewColorScheme(ColorScheme colorScheme) {
 	positiveTextColor = getPositiveTextColor(colorScheme);
 	negativeTextColor = colorScheme.getNegativeColorResId();
-	evenColumnBackgroundColor = colorScheme.getEvenColumnBackgroundColorResId();
-	oddColumnBackgroundColor = colorScheme.getOddColumnBackgroundColorResId();
 	borderDrawableResId = colorScheme.getBorderDrawableResId();
 	borderDrawable = null;
     }

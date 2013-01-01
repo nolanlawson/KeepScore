@@ -83,17 +83,6 @@ public class CollectionUtil {
 		
 	}
 	
-        public static <E,T> List<T> transformWithIndex(Collection<E> list, Function<Pair<Integer,E>,T> function) {
-            List<T> result = new ArrayList<T>();
-            
-            int idx = 0;
-            for (E object : list) {
-                    result.add(function.apply(Pair.create(idx++,object)));
-            }
-            
-            return result;
-        }
-        
 	public static <E,T> List<T> transform(Collection<E> list, Function<E,T> function) {
 		List<T> result = new ArrayList<T>();
 		

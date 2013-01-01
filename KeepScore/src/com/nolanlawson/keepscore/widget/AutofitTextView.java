@@ -3,7 +3,6 @@ package com.nolanlawson.keepscore.widget;
 import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.SpannedString;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -65,9 +64,6 @@ public class AutofitTextView extends TextView {
                 // get the original color (blue or red)
                 ForegroundColorSpan[] foregroundColorSpans = ((SpannedString) getText()).getSpans(startOfLastLine + 1,
                         cutoffIndex, ForegroundColorSpan.class);
-                // get the original background
-                BackgroundColorSpan[] backgroundColorSpans = ((SpannedString) getText()).getSpans(startOfLastLine + 1,
-                        cutoffIndex, BackgroundColorSpan.class);
 
                 // make an alpha-ized gradient out of the original color
                 int originalColor = foregroundColorSpans[0].getForegroundColor();
@@ -82,15 +78,6 @@ public class AutofitTextView extends TextView {
                 SpannableStringBuilder builder = new SpannableStringBuilder()
                         .append(getText().subSequence(0, startOfLastLine))
                         .append(getText().subSequence(startOfLastLine, cutoffIndex).toString());
-                
-                // preserve the background color
-                builder.setSpan(new BackgroundColorSpan(backgroundColorSpans[0].getBackgroundColor()), 
-                        startOfLastLine, cutoffIndex, 0);
-                
-                // preserve the foreground color
-                builder.setSpan(new ForegroundColorSpan(foregroundColorSpans[0].getForegroundColor()), 
-                        startOfLastLine, cutoffIndex, 0);
-                
                 builder.setSpan(new TopDownGradientSpan(startColor, endColor, startY, endY), 
                 	startOfLastLine, cutoffIndex, 0);
                 setText(builder);
