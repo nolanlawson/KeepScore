@@ -77,13 +77,14 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     private SeparatedListAdapter<SavedGameAdapter> adapter;
     private CustomFastScrollView fastScrollView;
     private LinearLayout buttonRow;
-    private Button newGameButton, selectAllButton, deselectAllButton, deleteButton;
+    private Button newGameButton, selectAllButton, deselectAllButton;
     private View spacerView;
 
     private Integer lastPosition;
     private Set<Game> lastChecked;
 
     private boolean userRespondedToOpenBackupDialog;
+    private boolean selectedMode;
     
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -162,36 +163,64 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
+        MenuItem deleteSelectedMenuItem = menu.findItem(R.id.menu_delete_selected);
+        MenuItem shareSelectedMenuItem = menu.findItem(R.id.menu_share_selected);
+        
         MenuItem loadBackupMenuItem = menu.findItem(R.id.menu_load_backup);
         MenuItem saveBackupMenuItem = menu.findItem(R.id.menu_save_backup);
         MenuItem shareMenuItem = menu.findItem(R.id.menu_share);
+        
+        MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
+        MenuItem aboutMenuItem = menu.findItem(R.id.menu_about);
+        
+        //
+        // if the row of buttons at the bottom (select all, deselect all) is showing, offer
+        // specific actions up at the top.
+        //
+        
+        MenuItem[] selectedModeMenuItems = new MenuItem[]{deleteSelectedMenuItem, shareSelectedMenuItem};
+        MenuItem[] normalModeMenuItems = new MenuItem[]{loadBackupMenuItem, saveBackupMenuItem, shareMenuItem,
+                settingsMenuItem, aboutMenuItem};
 
-        // hide the menu if we're in less than Froyo, because
-        // the XML Transformer stuff is only available in Froyo and above
-        boolean postFroyo = VersionHelper.getVersionSdkIntCompat() >= VersionHelper.VERSION_FROYO;
-
-        for (MenuItem menuItem : new MenuItem[]{loadBackupMenuItem, saveBackupMenuItem, shareMenuItem}) {
-            menuItem.setVisible(postFroyo);
-            menuItem.setEnabled(postFroyo);
+        for (MenuItem menuItem : selectedModeMenuItems) {
+            menuItem.setEnabled(selectedMode);
+            menuItem.setVisible(selectedMode);
+        }
+        for (MenuItem menuItem : normalModeMenuItems) {
+            menuItem.setEnabled(!selectedMode);
+            menuItem.setVisible(!selectedMode);
         }
         
-        boolean preHoneycomb = VersionHelper.getVersionSdkIntCompat() < VersionHelper.VERSION_HONEYCOMB;
-
-        if (preHoneycomb) {
-            // if pre-Honeycomb and icon is not in the action bar (i.e. we're in
-            // portrait mode),
-            // then use the dark theme instead.
-            // otherwise, the icons don't show up at all
-
-            boolean portrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;
-
-            MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
-            settingsMenuItem.setIcon(portrait ? R.drawable.ic_menu_preferences : R.drawable.action_settings);
-
-            MenuItem aboutMenuItem = menu.findItem(R.id.menu_about);
-            aboutMenuItem.setIcon(portrait ? R.drawable.ic_menu_info_details : R.drawable.action_about);
+        if (!selectedMode) { // normal mode
+                
+            //
+            // hide certain menu items if we're in less than Froyo, because
+            // the XML Transformer stuff is only available in Froyo and above
+            //
+            MenuItem[] eclairIncompatibleMenuItems = new MenuItem[]{
+                    loadBackupMenuItem, saveBackupMenuItem, shareMenuItem};
+            boolean postFroyo = VersionHelper.getVersionSdkIntCompat() >= VersionHelper.VERSION_FROYO;
+    
+            for (MenuItem menuItem : eclairIncompatibleMenuItems) {
+                menuItem.setVisible(postFroyo);
+                menuItem.setEnabled(postFroyo);
+            }
             
-            shareMenuItem.setIcon(portrait ? R.drawable.ic_menu_share : R.drawable.action_share);
+            //
+            // if pre-Honeycomb and icon is not in the action bar (i.e. we're in
+            // portrait mode), then use the dark Gingerbread-style theme instead.
+            // otherwise, the icons don't show up at all on a black background.
+            //
+            boolean preHoneycomb = VersionHelper.getVersionSdkIntCompat() < VersionHelper.VERSION_HONEYCOMB;
+    
+            if (preHoneycomb) {
+    
+                boolean portrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;
+    
+                settingsMenuItem.setIcon(portrait ? R.drawable.ic_menu_preferences : R.drawable.action_settings);
+                aboutMenuItem.setIcon(portrait ? R.drawable.ic_menu_info_details : R.drawable.action_about);
+                shareMenuItem.setIcon(portrait ? R.drawable.ic_menu_share : R.drawable.action_share);
+            }
         }
 
         return true;
@@ -225,6 +254,12 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             break;
         case R.id.menu_share:
             showShareDialog(getAllGameIds());
+            break;
+        case R.id.menu_delete_selected:
+            showDeleteSelectedDialog();
+            break;
+        case R.id.menu_share_selected:
+            showShareDialog(getSelectedGameIds());
             break;
         }
         return false;
@@ -344,9 +379,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         buttonRow = (LinearLayout) findViewById(R.id.layout_button_row);
         selectAllButton = (Button) findViewById(R.id.button_select_all);
         deselectAllButton = (Button) findViewById(R.id.button_deselect_all);
-        deleteButton = (Button) findViewById(R.id.button_delete);
 
-        for (Button button : new Button[] { selectAllButton, deselectAllButton, deleteButton, newGameButton }) {
+        for (Button button : new Button[] { selectAllButton, deselectAllButton, newGameButton }) {
             button.setOnClickListener(this);
         }
 
@@ -626,6 +660,16 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         return result;
     }
 
+    private List<Integer> getSelectedGameIds() {
+        final Set<Integer> ids = new HashSet<Integer>();
+        for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
+            for (Game game : subAdapter.getChecked()) {
+                ids.add(game.getId());
+            }
+        }
+        return new ArrayList<Integer>(ids);
+    }
+    
     private List<Integer> getAllGameIds() {
         List<Integer> ids = new ArrayList<Integer>();
         for (int i = 0; i < adapter.getCount(); i++) {
@@ -684,9 +728,6 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         case R.id.button_deselect_all: // deselect all
             deselectAll();
             break;
-        case R.id.button_delete: // delete
-            showDeleteSelectedDialog();
-            break;
         }
     }
 
@@ -706,7 +747,9 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         }
 
         adapter.notifyDataSetChanged();
+        selectedMode = false;
         hideButtonRow();
+        supportInvalidateOptionsMenu();
     }
 
     private void showDeleteSelectedDialog() {
@@ -885,8 +928,9 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     }
 
     private void showOrHideButtonRow() {
-
-        boolean shouldShow = CollectionUtil.any(adapter.getSectionsMap().values(), new Predicate<SavedGameAdapter>() {
+        
+        // the row should be shown if any items are selected
+        selectedMode = CollectionUtil.any(adapter.getSectionsMap().values(), new Predicate<SavedGameAdapter>() {
 
             @Override
             public boolean apply(SavedGameAdapter obj) {
@@ -894,11 +938,14 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             }
         });
 
-        if (shouldShow) {
+        if (selectedMode) {
             showButtonRow();
         } else {
             hideButtonRow();
         }
+        
+        // redraw the options at the top
+        supportInvalidateOptionsMenu();
     }
 
     private void showButtonRow() {

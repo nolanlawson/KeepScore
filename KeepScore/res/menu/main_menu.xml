@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/menu_delete_selected" android:title="@string/text_delete"
+		android:alphabeticShortcut="@string/text_delete" android:icon="@drawable/action_discard" 
+		android:showAsAction="ifRoom" />
+		
+	<item android:id="@+id/menu_share_selected" android:title="@string/menu_share"
+		android:alphabeticShortcut="@string/menu_share" android:icon="@drawable/action_share" 
+		android:showAsAction="ifRoom" />	
+	
     <item android:id="@+id/menu_save_backup" android:title="@string/menu_save_backup"
 		android:alphabeticShortcut="@string/menu_save_backup" android:icon="@drawable/action_device_access_sd_storage" 
 		android:showAsAction="ifRoom|withText" />
