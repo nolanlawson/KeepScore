@@ -20,7 +20,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,6 +53,7 @@ import com.nolanlawson.keepscore.data.TimePeriod;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.MailHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper.Format;
@@ -191,7 +191,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         MenuItem loadBackupMenuItem = menu.findItem(R.id.menu_load_backup);
         MenuItem saveBackupMenuItem = menu.findItem(R.id.menu_save_backup);
         MenuItem shareMenuItem = menu.findItem(R.id.menu_share);
-        
+        MenuItem exportToSpreadsheetMenuItem = menu.findItem(R.id.menu_export_to_spreadsheet);
         MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
         MenuItem aboutMenuItem = menu.findItem(R.id.menu_about);
         
@@ -202,7 +202,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         
         MenuItem[] selectedModeMenuItems = new MenuItem[]{deleteSelectedMenuItem, shareSelectedMenuItem};
         MenuItem[] normalModeMenuItems = new MenuItem[]{loadBackupMenuItem, saveBackupMenuItem, shareMenuItem,
-                settingsMenuItem, aboutMenuItem};
+                exportToSpreadsheetMenuItem, settingsMenuItem, aboutMenuItem};
 
         for (MenuItem menuItem : selectedModeMenuItems) {
             menuItem.setEnabled(selectedMode);
@@ -227,7 +227,6 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 menuItem.setVisible(postFroyo);
                 menuItem.setEnabled(postFroyo);
             }
-            
         }
 
         return true;
@@ -268,6 +267,9 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         case R.id.menu_share_selected:
             showShareDialog(getSelectedGameIds());
             break;
+        case R.id.menu_export_to_spreadsheet:
+            showExportToSpreadsheetDialog(getAllGameIds());
+            break;
         }
         return false;
     }
@@ -290,7 +292,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                         saveBackup(Format.XML, Location.Shares, gameIds, new Callback<String>() {
                             
                             public void onCallback(String filename) {
-                                sendAsAttachment(filename, gameIds.size());
+                                sendBackupAsAttachment(filename, gameIds.size());
                             }
                         });
                     }
@@ -298,23 +300,85 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 .show();
     }
 
-    private void sendAsAttachment(String filename, int gameCount) {
+    private void sendBackupAsAttachment(String filename, int gameCount) {
         
-        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("application/x-gzip");
+        String subject = getResources().getQuantityString(R.plurals.text_share_mail_subject, gameCount, gameCount);
         
-        intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getQuantityString(
-                R.plurals.text_share_mail_subject, gameCount, gameCount));
-        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.text_share_mail_body));
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(SdcardHelper.getBackupFile(filename, Location.Shares)));
+        MailHelper.sendAsAttachment(this, Uri.fromFile(SdcardHelper.getFile(filename, Location.Shares)), 
+                "text/xml", subject, getString(R.string.text_share_mail_body));
+    }
+    
+    private void sendSpreadsheetAsAttachment(String filename, int gameCount) {
         
-        List<ResolveInfo> resolveInfos = getPackageManager().queryIntentActivities(intent, 0);
+        String subject = getResources().getQuantityString(R.plurals.text_share_spreadsheet_subject, gameCount, gameCount);
         
-        if (resolveInfos.isEmpty()) {
-            ToastHelper.showLong(this, R.string.toast_share_error_no_app);
-        } else {
-            startActivity(intent);
-        }
+        MailHelper.sendAsAttachment(this, Uri.fromFile(SdcardHelper.getFile(filename, Location.Spreadsheets)), 
+                "text/csv", subject, getString(R.string.text_share_spreadsheet_body));
+    }    
+    
+    private void showExportToSpreadsheetDialog(final List<Integer> gameIds) {
+        
+        new AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setTitle(R.string.title_confirm)
+            .setMessage(getResources().getQuantityString(
+                    R.plurals.text_share_spreadsheet_confirm, gameIds.size(), gameIds.size()))
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    exportToSpreadsheet(gameIds);
+                }
+            }).show();
+    }
+    
+    private void exportToSpreadsheet(final List<Integer> gameIds) {
+        
+        final ProgressDialog progressDialog = showProgressDialog(R.string.text_loading_generic, 
+                gameIds.size() + 1); // plus one for saving the spreadsheet itself
+        
+        new AsyncTask<Void, Void, String>(){
+
+            @Override
+            protected String doInBackground(Void... params) {
+                
+                List<Game> games = new ArrayList<Game>();
+                GameDBHelper dbHelper = null;
+                try {
+                    dbHelper = new GameDBHelper(MainActivity.this);
+                    for (Integer gameId : gameIds) {
+                        games.add(dbHelper.findGameById(gameId));
+                        publishProgress((Void)null);
+                    }
+                } finally {
+                    if (dbHelper != null) {
+                        dbHelper.close();
+                    }
+                }
+                
+                String filename = SdcardHelper.createSpreadsheetFilename();
+                SdcardHelper.saveSpreadsheet(filename, games, MainActivity.this);
+                publishProgress((Void)null);
+                
+                return filename;
+            }
+
+            @Override
+            protected void onProgressUpdate(Void... values) {
+                super.onProgressUpdate(values);
+                progressDialog.incrementProgressBy(1);
+            }
+            
+            @Override
+            protected void onPostExecute(String filename) {
+                super.onPostExecute(filename);
+                
+                progressDialog.dismiss();
+                sendSpreadsheetAsAttachment(filename, gameIds.size());
+            }            
+            
+        }.execute((Void)null);
     }
     
     /**
@@ -449,14 +513,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         
         final String filename = SdcardHelper.createBackupFilename(format);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-
-        progressDialog.setCancelable(false);
-        progressDialog.setTitle(R.string.text_saving);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setMax(gameIds.size());
-        progressDialog.show();
+        final ProgressDialog progressDialog = showProgressDialog(R.string.text_saving, gameIds.size());
 
         new AsyncTask<Void, Void, Boolean>() {
 
@@ -512,6 +569,19 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
     }
 
+    private ProgressDialog showProgressDialog(int titleResId, int max) {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle(titleResId);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMax(max);
+        progressDialog.show();
+        
+        return progressDialog;
+    }
+
     private void showLoadBackupDialog() {
 
         if (!SdcardHelper.isAvailable()) {
@@ -526,12 +596,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             return;
         }
         
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle(R.string.text_loading_generic);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setMax(backups.size());
-        progressDialog.show();
+        final ProgressDialog progressDialog = showProgressDialog(R.string.text_loading_generic, backups.size());
         
         // show progress dialog to avoid jankiness
         new AsyncTask<Void, Void, List<GamesBackupSummary>>(){
@@ -542,7 +607,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
                 // fetch the summaries only, so that we don't have to read the entire XML file for each one
                 for (String backup : backups) {
-                    File file = SdcardHelper.getBackupFile(backup, Location.Backups);
+                    File file = SdcardHelper.getFile(backup, Location.Backups);
                     Uri uri = Uri.fromFile(file);
                     
                     Format format = file.getName().endsWith(".gz") ? Format.GZIP : Format.XML;
@@ -599,7 +664,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
                         GamesBackupSummary summary = adapter.getItem(which);
                         
-                        Uri uri = Uri.fromFile(SdcardHelper.getBackupFile(summary.getFilename(), Location.Backups));
+                        Uri uri = Uri.fromFile(SdcardHelper.getFile(summary.getFilename(), Location.Backups));
                         Format format = summary.getFilename().endsWith(".gz") ? Format.GZIP : Format.XML;
                         
                         loadBackup(summary, uri, format);
@@ -609,12 +674,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
     private void loadBackup(final GamesBackupSummary summary, final Uri uri, final Format format) {
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle(R.string.text_loading);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setMax(summary.getGameCount());
-        progressDialog.show();
+        final ProgressDialog progressDialog = showProgressDialog(R.string.text_loading, summary.getGameCount());
 
         new AsyncTask<Void, Void, LoadGamesBackupResult>() {
 

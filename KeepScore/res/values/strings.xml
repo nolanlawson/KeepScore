@@ -72,6 +72,7 @@
     <string name="menu_about">About</string>
     <string name="menu_add_edit_players">Edit Players</string>
     <string name="menu_add_player">Add Player</string>
+    <string name="menu_export_to_spreadsheet">Export Spreadsheet</string>
     <string name="menu_history">History</string>
     <string name="menu_home">Home</string>
     <string name="menu_load_backup">Restore</string>
@@ -155,6 +156,26 @@ Duplicates: %d</string>
     <string formatted="false" name="text_save_backup_succeeded_plural">%d games saved to \'%s\'.</string>
     <string name="text_saved_games">Saved Games</string>
     <string name="text_saving">Exporting…</string>
+    <plurals name="text_share_spreadsheet_confirm">
+        <item quantity="one">Export this game as a spreadsheet?</item>
+        <item quantity="other">Export %d games as a spreadsheet?</item>
+    </plurals>
+    <plurals name="text_share_spreadsheet_subject">
+        <item quantity="one">Spreadsheet with 1 KeepScore game</item>
+        <item quantity="other">Spreadsheet with %d KeepScore games</item>
+    </plurals>
+    <string name="text_share_spreadsheet_body">Attached is a KeepScore spreadsheet in CSV format.\
+\n\nThis file can be opened using your favorite spreadsheet program, such as Excel, \
+LibreOffice, or Google Docs.</string>
+    <string name="text_share_spreadsheet_date_started">Start time</string>
+    <string name="text_share_spreadsheet_date_modified">Last modified</string>
+    <string name="text_share_spreadsheet_duration">Game duration</string>
+    <string name="text_share_spreadsheet_game_name">Game name</string>
+    <string name="text_share_spreadsheet_num_rounds">Number of rounds</string>
+    <string name="text_share_spreadsheet_num_players">Number of players</string>
+    <string name="text_share_spreadsheet_player_with_max">Player(s) with the most points</string>
+    <string name="text_share_spreadsheet_player_with_min">Player(s) with the least points</string>
+    
     <plurals name="text_share_with_friend">
         <item quantity="one">Share this game with a friend?</item>
         <item quantity="other">Share %d games with a friend?</item>

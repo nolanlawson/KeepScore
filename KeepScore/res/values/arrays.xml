@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <resources>
-        <string-array name="pref_color_scheme_entries">
-        	<item>@string/pref_color_scheme_choice_light_name</item>
-        	<item>@string/pref_color_scheme_choice_dark_name</item>
-        	<item>@string/pref_color_scheme_choice_android_name</item>
-        </string-array>
-        
-        <string-array name="pref_color_scheme_entry_values">
-        	<item>@string/CONSTANT_pref_color_scheme_choice_light</item>
-        	<item>@string/CONSTANT_pref_color_scheme_choice_dark</item>
-        	<item>@string/CONSTANT_pref_color_scheme_choice_android</item>
-        </string-array>
-    </resources>
+<resources>
+
+    <string-array name="pref_color_scheme_entries">
+        <item>@string/pref_color_scheme_choice_light_name</item>
+        <item>@string/pref_color_scheme_choice_dark_name</item>
+        <item>@string/pref_color_scheme_choice_android_name</item>
+    </string-array>
+    
+    <string-array name="pref_color_scheme_entry_values">
+        <item>@string/CONSTANT_pref_color_scheme_choice_light</item>
+        <item>@string/CONSTANT_pref_color_scheme_choice_dark</item>
+        <item>@string/CONSTANT_pref_color_scheme_choice_android</item>
+    </string-array>
+    
+    <string-array name="share_spreadsheet_column_names">
+		<item>@string/text_share_spreadsheet_date_started</item>
+	    <item>@string/text_share_spreadsheet_date_modified</item>
+	    <item>@string/text_share_spreadsheet_duration</item>
+	    <item>@string/text_share_spreadsheet_num_players</item>
+	    <item>@string/text_share_spreadsheet_num_rounds</item>
+	    <item>@string/text_share_spreadsheet_game_name</item>
+	    <item>@string/text_share_spreadsheet_player_with_max</item>
+	    <item>@string/text_share_spreadsheet_player_with_min</item>
+	    
+    </string-array>
+
+</resources>
