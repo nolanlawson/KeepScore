@@ -11,11 +11,10 @@
     <application
         android:icon="@drawable/icon"
         android:label="@string/CONSTANT_app_name"
-        android:theme="@style/Theme.Sherlock.Light" >
+        android:theme="@style/KeepScoreMainTheme" >
         <activity
             android:name=".MainActivity"
             android:label="@string/CONSTANT_app_name"
-            android:theme="@style/Theme.Sherlock.Light"
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,13 +34,11 @@
         </activity>
         <activity
             android:name=".NewGameActivity"
-            android:label="@string/CONSTANT_app_name"
-            android:theme="@android:style/Theme.Light" />
+            android:label="@string/CONSTANT_app_name"/>
         <activity
             android:name=".NamePlayersActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
-            android:label="@string/CONSTANT_app_name"
-            android:theme="@android:style/Theme.Light" />
+            android:label="@string/CONSTANT_app_name" />
         <activity
             android:name=".GameActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
