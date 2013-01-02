@@ -21,7 +21,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -63,9 +62,9 @@ import com.nolanlawson.keepscore.helper.VersionHelper;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
 import com.nolanlawson.keepscore.serialization.GamesBackupSerializer;
 import com.nolanlawson.keepscore.serialization.GamesBackupSummary;
+import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Predicate;
-import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.CustomFastScrollView;
@@ -165,6 +164,19 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     }
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        log.d("onSaveInstanceState()");
+    }
+    
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        log.d("onRestoreInstanceState()");
+        
+    }
+    
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         MenuItem deleteSelectedMenuItem = menu.findItem(R.id.menu_delete_selected);
@@ -210,21 +222,6 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 menuItem.setEnabled(postFroyo);
             }
             
-            //
-            // if pre-Honeycomb and icon is not in the action bar (i.e. we're in
-            // portrait mode), then use the dark Gingerbread-style theme instead.
-            // otherwise, the icons don't show up at all on a black background.
-            //
-            boolean preHoneycomb = VersionHelper.getVersionSdkIntCompat() < VersionHelper.VERSION_HONEYCOMB;
-    
-            if (preHoneycomb) {
-    
-                boolean portrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;
-    
-                settingsMenuItem.setIcon(portrait ? R.drawable.ic_menu_preferences : R.drawable.action_settings);
-                aboutMenuItem.setIcon(portrait ? R.drawable.ic_menu_info_details : R.drawable.action_about);
-                shareMenuItem.setIcon(portrait ? R.drawable.ic_menu_share : R.drawable.action_share);
-            }
         }
 
         return true;
@@ -1195,5 +1192,4 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
         return currentGame.getDateSaved() < end.getTime() && currentGame.getDateSaved() >= start.getTime();
     }
-
 }
