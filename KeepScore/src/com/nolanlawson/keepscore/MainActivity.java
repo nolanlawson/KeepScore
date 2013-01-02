@@ -83,7 +83,6 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     private Integer lastPosition;
     private Set<Game> lastChecked;
 
-    private boolean userRespondedToOpenBackupDialog;
     private boolean selectedMode;
     
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -91,6 +90,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        log.d("onCreate()");
+        
         setListAdapter(adapter);
 
         setContentView(R.layout.main);
@@ -103,16 +104,18 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     }
     
     @Override
-    protected void onNewIntent(Intent intent) {
+    public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        log.d("onNewIntent()");
         
         loadBackupFileIfApplicable(intent);
     }
 
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
+        log.d("onPause()");
 
         // save which items were checked and where we are in the list
         lastChecked = new HashSet<Game>();
@@ -125,6 +128,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     @Override
     public void onResume() {
         super.onResume();
+        log.d("onResume()");
 
         List<Game> games = getAllGames();
         Collections.sort(games, Game.byRecentlySaved());
@@ -317,14 +321,6 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             return;
         }
         
-        if (userRespondedToOpenBackupDialog) {
-            // user already clicked on the dialog, so don't show it again.
-            // I do this because if the screen orientation changes, I want to re-show the dialog, but
-            // ONLY if the user hasn't accepted it already.
-            return;
-        }
-        userRespondedToOpenBackupDialog = false;
-        
         log.i("Received intent: %s", intent);
         log.i("Received data: %s", intent.getData());
         
@@ -348,21 +344,14 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         DialogInterface.OnClickListener onOk = new DialogInterface.OnClickListener() {
             
             public void onClick(DialogInterface dialog, int which) {
-                userRespondedToOpenBackupDialog = true;
                 loadBackup(finalSummary);
-            }
-        };
-        DialogInterface.OnClickListener onCancel = new DialogInterface.OnClickListener() {
-            
-            public void onClick(DialogInterface dialog, int which) {
-                userRespondedToOpenBackupDialog = true;
             }
         };
         
         new AlertDialog.Builder(this)
                 .setCancelable(true)
                 .setTitle(R.string.title_choose_backup)
-                .setNegativeButton(android.R.string.cancel, onCancel)
+                .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok, onOk)
                 .setAdapter(adapter, onOk)
                 .show();

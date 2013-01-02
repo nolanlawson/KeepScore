@@ -15,8 +15,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/CONSTANT_app_name"
-            android:theme="@style/Theme.Sherlock.Light"
-            android:launchMode="singleTop" >
+            android:theme="@style/Theme.Sherlock.Light.ForceOverflow"
+            android:launchMode="singleTop" android:configChanges="keyboard|keyboardHidden|orientation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
