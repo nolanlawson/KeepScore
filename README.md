@@ -46,7 +46,6 @@ if your language is Esperanto (ISO code 'eo'), you would need to add the followi
 
 ```
 documentation/description-eo.txt              # Play Store description
-documentation/updates-eo.txt                  # Play Store "What's New" (optional - not sure I'll maintain this)
 KeepScore/res/values-eo/strings.xml           # main translations
 KeepScore/res/values-eo/dimensions.xml        # useful if Esperanto has really long words, see e.g. French
 KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About KeepScore"
@@ -83,7 +82,14 @@ You can use this table of the English, French, and Japanese translations to get 
 </table>
 
 Note that not all strings in ```strings.xml``` need to be translated.  If you look at [the English strings.xml file][6],
-you'll see that I've helpfully divided it into "non-translatable strings" and "translatable" strings.  The "non-translatable" ones are just constants, so you only have to translate the latter group.
+you'll see that I've helpfully marked constant strings with the prefix ```CONSTANT_```.  Constants do not need
+to be translated.
+
+Some translations are incomplete, because they were translated before I added new features.  A helpful tool
+for finding missing translations is the [Android Localization Helper][9].  To ignore constants while using it, you can
+run:
+
+```./bin/alh.sh /path/to/keepscore/ | grep -v CONSTANT```
 
 Please also tell me what name and email address you would like me to use in the "About" section, so I 
 can give you proper credit.  Or just fork and modify the file ```KeepScore/res/raw/translations.htm```
@@ -97,3 +103,4 @@ yourself.  Thanks!
 [6]: https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values/strings.xml
 [7]: https://github.com/blog/1327-creating-files-on-github
 [8]: http://maven.apache.org/
+[9]: https://github.com/4e6/android-localization-helper
