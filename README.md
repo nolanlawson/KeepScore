@@ -47,11 +47,14 @@ if your language is Esperanto (ISO code 'eo'), you would need to add the followi
 ```
 documentation/description-eo.txt              # Play Store description
 KeepScore/res/values-eo/strings.xml           # main translations
-KeepScore/res/values-eo/dimensions.xml        # useful if Esperanto has really long words, see e.g. French
+KeepScore/res/values-eo/dimensions.xml        # changes width of the time period overlay (e.g. "Yesterday", 
+                                              # "The Past Week") for languages with long words, e.g. French
 KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About KeepScore"
 ```
 
-You can use this table of the English, French, and Japanese translations to get an idea of what you should be doing:
+I maintain the English, French, and Japanese translations myself.
+So you can use this table
+to get an idea of what you should be doing:
 
 <table border='0'>
 <tr>
@@ -85,7 +88,7 @@ Note that not all strings in ```strings.xml``` need to be translated.  If you lo
 you'll see that I've helpfully marked constant strings with the prefix ```CONSTANT_```.  Constants do not need
 to be translated.
 
-Some translations are incomplete, because they were translated before I added new features.  A helpful tool
+Some languages (e.g. German) tend to be incomplete.  A helpful tool
 for finding missing translations is the [Android Localization Helper][9].  To ignore constants while using it, you can
 run:
 
