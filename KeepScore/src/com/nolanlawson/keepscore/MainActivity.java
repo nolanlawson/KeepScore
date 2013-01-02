@@ -105,7 +105,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
         getSupportActionBar().setHomeButtonEnabled(false);
         
-        loadBackupFileIfApplicable(getIntent());
+        loadBackupFileFromShare(getIntent());
     }
     
     @Override
@@ -113,7 +113,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         super.onNewIntent(intent);
         log.d("onNewIntent()");
         
-        loadBackupFileIfApplicable(intent);
+        loadBackupFileFromShare(intent);
     }
 
 
@@ -317,10 +317,18 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         }
     }
     
-    private void loadBackupFileIfApplicable(final Intent intent) {
+    /**
+     * if the user opened up a games-20xxxxxxxxx.xml.gz file from a file browser, open it here.
+     * @param intent
+     */
+    private void loadBackupFileFromShare(final Intent intent) {
         
-        // if the user opened up a games-20xxxxxxxxx.xml.gz file from a file browser, open it here
         if (intent == null || intent.getData() == null) {
+            return; // no intent data, so abort
+        }
+        
+        // this functionality is not supported in Eclair
+        if (VersionHelper.getVersionSdkIntCompat() < VersionHelper.VERSION_FROYO) {
             return;
         }
         
@@ -353,7 +361,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             
             public void onClick(DialogInterface dialog, int which) {
                 uriIntentsConfirmedByUser.add(intent.getDataString());
-                loadBackup(finalSummary);
+                loadBackup(finalSummary, intent.getData(), Format.XML);
             }
         };
         
@@ -590,12 +598,16 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
 
                         GamesBackupSummary summary = adapter.getItem(which);
-                        loadBackup(summary);
+                        
+                        Uri uri = Uri.fromFile(SdcardHelper.getBackupFile(summary.getFilename(), Location.Backups));
+                        Format format = summary.getFilename().endsWith(".gz") ? Format.GZIP : Format.XML;
+                        
+                        loadBackup(summary, uri, format);
                     }
                 }).show();        
     }
 
-    private void loadBackup(final GamesBackupSummary summary) {
+    private void loadBackup(final GamesBackupSummary summary, final Uri uri, final Format format) {
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle(R.string.text_loading);
@@ -608,7 +620,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
             @Override
             protected LoadGamesBackupResult doInBackground(Void... params) {
-                return loadBackupInBackground(summary.getFilename(), new Runnable() {
+                return loadBackupInBackground(uri, format, new Runnable() {
 
                     @Override
                     public void run() {
@@ -655,18 +667,14 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 .setPositiveButton(android.R.string.ok, null).show();
     }
 
-    private LoadGamesBackupResult loadBackupInBackground(String filename, Runnable onProgress) {
+    private LoadGamesBackupResult loadBackupInBackground(Uri uri, Format format, Runnable onProgress) {
 
         // use the start date as a unique identifier; it's a
         // millisecond-timestamp, so it should work
 
         GamesBackup gamesBackup;
         try {
-            Uri uri = Uri.fromFile(SdcardHelper.getBackupFile(filename, Location.Backups));
-            Format format = filename.endsWith(".gz") ? Format.GZIP : Format.XML;
-            
             String xmlData = SdcardHelper.open(uri, format, getContentResolver());
-
             gamesBackup = GamesBackupSerializer.deserialize(xmlData);
         } catch (Exception e) {
             log.e(e, "unexpected");
@@ -694,11 +702,16 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             }
         }
 
+        // this is just for the summary message we show the user
         LoadGamesBackupResult result = new LoadGamesBackupResult();
         result.setLoadedGames(loadedGames);
         result.setNumDuplicates(numDuplicates);
         result.setNumFound(numFound);
-        result.setFilename(filename);
+        
+        // Pre-version 3, we don't have the filename in the deserialized XML
+        String filenameToDisplay = gamesBackup.getFilename() != null 
+                ? gamesBackup.getFilename() : uri.getLastPathSegment();
+        result.setFilename(filenameToDisplay);
 
         return result;
     }
