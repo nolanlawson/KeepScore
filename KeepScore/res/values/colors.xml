@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Google Now-style card look -->
+    <color name="card_background">#FFe5e5e5</color>
+    <color name="card_border">#FFe5e5e5</color>
+    <color name="card_inner">#FFFFFFFF</color>
+    <color name="card_shadow">#FFd4d4d4</color>
+    <color name="card_shadow_2">#FFd8d8d8</color>
+    <color name="card_divider">#FFe5e5e5</color>
+    <color name="card_text_color">#FF434343</color>
+    
     <color name="light_blue">#CC0c6995</color>
     <color name="light_blue_2">#330c6995</color>
     <color name="light_blue_3">#770c6995</color>

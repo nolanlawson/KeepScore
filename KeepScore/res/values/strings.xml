@@ -34,6 +34,7 @@
     <string name="CONSTANT_pref_color_scheme_choice_android">android</string>
     <string name="CONSTANT_pref_color_scheme_choice_dark">dark</string>
     <string name="CONSTANT_pref_color_scheme_choice_light">light</string>
+    <string name="CONSTANT_pref_color_scheme_choice_classic_light">classic_light</string>
     <string name="CONSTANT_pref_color_scheme_default">@string/CONSTANT_pref_color_scheme_choice_light</string>
     <string name="CONSTANT_pref_green_text">green_text</string>
     <string name="CONSTANT_pref_green_text_default">false</string>
@@ -101,6 +102,7 @@
     <string name="pref_color_scheme_choice_android_name">Android</string>
     <string name="pref_color_scheme_choice_dark_name">Dark</string>
     <string name="pref_color_scheme_choice_light_name">Light</string>
+    <string name="pref_color_scheme_choice_classic_light_name">Classic Light</string>
     <string name="pref_color_scheme_name">Color Scheme</string>
     <string name="pref_green_text_name">Green Text</string>
     <string name="pref_green_text_summary">Toggle green or blue increment text.</string>

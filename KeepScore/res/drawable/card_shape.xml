@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Google Now-style card look -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item>
+	      <shape android:shape="rectangle">
+	            <solid android:color="@color/card_shadow_2" />
+	      </shape>
+	</item>
+	<item android:top="0dp" android:right="0dp" android:bottom="1dp"
+    		android:left="0dp">
+	      <shape android:shape="rectangle">
+	            <solid android:color="@color/card_shadow" />
+	      </shape>
+	</item>
+    <item android:top="0dp" android:right="0dp" android:bottom="2dp"
+    		android:left="0dp">
+	     <shape android:shape="rectangle">
+	           <solid android:color="@color/card_inner" />
+	           <corners android:radius="1dp" />
+	           <stroke android:width="1px" android:color="@color/card_border"/>
+	     </shape>
+	</item>
+
+</layer-list>

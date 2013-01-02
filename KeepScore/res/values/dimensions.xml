@@ -65,4 +65,6 @@
 	<dimen name="chart_line_width">2dp</dimen>
 	
 	<dimen name="player_score_divider">2px</dimen>
+	<dimen name="player_score_divider_margin">9dp</dimen>
+	
 </resources>
