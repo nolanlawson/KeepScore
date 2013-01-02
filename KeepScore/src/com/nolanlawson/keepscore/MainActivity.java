@@ -73,6 +73,11 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
     private static UtilLogger log = new UtilLogger(MainActivity.class);
 
+    // have to use this to ensure that the Dialog doesn't keep getting recreated,
+    // because I cannot use configChanges="orientation" like I normally would,
+    // because ActionBarSherlock doesn't support it.  Grrrrr....
+    private static Set<String> uriIntentsConfirmedByUser = new HashSet<String>();
+    
     private SeparatedListAdapter<SavedGameAdapter> adapter;
     private CustomFastScrollView fastScrollView;
     private LinearLayout buttonRow;
@@ -311,10 +316,15 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         }
     }
     
-    private void loadBackupFileIfApplicable(Intent intent) {
+    private void loadBackupFileIfApplicable(final Intent intent) {
         
         // if the user opened up a games-20xxxxxxxxx.xml.gz file from a file browser, open it here
         if (intent == null || intent.getData() == null) {
+            return;
+        }
+        
+        if (uriIntentsConfirmedByUser.contains(intent.getDataString())) {
+            // user already dismissed or confirmed the dialog; no need to show it again
             return;
         }
         
@@ -341,14 +351,22 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         DialogInterface.OnClickListener onOk = new DialogInterface.OnClickListener() {
             
             public void onClick(DialogInterface dialog, int which) {
+                uriIntentsConfirmedByUser.add(intent.getDataString());
                 loadBackup(finalSummary);
+            }
+        };
+        
+        DialogInterface.OnClickListener onCancel = new DialogInterface.OnClickListener() {
+            
+            public void onClick(DialogInterface dialog, int which) {
+                uriIntentsConfirmedByUser.add(intent.getDataString());
             }
         };
         
         new AlertDialog.Builder(this)
                 .setCancelable(true)
                 .setTitle(R.string.title_choose_backup)
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNegativeButton(android.R.string.cancel, onCancel)
                 .setPositiveButton(android.R.string.ok, onOk)
                 .setAdapter(adapter, onOk)
                 .show();
