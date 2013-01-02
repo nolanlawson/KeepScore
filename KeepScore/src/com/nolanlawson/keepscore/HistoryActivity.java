@@ -180,6 +180,8 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
 
         lineChartView.setZoomLevel(zoomValue);
         lineChartView.invalidate();
+        byChartScrollView.invalidate();
+        
         supportInvalidateOptionsMenu();
     }
 

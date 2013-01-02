@@ -96,7 +96,7 @@ public class LineChartView extends View {
 	
 	private int getItemWidth() {
 	    // varies depending on the zoom level
-	    return Math.round(itemWidth * zoomLevel);
+	    return Math.max(1, Math.round(itemWidth * zoomLevel));
 	}
 
 	private void init() {
@@ -450,8 +450,7 @@ public class LineChartView extends View {
 				+ mainChartAreaWidth;
 				
 		
-		setMeasuredDimension(expectedWidth,
-				heightMeasureSpec);
+		setMeasuredDimension(expectedWidth, heightMeasureSpec);
 	}
 	
 }

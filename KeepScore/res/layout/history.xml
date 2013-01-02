@@ -5,15 +5,16 @@
     
     <HorizontalScrollView
         android:id="@+id/by_chart_scroll_view"
-	    android:layout_width="fill_parent"
+	    android:layout_width="wrap_content"
 	    android:layout_height="fill_parent"
-	    android:padding="5dp">
+	    android:padding="5dp"
+	    android:fillViewport="true"
+	    android:isScrollContainer="true">
 	    <com.nolanlawson.keepscore.widget.chart.LineChartView    
 	        android:id="@+id/by_chart_view"
-	        android:layout_width="fill_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="fill_parent"
-	        >
-	    </com.nolanlawson.keepscore.widget.chart.LineChartView>
+	        />
     </HorizontalScrollView>
     
     <ScrollView
