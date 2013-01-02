@@ -1,11 +1,15 @@
 package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,6 +31,8 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.data.HistoryItem;
 import com.nolanlawson.keepscore.db.Game;
@@ -53,6 +59,12 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
     public static final String EXTRA_GAME = "game";
     private static final int MAX_COLUMNS_FOR_WIDE_LIST_LAYOUT = 4;
     private static final int MAX_COLUMNS_FOR_REGULAR_TALL_LIST_LAYOUT = 6;
+    
+    // valid scale values for the history item width when zooming in and out
+    private static final List<Float> ZOOM_VALUES = Arrays.asList(
+        0.1F, 0.2F, 0.3F, 0.4F, 0.5F, 0.75F, 1.0F, 1.5F, 2.0F, 2.5F, 3.0F);
+    
+    private int currentZoomValueIndex = ZOOM_VALUES.indexOf(1.0F);
 
     private HorizontalScrollView byChartScrollView;
     private ScrollView byRoundScrollView, byPlayerScrollView;
@@ -100,11 +112,75 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
     public boolean onOptionsItemSelected(MenuItem item) {
         // go back on pressing home in the action bar
         switch (item.getItemId()) {
-        case android.R.id.home:
-            finish();
-            return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.menu_zoom_in:
+                currentZoomValueIndex++;
+                changeZoom();
+                return true;
+            case R.id.menu_zoom_out:
+                currentZoomValueIndex--;
+                changeZoom();
+                return true;
         }
         return false;
+    }
+    
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.history_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        
+        // only show zoom in/zoom out if the graph is visible
+        MenuItem zoomInMenuItem = menu.findItem(R.id.menu_zoom_in);
+        MenuItem zoomOutMenuItem = menu.findItem(R.id.menu_zoom_out);
+        
+        boolean chartVisible = byChartScrollView.getVisibility() == View.VISIBLE;
+        
+        boolean atMin = currentZoomValueIndex == 0;
+        boolean atMax = currentZoomValueIndex == ZOOM_VALUES.size() - 1;
+        
+        zoomInMenuItem.setEnabled(chartVisible && !atMax);
+        zoomInMenuItem.setVisible(chartVisible);
+        zoomOutMenuItem.setEnabled(chartVisible && !atMin);
+        zoomOutMenuItem.setVisible(chartVisible);
+        
+        //
+        // set the icons to be grayed out if disabled.  It looks prettier that way.  See
+        // http://stackoverflow.com/questions/9642990/is-it-possible-to-grey-out-not-just-disable-a-menuitem-in-android
+        // for details.
+        //
+        Drawable zoomInIcon = getResources().getDrawable(R.drawable.action_zoom_in);
+        Drawable zoomOutIcon = getResources().getDrawable(R.drawable.action_zoom_out);
+        
+        if (atMin) {
+            zoomOutIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        } else if (atMax) {
+            zoomInIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        }
+        
+        zoomInMenuItem.setIcon(zoomInIcon);
+        zoomOutMenuItem.setIcon(zoomOutIcon);
+        
+        return true;
+    }
+    
+    private void changeZoom() {
+        // change the zoom on the graph, i.e. update the width of the individual history items
+        
+        float zoomValue = ZOOM_VALUES.get(currentZoomValueIndex);
+
+        lineChartView.setZoomLevel(zoomValue);
+        lineChartView.invalidate();
+        supportInvalidateOptionsMenu();
     }
 
     private void createTab(int resId, boolean selected) {
@@ -431,7 +507,6 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         switchToTab(tab);
-
     }
 
     @Override
@@ -458,6 +533,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
                 byPlayerScrollView.setVisibility(id == R.string.button_by_player ? View.VISIBLE : View.GONE);
                 byChartScrollView.setVisibility(id == R.string.button_by_chart ? View.VISIBLE : View.GONE);
                 
+                supportInvalidateOptionsMenu();
             }
         });
     }

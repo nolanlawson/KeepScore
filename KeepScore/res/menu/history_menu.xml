@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<item android:id="@+id/menu_zoom_out" android:icon="@drawable/action_zoom_out" 
+				android:showAsAction="ifRoom" />
+	
+	<item android:id="@+id/menu_zoom_in" android:icon="@drawable/action_zoom_in" 
+				android:showAsAction="ifRoom" />
+		
+</menu>

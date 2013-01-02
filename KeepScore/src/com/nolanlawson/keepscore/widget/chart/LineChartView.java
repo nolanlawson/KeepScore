@@ -61,12 +61,12 @@ public class LineChartView extends View {
 	// values taken from dimensions.xml
 	private int chartPadding;
 	private int itemWidth;
+	private float zoomLevel = 1.0F;
 	private int dotRadius;
 	private int fontSize;
 	private int lineWidth;
 	
 	
-
 	public LineChartView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init();
@@ -82,8 +82,21 @@ public class LineChartView extends View {
 		init();
 	}
 	
+	public void setZoomLevel(float zoomLevel) {
+	    this.zoomLevel = zoomLevel;
+	}
+	
+	public float getZoomLevel() {
+	    return zoomLevel;
+	}
+	
 	private int getColor(int colorId) {
 	    return getContext().getResources().getColor(colorId);
+	}
+	
+	private int getItemWidth() {
+	    // varies depending on the zoom level
+	    return Math.round(itemWidth * zoomLevel);
 	}
 
 	private void init() {
@@ -225,7 +238,7 @@ public class LineChartView extends View {
 			}
 		}
 		
-		mainChartAreaWidth =  ((maxNumDataPoints - 1) * itemWidth);
+		mainChartAreaWidth =  ((maxNumDataPoints - 1) * getItemWidth());
 	}
 	
 
@@ -371,7 +384,7 @@ public class LineChartView extends View {
 				previousDataPointX = dataPointX;
 				previousDataPointY = dataPointY;
 				first = false;
-				dataPointX += itemWidth;
+				dataPointX += getItemWidth();
 			}
 		}
 	}
@@ -387,7 +400,7 @@ public class LineChartView extends View {
 			}
 		});
 		
-		int edgeRight = offsetX + (itemWidth * (maxLineDataPoints - 1));
+		int edgeRight = offsetX + (getItemWidth() * (maxLineDataPoints - 1));
 		int edgeBottom = height + offsetY;
 		
 		// draw border lines at the top, right, bottom, and left
@@ -412,7 +425,7 @@ public class LineChartView extends View {
 		// draw vertical grid lines
 		
 		for (int i = 1; i < maxLineDataPoints - 1; i++) {
-			int x = offsetX + (i * itemWidth);
+			int x = offsetX + (i * getItemWidth());
 			canvas.drawLine(x, offsetY, x, height + offsetY, secondaryPaint);
 		}
 		
