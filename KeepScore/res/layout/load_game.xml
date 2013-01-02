@@ -16,8 +16,8 @@
             android:layout_height="0px"
             android:layout_weight="1"
             fastscroll:overlayHeight="75dp"
-            fastscroll:overlayScrollThumbWidth="60dp"
-            fastscroll:overlayTextSize="22dp"
+            fastscroll:overlayTextSize="24dp"
+            fastscroll:overlayTextColor="@color/emphasis"
             fastscroll:overlayWidth="@dimen/fast_scroll_overlay_width" >
 
             <com.nolanlawson.keepscore.widget.ExceptionCatchingListView

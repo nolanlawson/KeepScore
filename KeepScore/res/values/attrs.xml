@@ -5,7 +5,7 @@
         <attr name="overlayWidth" format="dimension" />
         <attr name="overlayHeight" format="dimension" />
         <attr name="overlayTextSize" format="dimension" />
-        <attr name="overlayScrollThumbWidth" format="dimension" />
+        <attr name="overlayTextColor" format="color" />
     </declare-styleable>
 
 </resources>

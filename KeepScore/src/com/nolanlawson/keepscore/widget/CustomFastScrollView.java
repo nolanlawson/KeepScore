@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -40,6 +41,9 @@ public class CustomFastScrollView extends FrameLayout
     // how long before the fast scroll thumb disappears
     private static final long FADE_DURATION = 200;
 	
+    private static final int THUMB_DRAWABLE = R.drawable.fastscroll_thumb_holo;
+    private static final int OVERLAY_DRAWABLE = R.drawable.popup_full_bright;
+    
     private Drawable mCurrentThumb;
     private Drawable mOverlayDrawable;
 
@@ -53,7 +57,6 @@ public class CustomFastScrollView extends FrameLayout
     private int mOverlayWidth;
     private int mOverlayHeight;
     private float mOverlayTextSize;
-    private int mOverlayScrollThumbWidth;
 
     private boolean mDragging;
     private ListView mList;
@@ -62,6 +65,7 @@ public class CustomFastScrollView extends FrameLayout
     private int mVisibleItem;
     private Paint mPaint;
     private int mListOffset;
+    private int mOverlayTextColor;
 
     private Object [] mSections;
     private String mSectionText;
@@ -95,7 +99,7 @@ public class CustomFastScrollView extends FrameLayout
 
     private void useThumbDrawable(Drawable drawable) {
         mCurrentThumb = drawable;
-        mThumbW = mOverlayScrollThumbWidth;//mCurrentThumb.getIntrinsicWidth();
+        mThumbW = mCurrentThumb.getIntrinsicWidth();
         mThumbH = mCurrentThumb.getIntrinsicHeight();
         mChangedBounds = true;
     }
@@ -112,17 +116,16 @@ public class CustomFastScrollView extends FrameLayout
                     R.styleable.CustomFastScrollView_overlayWidth, 0);
             mOverlayTextSize = typedArray.getDimensionPixelSize(
                     R.styleable.CustomFastScrollView_overlayTextSize, 0);
-            mOverlayScrollThumbWidth = typedArray.getDimensionPixelSize(
-                    R.styleable.CustomFastScrollView_overlayScrollThumbWidth, 0);
+            mOverlayTextColor = typedArray.getColor(R.styleable.CustomFastScrollView_overlayTextColor, 0);
 
         }
 
         // Get both the scrollbar states drawables
         final Resources res = context.getResources();
-        Drawable thumbDrawable = res.getDrawable(R.drawable.scrollbar_handle_accelerated_anim2);
+        Drawable thumbDrawable = res.getDrawable(THUMB_DRAWABLE);
         useThumbDrawable(thumbDrawable);
 
-        mOverlayDrawable = res.getDrawable(android.R.drawable.alert_dark_frame);
+        mOverlayDrawable = res.getDrawable(OVERLAY_DRAWABLE);
 
         mScrollCompleted = true;
         setWillNotDraw(false);
@@ -136,7 +139,7 @@ public class CustomFastScrollView extends FrameLayout
         mPaint.setAntiAlias(true);
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setTextSize(mOverlayTextSize);
-        mPaint.setColor(0xFFFFFFFF);
+        mPaint.setColor(mOverlayTextColor);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
