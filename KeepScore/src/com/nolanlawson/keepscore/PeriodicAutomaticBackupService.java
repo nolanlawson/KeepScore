@@ -9,6 +9,7 @@ import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper.Format;
+import com.nolanlawson.keepscore.helper.SdcardHelper.Location;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
 import com.nolanlawson.keepscore.serialization.GamesBackupSerializer;
 import com.nolanlawson.keepscore.util.UtilLogger;
@@ -56,7 +57,7 @@ public class PeriodicAutomaticBackupService extends IntentService {
             gamesBackup.setGames(games);
             
             String xmlData = GamesBackupSerializer.serialize(gamesBackup);
-            SdcardHelper.save(filename, Format.GZIP, xmlData);
+            SdcardHelper.save(filename, Format.GZIP, Location.Backups, xmlData);
             
             log.i("KeepScore backed up %d games to \"%s\".", games.size(), filename);
         } finally {

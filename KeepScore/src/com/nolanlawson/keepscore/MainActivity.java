@@ -57,6 +57,7 @@ import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper.Format;
+import com.nolanlawson.keepscore.helper.SdcardHelper.Location;
 import com.nolanlawson.keepscore.helper.ToastHelper;
 import com.nolanlawson.keepscore.helper.VersionHelper;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
@@ -286,7 +287,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                         // most of the time, the file cannot be read by another app unless it's
                         // on the SD card
                         // Also, we have to use XML because Gmail blocks zipped files for security.
-                        saveBackup(Format.XML, gameIds, new Callback<String>() {
+                        saveBackup(Format.XML, Location.Shares, gameIds, new Callback<String>() {
                             
                             public void onCallback(String filename) {
                                 sendAsAttachment(filename, gameIds.size());
@@ -305,7 +306,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getQuantityString(
                 R.plurals.text_share_mail_subject, gameCount, gameCount));
         intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.text_share_mail_body));
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(SdcardHelper.getBackupFile(filename)));
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(SdcardHelper.getBackupFile(filename, Location.Shares)));
         
         List<ResolveInfo> resolveInfos = getPackageManager().queryIntentActivities(intent, 0);
         
@@ -410,7 +411,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        saveBackup(Format.GZIP, gameIds, new Callback<String>() {
+                        saveBackup(Format.GZIP, Location.Backups, gameIds, new Callback<String>() {
 
                             public void onCallback(String filename) {
                                 String message = String.format(getString(gameIds.size() == 1 
@@ -430,7 +431,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
     }
 
-    private void saveBackup(final Format format, 
+    private void saveBackup(final Format format, final Location location,
             final List<Integer> gameIds, final Callback<String> onSuccessWithFilename) {
 
         if (!SdcardHelper.isAvailable()) {
@@ -479,7 +480,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 gamesBackup.setFilename(filename);
                 String xmlData = GamesBackupSerializer.serialize(gamesBackup);
 
-                return SdcardHelper.save(filename, format, xmlData);
+                return SdcardHelper.save(filename, format, location, xmlData);
             }
 
             @Override
@@ -510,7 +511,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             return;
         }
 
-        final List<String> backups = SdcardHelper.list();
+        final List<String> backups = SdcardHelper.list(Location.Backups);
         
         if (backups.isEmpty()) {
             ToastHelper.showShort(this, R.string.toast_no_backups);
@@ -533,7 +534,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
                 // fetch the summaries only, so that we don't have to read the entire XML file for each one
                 for (String backup : backups) {
-                    File file = SdcardHelper.getBackupFile(backup);
+                    File file = SdcardHelper.getBackupFile(backup, Location.Backups);
                     Uri uri = Uri.fromFile(file);
                     
                     Format format = file.getName().endsWith(".gz") ? Format.GZIP : Format.XML;
@@ -661,7 +662,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
         GamesBackup gamesBackup;
         try {
-            Uri uri = Uri.fromFile(SdcardHelper.getBackupFile(filename));
+            Uri uri = Uri.fromFile(SdcardHelper.getBackupFile(filename, Location.Backups));
             Format format = filename.endsWith(".gz") ? Format.GZIP : Format.XML;
             
             String xmlData = SdcardHelper.open(uri, format, getContentResolver());

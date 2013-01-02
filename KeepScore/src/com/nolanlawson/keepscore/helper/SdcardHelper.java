@@ -32,26 +32,69 @@ public class SdcardHelper {
     private static final int BUFFER = 0x1000; // 4K
 
     private static final String ROOT_DIR = "keepscore";
-    private static final String BACKUPS_DIR = "backups";
+    
+    /**
+     * 
+     * Format to save the backups file in.
+     * 
+     * Gzip is used to save space.
+     * 
+     * XML is used because Gmail doesn't let you open zipped files from within the app.
+     * @author nolan
+     *
+     */
+    public static enum Format {
+        XML, GZIP;
+    }
+    
+    /**
+     * 
+     * Location on the SD card under "/sdcard/keepscore" to save the backup file.
+     * 
+     * The "backups" folder is used for backups that the user saves either manually or automatically and
+     * wants to retrieve later.
+     * 
+     * The "shares" folder is just used for backup files that the user wants to send to someone else.  So in
+     * principle, it's temporary storage.
+     * 
+     * @author nolan
+     *
+     */
+    public static enum Location {
+        Backups("backups"), 
+        Shares("shares"),
+        ;
+        
+        private String directoryName;
+        
+        private Location(String directoryName) {
+            this.directoryName = directoryName;
+        }
+        
+        public String getDirectoryName() {
+            return directoryName;
+        }
+    }    
 
     private static UtilLogger log = new UtilLogger(SdcardHelper.class);
 
     public static boolean isAvailable() {
-        return Environment.getExternalStorageDirectory() != null && Environment.getExternalStorageDirectory().exists();
+        return Environment.getExternalStorageDirectory() != null 
+                && Environment.getExternalStorageDirectory().exists();
     }
 
-    public static File getBackupDir() {
+    public static File getSavedBackupDir(Location location) {
         File rootDir = getOrCreateDir(Environment.getExternalStorageDirectory(), ROOT_DIR);
-        return getOrCreateDir(rootDir, BACKUPS_DIR);
+        return getOrCreateDir(rootDir, location.getDirectoryName());
     }
-
-    public static boolean backupExists(String filename) {
-        File file = new File(getBackupDir(), filename);
+    
+    public static boolean backupExists(String filename, Location location) {
+        File file = new File(getSavedBackupDir(location), filename);
         return file.exists();
     }
 
-    public static List<String> list() {
-        return Arrays.asList(getBackupDir().list());
+    public static List<String> list(Location location) {
+        return Arrays.asList(getSavedBackupDir(location).list());
     }
 
     public static String open(Uri uri, Format format, ContentResolver contentResolver) {
@@ -90,8 +133,8 @@ public class SdcardHelper {
      * @param xmlData
      * @return
      */
-    public static boolean save(String filename, Format format, String xmlData) {
-        File newFile = new File(getBackupDir(), filename);
+    public static boolean save(String filename, Format format, Location location, String xmlData) {
+        File newFile = new File(getSavedBackupDir(location), filename);
         try {
             if (!newFile.exists()) {
                 newFile.createNewFile();
@@ -172,12 +215,7 @@ public class SdcardHelper {
         return file;
     }
 
-    public static File getBackupFile(String backup) {
-        return new File(getBackupDir(), backup);
+    public static File getBackupFile(String backup, Location location) {
+        return new File(getSavedBackupDir(location), backup);
     }
-    
-    public static enum Format {
-        XML, GZIP;
-    }
-
 }
