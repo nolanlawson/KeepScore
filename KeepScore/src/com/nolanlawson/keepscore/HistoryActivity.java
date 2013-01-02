@@ -179,6 +179,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         float zoomValue = ZOOM_VALUES.get(currentZoomValueIndex);
 
         lineChartView.setZoomLevel(zoomValue);
+        lineChartView.requestLayout();
         lineChartView.invalidate();
         byChartScrollView.invalidate();
         

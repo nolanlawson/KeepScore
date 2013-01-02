@@ -17,6 +17,7 @@ import android.view.View;
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
+import com.nolanlawson.keepscore.util.UtilLogger;
 
 /**
  * Basic View for drawing line graphs. Uses some basic color defaults.
@@ -40,6 +41,8 @@ public class LineChartView extends View {
 	private static final int MIN_INTERVAL = 5;  // round to nearest five
 	private static final List<Integer> INTERVAL_ROUNDING_POINTS = Arrays.asList(5, 10, 50, 100, 1000); // possible roundings
 
+	private static UtilLogger log = new UtilLogger(LineChartView.class);
+	
 	private Paint mainPaint;
 	private Paint secondaryPaint;
 	private Paint tertiaryPaint;
@@ -84,6 +87,7 @@ public class LineChartView extends View {
 	
 	public void setZoomLevel(float zoomLevel) {
 	    this.zoomLevel = zoomLevel;
+	    determineMainChartAreaWidth();
 	}
 	
 	public float getZoomLevel() {
@@ -239,6 +243,8 @@ public class LineChartView extends View {
 		}
 		
 		mainChartAreaWidth =  ((maxNumDataPoints - 1) * getItemWidth());
+		
+		log.d("recalculated mainChartAreaWidth to %d", mainChartAreaWidth);
 	}
 	
 
@@ -449,6 +455,7 @@ public class LineChartView extends View {
 				+ yAxisLabelWidth
 				+ mainChartAreaWidth;
 				
+		log.d("expected width is %d",expectedWidth);
 		
 		setMeasuredDimension(expectedWidth, heightMeasureSpec);
 	}
