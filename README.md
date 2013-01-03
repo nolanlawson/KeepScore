@@ -34,7 +34,7 @@ You must have Maven 3.0.3+ installed in order for this to work.
 Add a translation
 -------------------
 
-KeepScore is currently localized into English, French, Japanese, and German.  For the benefit of
+KeepScore is currently localized into English, French, Japanese, and (some) German.  For the benefit of
 board gamers around the world, though, I'm
 always happy to get new translations!
 
