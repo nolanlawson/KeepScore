@@ -31,6 +31,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -306,6 +307,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             .setIcon(R.drawable.icon)
             .setTitle(R.string.text_welcome_title)
             .setView(view)
+            .setInverseBackgroundForced(true)
             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 
                 @Override
