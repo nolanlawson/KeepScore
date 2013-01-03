@@ -39,7 +39,7 @@
         android:layout_above="@+id/onscreen_delta_buttons_stub"
         android:background="@color/light_blue_2" />
 
-    <TextView
+    <com.nolanlawson.keepscore.widget.AutoResizeTextView
         android:id="@+id/text_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         android:paddingTop="1dp"
         android:background="@drawable/generic_selector"
         android:clickable="true"
-        android:ellipsize="end"
+        android:ellipsize="none"
         android:focusable="true"
         android:gravity="center_horizontal"
         android:singleLine="true"
@@ -59,8 +59,8 @@
         android:textStyle="bold"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         />
     
     

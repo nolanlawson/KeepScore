@@ -68,8 +68,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     private Drawable borderDrawable;
 
     private View view, divider1, divider2, deltaButtonsViewStub;
-    private AutoResizeTextView scoreTextView;
-    private TextView nameTextView, historyTextView, badgeTextView;
+    private AutoResizeTextView scoreTextView, nameTextView;
+    private TextView historyTextView, badgeTextView;
     private LinearLayout badgeLinearLayout, onscreenDeltaButtonsLayout;
     private Button minusButton, plusButton, deltaButton1, deltaButton2, deltaButton3, deltaButton4;
     private Context context;
@@ -113,7 +113,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
 	divider1 = view.findViewById(R.id.player_score_divider_1);
 	divider2 = view.findViewById(R.id.player_score_divider_2);
-	nameTextView = (TextView) view.findViewById(R.id.text_name);
+	nameTextView = (AutoResizeTextView) view.findViewById(R.id.text_name);
 	scoreTextView = (AutoResizeTextView) view.findViewById(R.id.text_score);
 	scoreTextView.resizeText();
 	historyTextView = (TextView) view.findViewById(R.id.text_history);
@@ -160,7 +160,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	return view;
     }
 
-    public TextView getNameTextView() {
+    public AutoResizeTextView getNameTextView() {
 	return nameTextView;
     }
 

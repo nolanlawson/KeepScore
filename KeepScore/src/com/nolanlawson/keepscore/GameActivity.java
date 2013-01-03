@@ -665,13 +665,14 @@ public class GameActivity extends SherlockActivity {
     }
 
     private void setPlayerViewTextSizes(PlayerView playerView, PlayerTextFormat textFormat) {
-        playerView.getNameTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));
         playerView.getBadgeTextView().setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(textFormat.getBadgeTextSize()));
         playerView.getScoreTextView().setMaxTextSize(
                 getResources().getDimensionPixelSize(textFormat.getPlayerScoreTextSize()));
+        playerView.getNameTextView().setMaxTextSize(
+                getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));        
         playerView.getScoreTextView().resizeText();
+        playerView.getNameTextView().resizeText();
 
         Button plusButton = playerView.getPlusButton();
         Button minusButton = playerView.getMinusButton();

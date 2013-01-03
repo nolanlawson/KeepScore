@@ -8,7 +8,7 @@
                 android:endColor="#FF30B2E2"
                 android:startColor="#FF33B5E5" />
 
-            <corners android:radius="3dp" />
+            <corners android:radius="2dp" />
         </shape>
     </item>
 
