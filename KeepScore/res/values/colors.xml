@@ -54,6 +54,9 @@
     <color name="emphasis">#31b6e7</color>
     <color name="bg_gray">#cecbce</color>
     <color name="dark_divider">#33cccccc</color>
+    
+    <color name="holo_light_blue_1">#FF33B5E5</color>
+    
     <color name="chart_main">#FF000000</color>
     <color name="chart_secondary">#FFCCCCCC</color>
     <color name="chart_tertiary">#FF999999</color>

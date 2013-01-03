@@ -369,6 +369,7 @@ public class GameActivity extends SherlockActivity {
         rootLayout.setBackgroundColor(backgroundColor);
         for (PlayerView playerView : playerViews) {
             playerView.getNameTextView().setTextColor(playerNameColor);
+            playerView.getNameTextView().setTypeface(colorScheme.getPlayerNameTypeface());
             playerView.getScoreTextView().setTextColor(foregroundColor);
 
             playerView.setNewColorScheme(colorScheme);
@@ -670,7 +671,7 @@ public class GameActivity extends SherlockActivity {
         playerView.getScoreTextView().setMaxTextSize(
                 getResources().getDimensionPixelSize(textFormat.getPlayerScoreTextSize()));
         playerView.getNameTextView().setMaxTextSize(
-                getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));        
+                getResources().getDimensionPixelSize(textFormat.getPlayerNameTextSize()));   
         playerView.getScoreTextView().resizeText();
         playerView.getNameTextView().resizeText();
 

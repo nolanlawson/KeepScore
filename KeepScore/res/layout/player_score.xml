@@ -56,7 +56,6 @@
         android:singleLine="true"
         android:text="Fred"
         android:textSize="@dimen/player_name_2_to_4"
-        android:textStyle="bold"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
         android:paddingLeft="4dp"
