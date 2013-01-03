@@ -57,7 +57,7 @@
             android:label="@string/menu_add_edit_players" />
         <activity
             android:name=".AboutActivity"
-            android:theme="@style/Theme.Sherlock.Light.Dialog" />
+            android:theme="@style/KeepScorePopupTheme" />
 
         <service
             android:name=".PeriodicAutomaticBackupService"
