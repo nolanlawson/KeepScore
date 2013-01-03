@@ -93,6 +93,7 @@
         android:key="@string/CONSTANT_pref_reset"
         android:persistent="false"
         android:title="@string/pref_reset_name" />
+    
     <Preference
         android:key="@string/CONSTANT_pref_save_settings"
         android:persistent="false"
@@ -106,6 +107,12 @@
 
     <PreferenceCategory android:title="@string/pref_cat_about" />
 
+    <CheckBoxPreference
+        android:defaultValue="@string/CONSTANT_pref_initial_message_default"
+        android:key="@string/CONSTANT_pref_initial_message"
+        android:persistent="true"
+        android:title="@string/pref_initial_message_name" />
+    
     <Preference
         android:key="@string/CONSTANT_pref_about"
         android:persistent="false"

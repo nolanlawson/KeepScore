@@ -49,7 +49,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 
     private EditTextPreference button1Pref, button2Pref, button3Pref, button4Pref, twoPlayerButton1Pref,
             twoPlayerButton2Pref, twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref, initialScorePref;
-    private CheckBoxPreference greenTextPref, showRoundTotalsPref;
+    private CheckBoxPreference greenTextPref, showRoundTotalsPref, showInitialMessagePref;
     private Preference resetPref, aboutPref, saveSettingsPref, loadSettingsPref;
     private ListPreference colorSchemePref;
 
@@ -110,6 +110,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         twoPlayerButton4Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_2p_button_4);
         greenTextPref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_green_text);
         showRoundTotalsPref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_show_round_totals);
+        showInitialMessagePref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_initial_message);
 
         updateDelayPref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_update_delay);
         initialScorePref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_initial_score);
@@ -173,6 +174,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 
         greenTextPref.setOnPreferenceChangeListener(this);
         showRoundTotalsPref.setOnPreferenceChangeListener(this);
+        showInitialMessagePref.setOnPreferenceChangeListener(this);
     }
 
     private void resetPreferences() {

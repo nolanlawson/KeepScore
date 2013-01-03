@@ -13,6 +13,9 @@
     <string name="CONSTANT_button_7_players">7</string>
     <string name="CONSTANT_button_8_players">8</string>
     
+    <string name="CONSTANT_link_donate">http://nolanlawson.com/donate/</string>
+    <string name="CONSTANT_link_translate">https://github.com/nolanlawson/KeepScore#add-a-translation</string>
+    
     <string name="CONSTANT_pref_2p_button_1">2p_button1</string>
     <string name="CONSTANT_pref_2p_button_1_default">-10</string>
     <string name="CONSTANT_pref_2p_button_2">2p_button2</string>
@@ -38,6 +41,8 @@
     <string name="CONSTANT_pref_color_scheme_default">@string/CONSTANT_pref_color_scheme_choice_light</string>
     <string name="CONSTANT_pref_green_text">green_text</string>
     <string name="CONSTANT_pref_green_text_default">false</string>
+    <string name="CONSTANT_pref_initial_message">initial_message</string>
+    <string name="CONSTANT_pref_initial_message_default">true</string>
     <string name="CONSTANT_pref_initial_score">initial_score</string>
     <string name="CONSTANT_pref_initial_score_default">0</string>
     <string name="CONSTANT_pref_load_settings">load_settings</string>
@@ -107,12 +112,13 @@
     <string name="pref_green_text_name">Green Text</string>
     <string name="pref_green_text_summary">Toggle green or blue increment text.</string>
     <string name="pref_initial_score_name">Starting Score</string>
+    <string name="pref_initial_message_name">Show welcome message</string>
     <string name="pref_load_settings_name">Load Backup</string>
     <string name="pref_load_settings_summary">Import settings from a saved backup.</string>
-    <string name="pref_reset_name">Reset to Defaults</string>
+    <string name="pref_reset_name">Reset to defaults</string>
     <string name="pref_save_settings_name">Save Backup</string>
     <string name="pref_save_settings_summary">Save a backup of the current settings.</string>
-    <string name="pref_show_round_totals_name">Show Round Totals</string>
+    <string name="pref_show_round_totals_name">Show round totals</string>
     <string name="pref_update_delay_name">Update Delay</string>
     <string name="pref_update_delay_summary">Seconds to wait before adding a new history value (default: 10)</string>
     <string name="pref_use_wake_lock_name">Keep Screen Awake</string>
@@ -192,6 +198,13 @@ LibreOffice, or Google Docs.</string>
 \n\nTo get KeepScore, visit https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore.</string>
     
     <string name="text_undo_last">Delete Last Score</string>
+    <string name="text_welcome_title">Welcome to KeepScore!</string>
+    <string name="text_welcome_message" formatted="false"><![CDATA[
+        KeepScore is free and open-source software,
+<b>for the gamers, by the gamers</b>.
+<p/>If you like KeepScore, please consider <a href="%s">donating</a>.
+<p/>Can\'t donate? <a href="%s">Help us translate</a>!]]></string>
+    
     <string name="text_version_number">Version %s</string>
     
     <string name="title_add">Add Value</string>

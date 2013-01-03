@@ -18,6 +18,7 @@ import java.util.TreeMap;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,9 +26,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -39,6 +43,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -106,6 +111,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         getSupportActionBar().setHomeButtonEnabled(false);
         
         loadBackupFileFromShare(getIntent());
+        
+        showInitialMessage();
     }
     
     @Override
@@ -272,6 +279,44 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             break;
         }
         return false;
+    }
+    
+    public void showInitialMessage() {
+        // displays a welcome message for the user to learn a little about KeepScore before
+        // they pound the OK button to dismiss it
+        
+        if (!PreferenceHelper.getBooleanPreference(R.string.CONSTANT_pref_initial_message, 
+                R.string.CONSTANT_pref_initial_message_default, this)) {
+            return;
+        }
+        
+        View view = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.welcome_message, null, false);
+
+        String html = String.format(getString(R.string.text_welcome_message),
+                getString(R.string.CONSTANT_link_donate),
+                getString(R.string.CONSTANT_link_translate));
+        
+        TextView textView = (TextView) view.findViewById(android.R.id.text1);
+        textView.setText(Html.fromHtml(html));
+        textView.setMovementMethod(LinkMovementMethod.getInstance()); // enable hyperlinks
+        
+        new AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setIcon(R.drawable.icon)
+            .setTitle(R.string.text_welcome_title)
+            .setView(view)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    PreferenceHelper.setBooleanPreference(
+                            R.string.CONSTANT_pref_initial_message, false, MainActivity.this);
+                }
+            })
+            .show();
+        
+        
     }
 
     private void showShareDialog(final List<Integer> gameIds) {

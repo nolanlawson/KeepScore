@@ -80,6 +80,12 @@ public class PreferenceHelper {
 		}
 		return cachedGreenTextPref;
 	}
+	public static void setBooleanPreference(int resId, boolean value, Context context) {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            Editor editor = sharedPrefs.edit();
+            editor.putBoolean(context.getString(resId), value);
+            editor.commit();
+        }
 	
 	public static void setBooleanPreference(int resId, int valueResId, Context context) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);

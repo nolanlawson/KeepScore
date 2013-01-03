@@ -52,6 +52,7 @@
     <string name="pref_green_text_name">緑のテクスト</string>
     <string name="pref_green_text_summary">緑か青のテクストを選択します。</string>
     <string name="pref_initial_score_name">最初の点</string>
+    <string name="pref_initial_message_name">歓迎メッセージ表示</string>
     <string name="pref_load_settings_name">バックアップをロード</string>
     <string name="pref_load_settings_summary">バックアップの設定をロードします。</string>
     <string name="pref_reset_name">デフォルトにリセット</string>
@@ -131,6 +132,12 @@
 \n\nKeepScoreをダウンロードするために、ここにクリックしてください：　\
 https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore.</string>
     <string name="text_undo_last">最後の点を削除</string>
+    <string name="text_welcome_title">KeepScoreにようこそ！</string>
+    <string name="text_welcome_message" formatted="false"><![CDATA[
+        KeepScoreは無料でオーペンソースなソフト。
+<b>ゲーマーで、ゲーマーのために作りました</b>。
+<p/>KeepScoreが気に入ったら、<a href="%s">寄進する可能性があります</a>。
+<p/>そして寄進できなかったら、<a href="%s">翻訳を直してくれませんか？</a>]]></string>
     <string name="text_version_number">バージョン%s</string>
     
     <string name="title_add">増加</string>

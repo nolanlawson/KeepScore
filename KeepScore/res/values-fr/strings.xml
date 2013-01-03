@@ -52,6 +52,7 @@
     <string name="pref_green_text_name">Chiffres en vert</string>
     <string name="pref_green_text_summary">Afficher le texte d\'incrémentation en vert (défaut : bleu).</string>
     <string name="pref_initial_score_name">Score initial</string>
+    <string name="pref_initial_message_name">Afficher le message d\'acceuil</string>
     <string name="pref_load_settings_name">Charger une sauvegarde</string>
     <string name="pref_load_settings_summary">Charger les paramètres d\'une sauvegarde.</string>
     <string name="pref_reset_name">Réinitialiser les paramètres</string>
@@ -137,6 +138,12 @@ LibreOffice, ou Google Docs.</string>
 \n\nPour télécharger KeepScore, veuillez aller sur \
 https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore.</string>
     <string name="text_undo_last">Supprimer la dernière entrée</string>
+    <string name="text_welcome_title">Bienvenue sur KeepScore!</string>
+    <string name="text_welcome_message" formatted="false"><![CDATA[
+        KeepScore est gratuit et open-source,
+<b>pour les joueurs, par les joueurs</b>.
+<p/>Si KeepScore vous plaît, veuillez penser à <a href="%s">faire un don</a>.
+<p/>Fauché(e)? <a href="%s">Aidez-nous à traduire</a>!]]></string>
     <string name="text_version_number">Version %s</string>
     
     <string name="title_add">Additionner</string>
