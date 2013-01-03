@@ -15,7 +15,7 @@
 
     <style name="simpleHoloLightMenuItemTextView" parent="Widget.Sherlock.Light.ActionBar.TabText" />
 
-    <!-- Holo Light style button -->
+    <!-- Holo Light style buttons, image buttons, and check boxes -->
     <style name="ButtonAppTheme" parent="android:Widget.Button">
         <item name="android:background">@drawable/btn_default_holo_light</item>
         <item name="android:minHeight">48dip</item>
@@ -26,16 +26,22 @@
     <style name="ImageButtonAppTheme" parent="android:Widget.ImageButton">
 	    <item name="android:background">@drawable/btn_default_holo_light</item>
     </style>
-
+    
+    <style name="CheckBoxAppTheme" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/btn_check_holo_light</item>
+    </style>
+  
     <style name="KeepScorePopupTheme" parent="@style/Theme.Sherlock.Light.Dialog">
         <item name="android:buttonStyle">@style/ButtonAppTheme</item>
         <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
+        <item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
 	</style>
     
     <style name="KeepScoreMainTheme" parent="Theme.Sherlock.Light">
 
         <item name="android:buttonStyle">@style/ButtonAppTheme</item>
         <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
+        <item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
 
   </style>
 

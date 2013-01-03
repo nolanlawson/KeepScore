@@ -31,7 +31,6 @@
         
     <CheckBox android:id="@android:id/checkbox" android:layout_width="28dp"
         android:layout_height="fill_parent" android:layout_alignParentRight="true"
-        android:button="@drawable/btn_check"
         android:focusable="false"
         android:layout_centerVertical="true"
         />

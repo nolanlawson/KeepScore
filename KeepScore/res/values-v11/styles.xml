@@ -2,7 +2,7 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Holo Light style button -->
+    <!-- Holo Light style buttons, image buttons, and check boxes -->
     <style name="ButtonAppTheme" parent="android:Widget.Holo.Light.Button">
         <item name="android:background">@drawable/btn_default_holo_light</item>
     </style>
@@ -14,6 +14,7 @@
     <style name="KeepScoreMainTheme" parent="Theme.Sherlock.Light">
         <item name="android:buttonStyle">@style/ButtonAppTheme</item>
         <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light</item>
     </style>
 
 </resources>
