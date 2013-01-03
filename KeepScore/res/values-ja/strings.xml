@@ -18,6 +18,7 @@
     <string name="menu_about">KeepScoreについて</string>
     <string name="menu_add_edit_players">選手エディと</string>
     <string name="menu_add_player">新しい選手</string>
+    <string name="menu_export_to_spreadsheet">表計算エクスポート</string>
     <string name="menu_history">歴史</string>
     <string name="menu_home">ホーム</string>
     <string name="menu_load_backup">インポート</string>
@@ -46,6 +47,7 @@
     <string name="pref_color_scheme_choice_android_name">アンドロイド</string>
     <string name="pref_color_scheme_choice_dark_name">暗い</string>
     <string name="pref_color_scheme_choice_light_name">明るい</string>
+    <string name="pref_color_scheme_choice_classic_light_name">「クラシック」な明るい</string>
     <string name="pref_color_scheme_name">配色</string>
     <string name="pref_green_text_name">緑のテクスト</string>
     <string name="pref_green_text_summary">緑か青のテクストを選択します。</string>
@@ -101,6 +103,22 @@
     <string formatted="false" name="text_save_backup_succeeded_plural">@string/text_save_backup_succeeded</string>
     <string name="text_saved_games">保存したゲーム</string>
     <string name="text_saving">バックアップ…</string>
+    <plurals name="text_share_spreadsheet_confirm">
+        <item quantity="other">表計算として%dのゲームをエクスポートしますか？</item>
+    </plurals>
+    <plurals name="text_share_spreadsheet_subject">
+        <item quantity="other">表計算：%dのKeepScoreのゲーム</item>
+    </plurals>
+    <string name="text_share_spreadsheet_body">このメールにKeepScoreのCSVフォーマットの表計算が添付されます。\
+\n\nこのファイルはどの表計算ソフト（例えばExcelやLibreOfficeやGoogle Docs）で開けられることができます。</string>
+    <string name="text_share_spreadsheet_date_started">始めた</string>
+    <string name="text_share_spreadsheet_date_modified">アップデートした時</string>
+    <string name="text_share_spreadsheet_duration">時期</string>
+    <string name="text_share_spreadsheet_game_name">ゲームの名</string>
+    <string name="text_share_spreadsheet_num_rounds">ラウンドの数</string>
+    <string name="text_share_spreadsheet_num_players">選手の数</string>
+    <string name="text_share_spreadsheet_player_with_max">最高な点を持っている選手</string>
+    <string name="text_share_spreadsheet_player_with_min">最低な点を持っている選手</string>
     <plurals name="text_share_with_friend">
         <item quantity="other">%dのゲームを友達に送ります？</item>
     </plurals>

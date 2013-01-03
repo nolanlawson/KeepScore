@@ -18,6 +18,7 @@
     <string name="menu_about">A propos</string>
     <string name="menu_add_edit_players">Modifier les joueurs</string>
     <string name="menu_add_player">Ajouter un joueur</string>
+    <string name="menu_export_to_spreadsheet">Exporter comme tableau</string>
     <string name="menu_history">Historique</string>
     <string name="menu_home">Accueil</string>
     <string name="menu_load_backup">Importer</string>
@@ -46,6 +47,7 @@
     <string name="pref_color_scheme_choice_android_name">Vert Android</string>
     <string name="pref_color_scheme_choice_dark_name">Noir</string>
     <string name="pref_color_scheme_choice_light_name">Blanc</string>
+    <string name="pref_color_scheme_choice_classic_light_name">Blanc \"classique\"</string>
     <string name="pref_color_scheme_name">Thème d\'affichage</string>
     <string name="pref_green_text_name">Chiffres en vert</string>
     <string name="pref_green_text_summary">Afficher le texte d\'incrémentation en vert (défaut : bleu).</string>
@@ -101,6 +103,25 @@ Doublets: %d</string>
     <string formatted="false" name="text_save_backup_succeeded_plural">%d jeux sauvegardés à \'%s\'.</string>
     <string name="text_saved_games">Parties sauvegardées</string>
     <string name="text_saving">Exportation…</string>
+    <plurals name="text_share_spreadsheet_confirm">
+        <item quantity="one">Voulez-vous exporter cette partie comme un tableau?</item>
+        <item quantity="other">Voulez-vous exporter ces %d parties comme un tableau?</item>
+    </plurals>
+    <plurals name="text_share_spreadsheet_subject">
+        <item quantity="one">Un tableau avec une partie KeepScore</item>
+        <item quantity="other">Un tableau avec %d parties KeepScore</item>
+    </plurals>
+    <string name="text_share_spreadsheet_body">Veuillez trouver joint un tableau KeepScore en format CSV.\
+\n\nVous pouvez ouvrir ce fichier avec n\'importe quel logiciel de tableau, par exemple Excel, \
+LibreOffice, ou Google Docs.</string>
+    <string name="text_share_spreadsheet_date_started">Date de début</string>
+    <string name="text_share_spreadsheet_date_modified">Date de dernière modification</string>
+    <string name="text_share_spreadsheet_duration">Durée de la partie</string>
+    <string name="text_share_spreadsheet_game_name">Nom de la partie</string>
+    <string name="text_share_spreadsheet_num_rounds">Nombre de tours</string>
+    <string name="text_share_spreadsheet_num_players">Nombre de joueurs</string>
+    <string name="text_share_spreadsheet_player_with_max">Joueur(s) avec le plus de points</string>
+    <string name="text_share_spreadsheet_player_with_min">Joueur(s) avec le moins de points)</string>
     <plurals name="text_share_with_friend">
         <item quantity="one">Voulez-vous partagez cette partie avec un(e) ami(e)?</item>
         <item quantity="other">Voulez-vous partagez %d parties avec un(e) ami(e)?</item>
