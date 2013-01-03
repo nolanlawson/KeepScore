@@ -15,19 +15,23 @@ public enum ColorScheme {
 
     Light(
             R.color.card_background, R.color.card_text_color, R.color.blue_1, R.color.green,
-            R.color.red, R.drawable.btn_default_holo_light, R.color.card_divider, R.drawable.card_shape),
+            R.color.red, R.drawable.btn_default_holo_light, R.color.card_divider, R.drawable.card_shape,
+            R.drawable.bubbly_background_1, android.R.color.primary_text_dark_nodisable),
     Dark(
             android.R.color.background_dark, android.R.color.secondary_text_dark_nodisable, R.color.blue_4,
             R.color.green_4, R.color.red_4, R.drawable.btn_default_transparent, R.color.light_blue_3,
-            R.drawable.blue_border_shape_no_gradient),
+            R.drawable.blue_border_shape_no_gradient, android.R.color.transparent,
+            android.R.color.secondary_text_dark_nodisable),
     Android(
             R.color.android_color,
             android.R.color.primary_text_light_nodisable, R.color.blue_5, R.color.green_5, R.color.red,
-            android.R.drawable.btn_default, R.color.light_blue_2, R.drawable.blue_border_shape_no_gradient),
+            android.R.drawable.btn_default, R.color.light_blue_2, R.drawable.blue_border_shape_no_gradient,
+            android.R.color.transparent, android.R.color.primary_text_light_nodisable),
     ClassicLight(
             android.R.color.background_light, android.R.color.primary_text_light_nodisable, R.color.blue_1,
             R.color.green, R.color.red, android.R.drawable.btn_default, R.color.light_blue_2,
-            R.drawable.blue_border_shape_with_gradient),	
+            R.drawable.blue_border_shape_with_gradient, android.R.color.transparent,
+            android.R.color.primary_text_light_nodisable),	
 	;
 	
     private int backgroundColorResId;
@@ -38,10 +42,13 @@ public enum ColorScheme {
     private int buttonBackgroundDrawableResId;
     private int dividerColorResId;
     private int borderDrawableResId;
+    private int playerNameBackgroundDrawableResId;
+    private int playerNameTextColorResId;
 
     private ColorScheme(int backgroundColorResId, int foregroundColorResId, int positiveColorResId,
             int greenPositiveColorResId, int negativeColorResId, int buttonBackgroundDrawableResId,
-            int dividerColorResId, int borderDrawableResId) {
+            int dividerColorResId, int borderDrawableResId, int playerNameBackgroundDrawableResId,
+            int playerNameTextColorResId) {
         this.backgroundColorResId = backgroundColorResId;
         this.foregroundColorResId = foregroundColorResId;
         this.positiveColorResId = positiveColorResId;
@@ -50,8 +57,18 @@ public enum ColorScheme {
         this.buttonBackgroundDrawableResId = buttonBackgroundDrawableResId;
         this.dividerColorResId = dividerColorResId;
         this.borderDrawableResId = borderDrawableResId;
+        this.playerNameBackgroundDrawableResId = playerNameBackgroundDrawableResId;
+        this.playerNameTextColorResId = playerNameTextColorResId;
     }
 
+    public int getPlayerNameTextColorResId() {
+        return playerNameTextColorResId;
+    }
+    
+    public int getPlayerNameBackgroundDrawableResId() {
+        return playerNameBackgroundDrawableResId;
+    }
+    
     public int getGreenPositiveColorResId() {
         return greenPositiveColorResId;
     }

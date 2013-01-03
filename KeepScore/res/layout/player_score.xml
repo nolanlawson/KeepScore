@@ -44,7 +44,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/player_score_divider_1"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/layout_minus"
+        android:layout_toLeftOf="@+id/layout_plus"
         android:paddingTop="1dp"
         android:background="@drawable/generic_selector"
         android:clickable="true"
@@ -54,7 +56,12 @@
         android:singleLine="true"
         android:text="Fred"
         android:textSize="@dimen/player_name_2_to_4"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        />
     
     
     <LinearLayout android:id="@+id/layout_minus"

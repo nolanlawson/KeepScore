@@ -131,8 +131,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	minusButton.setOnLongClickListener(this);
 	plusButton.setOnClickListener(this);
 	plusButton.setOnLongClickListener(this);
-	nameTextView.setOnClickListener(this);
-	nameTextView.setOnLongClickListener(this);
 	historyTextView.setOnClickListener(this);
 	historyTextView.setOnLongClickListener(this);
 	badgeLinearLayout.setOnClickListener(this);
@@ -231,7 +229,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	case R.id.button_plus:
 	    increment(1);
 	    break;
-	case R.id.text_name:
 	case R.id.text_history:
 	    // do nothing - just let it flash the background, so that the user
 	    // knows this text view is long-clickable
@@ -553,9 +550,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	case R.id.button_minus:
 	    showAdditionalDeltasPopup(false);
 	    return true;
-	case R.id.text_name:
-	    showChangeNameDialog();
-	    return true;
 	case R.id.text_history:
 	    return showHistoryContextDialog();
 	}
@@ -633,21 +627,6 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	lastIncremented.set(0); // reset lastIncremented
 	shouldAutosave.set(true);
 	updateViews();
-    }
-
-    private void showChangeNameDialog() {
-
-	DialogHelper.showPlayerNameDialog(context, R.string.title_change_name, playerScore.getName(),
-		playerScore.getPlayerNumber(), new Callback<String>() {
-
-		    @Override
-		    public void onCallback(String newName) {
-
-			playerScore.setName(newName.trim());
-			updateViews();
-			shouldAutosave.set(true);
-		    }
-		});
     }
 
     private void showAdditionalDeltasPopup(final boolean positive) {

@@ -364,10 +364,11 @@ public class GameActivity extends SherlockActivity {
         int foregroundColor = getResources().getColor(colorScheme.getForegroundColorResId());
         int backgroundColor = getResources().getColor(colorScheme.getBackgroundColorResId());
         int dividerColor = getResources().getColor(colorScheme.getDividerColorResId());
+        int playerNameColor = getResources().getColor(colorScheme.getPlayerNameTextColorResId());
 
         rootLayout.setBackgroundColor(backgroundColor);
         for (PlayerView playerView : playerViews) {
-            playerView.getNameTextView().setTextColor(foregroundColor);
+            playerView.getNameTextView().setTextColor(playerNameColor);
             playerView.getScoreTextView().setTextColor(foregroundColor);
 
             playerView.setNewColorScheme(colorScheme);
@@ -376,6 +377,8 @@ public class GameActivity extends SherlockActivity {
             if (playerView.getDivider2() != null) {
                 playerView.getDivider2().setBackgroundColor(dividerColor);
             }
+            
+            playerView.getNameTextView().setBackgroundResource(colorScheme.getPlayerNameBackgroundDrawableResId());
 
             for (Button button : new Button[] { playerView.getPlusButton(), playerView.getMinusButton(),
                     playerView.getDeltaButton1(), playerView.getDeltaButton2(), playerView.getDeltaButton3(),
