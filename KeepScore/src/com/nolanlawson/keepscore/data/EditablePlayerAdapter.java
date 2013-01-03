@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.OrganizePlayersActivity;
@@ -76,7 +76,7 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 		textView2
 				.setText('#' + Integer.toString(playerScore.getPlayerNumber() + 1));
 		// add listener to the delete button
-		Button deleteButton = (Button) view
+		ImageButton deleteButton = (ImageButton) view
 				.findViewById(R.id.button_delete_player);
 		deleteButton.setOnClickListener(new OnClickListener() {
 
@@ -95,7 +95,7 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements
 		// user is not allowed to delete the final 2 users
 		deleteButton
 				.setEnabled(getCount() > OrganizePlayersActivity.MIN_NUM_PLAYERS);
-		Button editButton = (Button) view.findViewById(R.id.button_edit_player);
+		ImageButton editButton = (ImageButton) view.findViewById(R.id.button_edit_player);
 		editButton.setOnClickListener(new OnClickListener() {
 
 			@Override

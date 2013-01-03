@@ -9,22 +9,22 @@
     android:background="@drawable/editable_player_background"
     >
     
-    <Button
+    <ImageButton
         android:id="@+id/button_delete_player"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_menu_delete"
+        android:src="@drawable/ic_menu_delete"
         android:focusable="false"
         android:clickable="true"
         />
     
-    <Button
+    <ImageButton
         android:id="@+id/button_edit_player"
         android:layout_toLeftOf="@+id/button_delete_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_menu_edit"
+        android:src="@drawable/ic_menu_edit"
         android:focusable="false"
         android:clickable="true"
         />
