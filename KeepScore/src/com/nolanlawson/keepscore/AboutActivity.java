@@ -64,6 +64,7 @@ public class AboutActivity extends Activity implements OnClickListener {
 	public void initializeWebView() {
 		
 		String text = loadTextFile(R.raw.version_and_credits) 
+		                + loadTextFile(R.raw.third_party_credits)
 				+ loadTextFile(R.raw.translations)
 				+ loadTextFile(R.raw.changelog);
 		text = String.format(text, PackageHelper.getVersionName(this));

@@ -63,7 +63,7 @@
 			android:gravity="center_horizontal" android:paddingTop="10dp">
 			<Button android:text="@android:string/ok" android:id="@+id/okButton"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:minWidth="100dp" />
+				android:minWidth="150dp" />
 		</LinearLayout>
 	</LinearLayout>
 
