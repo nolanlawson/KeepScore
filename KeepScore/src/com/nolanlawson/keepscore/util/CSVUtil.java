@@ -21,6 +21,11 @@ public class CSVUtil {
         }
     };
     
+    /**
+     * Convert a list of values into a valid CSV line.
+     * @param values
+     * @return
+     */
     public static String convertToLine(List<String> values) {
         return TextUtils.join(",", CollectionUtil.transform(values, CONVERT_VALUE)) + "\r\n";
     }
