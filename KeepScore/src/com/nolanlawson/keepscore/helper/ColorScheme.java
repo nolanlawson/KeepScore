@@ -17,7 +17,7 @@ public enum ColorScheme {
     Light(
             R.color.card_background, R.color.card_text_color, R.color.blue_1, R.color.green,
             R.color.red, R.drawable.btn_default_holo_light, R.color.card_divider, R.drawable.card_shape,
-            R.drawable.bubbly_background_1, android.R.color.primary_text_dark_nodisable,
+            android.R.color.transparent, R.color.card_text_color,
             Typeface.DEFAULT),
     Dark(
             android.R.color.background_dark, android.R.color.secondary_text_dark_nodisable, R.color.blue_4,

@@ -71,6 +71,7 @@
         android:layout_below="@+id/text_name"
         android:layout_above="@+id/onscreen_delta_buttons_stub"
         android:paddingLeft="3dp"
+        android:paddingBottom="2dp"
         >
         
 	    <Button
@@ -91,6 +92,7 @@
         android:layout_above="@+id/onscreen_delta_buttons_stub"
         android:layout_toLeftOf="@+id/player_score_divider_1"
         android:paddingRight="3dp"
+        android:paddingBottom="2dp"
         >
 	    <Button
 	        android:id="@+id/button_plus"
