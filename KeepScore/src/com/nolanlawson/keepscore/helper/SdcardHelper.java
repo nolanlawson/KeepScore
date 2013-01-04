@@ -36,11 +36,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
-import au.com.bytecode.opencsv.CSVWriter;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.util.CSVUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.Functions;
@@ -182,17 +182,17 @@ public class SdcardHelper {
         
         File file = new File(getDirectory(Location.Spreadsheets), filename);
         
-        CSVWriter writer = null;
+        BufferedWriter writer = null;
         try {
-            writer = new CSVWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), 
-                    "UTF-8")), ',');
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), 
+                    "UTF-8"));
             
             // write the column names
             List<String> columnNames = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(
                     R.array.share_spreadsheet_column_names)));
 
             columnNames.addAll(playerNames);
-            writer.writeNext(columnNames.toArray(new String[columnNames.size()]));
+            writer.write(CSVUtil.convertToLine(columnNames));
             
             // write each game as a line in the CSV
             for (Game game : sortedGames) {
@@ -241,8 +241,7 @@ public class SdcardHelper {
                     Long score = playerScoreLookup.get(playerName);
                     entries.add(score != null ? Long.toString(score) : null);
                 }
-                
-                writer.writeNext(entries.toArray(new String[entries.size()]));
+                writer.write(CSVUtil.convertToLine(entries));
             }
         } catch (IOException e) {
             log.e(e, "unexpected error");
