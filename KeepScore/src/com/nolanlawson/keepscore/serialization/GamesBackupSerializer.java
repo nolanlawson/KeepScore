@@ -36,13 +36,34 @@ import com.nolanlawson.keepscore.util.UtilLogger;
  */
 public class GamesBackupSerializer {
 
-    private static UtilLogger log = new UtilLogger(GamesBackupSerializer.class);
-
+    /** Version without "automatic" - i.e., everything was manual */
+    public static final int VERSION_ONE = 1;
+    
+    /** Version where "automatic" was added, to distinguish automatic backups from manual backups */
+    public static final int VERSION_TWO = 2;
+    
+    /** 
+     * Version where "backupFilename" was added, for cases where the filename could not easily be determined
+     * (e.g. from Gmail attachments)
+     */
+    public static final int VERSION_THREE = 3;
+    
+    /**
+     * Version where the lastUpdate was added.
+     */
+    public static final int VERSION_FOUR = 4;
+    
+    public static final int CURRENT_VERSION = VERSION_FOUR;
+    
     private static final String ATTRIBUTE_NULL = "isNull";
     private static final String ATTRIBUTE_EMPTY = "isEmpty";
 
+    private static UtilLogger log = new UtilLogger(GamesBackupSerializer.class);
+    
     private static enum Tag {
-        PlayerScore, Game, GamesBackup, gameCount, version, automatic, backupFilename, dateGameSaved, dateBackupSaved, dateGameStarted, gameName, playerName, score, playerNumber, history, Games, PlayerScores;
+        PlayerScore, Game, GamesBackup, gameCount, version, automatic, backupFilename, dateGameSaved, 
+        dateBackupSaved, dateGameStarted, gameName, playerName, score, playerNumber, history, lastUpdate, 
+        Games, PlayerScores;
     }
 
     /**
@@ -93,12 +114,12 @@ public class GamesBackupSerializer {
                                 case version:
                                     result.setVersion(Integer.parseInt(text));
                                     infoReceived++;
-                                    if (result.getVersion() < GamesBackup.VERSION_TWO) {
+                                    if (result.getVersion() < VERSION_TWO) {
                                         // no automatic vs. manual distinction in version one
                                         result.setAutomatic(false);
                                         infoReceived++;
                                     }
-                                    if (result.getVersion() < GamesBackup.VERSION_THREE) {                         
+                                    if (result.getVersion() < VERSION_THREE) {                         
                                         // filename not stored in XML file itself until version three
                                         result.setFilename(uri.getLastPathSegment());
                                         infoReceived++;
@@ -215,43 +236,46 @@ public class GamesBackupSerializer {
             Game game, PlayerScore playerScore) {
 
         switch (tag) {
-        case gameCount:
-            gamesBackup.setGameCount(Integer.parseInt(text));
-            break;
-        case backupFilename:
-            gamesBackup.setFilename(text);
-            break;
-        case version:
-            gamesBackup.setVersion(Integer.parseInt(text));
-            break;
-        case automatic:
-            gamesBackup.setAutomatic(Boolean.parseBoolean(text));
-            break;            
-        case dateBackupSaved:
-            gamesBackup.setDateSaved(Long.parseLong(text));
-            break;
-        case dateGameSaved:
-            game.setDateSaved(Long.parseLong(text));
-            break;
-        case dateGameStarted:
-            game.setDateStarted(Long.parseLong(text));
-            break;
-        case gameName:
-            game.setName(getTextOrNullOrEmpty(attributes, text));
-            break;
-        case playerName:
-            playerScore.setName(getTextOrNullOrEmpty(attributes, text));
-            break;
-        case playerNumber:
-            playerScore.setPlayerNumber(Integer.parseInt(text));
-            break;
-        case history:
-            playerScore.setHistory(CollectionUtil.stringsToInts(StringUtil.split(
-                    getTextOrNullOrEmpty(attributes, text), ',')));
-            break;
-        case score:
-            playerScore.setScore(Long.parseLong(text));
-            break;
+            case gameCount:
+                gamesBackup.setGameCount(Integer.parseInt(text));
+                break;
+            case backupFilename:
+                gamesBackup.setFilename(text);
+                break;
+            case version:
+                gamesBackup.setVersion(Integer.parseInt(text));
+                break;
+            case automatic:
+                gamesBackup.setAutomatic(Boolean.parseBoolean(text));
+                break;            
+            case dateBackupSaved:
+                gamesBackup.setDateSaved(Long.parseLong(text));
+                break;
+            case dateGameSaved:
+                game.setDateSaved(Long.parseLong(text));
+                break;
+            case dateGameStarted:
+                game.setDateStarted(Long.parseLong(text));
+                break;
+            case gameName:
+                game.setName(getTextOrNullOrEmpty(attributes, text));
+                break;
+            case playerName:
+                playerScore.setName(getTextOrNullOrEmpty(attributes, text));
+                break;
+            case playerNumber:
+                playerScore.setPlayerNumber(Integer.parseInt(text));
+                break;
+            case history:
+                playerScore.setHistory(CollectionUtil.stringsToInts(StringUtil.split(
+                        getTextOrNullOrEmpty(attributes, text), ',')));
+                break;
+            case score:
+                playerScore.setScore(Long.parseLong(text));
+                break;
+            case lastUpdate:
+                playerScore.setLastUpdate(Long.parseLong(text));
+                break;
         }
 
     }
@@ -300,6 +324,7 @@ public class GamesBackupSerializer {
                     addTag(serializer, Tag.score, playerScore.getScore());
                     addTag(serializer, Tag.playerNumber, playerScore.getPlayerNumber());
                     addTag(serializer, Tag.history, TextUtils.join(",", playerScore.getHistory()));
+                    addTag(serializer, Tag.lastUpdate, Long.toString(playerScore.getLastUpdate()));
 
                     serializer.endTag("", Tag.PlayerScore.name());
                 }

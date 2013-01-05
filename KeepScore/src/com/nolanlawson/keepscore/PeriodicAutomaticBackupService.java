@@ -49,7 +49,7 @@ public class PeriodicAutomaticBackupService extends IntentService {
             
             GamesBackup gamesBackup = new GamesBackup();
             
-            gamesBackup.setVersion(GamesBackup.CURRENT_BACKUP_VERSION);
+            gamesBackup.setVersion(GamesBackupSerializer.CURRENT_VERSION);
             gamesBackup.setDateSaved(System.currentTimeMillis());
             gamesBackup.setGameCount(games.size());
             gamesBackup.setAutomatic(true);

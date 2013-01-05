@@ -31,7 +31,6 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -584,7 +583,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 }
 
                 GamesBackup gamesBackup = new GamesBackup();
-                gamesBackup.setVersion(GamesBackup.CURRENT_BACKUP_VERSION);
+                gamesBackup.setVersion(GamesBackupSerializer.CURRENT_VERSION);
                 gamesBackup.setDateSaved(System.currentTimeMillis());
                 gamesBackup.setAutomatic(false);
                 gamesBackup.setGameCount(games.size());

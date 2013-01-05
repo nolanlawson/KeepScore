@@ -11,21 +11,6 @@ import com.nolanlawson.keepscore.db.Game;
  * 
  */
 public class GamesBackup {
-
-    /** Version without "automatic" - i.e., everything was manual */
-    public static final int VERSION_ONE = 1;
-    
-    /** Version where "automatic" was added, to distinguish automatic backups from manual backups */
-    public static final int VERSION_TWO = 2;
-    
-    /** 
-     * Version where "backupFilename" was added, for cases where the filename could not easily be determined
-     * (e.g. from Gmail attachments)
-     */
-    public static final int VERSION_THREE = 3;
-    
-    /** current version number; may change with time */
-    public static final int CURRENT_BACKUP_VERSION = VERSION_THREE;
     
     private int gameCount;
     private int version;
