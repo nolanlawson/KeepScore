@@ -16,8 +16,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -644,33 +642,17 @@ public class GameActivity extends SherlockActivity {
             }
         }
         
-        if (maxLastUpdateIdx != -1) {
-            log.d("updating highlighted player score to idx %s", maxLastUpdateIdx);
-            // if none of the player scores are above 0, then this is a game from an older version
-            // of KeepScore where we didn't track the lastUpdate, so we don't highlight anything
+        log.d("updating highlighted player score to idx %s", maxLastUpdateIdx);
+        // if none of the player scores are above 0, then this is a game from an older version
+        // of KeepScore where we didn't track the lastUpdate, so we don't highlight anything
+        
+        for (int i = 0; i < playerViews.size(); i++) {
+            PlayerView playerView = playerViews.get(i);
+            boolean highlighted = (i == maxLastUpdateIdx);
             
-            ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
-            
-            for (int i = 0; i < playerViews.size(); i++) {
-                PlayerView playerView = playerViews.get(i);
-                boolean highlighted = (i == maxLastUpdateIdx);
-                
-                // highlight or un-highlight
-                /*playerView.getNameTextView().setBackgroundResource(highlighted 
-                        ? colorScheme.getHighlightedPlayerNameBackgroundDrawableResId() 
-                        : android.R.color.transparent);
-                playerView.getNameTextView().setTextColor(getResources().getColor(highlighted
-                        ? colorScheme.getHighlightedPlayerNameTextColorResId()
-                        : colorScheme.getForegroundColorResId()));*/
-                TextView nameTextView = playerView.getNameTextView();
-                
-                int height = nameTextView.getHeight() 
-                        - nameTextView.getCompoundPaddingBottom() 
-                        - nameTextView.getCompoundPaddingTop();
-                
-                ImageView tagImageView = playerView.getTagImageView();
-                tagImageView.setVisibility(highlighted ? View.VISIBLE : View.GONE);
-            }
+            // highlight or un-highlight by showing or hiding the bullet
+            ImageView tagImageView = playerView.getTagImageView();
+            tagImageView.setVisibility(highlighted ? View.VISIBLE : View.INVISIBLE);
         }
     }
     
