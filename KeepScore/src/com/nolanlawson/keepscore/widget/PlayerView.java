@@ -24,6 +24,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -66,7 +67,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     private int negativeTextColor;
     private int borderDrawableResId;
     private Drawable borderDrawable;
-
+    
+    private ImageView tagImageView;
     private View view, divider1, divider2, deltaButtonsViewStub;
     private AutoResizeTextView scoreTextView, nameTextView;
     private TextView historyTextView, badgeTextView;
@@ -111,6 +113,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 	deltaButtonsViewStub.setVisibility(showOnscreenDeltaButtons ? View.VISIBLE : View.GONE);
 	onscreenDeltaButtonsLayout = (LinearLayout) view.findViewById(R.id.onscreen_delta_buttons_table_layout);
 
+	tagImageView = (ImageView) view.findViewById(R.id.image_name_tag);
 	divider1 = view.findViewById(R.id.player_score_divider_1);
 	divider2 = view.findViewById(R.id.player_score_divider_2);
 	nameTextView = (AutoResizeTextView) view.findViewById(R.id.text_name);
@@ -151,7 +154,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     public LinearLayout getOnscreenDeltaButtonsLayout() {
 	return onscreenDeltaButtonsLayout;
     }
-
+    public ImageView getTagImageView() {
+        return tagImageView;
+    }
+    
     public View getDeltaButtonsViewStub() {
 	return deltaButtonsViewStub;
     }
@@ -694,10 +700,13 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 		public void run() {
 		    updateViews();
 
+		    playerScore.setLastUpdate(System.currentTimeMillis());
+		    
 		    // this runnable updates the round total, if there is one
 		    if (onChangeListener != null) {
 			onChangeListener.run();
 		    }
+		    
 		}
 	    };
 	}

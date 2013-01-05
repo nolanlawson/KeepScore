@@ -16,6 +16,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewStub;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -171,6 +174,8 @@ public class GameActivity extends SherlockActivity {
         updateRoundTotalViewText();
 
         setOrUpdateColorScheme();
+        
+        updateHighlightedPlayer();
 
         setPlayerViewTextSizes();
 
@@ -364,11 +369,10 @@ public class GameActivity extends SherlockActivity {
         int foregroundColor = getResources().getColor(colorScheme.getForegroundColorResId());
         int backgroundColor = getResources().getColor(colorScheme.getBackgroundColorResId());
         int dividerColor = getResources().getColor(colorScheme.getDividerColorResId());
-        int playerNameColor = getResources().getColor(colorScheme.getPlayerNameTextColorResId());
-
+        
         rootLayout.setBackgroundColor(backgroundColor);
         for (PlayerView playerView : playerViews) {
-            playerView.getNameTextView().setTextColor(playerNameColor);
+            playerView.getNameTextView().setTextColor(foregroundColor);
             playerView.getNameTextView().setTypeface(colorScheme.getPlayerNameTypeface());
             playerView.getScoreTextView().setTextColor(foregroundColor);
 
@@ -379,8 +383,6 @@ public class GameActivity extends SherlockActivity {
                 playerView.getDivider2().setBackgroundColor(dividerColor);
             }
             
-            playerView.getNameTextView().setBackgroundResource(colorScheme.getPlayerNameBackgroundDrawableResId());
-
             for (Button button : new Button[] { playerView.getPlusButton(), playerView.getMinusButton(),
                     playerView.getDeltaButton1(), playerView.getDeltaButton2(), playerView.getDeltaButton3(),
                     playerView.getDeltaButton4(), }) {
@@ -595,6 +597,7 @@ public class GameActivity extends SherlockActivity {
                 @Override
                 public void run() {
                     updateRoundTotalViewText();
+                    updateHighlightedPlayer();
                 }
             });
 
@@ -622,6 +625,55 @@ public class GameActivity extends SherlockActivity {
         }
     }
 
+    private void updateHighlightedPlayer() {
+        // highlight the most recently changed player.  This helps with round-based games
+        // (where it's important to know that each player's round has been tallied)
+        // or games where the scoring has to happen in a particular order (e.g. Cribbage)
+        
+        long maxLastUpdate = 0;
+        int maxLastUpdateIdx = -1;
+        
+        for (int i = 0; i < playerScores.size(); i++) {
+            PlayerScore playerScore = playerScores.get(i);
+            
+            log.i("playerScore lastUpdate is %s", playerScore.getLastUpdate());
+            
+            if (playerScore.getLastUpdate() > maxLastUpdate) {
+                maxLastUpdate = playerScore.getLastUpdate();
+                maxLastUpdateIdx = i;
+            }
+        }
+        
+        if (maxLastUpdateIdx != -1) {
+            log.d("updating highlighted player score to idx %s", maxLastUpdateIdx);
+            // if none of the player scores are above 0, then this is a game from an older version
+            // of KeepScore where we didn't track the lastUpdate, so we don't highlight anything
+            
+            ColorScheme colorScheme = PreferenceHelper.getColorScheme(this);
+            
+            for (int i = 0; i < playerViews.size(); i++) {
+                PlayerView playerView = playerViews.get(i);
+                boolean highlighted = (i == maxLastUpdateIdx);
+                
+                // highlight or un-highlight
+                /*playerView.getNameTextView().setBackgroundResource(highlighted 
+                        ? colorScheme.getHighlightedPlayerNameBackgroundDrawableResId() 
+                        : android.R.color.transparent);
+                playerView.getNameTextView().setTextColor(getResources().getColor(highlighted
+                        ? colorScheme.getHighlightedPlayerNameTextColorResId()
+                        : colorScheme.getForegroundColorResId()));*/
+                TextView nameTextView = playerView.getNameTextView();
+                
+                int height = nameTextView.getHeight() 
+                        - nameTextView.getCompoundPaddingBottom() 
+                        - nameTextView.getCompoundPaddingTop();
+                
+                ImageView tagImageView = playerView.getTagImageView();
+                tagImageView.setVisibility(highlighted ? View.VISIBLE : View.GONE);
+            }
+        }
+    }
+    
     private void updateRoundTotalViewText() {
 
         boolean showRoundTotal = PreferenceHelper.getShowRoundTotals(this);
