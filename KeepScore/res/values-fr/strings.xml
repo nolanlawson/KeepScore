@@ -141,7 +141,7 @@ https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore.</string
     <string name="text_welcome_title">Bienvenue sur KeepScore!</string>
     <string name="text_welcome_message" formatted="false"><![CDATA[
         KeepScore est gratuit et open-source,
-<b>pour les joueurs, par les joueurs</b>.
+<b>par les joueurs, pour les joueurs</b>.
 <p/>Si KeepScore vous plaît, veuillez penser à <a href="%s">faire un don</a>.
 <p/>Fauché(e)? <a href="%s">Aidez-nous à traduire</a>!]]></string>
     <string name="text_version_number">Version %s</string>

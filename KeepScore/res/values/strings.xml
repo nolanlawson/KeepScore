@@ -201,7 +201,7 @@ LibreOffice, or Google Docs.</string>
     <string name="text_welcome_title">Welcome to KeepScore!</string>
     <string name="text_welcome_message" formatted="false"><![CDATA[
         KeepScore is free and open-source software,
-<b>for the gamers, by the gamers</b>.
+<b>by the gamers, for the gamers</b>.
 <p/>If you like KeepScore, please consider <a href="%s">donating</a>.
 <p/>Can\'t donate? <a href="%s">Help us translate</a>!]]></string>
     
