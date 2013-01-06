@@ -49,6 +49,8 @@
     <string name="pref_color_scheme_choice_light_name">明るい</string>
     <string name="pref_color_scheme_choice_classic_light_name">「クラシック」な明るい</string>
     <string name="pref_color_scheme_name">配色</string>
+    <string name="pref_disable_highlight_tag_name">「箇条書き」を隠す</string>
+    <string name="pref_disable_highlight_tag_summary">最終アップデートされた選手を指す「箇条書き」のようなアイコンを隠す。</string>
     <string name="pref_green_text_name">緑のテクスト</string>
     <string name="pref_green_text_summary">緑か青のテクストを選択します。</string>
     <string name="pref_initial_score_name">最初の点</string>

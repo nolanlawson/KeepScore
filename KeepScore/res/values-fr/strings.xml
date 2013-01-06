@@ -47,8 +47,10 @@
     <string name="pref_color_scheme_choice_android_name">Vert Android</string>
     <string name="pref_color_scheme_choice_dark_name">Noir</string>
     <string name="pref_color_scheme_choice_light_name">Blanc</string>
-    <string name="pref_color_scheme_choice_classic_light_name">Blanc \"classique\"</string>
+    <string name="pref_color_scheme_choice_classic_light_name">Blanc «classique»</string>
     <string name="pref_color_scheme_name">Thème d\'affichage</string>
+    <string name="pref_disable_highlight_tag_name">Désactiver la puce</string>
+    <string name="pref_disable_highlight_tag_summary">Désactiver l\'icône «puce» qui indique le dernier joueur modifié.</string>
     <string name="pref_green_text_name">Chiffres en vert</string>
     <string name="pref_green_text_summary">Afficher le texte d\'incrémentation en vert (défaut : bleu).</string>
     <string name="pref_initial_score_name">Score initial</string>
