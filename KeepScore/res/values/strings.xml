@@ -68,9 +68,7 @@
     <string name="button_by_round">By Round</string>
     <string name="button_customize">Customize…</string>
     <string name="button_deselect_all">Deselect All</string>
-    <string name="button_load_game">Load Game</string>
     <string name="button_new_game">New Game</string>
-    <string name="button_resume_game">Resume Last Game</string>
     <string name="button_select_all">Select All</string>
     
     <string name="date_format">MMM dd hh:mmaa</string>

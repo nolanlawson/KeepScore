@@ -6,9 +6,7 @@
     <string name="button_by_round">Pro Spielrunde</string>
     <string name="button_customize">Einstellungen personalisieren…</string>
     <string name="button_deselect_all">Auswahl löschen</string>
-    <string name="button_load_game">Spiel laden</string>
     <string name="button_new_game">Neues Spiel</string>
-    <string name="button_resume_game">Letztes Spiel fortsetzen</string>
     <string name="button_select_all">Alle wählen</string>
     
     <string name="date_format">dd MMM HH\'h\'mm</string>

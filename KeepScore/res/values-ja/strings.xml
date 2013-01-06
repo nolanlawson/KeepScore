@@ -6,9 +6,7 @@
     <string name="button_by_round">ラウンドで</string>
     <string name="button_customize">カスタマイズ…</string>
     <string name="button_deselect_all">全て解除</string>
-    <string name="button_load_game">保存したゲーム</string>
     <string name="button_new_game">新しいゲーム</string>
-    <string name="button_resume_game">最後のゲームを続ける</string>
     <string name="button_select_all">全て選択</string>
     
     <string name="date_format">M月dd日　aahh:mm</string>

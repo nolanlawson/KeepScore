@@ -6,9 +6,7 @@
     <string name="button_by_round">Par tour</string>
     <string name="button_customize">Personnaliser…</string>
     <string name="button_deselect_all">Tout désélectionner</string>
-    <string name="button_load_game">Parties sauvegardées</string>
-    <string name="button_new_game">Nouveau jeu</string>
-    <string name="button_resume_game">Jeu en cours</string>
+    <string name="button_new_game">Nouvelle partie</string>
     <string name="button_select_all">Tout sélectionner</string>
     
     <string name="date_format">dd MMM HH\'h\'mm</string>
