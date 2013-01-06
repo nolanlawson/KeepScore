@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
@@ -53,7 +53,7 @@ public class TextWithDeleteAdapter extends ArrayAdapter<String> {
 
 		textView.setText(textItem);
 		// add listener to the delete button
-		Button button = (Button) view.findViewById(android.R.id.button1);
+		ImageButton button = (ImageButton) view.findViewById(android.R.id.button1);
 		button.setOnClickListener(new OnClickListener() {
 			
 			@Override
