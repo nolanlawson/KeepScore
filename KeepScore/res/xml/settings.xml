@@ -22,6 +22,12 @@
         android:key="@string/CONSTANT_pref_show_round_totals"
         android:persistent="true"
         android:title="@string/pref_show_round_totals_name" />
+	<CheckBoxPreference
+	        android:defaultValue="@string/CONSTANT_pref_disable_highlight_tag_default"
+	        android:key="@string/CONSTANT_pref_disable_highlight_tag"
+	        android:persistent="true"
+	        android:summary="@string/pref_disable_highlight_tag_summary"
+	        android:title="@string/pref_disable_highlight_tag_name" />
 
     <PreferenceCategory android:title="@string/pref_cat_config" />
 

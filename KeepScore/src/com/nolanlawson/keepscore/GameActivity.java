@@ -646,9 +646,13 @@ public class GameActivity extends SherlockActivity {
         // if none of the player scores are above 0, then this is a game from an older version
         // of KeepScore where we didn't track the lastUpdate, so we don't highlight anything
         
+        boolean disableTagIcon = PreferenceHelper.getBooleanPreference(
+                R.string.CONSTANT_pref_disable_highlight_tag, 
+                R.string.CONSTANT_pref_disable_highlight_tag_default, this);
+        
         for (int i = 0; i < playerViews.size(); i++) {
             PlayerView playerView = playerViews.get(i);
-            boolean highlighted = (i == maxLastUpdateIdx);
+            boolean highlighted = (!disableTagIcon && (i == maxLastUpdateIdx));
             
             // highlight or un-highlight by showing or hiding the bullet
             ImageView tagImageView = playerView.getTagImageView();
