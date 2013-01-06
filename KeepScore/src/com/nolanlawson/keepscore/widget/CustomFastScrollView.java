@@ -6,8 +6,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -43,6 +43,10 @@ public class CustomFastScrollView extends FrameLayout
 	
     private static final int THUMB_DRAWABLE = R.drawable.fastscroll_thumb_holo;
     private static final int OVERLAY_DRAWABLE = R.drawable.popup_full_bright;
+    private static final int THUMB_DRAWABLE_PRESSED = R.drawable.fastscroll_thumb_pressed_holo;
+    
+    private static final int[] STATE_PRESSED = new int[] {android.R.attr.state_pressed};
+    private static final int[] STATE_UNPRESSED = new int[]{};
     
     private Drawable mCurrentThumb;
     private Drawable mOverlayDrawable;
@@ -122,7 +126,13 @@ public class CustomFastScrollView extends FrameLayout
 
         // Get both the scrollbar states drawables
         final Resources res = context.getResources();
-        Drawable thumbDrawable = res.getDrawable(THUMB_DRAWABLE);
+        StateListDrawable thumbDrawable = new StateListDrawable();
+        //This for pressed true 
+        thumbDrawable.addState(STATE_PRESSED,
+                res.getDrawable(THUMB_DRAWABLE_PRESSED));
+        //This for pressed false
+        thumbDrawable.addState(STATE_UNPRESSED,
+                res.getDrawable(THUMB_DRAWABLE));
         useThumbDrawable(thumbDrawable);
 
         mOverlayDrawable = res.getDrawable(OVERLAY_DRAWABLE);
@@ -179,6 +189,7 @@ public class CustomFastScrollView extends FrameLayout
 
         // If user is dragging the scroll bar, draw the alphabet overlay
         if (mDragging && mDrawOverlay) {
+            mCurrentThumb.setState(STATE_PRESSED);
             mOverlayDrawable.draw(canvas);
             final Paint paint = mPaint;
             float descent = paint.descent();
@@ -186,9 +197,11 @@ public class CustomFastScrollView extends FrameLayout
             canvas.drawText(mSectionText, (int) (rectF.left + rectF.right) / 2,
                     (int) (rectF.bottom + rectF.top) / 2 + descent, paint);
         } else if (alpha == 0) {
+            mCurrentThumb.setState(STATE_UNPRESSED);
             scrollFade.mStarted = false;
             removeThumb();
         } else {
+            mCurrentThumb.setState(STATE_UNPRESSED);
             invalidate(viewWidth - mThumbW, y, viewWidth, y + mThumbH);            
         }
     }
@@ -209,11 +222,13 @@ public class CustomFastScrollView extends FrameLayout
     }
 
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+        /*if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+            mCurrentThumb.setState(STATE_UNPRESSED);
+        }*/
     }
 
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, 
             int totalItemCount) {
-
 
         if (totalItemCount - visibleItemCount > 0 && !mDragging) {
             mThumbY = ((getHeight() - mThumbH) * firstVisibleItem) / (totalItemCount - visibleItemCount);
