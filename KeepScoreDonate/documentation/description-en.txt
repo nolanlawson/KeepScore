@@ -1,0 +1,7 @@
+This is just an add-on for KeepScore.  You must have the original app installed.
+
+All this app does is add a special message to the "About" section of KeepScore, and give you a warm, fuzzy feeling in your chest.
+
+Thank you for donating!  You can also chip in using PayPal:
+
+http://nolanlawson.com/donate/

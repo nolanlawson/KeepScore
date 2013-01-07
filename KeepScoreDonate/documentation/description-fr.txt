@@ -1,0 +1,7 @@
+Ceci n'est qu'un add-on pour KeepScore.  Vous devez également installer l'appli originale.
+
+This is just an add-on for KeepScore.  You must have the original app installed.
+
+All this app does is add a special message to the "About" section of KeepScore, and give you a warm, fuzzy feeling in your chest.
+
+Thank you for donating!
