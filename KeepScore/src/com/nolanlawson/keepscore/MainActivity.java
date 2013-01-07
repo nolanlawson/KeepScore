@@ -313,11 +313,39 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 public void onClick(DialogInterface dialog, int which) {
                     PreferenceHelper.setBooleanPreference(
                             R.string.CONSTANT_pref_initial_message, false, MainActivity.this);
+                    
+                    showLoadBackupDialogIfEmpty();
                 }
             })
             .show();
         
         
+    }
+    
+    /**
+     * If the user has 0 saved games and there are backups on the SD card, then most likely
+     * they would like to import those automatically backed-up games.
+     */
+    private void showLoadBackupDialogIfEmpty() {
+        
+        if (adapter.getCount() == 0 
+                && SdcardHelper.isAvailable()
+                && !SdcardHelper.list(Location.Backups).isEmpty()) {
+            
+            new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle(R.string.menu_load_backup)
+                .setMessage(R.string.text_restore_initial)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showLoadBackupDialog();
+                    }
+                })
+                .show();
+        }
     }
 
     private void showShareDialog(final List<Integer> gameIds) {

@@ -161,6 +161,7 @@ Duplicates: %d</string>
     <string name="text_player_names">Player names (optional)</string>
     <string name="text_players">%s players</string>
     <string name="text_reset_confirm">All settings will be reset.</string>
+    <string name="text_restore_initial">You seem to have existing KeepScore games. Restore from a backup?</string>
     <string formatted="false" name="text_round_total">Round #%d Total: %d</string>
     <string formatted="false" name="text_save_backup">Backup %d game to the SD card?</string>
     <string formatted="false" name="text_save_backup_plural">Backup %d games to the SD card?</string>

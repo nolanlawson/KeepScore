@@ -98,6 +98,7 @@
     <string name="text_player_names">選手の名 （随意）</string>
     <string name="text_players">選手%s人</string>
     <string name="text_reset_confirm">全部の設定はリセットします。</string>
+    <string name="text_restore_initial">KeepScoreのゲームはもうあるらしいです。バックアップをインポートしましょうか？</string>
     <string formatted="false" name="text_round_total">ロウンド%dのトータル：%d</string>
     <string formatted="false" name="text_save_backup">ゲームをSDカードに%dバックアップしますか？</string>
     <string formatted="false" name="text_save_backup_plural">@string/text_save_backup</string>

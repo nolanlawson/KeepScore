@@ -98,6 +98,7 @@ Doublets: %d</string>
     <string name="text_player_names">Noms des joueurs (optionnel)</string>
     <string name="text_players">%s joueurs</string>
     <string name="text_reset_confirm">Tous les paramètres seront réinitialisés.</string>
+    <string name="text_restore_initial">Il semble que vous avez déjà des parties KeepScore. Voulez-vous importer depuis un backup? </string>
     <string formatted="false" name="text_round_total">Tour #%d (%d points marqués)</string>
     <string formatted="false" name="text_save_backup">Exporter %d jeu à la carte SD?</string>
     <string formatted="false" name="text_save_backup_plural">Exporter %d jeux à la carte SD?</string>
