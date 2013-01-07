@@ -76,6 +76,7 @@
     <string name="text_copy">Copier</string>
     <string name="text_delete">Supprimer</string>
     <string name="text_delete_saved_settings">La sauvegarde \&quot;%s\&quot; sera supprimée.</string>
+    <string name="text_donate_message">Merci pour le don! Vous êtes de la balle!</string>
     <string name="text_edit_name">Editer le nom</string>
     <string name="text_enter_saved_settings_name">Entrer un nom, e.g. \'carcassonne\'</string>
     <string name="text_format_rounds">%d tours</string>

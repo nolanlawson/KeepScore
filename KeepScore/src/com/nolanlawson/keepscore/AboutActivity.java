@@ -63,13 +63,18 @@ public class AboutActivity extends Activity implements OnClickListener {
 	
 	public void initializeWebView() {
 		
-		String text = loadTextFile(R.raw.version_and_credits) 
+		String html = loadTextFile(R.raw.version_and_credits) 
 		                + loadTextFile(R.raw.third_party_credits)
 				+ loadTextFile(R.raw.translations)
 				+ loadTextFile(R.raw.changelog);
-		text = String.format(text, PackageHelper.getVersionName(this));
+		boolean donateInstalled = PackageHelper.isDonateVersionInstalled(this);
+		html = String.format(html, 
+		        PackageHelper.getVersionName(this),
+		        donateInstalled ? getString(R.string.CONSTANT_text_donate_suffix) : "",
+		        donateInstalled ? ("<p/>" + getString(R.string.text_donate_message)) : ""
+		        );
 		
-		aboutWebView.loadDataWithBaseURL(null, text, "text/html", "utf-8", null);
+		aboutWebView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
 	}
 
 

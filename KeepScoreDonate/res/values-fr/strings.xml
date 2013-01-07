@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="thanks_title">Vous êtes de la balle</string>
+    <string name="install_free_text">\
+Merci pour votre don!\n\n\
+KeepScore Donate n\'est qu\'un «add-on» pour KeepScore, \
+donc vous devez également installer l\'appli originale.\n\n\
+Merci encore! &#9786;</string>
+    <string name="thanks">\
+Merci pour votre don!\n\n\
+Pendant qu\'il est installé, KeepScore Donate ajoute un \
+message spécial à la section «A propos» de KeepScore.\n\n\
+Cette icône va disparaître après le prochain redémarrage.\n\n\
+Merci encore! &#9786;</string>
+</resources>

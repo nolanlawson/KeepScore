@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="thanks_title">あなたは最高です</string>
+    <string name="install_free_text">\
+寄進はありがとうございます！\n\n\
+KeepScore DonateはKeepScoreの「add-on」だけです。だから基本のアプリのインストールも必要です.\n\n\
+もう一度ありがとうございます！ &#9786;</string>
+    <string name="thanks">\
+寄進はありがとうございます！\n\n\
+インストールの限り、KeepScore Donateは\
+KeepScoreの「KeepScoreについて」のページにスペシャルなメセージを付けています。\n\n\
+このアイコンは次のリスタートの後でなくなります。\n\n\
+もう一度ありがとうございます！ &#9786;</string>
+</resources>

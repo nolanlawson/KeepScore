@@ -13,7 +13,7 @@
     <string name="CONSTANT_button_7_players">7</string>
     <string name="CONSTANT_button_8_players">8</string>
     
-    <string name="CONSTANT_link_donate">http://nolanlawson.com/donate/</string>
+    <string name="CONSTANT_link_donate">market://details?id=com.nolanlawson.keepscore.donate</string>
     <string name="CONSTANT_link_translate">https://github.com/nolanlawson/KeepScore#add-a-translation</string>
     
     <string name="CONSTANT_pref_2p_button_1">2p_button1</string>
@@ -58,6 +58,7 @@
     <string name="CONSTANT_pref_use_wake_lock">use_wake_lock</string>
     <string name="CONSTANT_pref_use_wake_lock_default">true</string>
     
+    <string name="CONSTANT_text_donate_suffix">(Donate)</string>
     <string name="CONSTANT_text_epsilon">Σ</string>
     
     <!-- translateable strings-->
@@ -138,6 +139,7 @@
     <string name="text_copy">Copy</string>
     <string name="text_delete">Delete</string>
     <string name="text_delete_saved_settings">The backup \&quot;%s\&quot; will be deleted.</string>
+    <string name="text_donate_message">Thank you so much for donating! You are awesome!</string>
     <string name="text_edit_name">Edit Name</string>
     <string name="text_enter_saved_settings_name">Enter name, e.g. \'cribbage\'</string>
     <string name="text_format_rounds">%d Rounds</string>

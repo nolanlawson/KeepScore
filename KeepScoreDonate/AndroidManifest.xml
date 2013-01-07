@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.nolanlawson.keepscore.donate"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <application android:icon="@drawable/icon" android:label="@string/app_name"
+        android:theme="@android:style/Theme.Light">
+
+		<activity android:name="com.nolanlawson.keepscore.donate.InstallFree" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<receiver android:name="com.nolanlawson.keepscore.donate.Receiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<action android:name="android.intent.action.DATE_CHANGED" />
+				<action android:name="android.intent.action.PACKAGE_ADDED" />
+				<action android:name="ACTION_PACKAGE_REMOVED" />
+			</intent-filter>
+		</receiver>
+    </application>
+    
+    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="10"/>
+
+</manifest> 

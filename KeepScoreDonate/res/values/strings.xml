@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">KeepScore Donate</string>
+	<string name="thanks_title">You are awesome</string>
+    <string name="install_free_text">\
+Thank you for donating!\n\n\
+KeepScore Donate is just an add-on to KeepScore, \
+so you must install the original app as well.\n\n\
+Thanks again! &#9786;</string>
+    <string name="thanks">\
+Thank you for donating!\n\n\
+While installed, KeepScore Donate adds a special message to the \"About\" section of KeepScore.\n\n\
+This app icon will remove itself the next time you reboot.\n\n\
+Thanks again! &#9786;</string>
+</resources>

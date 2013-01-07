@@ -76,6 +76,7 @@
     <string name="text_copy">複写</string>
     <string name="text_delete">削除</string>
     <string name="text_delete_saved_settings">「%s」のバックアップは削除されます.</string>
+    <string name="text_donate_message">寄進はありがとうございます！あなたは最高です！</string>
     <string name="text_edit_name">名をエディット</string>
     <string name="text_enter_saved_settings_name">名を入力、たとえ\'カタン\'</string>
     <string name="text_format_rounds">%dラウンド</string>
