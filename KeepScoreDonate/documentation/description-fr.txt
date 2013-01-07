@@ -1,7 +1,7 @@
 Ceci n'est qu'un add-on pour KeepScore.  Vous devez également installer l'appli originale.
 
-This is just an add-on for KeepScore.  You must have the original app installed.
+Tout ce que fait cette appli c'est ajouter un message spécial dans la page "About" de KeepScore.  Et peut-être aussi vous faire chaud au coeur.  :)
 
-All this app does is add a special message to the "About" section of KeepScore, and give you a warm, fuzzy feeling in your chest.
+Merci pour le don!  Vous pouvez aussi faire don via PayPal:
 
-Thank you for donating!
+http://nolanlawson.com/donate/
