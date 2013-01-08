@@ -6565,9 +6565,6 @@ com.nolanlawson.keepscore.util.Pair -> com.nolanlawson.keepscore.d.u:
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
 com.nolanlawson.keepscore.util.StopWatch -> com.nolanlawson.keepscore.d.v:
-    long startTime -> a
-    java.lang.String name -> b
-    void log(com.nolanlawson.keepscore.util.UtilLogger) -> a
 com.nolanlawson.keepscore.util.StringUtil -> com.nolanlawson.keepscore.d.w:
     boolean isEmptyOrWhitespace(java.lang.String) -> a
     java.util.List split$41012029(java.lang.String) -> b
@@ -6579,8 +6576,6 @@ com.nolanlawson.keepscore.util.UtilLogger -> com.nolanlawson.keepscore.d.x:
     java.lang.String tag -> a
     void i(java.lang.String,java.lang.Object[]) -> a
     void e(java.lang.Exception,java.lang.String,java.lang.Object[]) -> a
-    void d(java.lang.String,java.lang.Object[]) -> b
-    void d(java.lang.Exception,java.lang.String,java.lang.Object[]) -> b
 com.nolanlawson.keepscore.widget.AutoResizeTextView -> com.nolanlawson.keepscore.widget.AutoResizeTextView:
     com.nolanlawson.keepscore.util.UtilLogger log -> a
     float maxTextSize -> b
