@@ -23,137 +23,135 @@ import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
 public class AboutActivity extends Activity implements OnClickListener {
-	
-	private static UtilLogger log = new UtilLogger(AboutActivity.class);
-	
-	private Button okButton;
-	private WebView aboutWebView;
-	private ProgressBar progressBar;
-	private Handler handler = new Handler();
-	private View topPanel;
-	
-	
-	public void onCreate(Bundle savedInstanceState) {
-		
-		super.onCreate(savedInstanceState);
-	
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.about);
 
-		topPanel = findViewById(R.id.topPanel);
-		topPanel.setVisibility(View.GONE);
-		okButton = (Button) findViewById(R.id.okButton);
-		okButton.setOnClickListener(this);
-		okButton.setVisibility(View.GONE);
-				
-		aboutWebView = (WebView) findViewById(R.id.aboutTextWebView);
+    private static UtilLogger log = new UtilLogger(AboutActivity.class);
 
-		aboutWebView.setVisibility(View.GONE);
-		aboutWebView.getSettings().setDefaultTextEncodingName("utf-8");
-		
-		progressBar = (ProgressBar) findViewById(R.id.aboutProgressBar);
+    private Button okButton;
+    private WebView aboutWebView;
+    private ProgressBar progressBar;
+    private Handler handler = new Handler();
+    private View topPanel;
 
-		aboutWebView.setBackgroundColor(0);
-		
-		aboutWebView.setWebViewClient(new AboutWebClient());
-		
-		initializeWebView();				
-	}
-	
-	
-	public void initializeWebView() {
-		
-		String html = loadTextFile(R.raw.version_and_credits) 
-		                + loadTextFile(R.raw.third_party_credits)
-				+ loadTextFile(R.raw.translations)
-				+ loadTextFile(R.raw.changelog);
-		boolean donateInstalled = PackageHelper.isDonateVersionInstalled(this);
-		html = String.format(html, 
-		        PackageHelper.getVersionName(this),
-		        donateInstalled ? getString(R.string.CONSTANT_text_donate_suffix) : "",
-		        donateInstalled ? ("<p/>" + getString(R.string.text_donate_message)) : "",
-		        getString(R.string.html_third_party),
-		        getString(R.string.html_translations)
-		        );
-		
-		aboutWebView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
-	}
+    public void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.about);
 
+        topPanel = findViewById(R.id.topPanel);
+        topPanel.setVisibility(View.GONE);
+        okButton = (Button) findViewById(R.id.okButton);
+        okButton.setOnClickListener(this);
+        okButton.setVisibility(View.GONE);
 
-	private String loadTextFile(int resourceId) {
-		
-		InputStream is = getResources().openRawResource(resourceId);
-		
-		BufferedReader buff = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
-		
-		try {
-			while (buff.ready()) {
-				sb.append(buff.readLine()).append("\n");
-			}
-		} catch (IOException e) {
-			Log.e("AboutActivity","This should not happen",e);
-		}
-		
-		return sb.toString();
-		
-	}
-	
-	private void loadExternalUrl(String url) {
-		Intent intent = new Intent();
-		intent.setAction("android.intent.action.VIEW"); 
-		intent.setData(Uri.parse(url));
-		
-		startActivity(intent);
-	}
+        aboutWebView = (WebView) findViewById(R.id.aboutTextWebView);
 
-	@Override
-	public void onClick(View v) {
-		finish();
-	}
+        aboutWebView.setVisibility(View.GONE);
+        aboutWebView.getSettings().setDefaultTextEncodingName("utf-8");
 
-	private class AboutWebClient extends WebViewClient {
+        progressBar = (ProgressBar) findViewById(R.id.aboutProgressBar);
 
-		
+        aboutWebView.setBackgroundColor(0);
 
-		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, final String url) {
-			log.d("shouldOverrideUrlLoading");
-			
-			// XXX hack to make the webview go to an external url if the hyperlink is 
-			// in my own HTML file - otherwise it says "Page not available" because I'm not calling
-			// loadDataWithBaseURL.  But if I call loadDataWithBaseUrl using a fake URL, then
-			// the links within the page itself don't work!!  Arggggh!!!
-			
-			if (url.startsWith("http") || url.startsWith("mailto") || url.startsWith("market")) {
-				handler.post(new Runnable() {
-					@Override
-					public void run() {
-						loadExternalUrl(url);
-					}
-				});
-				return true;
-			}		
-			return false;
-		}
+        aboutWebView.setWebViewClient(new AboutWebClient());
 
+        initializeWebView();
+    }
 
-		@Override
-		public void onPageFinished(WebView view, String url) {
-			// dismiss the loading bar when the page has finished loading
-			handler.post(new Runnable(){
+    public void initializeWebView() {
 
-				@Override
-				public void run() {
-					progressBar.setVisibility(View.GONE);
-					aboutWebView.setVisibility(View.VISIBLE);
-					topPanel.setVisibility(View.VISIBLE);
-					okButton.setVisibility(View.VISIBLE);
-					
-				}});
-			super.onPageFinished(view, url);
-		}
-	}
+        String cssTag = "<link rel='stylesheet' type='text/css' href='file:///android_asset/about_keepscore.css' />";
+
+        String html = loadTextFile(R.raw.version_and_credits) 
+                + cssTag 
+                + loadTextFile(R.raw.third_party_credits)
+                + loadTextFile(R.raw.translations) 
+                + loadTextFile(R.raw.changelog);
+        
+        boolean donateInstalled = PackageHelper.isDonateVersionInstalled(this);
+        
+        html = String.format(html, PackageHelper.getVersionName(this),
+                donateInstalled ? getString(R.string.CONSTANT_text_donate_suffix) : "",
+                donateInstalled ? ("<p/>" + getString(R.string.text_donate_message)) : "",
+                getString(R.string.html_third_party), getString(R.string.html_translations));
+
+        aboutWebView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+    }
+
+    private String loadTextFile(int resourceId) {
+
+        InputStream is = getResources().openRawResource(resourceId);
+
+        BufferedReader buff = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            while (buff.ready()) {
+                sb.append(buff.readLine()).append("\n");
+            }
+        } catch (IOException e) {
+            Log.e("AboutActivity", "This should not happen", e);
+        }
+
+        return sb.toString();
+
+    }
+
+    private void loadExternalUrl(String url) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        intent.setData(Uri.parse(url));
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        finish();
+    }
+
+    private class AboutWebClient extends WebViewClient {
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, final String url) {
+            log.d("shouldOverrideUrlLoading");
+
+            // XXX hack to make the webview go to an external url if the
+            // hyperlink is
+            // in my own HTML file - otherwise it says "Page not available"
+            // because I'm not calling
+            // loadDataWithBaseURL. But if I call loadDataWithBaseUrl using a
+            // fake URL, then
+            // the links within the page itself don't work!! Arggggh!!!
+
+            if (url.startsWith("http") || url.startsWith("mailto") || url.startsWith("market")) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadExternalUrl(url);
+                    }
+                });
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // dismiss the loading bar when the page has finished loading
+            handler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    progressBar.setVisibility(View.GONE);
+                    aboutWebView.setVisibility(View.VISIBLE);
+                    topPanel.setVisibility(View.VISIBLE);
+                    okButton.setVisibility(View.VISIBLE);
+
+                }
+            });
+            super.onPageFinished(view, url);
+        }
+    }
 }
