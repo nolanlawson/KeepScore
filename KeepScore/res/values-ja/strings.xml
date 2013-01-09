@@ -132,7 +132,7 @@
 \n\nKeepScoreにインポートするために、このファイルをどのメールのアプリでも使って開けてください。\
 \n\nその方法は無理だったら、/sdcard/keepscore/backupsにファイルを保存して、その後KeepScoreのメーンメニューで「インポート」をタッチしてください。\
 \n\nKeepScoreをダウンロードするために、ここにクリックしてください：　\
-https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore.</string>
+https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore 。</string>
     <string name="text_undo_last">最後の点を削除</string>
     <string name="text_welcome_title">KeepScoreにようこそ！</string>
     <string name="text_welcome_message" formatted="false"><![CDATA[
