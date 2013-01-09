@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="thanks_title">Mitico!</string>
+    <string name="install_free_text">\
+Grazie per aver donato!\n\n\
+KeepScore Donate è solo un add-on per KeepScore, \
+e per questo devi installare anche l\'app originale.\n\n\
+Grazie ancora! &#9786;</string>
+    <string name="thanks">\
+Grazie per aver donato!\n\n\
+Se installato KeepScore Donate aggiunge un messaggio speciale alla sezione \"Info\" di KeepScore.\n\n\
+L\'icona di questa app verrà rimossa automaticamente la prossima volta che farai un riavvio.\n\n\
+Grazie ancora! &#9786;</string>
+</resources>

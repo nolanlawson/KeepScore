@@ -1,0 +1,7 @@
+Questo è un semplice add-on per KeepScore. Perché funzioni devi avere l'app originale installata.
+
+Quello che fa questa app è aggiungere un messaggio speciale alla sezione "Info" di KeepScore. E ti fa sentire bene :)
+
+Grazie per la tua donazione! Puoi anche usare PayPal:
+
+http://nolanlawson.com/donate/
