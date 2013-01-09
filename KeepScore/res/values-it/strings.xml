@@ -4,7 +4,7 @@
     <string name="button_by_chart">Grafico</string>
     <string name="button_by_player">Per giocatore</string>
     <string name="button_by_round">Per manche</string>
-    <string name="button_customize">Personalizza...</string>
+    <string name="button_customize">Personalizza&#8230;</string>
     <string name="button_deselect_all">Deseleziona tutto</string>
     <string name="button_new_game">Nuova partita</string>
     <string name="button_select_all">Seleziona tutto</string>
@@ -12,6 +12,9 @@
     <string name="date_format">dd MMM HH:mm</string>
     
     <string name="hint_game_name">Nome partita</string>
+    
+    <string name="html_third_party">Software di terze parti</string>
+    <string name="html_translations">Traduzioni</string>
     
     <string name="menu_about">Info</string>
     <string name="menu_add_edit_players">Modifica giocatori</string>
@@ -66,7 +69,7 @@
     
     <string name="text_about">Info su KeepScore</string>
     <string name="text_add_zero">Aggiungi Zero</string>
-    <string name="text_backup_automatic">Backup\nautomatico</string>
+    <string name="text_backup_automatic">Backup\nauto.</string>
     <string name="text_backup_manual">Backup\nmanuale</string>
     <string name="text_backup_date_format">dd MMM yyyy HH:mm</string>
     <string name="text_confirm">Conferma</string>
@@ -90,7 +93,7 @@
 Trovate: %d\n\
 Caricate: %d\n\
 Duplicate: %d</string>
-    <string name="text_loading">Importazione...</string>
+    <string name="text_loading">Importazione&#8230;</string>
     <string name="text_loading_generic">Caricamento…</string>
     <string name="text_no_saved_games">Le partite salvate appariranno qui.</string>
     <string name="text_num_players">Numero giocatori</string>
@@ -105,7 +108,7 @@ Duplicate: %d</string>
     <string formatted="false" name="text_save_backup_succeeded">%d partita salvata in \'%s\'.</string>
     <string formatted="false" name="text_save_backup_succeeded_plural">%d partite salvate in \'%s\'.</string>
     <string name="text_saved_games">Partite salvate</string>
-    <string name="text_saving">Esportazione...</string>
+    <string name="text_saving">Esportazione&#8230;</string>
     <plurals name="text_share_spreadsheet_confirm">
         <item quantity="one">Esporta partita come foglio di calcolo?</item>
         <item quantity="other">Esporta %d partite come foglio di calcolo?</item>
@@ -145,7 +148,7 @@ LibreOffice, o Google Docs.</string>
         KeepScore è un\'app gratuita e open source,
 <b>creata da giocatori per i giocatori</b>.
 <p/>Ti piace KeepScore? Perché non fare una <a href="%s">donazione</a>?
-<p/>E se non puoi... <a href="%s">aiutaci a tradurre</a>!]]></string>
+<p/>E se non puoi&#8230; <a href="%s">aiutaci a tradurre</a>!]]></string>
 
     <string name="text_version_number">Versione %s</string>
     

@@ -13,6 +13,9 @@
     
     <string name="hint_game_name">ゲームの名</string>
     
+    <string name="html_third_party">サードパーティー</string>
+    <string name="html_translations">翻訳</string>
+    
     <string name="menu_about">KeepScoreについて</string>
     <string name="menu_add_edit_players">選手エディと</string>
     <string name="menu_add_player">新しい選手</string>

@@ -71,7 +71,9 @@ public class AboutActivity extends Activity implements OnClickListener {
 		html = String.format(html, 
 		        PackageHelper.getVersionName(this),
 		        donateInstalled ? getString(R.string.CONSTANT_text_donate_suffix) : "",
-		        donateInstalled ? ("<p/>" + getString(R.string.text_donate_message)) : ""
+		        donateInstalled ? ("<p/>" + getString(R.string.text_donate_message)) : "",
+		        getString(R.string.html_third_party),
+		        getString(R.string.html_translations)
 		        );
 		
 		aboutWebView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);

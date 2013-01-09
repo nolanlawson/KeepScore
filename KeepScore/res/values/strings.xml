@@ -76,6 +76,9 @@
     
     <string name="hint_game_name">Game Name</string>
     
+    <string name="html_third_party">Third-party</string>
+    <string name="html_translations">Translations</string>
+    
     <string name="menu_about">About</string>
     <string name="menu_add_edit_players">Edit Players</string>
     <string name="menu_add_player">Add Player</string>

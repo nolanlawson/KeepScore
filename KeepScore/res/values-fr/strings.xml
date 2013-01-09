@@ -13,6 +13,9 @@
     
     <string name="hint_game_name">Libellé de la partie</string>
     
+    <string name="html_third_party">Logiciel d\'un tiers</string>
+    <string name="html_translations">Traductions</string>
+    
     <string name="menu_about">A propos</string>
     <string name="menu_add_edit_players">Modifier les joueurs</string>
     <string name="menu_add_player">Ajouter un joueur</string>
