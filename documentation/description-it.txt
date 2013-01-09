@@ -1,0 +1,32 @@
+KeepScore - Segnapunti
+Un segnapunti facile da usare per Android
+
+Devi segnare il punteggio di un gioco? Butta via carta e penna!
+
+KeepScore è un'app segnapunti gratuita e open source per tutti i giochi in cui devi segnare un punteggio, dal burraco alle freccette. Da fanatico dei giochi da tavolo l'ho creata per quando gioco con i miei amici.
+
+Descrizione
+
+- Salva i punteggi mentre giochi
+
+- Mostra la sequenza completa dei punteggi di ogni partita
+
+- I punteggi inseriti vengono salvati automaticamente dopo 10 secondi (modificabile)
+
+- Mantiene lo schermo attivo
+
+- Da 2 a 8 giocatori
+
+- Salva partite multiple
+
+- Se tieni premuto un pulsante puoi aggiungere o sottrarre quanti punti vuoi
+
+- Pulsanti configurabili per aggiungere o sottrarre punti
+
+- Puoi aggiungere/modificare/rimuovere giocatori durante una partita
+
+- Salvataggio su scheda SD e ripristino
+
+Buon divertimento!
+
+seo: foglio dei punteggi, annota punteggio, scheda punteggi, conteggio, contatore, conta, contare, punto, punti, punteggio, punteggi, tieni, segnapunti, scheda punti, blocco punti, foglio punti, foglietto

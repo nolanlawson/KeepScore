@@ -1,0 +1,17 @@
+La nuova autorizzazione serve a creare backup delle tue partite e ripristinarli dall'archivio USB. Spero che vi piaccia!  :)
+
+Altre novità:
+
+- Interfaccia nuova di zecca
+- Grafico che mostra i punteggi nel tempo
+- Funzione annulla/ripeti
+- Schermata "Modifica giocatori" con funzione drag-and-drop
+- Traduzione tedesca migliorata
+
+Elenco completo dei cambiamenti: https://github.com/nolanlawson/KeepScore/wiki
+
+E qui un post con più dettagli: http://wp.me/p1t8Ca-uw
+
+KeepScore non ha pubblicità ed è open source. Se vuoi supportare il suo sviluppo perché non fare una donazione? :)
+
+http://nolanlawson.com/donate

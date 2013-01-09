@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>  
+    <string name="button_actions">Azioni&#8230;</string>
+    <string name="button_by_chart">Grafico</string>
+    <string name="button_by_player">Per giocatore</string>
+    <string name="button_by_round">Per manche</string>
+    <string name="button_customize">Personalizza...</string>
+    <string name="button_deselect_all">Deseleziona tutto</string>
+    <string name="button_new_game">Nuova partita</string>
+    <string name="button_select_all">Seleziona tutto</string>
+    
+    <string name="date_format">dd MMM HH:mm</string>
+    
+    <string name="hint_game_name">Nome partita</string>
+    
+    <string name="menu_about">Info</string>
+    <string name="menu_add_edit_players">Modifica giocatori</string>
+    <string name="menu_add_player">Aggiungi giocatore</string>
+    <string name="menu_export_to_spreadsheet">Esporta foglio di calcolo</string>
+    <string name="menu_history">Cronologia</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_load_backup">Ripristina</string>
+    <string name="menu_randomize">Casuale</string>
+    <string name="menu_redo">Ripeti</string>
+    <string name="menu_rematch">Rigioca</string>
+    <string name="menu_reset_scores">Reset</string>
+    <string name="menu_save_backup">Backup</string>
+    <string name="menu_share">Condividi</string>
+    <string name="menu_settings">Impostazioni</string>
+    <string name="menu_undo">Annulla</string>
+    
+    <string name="pref_2p_button_1_name">Pulsante #1</string>
+    <string name="pref_2p_button_2_name">Pulsante #2</string>
+    <string name="pref_2p_button_3_name">Pulsante #3</string>
+    <string name="pref_2p_button_4_name">Pulsante #4</string>
+    <string name="pref_button_1_name">Pulsante pop-up #1</string>
+    <string name="pref_button_2_name">Pulsante pop-up #2</string>
+    <string name="pref_button_3_name">Pulsante pop-up #3</string>
+    <string name="pref_button_4_name">Pulsante pop-up #4</string>
+    <string name="pref_cat_about">Info</string>
+    <string name="pref_cat_advanced">Avanzate</string>
+    <string name="pref_cat_appearance">Aspetto</string>
+    <string name="pref_cat_config">Configurazione</string>
+    <string name="pref_cat_manage">Gestione impostazioni</string>
+    <string name="pref_color_scheme_choice_android_name">Android</string>
+    <string name="pref_color_scheme_choice_dark_name">Scuro</string>
+    <string name="pref_color_scheme_choice_light_name">Chiaro</string>
+    <string name="pref_color_scheme_choice_classic_light_name">Chiaro classico</string>
+    <string name="pref_color_scheme_name">Combinazione colori</string>
+    <string name="pref_disable_highlight_tag_name">Disabilita indicatore</string>
+    <string name="pref_disable_highlight_tag_summary">Disabilita indicazione dell\'ultimo giocatore che ha ricevuto punti.</string>
+    <string name="pref_green_text_name">Colore testo punteggio</string>
+    <string name="pref_green_text_summary">Verde (blu se non selezionato).</string>
+    <string name="pref_initial_score_name">Punteggio di partenza</string>
+    <string name="pref_initial_message_name">Messaggio di benvenuto</string>
+    <string name="pref_load_settings_name">Carica backup</string>
+    <string name="pref_load_settings_summary">Importa impostazioni da backup.</string>
+    <string name="pref_reset_name">Ripristina impostazioni iniziali</string>
+    <string name="pref_save_settings_name">Esegui backup</string>
+    <string name="pref_save_settings_summary">Esegui backup delle impostazioni correnti.</string>
+    <string name="pref_show_round_totals_name">Mostra totale manche</string>
+    <string name="pref_update_delay_name">Aggiornamento punteggio</string>
+    <string name="pref_update_delay_summary">Secondi prima di aggiornare (default: 10).</string>
+    <string name="pref_use_wake_lock_name">Schermo attivo</string>
+    <string name="pref_use_wake_lock_summary">Mantieni lo schermo attivo durante il gioco.</string>
+    
+    <string name="text_about">Info su KeepScore</string>
+    <string name="text_add_zero">Aggiungi Zero</string>
+    <string name="text_backup_automatic">Backup\nautomatico</string>
+    <string name="text_backup_manual">Backup\nmanuale</string>
+    <string name="text_backup_date_format">dd MMM yyyy HH:mm</string>
+    <string name="text_confirm">Conferma</string>
+    <string name="text_confirm_delete_player">Sarà eliminato il giocatore: %s.</string>
+    <string name="text_confirm_delete_player_plural">Saranno eliminati i giocatori: %s.</string>
+    <string name="text_confirm_rematch">Gioca di nuovo con gli stessi giocatori?</string>
+    <string name="text_copy">Copia</string>
+    <string name="text_delete">Elimina</string>
+    <string name="text_delete_saved_settings">Il backup \&quot;%s\&quot; sarà eliminato.</string>
+    <string name="text_donate_message">Grazie per la donazione! Mitico!</string>
+    <string name="text_edit_name">Modifica nome</string>
+    <string name="text_enter_saved_settings_name">Inserisci nome, p. es. \'burraco\'.</string>
+    <string name="text_format_rounds">%d manche</string>
+    <string name="text_format_rounds_singular">%d manche</string>
+    <string name="text_game_count">%d partita</string>
+    <string name="text_game_count_plural">%d partite</string>
+    <string name="text_game_name_separator">-</string>
+    <string name="text_game_will_be_deleted">La partita sarà eliminata.</string>
+    <string name="text_games_will_be_deleted">Saranno eliminate %d partite.</string>
+    <string formatted="false" name="text_load_backup">\'%s\' importato correttamente.\n\n\
+Trovate: %d\n\
+Caricate: %d\n\
+Duplicate: %d</string>
+    <string name="text_loading">Importazione...</string>
+    <string name="text_loading_generic">Caricamento…</string>
+    <string name="text_no_saved_games">Le partite salvate appariranno qui.</string>
+    <string name="text_num_players">Numero giocatori</string>
+    <string name="text_player">Giocatore</string>
+    <string name="text_player_names">Nomi giocatori (facoltativo)</string>
+    <string name="text_players">%s giocatori</string>
+    <string name="text_reset_confirm">Saranno ripristinate le impostazioni iniziali.</string>
+    <string name="text_restore_initial">Sembra che tu abbia delle partite di KeepScore salvate. Vuoi ripristinarle da un backup?</string>
+    <string formatted="false" name="text_round_total">Manche #%d. Totale: %d</string>
+    <string formatted="false" name="text_save_backup">Esegui backup di %d partita su scheda SD?</string>
+    <string formatted="false" name="text_save_backup_plural"> Esegui backup di %d partite su scheda SD?</string>
+    <string formatted="false" name="text_save_backup_succeeded">%d partita salvata in \'%s\'.</string>
+    <string formatted="false" name="text_save_backup_succeeded_plural">%d partite salvate in \'%s\'.</string>
+    <string name="text_saved_games">Partite salvate</string>
+    <string name="text_saving">Esportazione...</string>
+    <plurals name="text_share_spreadsheet_confirm">
+        <item quantity="one">Esporta partita come foglio di calcolo?</item>
+        <item quantity="other">Esporta %d partite come foglio di calcolo?</item>
+    </plurals>
+    <plurals name="text_share_spreadsheet_subject">
+        <item quantity="one">Foglio di calcolo con 1 partita</item>
+        <item quantity="other">Foglio di calcolo con %d partite</item>
+    </plurals>
+    <string name="text_share_spreadsheet_body">In allegato un foglio di calcolo in formato CSV creato da KeepScore.\
+\n\nIl file può essere aperto usando il tuo programma per fogli di calcolo preferito, come Excel, \
+LibreOffice, o Google Docs.</string>
+    <string name="text_share_spreadsheet_date_started">Ora inizio</string>
+    <string name="text_share_spreadsheet_date_modified">Ultima modifica</string>
+    <string name="text_share_spreadsheet_duration">Durata partita</string>
+    <string name="text_share_spreadsheet_game_name">Nome partita</string>
+    <string name="text_share_spreadsheet_num_rounds">Numero di manche</string>
+    <string name="text_share_spreadsheet_num_players">Numero di giocatori</string>
+    <string name="text_share_spreadsheet_player_with_max">Giocatore/i con più punti</string>
+    <string name="text_share_spreadsheet_player_with_min">Giocatore/i con meno punti</string>
+
+    <plurals name="text_share_with_friend">
+        <item quantity="one">Condividi partita?</item>
+        <item quantity="other">Condividi %d partite?</item>
+    </plurals>
+    <plurals name="text_share_mail_subject">
+        <item quantity="one">Una partita solo per te da KeepScore!</item>
+        <item quantity="other">%d partite solo per te da KeepScore!</item>
+    </plurals>
+    <string name="text_share_mail_body">In allegato un file di backup di KeepScore.\
+\n\nPer importarlo in KeepScore basta che lo apri con la tua app email preferita.\
+\n\nSe non funziona salva il file in /sdcard/keepscore/backups e scegli \"Ripristina\" dal menu principale di KeepScore.
+\n\nPer scaricare KeepScore visita https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore</string>
+
+    <string name="text_undo_last">Cancella ultimo punteggio</string>
+    <string name="text_welcome_title">Benvenuti in KeepScore!</string>
+    <string name="text_welcome_message" formatted="false"><![CDATA[
+        KeepScore è un\'app gratuita e open source,
+<b>creata da giocatori per i giocatori</b>.
+<p/>Ti piace KeepScore? Perché non fare una <a href="%s">donazione</a>?
+<p/>E se non puoi... <a href="%s">aiutaci a tradurre</a>!]]></string>
+
+    <string name="text_version_number">Versione %s</string>
+    
+    <string name="title_add">Aggiungi punteggio</string>
+    <string name="title_add_player">Inserisci nome giocatore</string>
+    <string name="title_change_name">Modifica nome</string>
+    <string name="title_choose_backup">Ripristina partite da file</string>
+    <string name="title_confirm">Conferma</string>
+    <string name="title_confirm_delete">Conferma eliminazione</string>
+    <string name="title_confirm_reset">Conferma ripristino</string>
+    <string name="title_edit_game_name">Modifica nome partita</string>
+    <string name="title_last_month">Ultimo mese</string>
+    <string name="title_last_week">Ultima settimana</string>
+    <string name="title_last_year">Ultimo anno</string>
+    <string name="title_load_setting_set">Carica \&quot;%s\&quot;?</string>
+    <string name="title_name_game">Inserisci nome partita</string>
+    <string name="title_older">Precedenti</string>
+    <string name="title_save_setting_set">Esegui backup impostazioni</string>
+    <string name="title_subtract">Sottrai punteggio</string>
+    <string name="title_success">Completato</string>
+    <string name="title_today">Oggi</string>
+    <string name="title_two_days_ago">Due giorni fa</string>
+    <string name="title_yesterday">Ieri</string>
+    
+    <string name="toast_deleted">Partita eliminata.</string>
+    <string name="toast_error_with_backup">Importazione non riuscita.</string>
+    <string name="toast_game_copied">Partita copiata.</string>
+    <string name="toast_game_saved">Partita salvata.</string>
+    <string name="toast_invalid_setting_set_name">Nome non valido.</string>
+    <string name="toast_loaded_setting_set">Impostazioni per \&quot;%s\&quot; caricate.</string>
+    <string name="toast_multiple_deleted">Partite eliminate.</string>
+    <string name="toast_no_backups">Nessun file di backup trovato.</string>
+    <string name="toast_no_saved_games">Nessuna partita salvata per il backup.</string>
+    <string name="toast_no_saved_settings">Nessun backup trovato.</string>
+    <string name="toast_no_sdcard">Scheda SD non trovata.</string>
+    <string name="toast_no_zeroes">Inserisci un numero valido diverso da zero.</string>
+    <string name="toast_rematch_created">Nuova partita creata.</string>
+    <string name="toast_save_backup_failed">Impossibile esportare il file.</string>
+    <string name="toast_saved_setting_set_name">Backup \&quot;%s\&quot; salvato.</string>
+    <string name="toast_share_error_no_app">App email non trovata.</string>
+    <string name="toast_settings_reset">Impostazioni ripristinate.</string>
+    <string name="toast_valid_initial_score">Inserisci un numero valido.</string>
+    <string name="toast_valid_update_delay_values">Inserisci un numero compreso tra 1 e 600.</string>
+</resources>

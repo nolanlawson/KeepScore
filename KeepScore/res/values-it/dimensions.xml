@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fast_scroll_overlay_width">235dp</dimen>
+</resources>
