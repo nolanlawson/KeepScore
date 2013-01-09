@@ -1,22 +1,30 @@
-KeepScore - Punktezähler
-Benutzerfreundliches Tool für Android zum Registrieren des Spielstandes
+KeepScore - PunktezÃ¤hler
+Benutzerfreundlicher PunktezÃ¤hler fÃ¼r Android
 
-Möchtest du den Spielstand eines Games notieren? Vergiss Stift und Papier! KeepScore ist ein gratis Open-Source-Punktezähler, der sich für alle Punktspiele eignet, von Cribagge bis zu Carcassonne. Ich bin ein grosser Fan von Brettspielen und habe deshalb KeepScore für mich und meine Freunde entwickelt. 
+Du willst den Spielstand eines Spiels notieren? Vergiss Stift und Papier!
 
-Eigenschaften:
+KeepScore ist ein freier und quelloffener PunktezÃ¤hler, der sich fÃ¼r alle punktbasierten Spiele eignet, von Cribagge bis zu Carcassonne. Ich bin ein leidenschaftlicher Brettspieler und aus dem Grund habe ich KeepScore fÃ¼r mich und meine Freunde entwickelt. 
+
+Merkmale:
 
 - Speichert Punktzahl im Verlauf eines Spiels automatisch
 
-- Zeigt bei jedem Spiel eine vollständige Chronik der erzielten Punkte an
+- Zeigt bei jedem Spiel eine vollstÃ¤ndige Chronik der erzielten Punkte an
 
-- Die Chronik wird nach zehn Sekunden automatisch aktualisiert (Einstellung konfigurierbar)
+- Die Chronik wird nach zehn Sekunden automatisch aktualisiert (anpassbar)
 
-- Bildschirm bleibt beleuchtet- Für 2-8 Spieler
+- Bildschirm bleibt beleuchtet
 
-- Speichern mehrerer Spiele möglich
+- UnterstÃ¼tzt 2-8 Spieler
 
-- Elemente können per Knopfdruck (Taste lange halten) hinzugefügt oder entfernt werden
+- Speichern mehrerer Spiele mÃ¶glich
 
-- Die Tasten zum Hinzufügen oder Entfernen von Elementen können konfiguriert werden
+- Druch langes DrÃ¼cken der Tasten kÃ¶nnen beliebige Punkte hinzugefÃ¼gt oder abgezogen werden
 
-- Spieler können während dem Spiel hinzugefügt, entfernt oder geändert werden.
+- Die Tasten zum HinzufÃ¼gen oder Entfernen von Punkten kÃ¶nnen konfiguriert werden
+
+- Spieler kÃ¶nnen wÃ¤hrend eines Spiel hinzugefÃ¼gt, entfernt oder geÃ¤ndert werden.
+
+- Einstellungen kÃ¶nnen auf die SD Karte gespeichert und geladen werden.
+
+Viel SpaÃŸ!
