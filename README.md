@@ -47,11 +47,12 @@ For instance,
 if your language is Esperanto (ISO code 'eo'), you would need to add the following files:
 
 ```
-documentation/description-eo.txt              # Play Store description
-KeepScore/res/values-eo/strings.xml           # main translations
-KeepScore/res/values-eo/dimensions.xml        # changes width of the time period overlay (e.g. "Yesterday", 
+KeepScore/res/values-eo/strings.xml           # Main translations
+KeepScore/res/values-eo/dimensions.xml        # Modifies width of the time period overlay (e.g. "Yesterday", 
                                               # "The Past Week") for languages with long words, e.g. French
-KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About KeepScore"
+KeepScore/res/raw-eo/version_and_credits.xml  # Page shown in "About KeepScore"
+documentation/description-eo.txt              # Play Store description
+documentation/donate/description-eo.txt       # Play Store description (Donate version)
 ```
 
 I maintain the English, French, and Japanese translations myself.
@@ -102,7 +103,7 @@ can give you proper credit.  Or just fork and modify the file ```KeepScore/res/r
 yourself.  Thanks!
 
 [1]: http://sam.zoy.org/wtfpl/
-[2]: http://nolanwlawson.files.wordpress.com/2012/09/device-2012-09-19-225256.png?w=252&h=450
+[2]: http://nolanwlawson.files.wordpress.com/2013/01/device-2013-01-06-141649.png?w=450
 [3]: http://nolanlawson.com/tag/keepscore
 [4]: https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore
 [5]: http://actionbarsherlock.com/
