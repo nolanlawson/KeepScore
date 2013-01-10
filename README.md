@@ -14,7 +14,9 @@ Overview
 
 ![Screenshot][2]
 
-KeepScore is a free and open-source score-keeping app for Android.  Feel free to file bugs on the GitHub page or branch the code yourself!  Just send me a merge request and I'll try to incorporate your changes into the app on the Android Market.
+KeepScore is a free and open-source score-keeping app for Android. 
+Pull requests are always welcome.  I'll try to incorporate your changes into the app 
+on the Google Play Store as soon as I can.
 
 More details about the app can be found on [my website][3] or the [Google Play Store][4].
 
@@ -34,7 +36,7 @@ You must have Maven 3.0.3+ installed in order for this to work.
 Add a translation
 -------------------
 
-KeepScore is currently localized into English, French, Japanese, and (some) German.  For the benefit of
+KeepScore is currently localized into English, French, Japanese, Italian, and German.  For the benefit of
 board gamers around the world, though, I'm
 always happy to get new translations!
 
@@ -88,8 +90,9 @@ Note that not all strings in ```strings.xml``` need to be translated.  If you lo
 you'll see that I've helpfully marked constant strings with the prefix ```CONSTANT_```.  Constants do not need
 to be translated.
 
-Some languages (e.g. German) tend to be incomplete.  A helpful tool
-for finding missing translations is the [Android Localization Helper][9].  To ignore constants while using it, you can
+Some languages (e.g. German, Italian) tend to be incomplete because I don't speak them.  A helpful tool
+for finding missing translations is the [Android Localization Helper][9].  
+To ignore constants while using it, you can
 run:
 
 ```./bin/alh.sh /path/to/keepscore/ | grep -v CONSTANT```
