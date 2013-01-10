@@ -74,7 +74,7 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
             @Override
             public void run() {
                 // update the Add Player button if necessary
-                invalidateOptionsMenu();
+                supportInvalidateOptionsMenu();
             }
         });
 
