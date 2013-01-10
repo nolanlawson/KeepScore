@@ -5,6 +5,10 @@
 		android:alphabeticShortcut="@string/menu_add_player" android:icon="@drawable/ic_action_user_add"
 		android:showAsAction="ifRoom" />
 	
+	<item android:id="@+id/menu_sort_players" android:title="@string/menu_sort_players"
+		android:alphabeticShortcut="@string/menu_sort_players" android:icon="@drawable/action_sort_by_size"
+		android:showAsAction="ifRoom" />
+		
 	<item android:id="@+id/menu_randomize" android:title="@string/menu_randomize"
 		android:alphabeticShortcut="@string/menu_randomize" android:icon="@drawable/ic_action_shuffle"
 		android:showAsAction="ifRoom" />

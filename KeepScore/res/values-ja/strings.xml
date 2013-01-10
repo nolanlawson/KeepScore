@@ -30,6 +30,7 @@
     <string name="menu_save_backup">バックアップ</string>
     <string name="menu_share">送信</string>
     <string name="menu_settings">設定</string>
+    <string name="menu_sort_players">点で整列</string>
     <string name="menu_undo">アンドゥ</string>
     
     <string name="pref_2p_button_1_name">オンスクリーンボタン＃１</string>

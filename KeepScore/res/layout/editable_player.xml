@@ -39,7 +39,7 @@
 		/>
 	        
     <TextView
-        android:id="@android:id/text2"
+        android:id="@+id/text_player_number"
         style="@style/simpleHoloLightTextView"
         android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -47,21 +47,37 @@
 		android:layout_centerVertical="true"
 		android:paddingRight="5dp"
 		android:paddingLeft="5dp"
+		android:text="#1"
 		/>
-		
+    
+    <TextView
+        android:id="@+id/text_player_score"
+	    style="@style/simpleHoloLightTextView"
+	    android:layout_toLeftOf="@+id/button_edit_player"
+	    android:layout_centerVertical="true"
+	    android:singleLine="true"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:gravity="right"
+	    android:paddingRight="5dp"
+	    android:paddingLeft="5dp"
+	    android:text="125"
+	    />
+    		
     
     <TextView 
-	    android:id="@android:id/text1"
+	    android:id="@+id/text_player_name"
 	    style="?android:attr/spinnerDropDownItemStyle"
-	    android:layout_toRightOf="@android:id/text2"
-	    android:layout_toLeftOf="@+id/button_edit_player"
+	    android:layout_toRightOf="@+id/text_player_number"
+	    android:layout_toLeftOf="@+id/text_player_score"
 	    android:layout_centerVertical="true"
 	    android:singleLine="true"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:ellipsize="end"
+	    android:ellipsize="marquee"
 	    android:textSize="18sp"
 	    android:paddingTop="10dp"
-	    android:paddingBottom="10dp"/>
+	    android:paddingBottom="10dp"
+	    android:text="Henry the Eighth I am, Henry the Eighth I am I am"/>
     
 </RelativeLayout>

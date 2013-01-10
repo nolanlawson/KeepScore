@@ -1,6 +1,8 @@
 package com.nolanlawson.keepscore;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -38,6 +40,8 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
     private Game game;
 
     private List<String> deletedPlayersToWarnAbout = new ArrayList<String>();
+    
+    private boolean menuButtonSortsDescending;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +116,7 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
         boolean enabled = adapter.getCount() < MAX_NUM_PLAYERS;
         addPlayerItem.setEnabled(enabled);
         addPlayerItem.setVisible(enabled);
-
+        
         return true;
     }
 
@@ -129,6 +133,9 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
             return true;
         case R.id.menu_randomize:
             randomizePlayers();
+            return true;
+        case R.id.menu_sort_players:
+            sortPlayers();
             return true;
         }
         return false;
@@ -191,8 +198,21 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
         adapter.notifyDataSetChanged();
     }
 
+    
+    private void sortPlayers() {
+        
+        // alternate between ascending and descending order
+        Comparator<PlayerScore> comparator = menuButtonSortsDescending 
+            ? Collections.reverseOrder(PlayerScore.sortByScore())
+            : PlayerScore.sortByScore();
+        
+        adapter.sortAndRefreshView(comparator);
+        
+        menuButtonSortsDescending = !menuButtonSortsDescending;
+    }
+    
     private void randomizePlayers() {
-        adapter.shuffle();
+        adapter.shuffleAndRefreshView();
     }
 
     @Override

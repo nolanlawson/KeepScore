@@ -106,6 +106,16 @@ public class PlayerScore implements Parcelable, Cloneable {
             }
         };
     }
+    
+    public static Comparator<PlayerScore> sortByScore() {
+        return new Comparator<PlayerScore>() {
+
+            @Override
+            public int compare(PlayerScore lhs, PlayerScore rhs) {
+                return Long.valueOf(lhs.getScore()).compareTo(rhs.getScore());
+            }
+        };
+    }
 
     public boolean isAtDefault(Context context) {
         return (history == null || history.isEmpty())
