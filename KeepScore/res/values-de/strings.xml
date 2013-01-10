@@ -5,7 +5,7 @@
     <string name="button_by_chart">Grafische Darstellung</string>
     <string name="button_by_player">Pro Spieler</string>
     <string name="button_by_round">Pro Spielrunde</string>
-    <string name="button_customize">Einstellungen anpassen…</string>
+    <string name="button_customize">Einstellungen anpassen&#8230;</string>
     <string name="button_deselect_all">Auswahl löschen</string>
     <string name="button_new_game">Neues Spiel</string>
     <string name="button_select_all">Alle wählen</string>
@@ -71,8 +71,10 @@
     <string name="text_backup_manual">Manuelles\nBackup</string>
     <string name="text_backup_date_format">dd MMM yyyy HH\'h\'mm</string>
     <string name="text_confirm">Bestätigen</string>
-    <string name="text_confirm_delete_player">Folgenden Spieler löschen: %s.</string>
-    <string name="text_confirm_delete_player_plural">Folgende Spieler löschen: %s.</string>
+    <plurals name="text_confirm_delete_player">
+        <item quantity="one">Folgenden Spieler löschen: %s.</item>
+        <item quantity="other">Folgende Spieler löschen: %s.</item>
+    </plurals>
     <string name="text_confirm_rematch">Ein neues Spiel mit denselben Spielern starten?</string>
     <string name="text_copy">Kopieren</string>
     <string name="text_delete">Entfernen</string>
@@ -82,17 +84,19 @@
     <string name="text_enter_saved_settings_name">Name eingeben, z.B. \'cribbage\'</string>
     <string name="text_format_rounds">%d Runden</string>
     <string name="text_format_rounds_singular">%d Runde</string>
-    <string name="text_game_count">%d Spiel</string>
-    <string name="text_game_count_plural">%d Spiele</string>
+    <plurals name="text_game_count">
+        <item quantity="one">%d Spiel</item>
+        <item quantity="other">%d Spiele</item>
+    </plurals>
     <string name="text_game_name_separator">-</string>
     <string name="text_game_will_be_deleted">Das Spiel wird gelöscht.</string>
     <string name="text_games_will_be_deleted">%d Spiele werden gelöscht.</string>
-    <string formatted="false" name="text_load_backup">\'%s\' Import erfolgreich\n\n\
-Gefunden: %d\n\
-Gespeichert: %d\n\
-Doppelte: %d</string>
-    <string name="text_loading">Wird importiert…</string>
-    <string name="text_loading_generic">Lade…</string>
+    <string  name="text_load_backup">\'%1$s\' Import erfolgreich\n\n\
+Gefunden: %2$d\n\
+Gespeichert: %3$d\n\
+Doppelte: %4$d</string>
+    <string name="text_loading">Wird importiert&#8230;</string>
+    <string name="text_loading_generic">Lade&#8230;</string>
     <string name="text_no_saved_games">Deine gespeicherten Spiele erscheinen hier.</string>
     <string name="text_num_players">Anzahl Spieler</string>
     <string name="text_player">Spieler</string>
@@ -100,13 +104,17 @@ Doppelte: %d</string>
     <string name="text_players">%s Spieler</string>
     <string name="text_reset_confirm">Alle Einstellungen werden zurückgesetzt.</string>
     <string name="text_restore_initial">Scheinbar hast du bereits KeepScore Spiele gespeichert. Backup wiederherstellen?</string>
-    <string formatted="false" name="text_round_total">Runde #%d Punkte: %d</string>
-    <string formatted="false" name="text_save_backup">%d Spiel auf SD-Karte exportieren?</string>
-    <string formatted="false" name="text_save_backup_plural"> %d Spiele auf SD-Karte exportieren?</string>
-    <string formatted="false" name="text_save_backup_succeeded">%d Spiel gespeichert unter \'%s\'.</string>
-    <string formatted="false" name="text_save_backup_succeeded_plural">%d Spiele gespeichert unter \'%s\'.</string>
+    <string  name="text_round_total">Runde #%1$d Punkte: %2$d</string>
+    <plurals name="text_save_backup">
+        <item quantity="one">%d Spiel auf SD-Karte exportieren?</item>
+        <item quantity="other"> %d Spiele auf SD-Karte exportieren?</item>
+    </plurals>
+    <plurals name="text_save_backup_succeeded">
+        <item quantity="one">%1$d Spiel gespeichert unter \'%2$s\'.</item>
+        <item quantity="other">%1$d Spiele gespeichert unter \'%2$s\'.</item>
+    </plurals>
     <string name="text_saved_games">Gespeicherte Spiele</string>
-    <string name="text_saving">Wird exportiert…</string>
+    <string name="text_saving">Wird exportiert&#8230;</string>
     <plurals name="text_share_spreadsheet_confirm">
         <item quantity="one">Diesen Spielstand als CSV exportieren?</item>
         <item quantity="other">%d Spielestände als CSV exportieren?</item>
@@ -141,11 +149,11 @@ LibreOffice oder Google Docs.</string>
 \n\nKeepScore findet du unter https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore .</string>
     <string name="text_undo_last">Letzten Eintrag löschen</string>
     <string name="text_welcome_title">Willkommen in KeepScore!</string>
-    <string name="text_welcome_message" formatted="false"><![CDATA[
+    <string name="text_welcome_message" ><![CDATA[
         KeepScore ist freie und offene Software,
 <b>von Spielern für Spieler</b>.
-<p/>Wenn dir KeepScore gefällt, würde ich mich über eine <a href="%s">Spende</a> freuen.
-<p/>Alternative: <a href="%s">Hilf bei der Übersetzung</a>!]]></string>
+<p/>Wenn dir KeepScore gefällt, würde ich mich über eine <a href="%1$s">Spende</a> freuen.
+<p/>Alternative: <a href="%2$s">Hilf bei der Übersetzung</a>!]]></string>
     <string name="text_version_number">Version %s</string>
     
     <string name="title_add">Wert hinzufügen</string>
@@ -189,3 +197,5 @@ LibreOffice oder Google Docs.</string>
     <string name="toast_valid_initial_score">Bitte geben Sie eine gültige Zahl ein.</string>
     <string name="toast_valid_update_delay_values">Bitte geben Sie eine Zahl zwischen 1 und 600 ein.</string>
 </resources>
+
+

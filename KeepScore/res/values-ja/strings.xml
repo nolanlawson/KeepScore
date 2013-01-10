@@ -4,7 +4,7 @@
     <string name="button_by_chart">チャート</string>
     <string name="button_by_player">選手で</string>
     <string name="button_by_round">ラウンドで</string>
-    <string name="button_customize">カスタマイズ…</string>
+    <string name="button_customize">カスタマイズ&#8230;</string>
     <string name="button_deselect_all">全て解除</string>
     <string name="button_new_game">新しいゲーム</string>
     <string name="button_select_all">全て選択</string>
@@ -73,8 +73,9 @@
     <string name="text_backup_manual">手動\nﾊﾞｯｸｱｯﾌﾟ</string>
     <string name="text_backup_date_format">yyyy年M月dd日 HH:mm</string>
     <string name="text_confirm">確認</string>
-    <string name="text_confirm_delete_player">この選手は削除されます：%s。</string>
-    <string name="text_confirm_delete_player_plural">@string/text_confirm_delete_player</string>
+    <plurals name="text_confirm_delete_player">
+        <item quantity="other">この選手は削除されます：%s。</item>
+    </plurals>
     <string name="text_confirm_rematch">同じ選手で再戦しますか？</string>
     <string name="text_copy">複写</string>
     <string name="text_delete">削除</string>
@@ -84,17 +85,18 @@
     <string name="text_enter_saved_settings_name">名を入力、たとえ\'カタン\'</string>
     <string name="text_format_rounds">%dラウンド</string>
     <string name="text_format_rounds_singular">%dラウンド</string>
-    <string name="text_game_count">ゲームは%d</string>
-    <string name="text_game_count_plural">@string/text_game_count</string>
+    <plurals name="text_game_count">
+        <item quantity="other">ゲームは%d</item>
+    </plurals>
     <string name="text_game_name_separator">：</string>
     <string name="text_game_will_be_deleted">ゲームは削除されます。</string>
     <string name="text_games_will_be_deleted">%dのゲームは削除されます。</string>
-    <string formatted="false" name="text_load_backup">\'%s\' 野インポートは成功です。\n\n\
-ファイル： %d\n\
-インポートした： %d\n\
-複写： %d</string>
-    <string name="text_loading">インポート中…</string>
-    <string name="text_loading_generic">ロード中…</string>
+    <string  name="text_load_backup">\'%1$s\' 野インポートは成功です。\n\n\
+ファイル： %2$d\n\
+インポートした： %3$d\n\
+複写： %4$d</string>
+    <string name="text_loading">インポート中&#8230;</string>
+    <string name="text_loading_generic">ロード中&#8230;</string>
     <string name="text_no_saved_games">保存したゲームはここで現れます。</string>
     <string name="text_num_players">選手の数</string>
     <string name="text_player">選手</string>
@@ -102,13 +104,15 @@
     <string name="text_players">選手%s人</string>
     <string name="text_reset_confirm">全部の設定はリセットします。</string>
     <string name="text_restore_initial">KeepScoreのゲームはもうあるらしいです。バックアップをインポートしましょうか？</string>
-    <string formatted="false" name="text_round_total">ロウンド%dのトータル：%d</string>
-    <string formatted="false" name="text_save_backup">ゲームをSDカードに%dバックアップしますか？</string>
-    <string formatted="false" name="text_save_backup_plural">@string/text_save_backup</string>
-    <string formatted="false" name="text_save_backup_succeeded">ゲームを%d保存しました。ファイルは「%s」です。</string>
-    <string formatted="false" name="text_save_backup_succeeded_plural">@string/text_save_backup_succeeded</string>
+    <string  name="text_round_total">ロウンド%1$dのトータル：%2$d</string>
+    <plurals name="text_save_backup">
+        <item quantity="other">ゲームをSDカードに%dバックアップしますか？</item>
+    </plurals>
+    <plurals name="text_save_backup_succeeded">
+        <item quantity="other">ゲームを%1$d保存しました。ファイルは「%2$s」です。</item>
+    </plurals>
     <string name="text_saved_games">保存したゲーム</string>
-    <string name="text_saving">バックアップ…</string>
+    <string name="text_saving">バックアップ&#8230;</string>
     <plurals name="text_share_spreadsheet_confirm">
         <item quantity="other">表計算として%dのゲームをエクスポートしますか？</item>
     </plurals>
@@ -138,11 +142,11 @@
 https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore 。</string>
     <string name="text_undo_last">最後の点を削除</string>
     <string name="text_welcome_title">KeepScoreにようこそ！</string>
-    <string name="text_welcome_message" formatted="false"><![CDATA[
+    <string name="text_welcome_message" ><![CDATA[
         KeepScoreは無料でオーペンソースなソフト。
 <b>ゲーマーで、ゲーマーのために作りました</b>。
-<p/>KeepScoreが気に入ったら、<a href="%s">寄進する可能性があります</a>。
-<p/>そして寄進できなかったら、<a href="%s">翻訳を直してくれませんか？</a>]]></string>
+<p/>KeepScoreが気に入ったら、<a href="%1$s">寄進する可能性があります</a>。
+<p/>そして寄進できなかったら、<a href="%2$s">翻訳を直してくれませんか？</a>]]></string>
     <string name="text_version_number">バージョン%s</string>
     
     <string name="title_add">増加</string>
@@ -186,3 +190,4 @@ https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore 。</str
     <string name="toast_valid_initial_score">妥当な数を入力してください。</string>
     <string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>
 </resources>
+

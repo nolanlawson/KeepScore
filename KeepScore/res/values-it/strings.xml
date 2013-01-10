@@ -73,8 +73,10 @@
     <string name="text_backup_manual">Backup\nmanuale</string>
     <string name="text_backup_date_format">dd MMM yyyy HH:mm</string>
     <string name="text_confirm">Conferma</string>
-    <string name="text_confirm_delete_player">Sarà eliminato il giocatore: %s.</string>
-    <string name="text_confirm_delete_player_plural">Saranno eliminati i giocatori: %s.</string>
+    <plurals name="text_confirm_delete_player">
+        <item quantity="one">Sarà eliminato il giocatore: %s.</item>
+        <item quantity="other">Saranno eliminati i giocatori: %s.</item>
+    </plurals>
     <string name="text_confirm_rematch">Gioca di nuovo con gli stessi giocatori?</string>
     <string name="text_copy">Copia</string>
     <string name="text_delete">Elimina</string>
@@ -84,17 +86,19 @@
     <string name="text_enter_saved_settings_name">Inserisci nome, p. es. \'burraco\'.</string>
     <string name="text_format_rounds">%d manche</string>
     <string name="text_format_rounds_singular">%d manche</string>
-    <string name="text_game_count">%d partita</string>
-    <string name="text_game_count_plural">%d partite</string>
+    <plurals name="text_game_count">
+        <item quantity="one">%d partita</item>
+        <item quantity="other">%d partite</item>
+    </plurals>
     <string name="text_game_name_separator">-</string>
     <string name="text_game_will_be_deleted">La partita sarà eliminata.</string>
     <string name="text_games_will_be_deleted">Saranno eliminate %d partite.</string>
-    <string formatted="false" name="text_load_backup">\'%s\' importato correttamente.\n\n\
-Trovate: %d\n\
-Caricate: %d\n\
-Duplicate: %d</string>
+    <string  name="text_load_backup">\'%1$s\' importato correttamente.\n\n\
+Trovate: %2$d\n\
+Caricate: %3$d\n\
+Duplicate: %4$d</string>
     <string name="text_loading">Importazione&#8230;</string>
-    <string name="text_loading_generic">Caricamento…</string>
+    <string name="text_loading_generic">Caricamento&#8230;</string>
     <string name="text_no_saved_games">Le partite salvate appariranno qui.</string>
     <string name="text_num_players">Numero giocatori</string>
     <string name="text_player">Giocatore</string>
@@ -102,11 +106,15 @@ Duplicate: %d</string>
     <string name="text_players">%s giocatori</string>
     <string name="text_reset_confirm">Saranno ripristinate le impostazioni iniziali.</string>
     <string name="text_restore_initial">Sembra che tu abbia delle partite di KeepScore salvate. Vuoi ripristinarle da un backup?</string>
-    <string formatted="false" name="text_round_total">Manche #%d. Totale: %d</string>
-    <string formatted="false" name="text_save_backup">Esegui backup di %d partita su scheda SD?</string>
-    <string formatted="false" name="text_save_backup_plural"> Esegui backup di %d partite su scheda SD?</string>
-    <string formatted="false" name="text_save_backup_succeeded">%d partita salvata in \'%s\'.</string>
-    <string formatted="false" name="text_save_backup_succeeded_plural">%d partite salvate in \'%s\'.</string>
+    <string  name="text_round_total">Manche #%1$d. Totale: %2$d</string>
+    <plurals name="text_save_backup">
+        <item quantity="one">Esegui backup di %d partita su scheda SD?</item>
+        <item quantity="other"> Esegui backup di %d partite su scheda SD?</item>
+    </plurals>
+    <plurals name="text_save_backup_succeeded">
+        <item quantity="one">%1$d partita salvata in \'%2$s\'.</item>
+        <item quantity="other">%1$d partite salvate in \'%2$s\'.</item>
+    </plurals>
     <string name="text_saved_games">Partite salvate</string>
     <string name="text_saving">Esportazione&#8230;</string>
     <plurals name="text_share_spreadsheet_confirm">
@@ -144,11 +152,11 @@ LibreOffice, o Google Docs.</string>
 
     <string name="text_undo_last">Cancella ultimo punteggio</string>
     <string name="text_welcome_title">Benvenuti in KeepScore!</string>
-    <string name="text_welcome_message" formatted="false"><![CDATA[
+    <string name="text_welcome_message" ><![CDATA[
         KeepScore è un\'app gratuita e open source,
 <b>creata da giocatori per i giocatori</b>.
-<p/>Ti piace KeepScore? Perché non fare una <a href="%s">donazione</a>?
-<p/>E se non puoi&#8230; <a href="%s">aiutaci a tradurre</a>!]]></string>
+<p/>Ti piace KeepScore? Perché non fare una <a href="%2$s">donazione</a>?
+<p/>E se non puoi&#8230; <a href="%2$s">aiutaci a tradurre</a>!]]></string>
 
     <string name="text_version_number">Versione %s</string>
     
@@ -193,3 +201,4 @@ LibreOffice, o Google Docs.</string>
     <string name="toast_valid_initial_score">Inserisci un numero valido.</string>
     <string name="toast_valid_update_delay_values">Inserisci un numero compreso tra 1 e 600.</string>
 </resources>
+

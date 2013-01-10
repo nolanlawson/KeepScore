@@ -376,7 +376,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
     private void sendBackupAsAttachment(String filename, int gameCount) {
         
-        String subject = getResources().getQuantityString(R.plurals.text_share_mail_subject, gameCount, gameCount);
+        String subject = getResources().getQuantityString(R.plurals.text_share_mail_subject, gameCount,
+                gameCount);
         
         MailHelper.sendAsAttachment(this, Uri.fromFile(SdcardHelper.getFile(filename, Location.Shares)), 
                 "text/xml", subject, getString(R.string.text_share_mail_body));
@@ -384,7 +385,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     
     private void sendSpreadsheetAsAttachment(String filename, int gameCount) {
         
-        String subject = getResources().getQuantityString(R.plurals.text_share_spreadsheet_subject, gameCount, gameCount);
+        String subject = getResources().getQuantityString(R.plurals.text_share_spreadsheet_subject, 
+                gameCount, gameCount);
         
         MailHelper.sendAsAttachment(this, Uri.fromFile(SdcardHelper.getFile(filename, Location.Spreadsheets)), 
                 "text/csv", subject, getString(R.string.text_share_spreadsheet_body));
@@ -396,7 +398,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             .setCancelable(true)
             .setTitle(R.string.title_confirm)
             .setMessage(getResources().getQuantityString(
-                    R.plurals.text_share_spreadsheet_confirm, gameIds.size(), gameIds.size()))
+                    R.plurals.text_share_spreadsheet_confirm, gameIds.size(), 
+                    gameIds.size()))
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 
@@ -547,8 +550,9 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
         final List<Integer> gameIds = getAllGameIds();
 
-        String message = String.format(getString(gameIds.size() == 1 ? R.string.text_save_backup
-                : R.string.text_save_backup_plural), gameIds.size());
+        String message = getResources().getQuantityString(
+                R.plurals.text_save_backup,
+                gameIds.size(), gameIds.size());
 
         new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.menu_save_backup).setMessage(message)
                 .setNegativeButton(android.R.string.cancel, null)
@@ -560,9 +564,9 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                         saveBackup(Format.GZIP, Location.Backups, gameIds, new Callback<String>() {
 
                             public void onCallback(String filename) {
-                                String message = String.format(getString(gameIds.size() == 1 
-                                        ? R.string.text_save_backup_succeeded
-                                        : R.string.text_save_backup_succeeded_plural), gameIds.size(), filename);
+                                String message = getResources().getQuantityString(
+                                                R.plurals.text_save_backup_succeeded, gameIds.size(), 
+                                                gameIds.size(), filename);
                                 new AlertDialog.Builder(MainActivity.this)
                                         .setCancelable(true)
                                         .setTitle(R.string.title_success)

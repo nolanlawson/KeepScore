@@ -140,8 +140,8 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
         } else {
             // warn the player just in case they don't want to delete these
             // players
-            String deletePlayerText = getString(deletedPlayersToWarnAbout.size() == 1 ? R.string.text_confirm_delete_player
-                    : R.string.text_confirm_delete_player_plural);
+            String deletePlayerText = getResources().getQuantityString(
+                    R.plurals.text_confirm_delete_player, deletedPlayersToWarnAbout.size());
             new AlertDialog.Builder(this).setCancelable(false).setTitle(R.string.title_confirm_delete)
                     .setMessage(String.format(deletePlayerText, TextUtils.join(", ", deletedPlayersToWarnAbout)))
                     .setNegativeButton(android.R.string.cancel, null)
