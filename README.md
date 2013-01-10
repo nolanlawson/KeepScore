@@ -14,7 +14,9 @@ Overview
 
 ![Screenshot][2]
 
-KeepScore is a free and open-source score-keeping app for Android.  Feel free to file bugs on the GitHub page or branch the code yourself!  Just send me a merge request and I'll try to incorporate your changes into the app on the Android Market.
+KeepScore is a free and open-source score-keeping app for Android. 
+Pull requests are always welcome.  I'll try to incorporate your changes into the app 
+on the Google Play Store as soon as I can.
 
 More details about the app can be found on [my website][3] or the [Google Play Store][4].
 
@@ -34,7 +36,7 @@ You must have Maven 3.0.3+ installed in order for this to work.
 Add a translation
 -------------------
 
-KeepScore is currently localized into English, French, Japanese, and (some) German.  For the benefit of
+KeepScore is currently localized into English, French, Japanese, Italian, and German.  For the benefit of
 board gamers around the world, though, I'm
 always happy to get new translations!
 
@@ -45,11 +47,12 @@ For instance,
 if your language is Esperanto (ISO code 'eo'), you would need to add the following files:
 
 ```
-documentation/description-eo.txt              # Play Store description
-KeepScore/res/values-eo/strings.xml           # main translations
-KeepScore/res/values-eo/dimensions.xml        # changes width of the time period overlay (e.g. "Yesterday", 
+KeepScore/res/values-eo/strings.xml           # Main translations
+KeepScore/res/values-eo/dimensions.xml        # Modifies width of the time period overlay (e.g. "Yesterday", 
                                               # "The Past Week") for languages with long words, e.g. French
-KeepScore/res/raw-eo/version_and_credits.xml  # page shown in "About KeepScore"
+KeepScore/res/raw-eo/version_and_credits.xml  # Page shown in "About KeepScore"
+documentation/description-eo.txt              # Play Store description
+documentation/donate/description-eo.txt       # Play Store description (Donate version)
 ```
 
 I maintain the English, French, and Japanese translations myself.
@@ -88,8 +91,9 @@ Note that not all strings in ```strings.xml``` need to be translated.  If you lo
 you'll see that I've helpfully marked constant strings with the prefix ```CONSTANT_```.  Constants do not need
 to be translated.
 
-Some languages (e.g. German) tend to be incomplete.  A helpful tool
-for finding missing translations is the [Android Localization Helper][9].  To ignore constants while using it, you can
+Some languages (e.g. German, Italian) tend to be incomplete because I don't speak them.  A helpful tool
+for finding missing translations is the [Android Localization Helper][9].  
+To ignore constants while using it, you can
 run:
 
 ```./bin/alh.sh /path/to/keepscore/ | grep -v CONSTANT```
@@ -99,7 +103,7 @@ can give you proper credit.  Or just fork and modify the file ```KeepScore/res/r
 yourself.  Thanks!
 
 [1]: http://sam.zoy.org/wtfpl/
-[2]: http://nolanwlawson.files.wordpress.com/2012/09/device-2012-09-19-225256.png?w=252&h=450
+[2]: http://nolanwlawson.files.wordpress.com/2013/01/device-2013-01-06-141649.png?w=450
 [3]: http://nolanlawson.com/tag/keepscore
 [4]: https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore
 [5]: http://actionbarsherlock.com/
