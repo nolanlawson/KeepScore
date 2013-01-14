@@ -93,10 +93,11 @@ to be translated.
 
 Some languages (e.g. German, Italian) tend to be incomplete because I don't speak them.  A helpful tool
 for finding missing translations is the [Android Localization Helper][9].  
+
 To ignore constants while using it, you can
 run:
 
-```./bin/alh.sh /path/to/keepscore/ | grep -v CONSTANT```
+```/path/to/localization/helper/bin/alh.sh /path/to/keepscore/ | grep -v CONSTANT```
 
 Please also tell me what name and email address you would like me to use in the "About" section, so I 
 can give you proper credit.  Or just fork and modify the file ```KeepScore/res/raw/translations.htm```
@@ -104,7 +105,7 @@ yourself.  Thanks!
 
 [1]: http://sam.zoy.org/wtfpl/
 [2]: http://nolanwlawson.files.wordpress.com/2013/01/device-2013-01-06-141649.png?w=450
-[3]: http://nolanlawson.com/tag/keepscore
+[3]: http://nolanlawson.com/apps/#keepscore
 [4]: https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore
 [5]: http://actionbarsherlock.com/
 [6]: https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values/strings.xml
