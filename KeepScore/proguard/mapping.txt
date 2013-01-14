@@ -5849,6 +5849,7 @@ com.nolanlawson.keepscore.OrganizePlayersActivity -> com.nolanlawson.keepscore.O
     com.nolanlawson.keepscore.data.EditablePlayerAdapter adapter -> c
     com.nolanlawson.keepscore.db.Game game -> d
     java.util.List deletedPlayersToWarnAbout -> e
+    boolean menuButtonSortsDescending -> f
     void onCreate(android.os.Bundle) -> onCreate
     boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
     boolean onPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> onPrepareOptionsMenu
@@ -5983,7 +5984,8 @@ com.nolanlawson.keepscore.data.EditablePlayerAdapter -> com.nolanlawson.keepscor
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     int getItemViewType(int) -> getItemViewType
     int getViewTypeCount() -> getViewTypeCount
-    void shuffle() -> a
+    void shuffleAndRefreshView() -> a
+    void sortAndRefreshView(java.util.Comparator) -> a
     void resetPlayerNumbers() -> c
     void setOnDeleteListener(com.nolanlawson.keepscore.util.Callback) -> a
     java.util.List getItems() -> b
@@ -6250,6 +6252,7 @@ com.nolanlawson.keepscore.db.PlayerScore -> com.nolanlawson.keepscore.db.PlayerS
     void setLastUpdate(long) -> b
     java.lang.String toString() -> toString
     java.util.Comparator sortByPlayerNumber() -> g
+    java.util.Comparator sortByScore() -> h
     java.lang.String toDisplayName(android.content.Context) -> a
     java.lang.Object clone() -> clone
     int describeContents() -> describeContents
@@ -6258,6 +6261,8 @@ com.nolanlawson.keepscore.db.PlayerScore$1 -> com.nolanlawson.keepscore.db.h:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
 com.nolanlawson.keepscore.db.PlayerScore$2 -> com.nolanlawson.keepscore.db.i:
+    int compare(java.lang.Object,java.lang.Object) -> compare
+com.nolanlawson.keepscore.db.PlayerScore$3 -> com.nolanlawson.keepscore.db.j:
     int compare(java.lang.Object,java.lang.Object) -> compare
 com.nolanlawson.keepscore.helper.ColorScheme -> com.nolanlawson.keepscore.b.a:
     com.nolanlawson.keepscore.helper.ColorScheme Light -> a
