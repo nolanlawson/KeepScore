@@ -18,7 +18,14 @@ KeepScore is a free and open-source score-keeping app for Android.
 Pull requests are always welcome.  I'll try to incorporate your changes into the app 
 on the Google Play Store as soon as I can.
 
-More details about the app can be found on [my website][3] or the [Google Play Store][4].
+Download
+----------
+
+KeepScore may be downloaded from [the Google Play Store][4].  
+
+You can also find a direct APK download link from [the KeepScore page on my web site][3].
+
+More details about KeepScore can also be found in [my blog posts][10].
 
 Build it yourself
 ------------------
@@ -112,3 +119,4 @@ yourself.  Thanks!
 [7]: https://github.com/blog/1327-creating-files-on-github
 [8]: http://maven.apache.org/
 [9]: https://github.com/4e6/android-localization-helper
+[10]: http://nolanlawson.com/tag/keepscore/
