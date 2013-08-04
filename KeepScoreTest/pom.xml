@@ -6,7 +6,7 @@
 	<groupId>com.nolanlawson.keepscore</groupId>
 	<artifactId>keepscore-test</artifactId>
 	<packaging>apk</packaging>
-	<version>1.2.2-SNAPSHOT</version>
+	<version>1.2.4</version>
 	<name>KeepScore Test</name>
 	<dependencies>
 		<dependency>
@@ -25,7 +25,7 @@
 			<groupId>com.nolanlawson.keepscore</groupId>
 			<artifactId>keepscore</artifactId>
 			<type>apk</type>
-			<version>1.2.2-SNAPSHOT</version>
+			<version>1.2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.nolanlawson.keepscore</groupId>

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nolanlawson.keepscore"
     android:installLocation="auto"
-    android:versionCode="20"
-    android:versionName="1.2.3" >
+    android:versionCode="21"
+    android:versionName="1.2.4" >
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
