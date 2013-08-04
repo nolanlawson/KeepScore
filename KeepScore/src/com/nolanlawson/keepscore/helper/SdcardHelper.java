@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -53,7 +54,7 @@ public class SdcardHelper {
     private static final String ROOT_DIR = "keepscore";
     
     // apparently this is a good format for Excel/LibreOffice
-    private static final DateFormat CSV_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final DateFormat CSV_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
     
     /**
      * 
@@ -119,7 +120,8 @@ public class SdcardHelper {
     }
 
     public static List<String> list(Location location) {
-        return Arrays.asList(getDirectory(location).list());
+        File file = getDirectory(location);
+        return file == null ? Collections.<String>emptyList() : Arrays.asList(file.list());
     }
 
     public static String open(Uri uri, Format format, ContentResolver contentResolver) {

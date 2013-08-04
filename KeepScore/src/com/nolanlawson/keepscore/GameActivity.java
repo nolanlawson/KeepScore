@@ -23,6 +23,7 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewStub;
@@ -806,6 +807,23 @@ public class GameActivity extends SherlockActivity {
                 }
             });
         }
+    }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && shouldAutosave()) {
+
+            // back button pressed
+            // if the game has been modified at all, skip showing the "enter player names"
+            // screen and just go directly to the main screen
+            
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void saveWithNewPlayerScores(final List<PlayerScore> newPlayerScores) {
