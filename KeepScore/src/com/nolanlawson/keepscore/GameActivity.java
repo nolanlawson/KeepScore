@@ -423,6 +423,10 @@ public class GameActivity extends SherlockActivity {
 
         Toast.makeText(this, R.string.toast_rematch_created, Toast.LENGTH_SHORT).show();
     }
+    
+    private boolean gameWasSaved() {
+        return game != null && game.getId() != -1;
+    }
 
     private boolean shouldAutosave() {
         // only autosave if the user has changed SOMETHING, i.e. the scores
@@ -812,12 +816,12 @@ public class GameActivity extends SherlockActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && shouldAutosave()) {
-
+        boolean backButtonPressed = keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0;
+        if (backButtonPressed && (gameWasSaved() || shouldAutosave())) {
             // back button pressed
             // if the game has been modified at all, skip showing the "enter player names"
             // screen and just go directly to the main screen
-            
+        
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
