@@ -61,8 +61,14 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     private static final UtilLogger log = new UtilLogger(PlayerView.class);
 
     private PlayerScore playerScore;
+    
+    // use atomic booleans because I'm paranoid and frankly don't understand
+    // Android concurrency (and plus it seems to change from version to version
+    // of Android, excuses, excuses, etc.)
     private AtomicBoolean shouldAutosave = new AtomicBoolean(false);
-
+    private AtomicBoolean animationWasCanceled = new AtomicBoolean(false);
+    private AtomicBoolean animationRunning = new AtomicBoolean(false);
+    
     private int positiveTextColor;
     private int negativeTextColor;
     private int borderDrawableResId;
@@ -81,7 +87,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     private AtomicLong lastIncremented = new AtomicLong(0);
     private HistoryUpdateRunnable historyUpdateRunnable;
     private final Object lock = new Object();
-    private boolean animationRunning;
+    
     private Runnable onChangeListener;
     private Runnable updateViewsRunnable;
     private Callback<RecordedChange> changeRecorder;
@@ -387,8 +393,11 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
             // show the badge, canceling the "fade out" animation if necessary
             TransitionDrawable transitionDrawable = (TransitionDrawable) badgeLinearLayout.getBackground();
             transitionDrawable.resetTransition();
+            log.d("reset transition");
             if (badgeTextView.getAnimation() != null) {
+                log.d("cleared animation");
                 badgeTextView.clearAnimation();
+                animationWasCanceled.set(true);
             }
             badgeTextView.setVisibility(View.VISIBLE);
             badgeLinearLayout.setVisibility(View.VISIBLE);
@@ -398,7 +407,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     private void fadeOutBadge(final Runnable onAnimationComplete) {
         synchronized (lock) {
 
-            if (!animationRunning // animation is already running, so shouldn't
+            if (!animationRunning.get() // animation is already running, so shouldn't
                     // start a new one
                     && lastIncremented.get() != 0 // counter was reset, in which
                     // case it would be
@@ -406,7 +415,8 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
                     // to fade
                     && badgeTextView.getVisibility() == View.VISIBLE) {
                 // animation isn't already showing, and the badge is visible
-                animationRunning = true;
+                animationRunning.set(true);
+                animationWasCanceled.set(false);
 
                 badgeLinearLayout.setVisibility(View.VISIBLE);
                 // show an animation for the badge with the textview and the
@@ -426,12 +436,14 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         synchronized (lock) {
-                            badgeTextView.setVisibility(View.INVISIBLE);
-
+                            log.d("onAnimationEnd, setting visiblity to invisible");
+                            if (!animationWasCanceled.get()) {
+                                badgeTextView.setVisibility(View.INVISIBLE);
+                            }
                             // necessary to update again to set the history text
                             // view correctly
                             onAnimationComplete.run();
-                            animationRunning = false;
+                            animationRunning.set(false);
                         }
                     }
                 });
