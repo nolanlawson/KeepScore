@@ -6651,38 +6651,39 @@ com.nolanlawson.keepscore.widget.PlayerView -> com.nolanlawson.keepscore.widget.
     com.nolanlawson.keepscore.util.UtilLogger log -> a
     com.nolanlawson.keepscore.db.PlayerScore playerScore -> b
     java.util.concurrent.atomic.AtomicBoolean shouldAutosave -> c
-    int positiveTextColor -> d
-    int negativeTextColor -> e
-    int borderDrawableResId -> f
-    android.graphics.drawable.Drawable borderDrawable -> g
-    android.widget.ImageView tagImageView -> h
-    android.view.View view -> i
-    android.view.View divider1 -> j
-    android.view.View divider2 -> k
-    android.view.View deltaButtonsViewStub -> l
-    com.nolanlawson.keepscore.widget.AutoResizeTextView scoreTextView -> m
-    com.nolanlawson.keepscore.widget.AutoResizeTextView nameTextView -> n
-    android.widget.TextView historyTextView -> o
-    android.widget.TextView badgeTextView -> p
-    android.widget.LinearLayout badgeLinearLayout -> q
-    android.widget.LinearLayout onscreenDeltaButtonsLayout -> r
-    android.widget.Button minusButton -> s
-    android.widget.Button plusButton -> t
-    android.widget.Button deltaButton1 -> u
-    android.widget.Button deltaButton2 -> v
-    android.widget.Button deltaButton3 -> w
-    android.widget.Button deltaButton4 -> x
-    android.content.Context context -> y
-    android.os.Handler handler -> z
-    boolean showOnscreenDeltaButtons -> A
-    java.util.concurrent.atomic.AtomicLong lastIncremented -> B
-    com.nolanlawson.keepscore.widget.PlayerView$HistoryUpdateRunnable historyUpdateRunnable -> C
-    java.lang.Object lock -> D
-    boolean animationRunning -> E
-    java.lang.Runnable onChangeListener -> F
-    java.lang.Runnable updateViewsRunnable -> G
-    com.nolanlawson.keepscore.util.Callback changeRecorder -> H
-    int[] $SWITCH_TABLE$com$nolanlawson$keepscore$data$RecordedChange$Type -> I
+    java.util.concurrent.atomic.AtomicBoolean animationWasCanceled -> d
+    java.util.concurrent.atomic.AtomicBoolean animationRunning -> e
+    int positiveTextColor -> f
+    int negativeTextColor -> g
+    int borderDrawableResId -> h
+    android.graphics.drawable.Drawable borderDrawable -> i
+    android.widget.ImageView tagImageView -> j
+    android.view.View view -> k
+    android.view.View divider1 -> l
+    android.view.View divider2 -> m
+    android.view.View deltaButtonsViewStub -> n
+    com.nolanlawson.keepscore.widget.AutoResizeTextView scoreTextView -> o
+    com.nolanlawson.keepscore.widget.AutoResizeTextView nameTextView -> p
+    android.widget.TextView historyTextView -> q
+    android.widget.TextView badgeTextView -> r
+    android.widget.LinearLayout badgeLinearLayout -> s
+    android.widget.LinearLayout onscreenDeltaButtonsLayout -> t
+    android.widget.Button minusButton -> u
+    android.widget.Button plusButton -> v
+    android.widget.Button deltaButton1 -> w
+    android.widget.Button deltaButton2 -> x
+    android.widget.Button deltaButton3 -> y
+    android.widget.Button deltaButton4 -> z
+    android.content.Context context -> A
+    android.os.Handler handler -> B
+    boolean showOnscreenDeltaButtons -> C
+    java.util.concurrent.atomic.AtomicLong lastIncremented -> D
+    com.nolanlawson.keepscore.widget.PlayerView$HistoryUpdateRunnable historyUpdateRunnable -> E
+    java.lang.Object lock -> F
+    java.lang.Runnable onChangeListener -> G
+    java.lang.Runnable updateViewsRunnable -> H
+    com.nolanlawson.keepscore.util.Callback changeRecorder -> I
+    int[] $SWITCH_TABLE$com$nolanlawson$keepscore$data$RecordedChange$Type -> J
     void setChangeRecorder(com.nolanlawson.keepscore.util.Callback) -> a
     android.widget.LinearLayout getOnscreenDeltaButtonsLayout() -> a
     android.widget.ImageView getTagImageView() -> b
@@ -6711,8 +6712,8 @@ com.nolanlawson.keepscore.widget.PlayerView -> com.nolanlawson.keepscore.widget.
     void reset(android.content.Context) -> a
     void confirmHistory() -> q
     void cancelPendingUpdates() -> r
-    long getUpdateDelayInMs() -> t
-    com.nolanlawson.keepscore.widget.PlayerView$HistoryUpdateRunnable getHistoryUpdateRunnable() -> u
+    long getUpdateDelayInMs() -> u
+    com.nolanlawson.keepscore.widget.PlayerView$HistoryUpdateRunnable getHistoryUpdateRunnable() -> v
     void setNewColorScheme(com.nolanlawson.keepscore.helper.ColorScheme) -> a
     void revertChange(com.nolanlawson.keepscore.data.RecordedChange) -> a
     void reexecuteChange(com.nolanlawson.keepscore.data.RecordedChange) -> b
@@ -6723,16 +6724,18 @@ com.nolanlawson.keepscore.widget.PlayerView -> com.nolanlawson.keepscore.widget.
     void access$3(com.nolanlawson.keepscore.widget.PlayerView,int) -> a
     android.widget.TextView access$4(com.nolanlawson.keepscore.widget.PlayerView) -> d
     java.lang.Object access$5(com.nolanlawson.keepscore.widget.PlayerView) -> e
-    android.widget.TextView access$6(com.nolanlawson.keepscore.widget.PlayerView) -> f
-    void access$7$e4c383e(com.nolanlawson.keepscore.widget.PlayerView) -> g
-    int access$8(com.nolanlawson.keepscore.widget.PlayerView) -> h
-    int access$9(com.nolanlawson.keepscore.widget.PlayerView) -> i
-    android.content.Context access$10(com.nolanlawson.keepscore.widget.PlayerView) -> j
-    void access$11(com.nolanlawson.keepscore.widget.PlayerView) -> k
-    void access$12(com.nolanlawson.keepscore.widget.PlayerView) -> l
-    void access$13(com.nolanlawson.keepscore.widget.PlayerView,int) -> b
-    java.lang.Runnable access$14(com.nolanlawson.keepscore.widget.PlayerView) -> m
-    int[] $SWITCH_TABLE$com$nolanlawson$keepscore$data$RecordedChange$Type() -> v
+    com.nolanlawson.keepscore.util.UtilLogger access$6() -> t
+    java.util.concurrent.atomic.AtomicBoolean access$7(com.nolanlawson.keepscore.widget.PlayerView) -> f
+    android.widget.TextView access$8(com.nolanlawson.keepscore.widget.PlayerView) -> g
+    java.util.concurrent.atomic.AtomicBoolean access$9(com.nolanlawson.keepscore.widget.PlayerView) -> h
+    int access$10(com.nolanlawson.keepscore.widget.PlayerView) -> i
+    int access$11(com.nolanlawson.keepscore.widget.PlayerView) -> j
+    android.content.Context access$12(com.nolanlawson.keepscore.widget.PlayerView) -> k
+    void access$13(com.nolanlawson.keepscore.widget.PlayerView) -> l
+    void access$14(com.nolanlawson.keepscore.widget.PlayerView) -> m
+    void access$15(com.nolanlawson.keepscore.widget.PlayerView,int) -> b
+    java.lang.Runnable access$16(com.nolanlawson.keepscore.widget.PlayerView) -> n
+    int[] $SWITCH_TABLE$com$nolanlawson$keepscore$data$RecordedChange$Type() -> w
 com.nolanlawson.keepscore.widget.PlayerView$1 -> com.nolanlawson.keepscore.widget.a:
     com.nolanlawson.keepscore.widget.PlayerView this$0 -> a
     android.text.Spannable val$newText -> b
