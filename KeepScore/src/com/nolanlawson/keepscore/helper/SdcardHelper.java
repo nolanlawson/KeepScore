@@ -121,7 +121,13 @@ public class SdcardHelper {
 
     public static List<String> list(Location location) {
         File file = getDirectory(location);
-        return file == null ? Collections.<String>emptyList() : Arrays.asList(file.list());
+        if (file != null) {
+            String[] filesAsArray = file.list();
+            if (filesAsArray != null) {
+                return Arrays.asList(filesAsArray);
+            }
+        }
+        return Collections.<String>emptyList();
     }
 
     public static String open(Uri uri, Format format, ContentResolver contentResolver) {
