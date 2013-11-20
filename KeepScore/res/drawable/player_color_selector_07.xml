@@ -4,7 +4,7 @@
     <item android:state_pressed="true">
     	<shape >
     	    <solid android:color="@color/player_color_07"/>
-    	    <stroke android:color="@color/holo_light_blue_1" android:width="2dp"/>
+    	    <stroke android:color="#333333" android:width="2dp"/>
     	    <corners android:radius="2dp"/>
     	</shape>
     </item>
