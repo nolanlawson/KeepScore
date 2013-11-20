@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" 
-    android:gravity="center_horizontal">
-    
-    <include layout="@layout/color_chooser_row" android:id="@+id/row_1"/>
-    <include layout="@layout/color_chooser_row" android:id="@+id/row_2"/>
-    <include layout="@layout/color_chooser_row" android:id="@+id/row_3"/>
-    <include layout="@layout/color_chooser_row" android:id="@+id/row_4"/>
-    
-</LinearLayout>
+    android:layout_gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/row_1"
+            layout="@layout/color_chooser_row" />
+
+        <include
+            android:id="@+id/row_2"
+            layout="@layout/color_chooser_row" />
+
+        <include
+            android:id="@+id/row_3"
+            layout="@layout/color_chooser_row" />
+
+        <include
+            android:id="@+id/row_4"
+            layout="@layout/color_chooser_row" />
+    </LinearLayout>
+
+</HorizontalScrollView>

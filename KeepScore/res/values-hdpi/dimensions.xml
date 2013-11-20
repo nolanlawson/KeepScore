@@ -2,4 +2,6 @@
 <resources>
 	<dimen name="chart_font_size">16dp</dimen>
     <dimen name="chart_line_width">1dp</dimen>
+    
+    <dimen name="color_selector_edge">5dp</dimen>
 </resources>

@@ -87,6 +87,6 @@
 	<color name="player_color_15">#489e99</color>
 	<color name="player_color_16">#f19e99</color>
 	
-	<color name="player_color_selector_edge">#33333333</color>
+	<color name="player_color_selector_edge">#dd33B5E5</color>
 
 </resources>

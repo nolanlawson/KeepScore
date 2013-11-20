@@ -67,4 +67,6 @@
 	<dimen name="player_score_divider">2px</dimen>
 	<dimen name="player_score_divider_margin">9dp</dimen>
 	
+	<dimen name="color_selector_edge">4dp</dimen>
+	
 </resources>
