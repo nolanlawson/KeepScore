@@ -4,13 +4,17 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.nolanlawson.keepscore.util.UtilLogger;
+
 public class SquareImage extends ImageView {
 
+    private static UtilLogger log = new UtilLogger(SquareImage.class);
+    
     public static enum FixedAlong {
-        width, heightd
+        width, height
     }
 
-    private FixedAlong fixedAlong = FixedAlong.width;
+    private FixedAlong fixedAlong = FixedAlong.height;
 
     public SquareImage(Context context) {
         super(context);
@@ -24,18 +28,14 @@ public class SquareImage extends ImageView {
         super(context, attrs, defStyle);
     }
 
-    int squareDimen = 1;
-
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int square = (fixedAlong == FixedAlong.width) ? getMeasuredWidth() : getMeasuredHeight();
+        int squareDimen = (fixedAlong == FixedAlong.width) ? getMeasuredWidth() : getMeasuredHeight();
 
-        if (square > squareDimen) {
-            squareDimen = square;
-        }
-
+        log.d("dimensions are %s", squareDimen);
+        
         setMeasuredDimension(squareDimen, squareDimen);
     }
 
