@@ -16,12 +16,25 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.nolanlawson.keepscore.helper.PlayerNameHelper;
+import com.nolanlawson.keepscore.widget.SquareImage;
 
 public class NamePlayersActivity extends Activity implements OnClickListener {
 	
 	public static final String EXTRA_NUM_PLAYERS = "numPlayers";
 	
+	private static final int[] PLAYER_VIEW_IDS = {
+	    R.id.player_and_color_1,
+	    R.id.player_and_color_2,
+	    R.id.player_and_color_3,
+	    R.id.player_and_color_4,
+	    R.id.player_and_color_5,
+	    R.id.player_and_color_6,
+	    R.id.player_and_color_7,
+	    R.id.player_and_color_8
+	};
+	
 	private List<AutoCompleteTextView> playerEditTexts = new ArrayList<AutoCompleteTextView>();
+	private List<SquareImage> playerColorImageViews = new ArrayList<SquareImage>();
 	private Button okButton;
 	
 	private int numPlayers;
@@ -34,9 +47,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		numPlayers = getIntent().getIntExtra(EXTRA_NUM_PLAYERS, 0);
         
-		int contentResId = numPlayers < 7 
-				? R.layout.name_players_2_to_6 
-				: R.layout.name_players_7_to_8;
+		int contentResId = R.layout.name_players;
 		
         setContentView(contentResId);
         
@@ -47,14 +58,14 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 
 		okButton = (Button) findViewById(android.R.id.button1);
 		
-		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_1));
-		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_2));
-		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_3));
-		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_4));
-		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_5));
-		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_6));
-		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_7));
-		playerEditTexts.add((AutoCompleteTextView) findViewById(R.id.edit_player_8));
+		for (int id : PLAYER_VIEW_IDS) {
+		    View view = findViewById(id);
+		    if (view == null) {
+		        break; // not enough players
+		    }
+		    playerEditTexts.add((AutoCompleteTextView)view.findViewById(R.id.player_name_edit_text));
+		    playerColorImageViews.add((SquareImage)view.findViewById(R.id.player_color_image));
+		}
 		
 		for (int i = 0; i < playerEditTexts.size(); i++) {
 			AutoCompleteTextView playerEditText = playerEditTexts.get(i);

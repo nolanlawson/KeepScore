@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
+	android:background="@drawable/main_background">
+
+	<View android:layout_width="0px" android:layout_weight=".05"
+		android:layout_height="0px" />
+
+	<TextView android:layout_width="fill_parent" android:gravity="center_horizontal"
+		android:layout_height="wrap_content" android:textSize="24sp"
+		android:textStyle="bold" android:text="@string/text_player_names" />
+
+	<View android:layout_width="0px" android:layout_weight=".05"
+		android:layout_height="0px" />
+
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="0px" android:layout_weight="0.85">
+
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:gravity="center_horizontal">
+
+			<View android:layout_width="0px" android:layout_weight=".125"
+				android:layout_height="0px" />
+
+
+			<TableLayout android:layout_width="0px"
+				android:layout_weight=".75" android:layout_height="wrap_content"
+				android:padding="5dp" android:stretchColumns="0,2">
+
+				<TableRow>
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_1"/>
+
+                    <View android:layout_width="10dp" android:layout_height="0px"/>
+
+					<include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_2"/>
+
+
+				</TableRow>
+
+				<TableRow android:paddingTop="3dp">
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_3"/>
+
+                    <View android:layout_width="10dp" android:layout_height="0px"/>
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_4"/>
+
+				</TableRow>
+
+				<TableRow android:paddingTop="3dp">
+
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_5"/>
+
+                    <View android:layout_width="10dp" android:layout_height="0px"/>
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_6"/>
+				</TableRow>
+
+				<TableRow android:paddingTop="3dp">
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_7"/>
+
+                    <View android:layout_width="10dp" android:layout_height="0px"/>
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_8"/>
+				</TableRow>
+
+			</TableLayout>
+
+
+			<View android:layout_width="0px" android:layout_weight=".125"
+				android:layout_height="0px" />
+		</LinearLayout>
+
+	</ScrollView>
+
+	<View android:layout_width="fill_parent" android:layout_weight=".025"
+		android:layout_height="0px" />
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:gravity="center_horizontal">
+
+		<View android:layout_width="0px" android:layout_weight=".25"
+			android:layout_height="fill_parent" />
+
+		<Button android:id="@android:id/button1" android:text="@android:string/ok"
+			android:layout_width="0px" android:layout_weight="0.75"
+			android:minWidth="200dp" android:layout_height="wrap_content"
+			android:textStyle="bold" />
+
+		<View android:layout_width="0px" android:layout_weight=".25"
+			android:layout_height="fill_parent" />
+
+	</LinearLayout>
+
+
+	<View android:layout_width="fill_parent" android:layout_weight=".025"
+		android:layout_height="0px" />
+
+
+</LinearLayout>

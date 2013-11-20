@@ -43,40 +43,22 @@
             <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:orientation="vertical"
-                android:stretchColumns="1">
+                android:stretchColumns="1"
                 
+                >
                 
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_1"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_2"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_3"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_4"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_5"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_6"/>
                 
-                <TableRow>
-                    <com.nolanlawson.keepscore.widget.SquareImage
-                        
-                        android:layout_width="20px"
-                        android:layout_height="fill_parent"
-                        android:src="@drawable/player_color_selector_01"
-                        android:id="@+id/img1"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginRight="5dp"
-                        />
-                    
-                    
-                    <AutoCompleteTextView
-                        android:id="@+id/edit_player_1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        
-                        android:completionThreshold="1"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapWords"
-                        android:singleLine="true"
-                        android:textColor="@android:color/primary_text_light_nodisable" />
-                    
-
-
-
-                </TableRow>
             </TableLayout>
 
             <View

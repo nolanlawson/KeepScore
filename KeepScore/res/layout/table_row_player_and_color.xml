@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <com.nolanlawson.keepscore.widget.SquareImage
+        android:id="@+id/player_color_image"
+        android:layout_width="20px"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/player_color_selector_01" />
+
+    <AutoCompleteTextView
+        android:id="@+id/player_name_edit_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1"
+        android:imeOptions="actionNext"
+        android:inputType="textCapWords"
+        android:singleLine="true"
+        android:textColor="@android:color/primary_text_light_nodisable" 
+        android:minWidth="75dp"
+        />
+
+</TableRow>
