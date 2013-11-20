@@ -82,7 +82,7 @@
 	<color name="player_color_10">#FFFFFF</color>
 	<color name="player_color_11">#AAAAAA</color>
 	<color name="player_color_12">@color/android_color</color>
-	<color name="player_color_13">#d3d639</color>
+	<color name="player_color_13">#e2e63d</color>
 	<color name="player_color_14">#6a3510</color>
 	<color name="player_color_15">#489e99</color>
 	<color name="player_color_16">#f19e99</color>
