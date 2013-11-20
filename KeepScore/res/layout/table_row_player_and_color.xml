@@ -19,7 +19,8 @@
         android:inputType="textCapWords"
         android:singleLine="true"
         android:textColor="@android:color/primary_text_light_nodisable" 
-        android:minWidth="75dp"
+        
         />
+    <View android:layout_width="20dp" android:layout_height="0dp"/>
 
 </TableRow>

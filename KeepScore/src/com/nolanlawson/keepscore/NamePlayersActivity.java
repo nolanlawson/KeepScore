@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PlayerNameHelper;
 import com.nolanlawson.keepscore.widget.SquareImage;
 
@@ -32,7 +33,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 	    R.id.player_and_color_7,
 	    R.id.player_and_color_8
 	};
-	
+    
 	private List<AutoCompleteTextView> playerEditTexts = new ArrayList<AutoCompleteTextView>();
 	private List<SquareImage> playerColorImageViews = new ArrayList<SquareImage>();
 	private Button okButton;
@@ -58,13 +59,16 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 
 		okButton = (Button) findViewById(android.R.id.button1);
 		
-		for (int id : PLAYER_VIEW_IDS) {
+		for (int i = 0; i < PLAYER_VIEW_IDS.length; i++) {
+		    int id = PLAYER_VIEW_IDS[i];
 		    View view = findViewById(id);
 		    if (view == null) {
 		        break; // not enough players
 		    }
 		    playerEditTexts.add((AutoCompleteTextView)view.findViewById(R.id.player_name_edit_text));
-		    playerColorImageViews.add((SquareImage)view.findViewById(R.id.player_color_image));
+		    SquareImage squareImage = (SquareImage)view.findViewById(R.id.player_color_image);
+		    squareImage.setImageResource(PlayerColor.values()[i].getBackgroundColorResId());
+		    playerColorImageViews.add(squareImage);
 		}
 		
 		for (int i = 0; i < playerEditTexts.size(); i++) {

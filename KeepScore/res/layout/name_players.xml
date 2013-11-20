@@ -59,6 +59,7 @@
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_5"/>
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_6"/>
                 
+                
             </TableLayout>
 
             <View
@@ -67,12 +68,6 @@
                 android:layout_weight=".125" />
         </LinearLayout>
     </ScrollView>
-
-    <CheckBox
-        android:id="@+id/checkbox_add_colors"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Add colors" />
 
     <View
         android:layout_width="fill_parent"

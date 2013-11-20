@@ -26,51 +26,42 @@
 
 
 			<TableLayout android:layout_width="0px"
-				android:layout_weight=".75" android:layout_height="wrap_content"
-				android:padding="5dp" android:stretchColumns="0,2">
+				android:layout_weight=".375" android:layout_height="wrap_content"
+				android:padding="5dp" android:stretchColumns="1">
 
-				<TableRow>
-
+				
                     <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_1"/>
 
-                    <View android:layout_width="10dp" android:layout_height="0px"/>
 
-					<include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_2"/>
-
-
-				</TableRow>
-
-				<TableRow android:paddingTop="3dp">
 
                     <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_3"/>
-
-                    <View android:layout_width="10dp" android:layout_height="0px"/>
-
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_4"/>
-
-				</TableRow>
-
-				<TableRow android:paddingTop="3dp">
 
 
                     <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_5"/>
 
-                    <View android:layout_width="10dp" android:layout_height="0px"/>
-
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_6"/>
-				</TableRow>
-
-				<TableRow android:paddingTop="3dp">
 
                     <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_7"/>
 
-                    <View android:layout_width="10dp" android:layout_height="0px"/>
+			</TableLayout>
+            <TableLayout android:layout_width="0px"
+                android:layout_weight=".375" android:layout_height="wrap_content"
+                android:padding="5dp" android:stretchColumns="1">
+
+                
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_2"/>
+
+
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_4"/>
+
+
+                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_6"/>
+
 
                     <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_8"/>
-				</TableRow>
 
-			</TableLayout>
-
+            </TableLayout>
+            
 
 			<View android:layout_width="0px" android:layout_weight=".125"
 				android:layout_height="0px" />
