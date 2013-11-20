@@ -48,9 +48,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:orientation="vertical"
-                android:stretchColumns="1"
-                
-                >
+                android:stretchColumns="1">
                 
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_1"/>
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_2"/>
@@ -58,6 +56,8 @@
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_4"/>
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_5"/>
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_6"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_7"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_8"/>
                 
                 
             </TableLayout>

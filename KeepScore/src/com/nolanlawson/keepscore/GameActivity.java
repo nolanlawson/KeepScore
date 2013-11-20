@@ -67,6 +67,7 @@ import com.nolanlawson.keepscore.widget.PlayerView;
 public class GameActivity extends SherlockActivity {
 
     public static final String EXTRA_PLAYER_NAMES = "playerNames";
+    public static final String EXTRA_PLAYER_COLORS = "playerColors";
     public static final String EXTRA_GAME_ID = "gameId";
     public static final String EXTRA_GAME = "game";
 

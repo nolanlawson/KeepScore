@@ -36,6 +36,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
     
 	private List<AutoCompleteTextView> playerEditTexts = new ArrayList<AutoCompleteTextView>();
 	private List<SquareImage> playerColorImageViews = new ArrayList<SquareImage>();
+	private List<View> playerViews = new ArrayList<View>();
 	private Button okButton;
 	
 	private int numPlayers;
@@ -54,20 +55,52 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
         
         setUpWidgets();
     }
+	
+	
 
-	private void setUpWidgets() {
+	@Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        
+        numPlayers = savedInstanceState.getInt(EXTRA_NUM_PLAYERS);
+        
+        String[] playerNames = savedInstanceState.getStringArray(GameActivity.EXTRA_PLAYER_NAMES);
+        int[] playerColors = savedInstanceState.getIntArray(GameActivity.EXTRA_PLAYER_COLORS);
+        for (int i = 0; i < numPlayers; i++) {
+            playerEditTexts.get(i).setText(playerNames[i]);
+            PlayerColor playerColor = PlayerColor.values()[playerColors[i]];
+            SquareImage playerColorImageView = playerColorImageViews.get(i);
+            playerColorImageView.setTag(playerColor);
+            playerColorImageView.setImageResource(playerColor.getSelectorResId());
+        }
+        
+    }
+
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(EXTRA_NUM_PLAYERS, numPlayers);
+        outState.putStringArray(GameActivity.EXTRA_PLAYER_NAMES, getPlayerNames());
+        outState.putIntArray(GameActivity.EXTRA_PLAYER_COLORS, getPlayerColors());
+    }
+
+
+
+    private void setUpWidgets() {
 
 		okButton = (Button) findViewById(android.R.id.button1);
 		
 		for (int i = 0; i < PLAYER_VIEW_IDS.length; i++) {
 		    int id = PLAYER_VIEW_IDS[i];
 		    View view = findViewById(id);
-		    if (view == null) {
-		        break; // not enough players
-		    }
+		    playerViews.add(view);
 		    playerEditTexts.add((AutoCompleteTextView)view.findViewById(R.id.player_name_edit_text));
 		    SquareImage squareImage = (SquareImage)view.findViewById(R.id.player_color_image);
-		    squareImage.setImageResource(PlayerColor.values()[i].getBackgroundColorResId());
+		    PlayerColor playerColor = PlayerColor.values()[i];
+		    squareImage.setImageResource(playerColor.getSelectorResId());
+		    squareImage.setTag(playerColor);
 		    playerColorImageViews.add(squareImage);
 		}
 		
@@ -80,7 +113,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 			playerEditText.setHint(hint);
 			
 			// get rid of any edit texts that don't fit given the number of players
-			playerEditText.setVisibility(i >= numPlayers ? View.GONE : View.VISIBLE);
+			playerViews.get(i).setVisibility(i >= numPlayers ? View.GONE : View.VISIBLE);
 			
 			// final edit text does "action done"
 			if (i == numPlayers-1) {
@@ -120,21 +153,37 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 		}.execute((Void)null);
 		
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		// ok button clicked
 		
-		String[] playerNames = new String[numPlayers];
-		
-		for (int i = 0; i < numPlayers; i++) {
-			playerNames[i] = playerEditTexts.get(i).getText().toString();
-		}
+		String[] playerNames = getPlayerNames();
+		int[] playerColors = getPlayerColors();
 		
 		Intent intent = new Intent(this, GameActivity.class);
 		
 		intent.putExtra(GameActivity.EXTRA_PLAYER_NAMES, playerNames);
+		intent.putExtra(GameActivity.EXTRA_PLAYER_COLORS, playerColors);
 		
 		startActivity(intent);
+	}
+	
+	private String[] getPlayerNames() {
+	    String[] playerNames = new String[numPlayers];
+        
+        for (int i = 0; i < numPlayers; i++) {
+            playerNames[i] = playerEditTexts.get(i).getText().toString();
+        }
+        return playerNames;
+	}
+	
+	private int[] getPlayerColors() {
+       int[] playerColors = new int[numPlayers];
+        
+       for (int i = 0; i < numPlayers; i++) {
+           playerColors[i] = ((PlayerColor)(playerColorImageViews.get(i).getTag())).ordinal();
+       }
+       return playerColors;
 	}
 }

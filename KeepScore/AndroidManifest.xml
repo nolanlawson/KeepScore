@@ -37,7 +37,6 @@
             android:label="@string/CONSTANT_app_name"/>
         <activity
             android:name=".NamePlayersActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
             android:label="@string/CONSTANT_app_name" />
         <activity
             android:name=".GameActivity"
