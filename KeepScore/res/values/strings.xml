@@ -228,6 +228,7 @@ LibreOffice, or Google Docs.</string>
     <string name="title_add_player">Enter Player Name</string>
     <string name="title_change_name">Change Name</string>
     <string name="title_choose_backup">Restore Games from File</string>
+    <string name="title_choose_color">Choose a Color</string>
     <string name="title_confirm">Confirm</string>
     <string name="title_confirm_delete">Confirm Delete</string>
     <string name="title_confirm_reset">Confirm Reset</string>

@@ -87,5 +87,6 @@
 	<color name="player_color_15">@color/android_color</color>
 	<color name="player_color_16">#FF999999</color>
 	
+	<color name="player_color_selector_edge">#33333333</color>
 
 </resources>

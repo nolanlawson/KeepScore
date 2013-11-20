@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_selected="true">
+    <item android:state_pressed="true">
     	<shape >
-    	    <solid android:color="@color/holo_light_blue_1"/>
+    	    <solid android:color="@color/player_color_11"/>
+    	    <stroke android:color="@color/holo_light_blue_1" android:width="2dp"/>
     	    <corners android:radius="2dp"/>
     	</shape>
     </item>
-
+    
+    <item android:state_selected="true">
+        <shape >
+            <solid android:color="@color/player_color_11"/>
+            <stroke android:color="@color/player_color_selector_edge" android:width="7dp"/>
+            <corners android:radius="2dp"/>
+        </shape>
+    </item>
+    
     <item>
     	<shape >
     	    <solid android:color="@color/player_color_11"/>

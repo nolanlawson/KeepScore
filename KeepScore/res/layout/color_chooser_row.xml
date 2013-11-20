@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="5dp">
+       
+    <include layout="@layout/color_chooser_square" android:id="@+id/column_1"/>
+    <include layout="@layout/color_chooser_square" android:id="@+id/column_2"/>
+    <include layout="@layout/color_chooser_square" android:id="@+id/column_3"/>
+    <include layout="@layout/color_chooser_square" android:id="@+id/column_4"/>
+</LinearLayout>

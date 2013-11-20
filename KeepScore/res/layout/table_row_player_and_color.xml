@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android" >
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:squareimage="http://schemas.android.com/apk/res/com.nolanlawson.keepscore">
 
     <com.nolanlawson.keepscore.widget.SquareImage
         android:id="@+id/player_color_image"
-        android:layout_width="20px"
+        squareimage:fixedOnHeight="true"
+        android:layout_width="20dp"
         android:layout_height="fill_parent"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/player_color_selector_01" />
+        android:src="@drawable/player_color_selector_01"/>
 
     <AutoCompleteTextView
         android:id="@+id/player_name_edit_text"

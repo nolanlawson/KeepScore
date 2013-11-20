@@ -7,5 +7,9 @@
         <attr name="overlayTextSize" format="dimension" />
         <attr name="overlayTextColor" format="color" />
     </declare-styleable>
+    
+    <declare-styleable name="SquareImage">
+        <attr name="fixedOnHeight" format="boolean" />
+    </declare-styleable>
 
 </resources>

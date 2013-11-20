@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -17,6 +20,7 @@ import android.widget.Button;
 
 import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PlayerNameHelper;
+import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.widget.SquareImage;
 
 public class NamePlayersActivity extends Activity implements OnClickListener {
@@ -101,6 +105,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 		    PlayerColor playerColor = PlayerColor.values()[i];
 		    squareImage.setImageResource(playerColor.getSelectorResId());
 		    squareImage.setTag(playerColor);
+		    squareImage.setOnClickListener(this);
 		    playerColorImageViews.add(squareImage);
 		}
 		
@@ -156,17 +161,85 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		// ok button clicked
-		
-		String[] playerNames = getPlayerNames();
-		int[] playerColors = getPlayerColors();
-		
-		Intent intent = new Intent(this, GameActivity.class);
-		
-		intent.putExtra(GameActivity.EXTRA_PLAYER_NAMES, playerNames);
-		intent.putExtra(GameActivity.EXTRA_PLAYER_COLORS, playerColors);
-		
-		startActivity(intent);
+	    
+	    switch (v.getId()) {
+	        case android.R.string.ok:
+        		// ok button clicked
+        		
+        		String[] playerNames = getPlayerNames();
+        		int[] playerColors = getPlayerColors();
+        		
+        		Intent intent = new Intent(this, GameActivity.class);
+        		
+        		intent.putExtra(GameActivity.EXTRA_PLAYER_NAMES, playerNames);
+        		intent.putExtra(GameActivity.EXTRA_PLAYER_COLORS, playerColors);
+        		
+        		startActivity(intent);
+        		break;
+        	default:
+        	    showColorChooserDialog(((SquareImage)v));
+        	    break;
+	    }
+	}
+	
+	private void showColorChooserDialog(final SquareImage squareImage) {
+	    
+	    PlayerColor selectedColor = (PlayerColor)squareImage.getTag();
+	    
+	    final View view = createColorChooserView(selectedColor);
+	    
+	    new AlertDialog.Builder(this)
+	        .setCancelable(true)
+	        .setNegativeButton(android.R.string.cancel, null)
+	        .setTitle(R.string.title_choose_color)
+	        .setView(view)
+	        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    
+                    PlayerColor selectedPlayerColor = (PlayerColor)view.getTag();
+                    squareImage.setTag(selectedPlayerColor);
+                    squareImage.setImageResource(selectedPlayerColor.getSelectorResId());
+                }
+            })
+	        .show();
+	}
+	
+	private View createColorChooserView(final PlayerColor selectedColor) {
+	    
+	    LayoutInflater inflater = (LayoutInflater)getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+	    final View view = inflater.inflate(R.layout.color_chooser_dialog, null, false);
+	    
+	    final List<SquareImage> squareImages = new ArrayList<SquareImage>();
+        int colorCounter = 0;
+        for (int rowId : new int[]{R.id.row_1, R.id.row_2, R.id.row_3, R.id.row_4}) {
+            View row = view.findViewById(rowId);
+            for (int columnId : new int[]{R.id.column_1, R.id.column_2, R.id.column_3, R.id.column_4}) {
+                SquareImage squareImage = (SquareImage)(row.findViewById(columnId));
+                squareImages.add(squareImage);
+                PlayerColor playerColor = PlayerColor.values()[colorCounter++];
+                squareImage.setSelected(playerColor == selectedColor);
+                squareImage.setTag(playerColor);
+                if (playerColor == selectedColor) {
+                    view.setTag(selectedColor); // remember which one is selected
+                }
+                squareImage.setImageResource(playerColor.getSelectorResId());
+                squareImage.setOnClickListener(new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        PlayerColor playerColor = (PlayerColor)(v.getTag());
+                        for (SquareImage otherSquareImage : squareImages) {
+                            otherSquareImage.setSelected(otherSquareImage.getTag() == playerColor);
+                        }
+                        view.setTag(playerColor); // remember which one is selected
+                    }
+                });
+                
+            }
+        }
+        return view;
 	}
 	
 	private String[] getPlayerNames() {
