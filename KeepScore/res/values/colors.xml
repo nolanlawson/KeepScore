@@ -61,14 +61,14 @@
     <color name="chart_secondary">#FFCCCCCC</color>
     <color name="chart_tertiary">#FF999999</color>
     
-	<color name="chart_line_01">#FFdb1119</color>
-	<color name="chart_line_02">#FF0d21ec</color>
-	<color name="chart_line_03">#FFf28b26</color>
-	<color name="chart_line_04">#FF9b1b97</color>
-	<color name="chart_line_05">#FF1fbb1f</color>
-	<color name="chart_line_08">#FFff008c</color>
-	<color name="chart_line_07">#FF41b4e1</color>
-	<color name="chart_line_06">#FFcc83f5</color>
+	<color name="chart_line_01">#db1119</color>
+	<color name="chart_line_02">#0d21ec</color>
+	<color name="chart_line_03">#f28b26</color>
+	<color name="chart_line_04">#9b1b97</color>
+	<color name="chart_line_05">#1fbb1f</color>
+	<color name="chart_line_08">#ff008c</color>
+	<color name="chart_line_07">#41b4e1</color>
+	<color name="chart_line_06">#cc83f5</color>
 	
 	<color name="player_color_01">@color/chart_line_01</color>
 	<color name="player_color_02">@color/chart_line_02</color>
@@ -78,14 +78,14 @@
 	<color name="player_color_06">@color/chart_line_06</color>
 	<color name="player_color_07">@color/chart_line_07</color>
 	<color name="player_color_08">@color/chart_line_08</color>
-	<color name="player_color_09">#FF000000</color>
-	<color name="player_color_10">#FFFFFFFF</color>
-	<color name="player_color_11">@android:color/darker_gray</color>
-	<color name="player_color_12">@color/holo_light_blue_1</color>
-	<color name="player_color_13">@color/orange_1</color>
-	<color name="player_color_14">@color/yellow_1</color>
-	<color name="player_color_15">@color/android_color</color>
-	<color name="player_color_16">#FF999999</color>
+	<color name="player_color_09">#000000</color>
+	<color name="player_color_10">#FFFFFF</color>
+	<color name="player_color_11">#AAAAAA</color>
+	<color name="player_color_12">@color/android_color</color>
+	<color name="player_color_13">#d3d639</color>
+	<color name="player_color_14">#6a3510</color>
+	<color name="player_color_15">#489e99</color>
+	<color name="player_color_16">#f19e99</color>
 	
 	<color name="player_color_selector_edge">#33333333</color>
 
