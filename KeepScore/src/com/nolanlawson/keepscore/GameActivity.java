@@ -46,6 +46,7 @@ import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.ColorScheme;
 import com.nolanlawson.keepscore.helper.CompatibilityHelper;
+import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PlayerTextFormat;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.VersionHelper;
@@ -472,6 +473,7 @@ public class GameActivity extends SherlockActivity {
     private void createNewGame() {
 
         String[] playerNames = getIntent().getStringArrayExtra(EXTRA_PLAYER_NAMES);
+        int[] playerColors = getIntent().getIntArrayExtra(EXTRA_PLAYER_COLORS);
 
         game = new Game();
 
@@ -485,6 +487,7 @@ public class GameActivity extends SherlockActivity {
             PlayerScore playerScore = new PlayerScore();
 
             playerScore.setName(playerNames[i]);
+            playerScore.setPlayerColor(PlayerColor.values()[playerColors[i]]);
             playerScore.setPlayerNumber(i);
             playerScore.setHistory(new ArrayList<Delta>());
             playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
