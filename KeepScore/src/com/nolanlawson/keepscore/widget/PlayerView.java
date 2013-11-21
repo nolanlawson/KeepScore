@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -61,6 +62,9 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
     private static final UtilLogger log = new UtilLogger(PlayerView.class);
 
+    private static final Function<Delta, Integer> DELTA_TO_LENGTH_WITH_SIGN = Functions.chain(
+            Delta.GET_VALUE, Functions.INTEGER_TO_LENGTH_WITH_SIGN);
+    
     private PlayerScore playerScore;
     
     // use atomic booleans because I'm paranoid and frankly don't understand
@@ -347,16 +351,14 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
                     .setBackgroundResource(lastDelta.getValue() >= 0 ? getPositiveBadge() : R.drawable.badge_red_fade_out);
 
             // update history text view now rather than later
-            List<Integer> historyValues = CollectionUtil.transform(playerScore.getHistory(), Delta.GET_VALUE);
-            setHistoryTextLazily(historyValues, currentTime);
+            setHistoryTextLazily(playerScore.getHistory(), currentTime);
         } else {
             log.d("hiding badge");
             // hide badge (blibbet)
 
             // update history text view later
-            List<Integer> historyValues = CollectionUtil.transform(playerScore.getHistory(), Delta.GET_VALUE);
-            final Spannable newText = fromHistory(historyValues, currentTime);
-            final Integer newHash = historyHash(historyValues, currentTime);
+            final Spannable newText = fromHistory(playerScore.getHistory(), currentTime);
+            final Integer newHash = historyHash(playerScore.getHistory(), currentTime);
             Runnable updateHistoryRunnable = new Runnable() {
 
                 @Override
@@ -477,11 +479,11 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
         }
     }
 
-    private void setHistoryTextLazily(List<Integer> historyInts, long currentTime) {
-        Integer hash = historyHash(historyInts, currentTime);
+    private void setHistoryTextLazily(List<Delta> history, long currentTime) {
+        Integer hash = historyHash(history, currentTime);
         if (!hash.equals(historyTextView.getTag())) {
             // need to redraw the history
-            historyTextView.setText(fromHistory(historyInts, currentTime));
+            historyTextView.setText(fromHistory(history, currentTime));
             historyTextView.setTag(hash);
         }
     }
@@ -494,9 +496,18 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
      * @param currentTime
      * @return
      */
-    private int historyHash(List<Integer> history, long currentTime) {
-        return historyToShow(history, currentTime).hashCode();
-
+    private int historyHash(List<Delta> history, long currentTime) {
+        List<Delta> historyToShow = historyToShow(history, currentTime);
+        // hash code implementation copied from java.util.Arrays (just the values, not the timestamps)
+        if (historyToShow.isEmpty()) {
+            return 0;
+        }
+        
+        int result = 1;
+        for (Delta delta : historyToShow) {
+            result = 31 * result + delta.getValue();
+        }
+        return result;
     }
 
     /**
@@ -507,7 +518,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
      * @param currentTime
      * @return
      */
-    private List<Integer> historyToShow(List<Integer> history, long currentTime) {
+    private List<Delta> historyToShow(List<Delta> history, long currentTime) {
 
         boolean stillModifiable = currentTime < (lastIncremented.get() + getUpdateDelayInMs());
 
@@ -528,7 +539,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
      * 
      * @param currentTime
      */
-    private Spannable fromHistory(List<Integer> history, long currentTime) {
+    private Spannable fromHistory(List<Delta> history, long currentTime) {
 
         history = historyToShow(history, currentTime);
 
@@ -545,9 +556,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
         // '+10'), because
         // I think it looks nicer and more consistent with most games
         int maxChars = Math.max(MIN_NUM_HISTORY_CHARS,
-                CollectionUtil.maxValue(history, Functions.INTEGER_TO_LENGTH_WITH_SIGN));
+                CollectionUtil.maxValue(history, DELTA_TO_LENGTH_WITH_SIGN));
 
-        List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
+        List<Spannable> spannables = CollectionUtil.transform(history, Functions.chain(
+                Delta.GET_VALUE, historyToSpan(maxChars)));
 
         Spannable result = new SpannableString(StringUtil.joinSpannables("\n",
                 CollectionUtil.toArray(spannables, Spannable.class)));
@@ -556,23 +568,32 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
 
     }
 
+    // I don't expect most delta strings to exceed 4 characters, e.g. "+100"
+    private SparseArray<Function<Integer, Spannable>> historyToSpanLookup = 
+            new SparseArray<CollectionUtil.Function<Integer,Spannable>>(4);
+    
     private Function<Integer, Spannable> historyToSpan(final int maxChars) {
-        return new Function<Integer, Spannable>() {
+        
+        Function<Integer, Spannable> function = historyToSpanLookup.get(maxChars);
+        if (function == null) {
+            function = new Function<Integer, Spannable>() {
 
-            @Override
-            public Spannable apply(Integer value) {
-                int colorResId = (value >= 0) ? positiveTextColor : negativeTextColor;
-                ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(colorResId));
-                String str = IntegerUtil.toStringWithSign(value);
-                // log.v("max length is %s, str is '%s'", maxChars, str);
-                str = StringUtil.padLeft(str, ' ', maxChars);
-                Spannable spannable = new SpannableString(str);
-                SpannableUtil.setWholeSpan(spannable, colorSpan);
+                @Override
+                public Spannable apply(Integer value) {
+                    int colorResId = (value >= 0) ? positiveTextColor : negativeTextColor;
+                    ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(colorResId));
+                    String str = IntegerUtil.toStringWithSign(value);
+                    // log.v("max length is %s, str is '%s'", maxChars, str);
+                    str = StringUtil.padLeft(str, ' ', maxChars);
+                    Spannable spannable = new SpannableString(str);
+                    SpannableUtil.setWholeSpan(spannable, colorSpan);
 
-                return spannable;
-            }
-
-        };
+                    return spannable;
+                }
+            };
+            historyToSpanLookup.put(maxChars, function);
+        }
+        return function;
     }
 
     @Override

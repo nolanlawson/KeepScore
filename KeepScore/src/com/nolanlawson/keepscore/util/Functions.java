@@ -8,6 +8,16 @@ import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 
 public class Functions {
     
+    public static <X,Y,Z> Function<X, Z> chain(final Function<X,Y> function1, final Function<Y,Z> function2) {
+        return new Function<X, Z>() {
+
+            @Override
+            public Z apply(X obj) {
+                return function2.apply(function1.apply(obj));
+            }
+        };
+    }
+    
     public static final Function<PlayerScore, Long> PLAYER_SCORE_TO_SCORE = new Function<PlayerScore, Long>() {
 
         @Override

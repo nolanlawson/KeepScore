@@ -644,7 +644,7 @@ public class GameActivity extends SherlockActivity {
         for (int i = 0; i < playerScores.size(); i++) {
             PlayerScore playerScore = playerScores.get(i);
             
-            log.i("playerScore lastUpdate is %s", playerScore.getLastUpdate());
+            log.d("playerScore lastUpdate is %s", playerScore.getLastUpdate());
             
             if (playerScore.getLastUpdate() > maxLastUpdate) {
                 maxLastUpdate = playerScore.getLastUpdate();
