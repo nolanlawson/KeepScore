@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
@@ -17,14 +18,16 @@ import org.xmlpull.v1.XmlSerializer;
 
 import android.content.ContentResolver;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.util.Xml;
 
+import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.SdcardHelper.Format;
+import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.XmlHelper;
 import com.nolanlawson.keepscore.util.CollectionUtil;
+import com.nolanlawson.keepscore.util.Pair;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
@@ -53,7 +56,12 @@ public class GamesBackupSerializer {
      */
     public static final int VERSION_FOUR = 4;
     
-    public static final int CURRENT_VERSION = VERSION_FOUR;
+    /**
+     * Version where colors and player history timestamps were added.
+     */
+    public static final int VERSION_FIVE = 5;
+    
+    public static final int CURRENT_VERSION = VERSION_FIVE;
     
     private static final String ATTRIBUTE_NULL = "isNull";
     private static final String ATTRIBUTE_EMPTY = "isEmpty";
@@ -62,8 +70,8 @@ public class GamesBackupSerializer {
     
     private static enum Tag {
         PlayerScore, Game, GamesBackup, gameCount, version, automatic, backupFilename, dateGameSaved, 
-        dateBackupSaved, dateGameStarted, gameName, playerName, score, playerNumber, history, lastUpdate, 
-        Games, PlayerScores;
+        dateBackupSaved, dateGameStarted, gameName, playerName, score, playerNumber, history, historyTimestamps,
+        lastUpdate, color, Games, PlayerScores;
     }
 
     /**
@@ -72,6 +80,7 @@ public class GamesBackupSerializer {
      * @param backupFilename
      * @return
      */
+    @SuppressWarnings("incomplete-switch")
     public static GamesBackupSummary readGamesBackupSummary(Uri uri, Format format, ContentResolver contentResolver) {
         
         GamesBackupSummary result = new GamesBackupSummary();
@@ -164,6 +173,7 @@ public class GamesBackupSerializer {
         throw new RuntimeException("failed to find summary for " + uri);
     }
 
+    @SuppressWarnings("incomplete-switch")
     public static GamesBackup deserialize(String xmlData) {
         int parserEvent = -1;
         XmlPullParser parser = null;
@@ -228,10 +238,26 @@ public class GamesBackupSerializer {
             log.e(e, "unexpected");
         }
 
+        applyVersionFixes(gamesBackup);
+        
         // return de-serialized game backup
         return gamesBackup;
     }
 
+    private static void applyVersionFixes(GamesBackup gamesBackup) {
+        
+        // fix for older versions of keepscore without colors
+        if (gamesBackup.getVersion() < VERSION_FIVE) {
+            for (Game game : gamesBackup.getGames()) {
+                for (PlayerScore playerScore : game.getPlayerScores()) {
+                    playerScore.setPlayerColor(PlayerColor.values()[playerScore.getPlayerNumber()]);
+                }
+            }
+        }
+        
+    }
+
+    @SuppressWarnings("incomplete-switch")
     private static void handleText(String text, Tag tag, Map<String, String> attributes, GamesBackup gamesBackup,
             Game game, PlayerScore playerScore) {
 
@@ -267,8 +293,18 @@ public class GamesBackupSerializer {
                 playerScore.setPlayerNumber(Integer.parseInt(text));
                 break;
             case history:
-                playerScore.setHistory(CollectionUtil.stringsToInts(StringUtil.split(
-                        getTextOrNullOrEmpty(attributes, text), ',')));
+                playerScore.setHistory(Delta.fromJoinedScores(getTextOrNullOrEmpty(attributes, text)));
+                break;
+            case historyTimestamps:
+                // update the existing list; assume this tag always comes after the "history" tag
+                List<Long> timestamps = CollectionUtil.stringsToLongs(
+                        StringUtil.split(getTextOrNullOrEmpty(attributes, text), ','));
+                for (int i = 0, len = playerScore.getHistory().size(); i < len; i++) {
+                    playerScore.getHistory().get(i).setTimestamp(timestamps.get(i));
+                }
+                break;
+            case color:
+                playerScore.setPlayerColor(PlayerColor.values()[Integer.parseInt(text)]);
                 break;
             case score:
                 playerScore.setScore(Long.parseLong(text));
@@ -323,7 +359,9 @@ public class GamesBackupSerializer {
                     addTag(serializer, Tag.playerName, playerScore.getName());
                     addTag(serializer, Tag.score, playerScore.getScore());
                     addTag(serializer, Tag.playerNumber, playerScore.getPlayerNumber());
-                    addTag(serializer, Tag.history, TextUtils.join(",", playerScore.getHistory()));
+                    Pair<String,String> historyAsStrings = Delta.toJoinedStrings(playerScore.getHistory());
+                    addTag(serializer, Tag.history, historyAsStrings.getFirst());
+                    addTag(serializer, Tag.historyTimestamps, historyAsStrings.getSecond());
                     addTag(serializer, Tag.lastUpdate, Long.toString(playerScore.getLastUpdate()));
 
                     serializer.endTag("", Tag.PlayerScore.name());

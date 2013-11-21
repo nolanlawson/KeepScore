@@ -55,6 +55,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 
     private Handler handler = new Handler(Looper.getMainLooper());
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -194,6 +195,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         finish();
     }
 
+    @SuppressWarnings("deprecation")
     private Preference findPreferenceById(int resId) {
         return findPreference(getString(resId));
     }
@@ -450,6 +452,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 
     }
 
+    @SuppressWarnings("deprecation")
     private int getPreferenceCategoryPosition(int titleId) {
         PreferenceScreen screen = getPreferenceScreen();
         String titleToFind = getString(titleId);

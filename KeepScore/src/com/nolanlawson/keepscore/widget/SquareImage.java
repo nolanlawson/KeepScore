@@ -23,7 +23,7 @@ public class SquareImage extends ImageView {
     }
 
     private FixedAlong fixedAlong = FixedAlong.width;
-
+    
     public SquareImage(Context context) {
         super(context);
     }
@@ -51,11 +51,15 @@ public class SquareImage extends ImageView {
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int squareDimen = (fixedAlong == FixedAlong.width) ? getMeasuredWidth() : getMeasuredHeight();
-
-        log.d("dimensions are %s", squareDimen);
+        int measuredWidth = getMeasuredWidth();
+        int measuredHeight = getMeasuredHeight();
         
-        setMeasuredDimension(squareDimen, squareDimen);
+        log.d("measured width and height are are %s, %s", measuredWidth, measuredHeight);
+        
+        int squareDimen = (fixedAlong == FixedAlong.width) ? measuredWidth : measuredHeight;
+        
+        log.d("dimensions are %s", squareDimen);
+        setMeasuredDimension(squareDimen, squareDimen);            
     }
 
 }

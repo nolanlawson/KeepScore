@@ -35,6 +35,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.data.HistoryItem;
+import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.ColorScheme;
@@ -217,11 +218,12 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
             List<Integer> dataPoints = new ArrayList<Integer>();
 
             // have to include the starting score as well
-            long runningTally = playerScore.getScore() - CollectionUtil.sum(playerScore.getHistory());
+            long runningTally = playerScore.getScore() - CollectionUtil.sum(CollectionUtil.transform(
+                    playerScore.getHistory(), Delta.GET_VALUE));
             dataPoints.add((int) runningTally);
 
-            for (int delta : playerScore.getHistory()) {
-                runningTally += delta;
+            for (Delta delta : playerScore.getHistory()) {
+                runningTally += delta.getValue();
                 dataPoints.add((int) runningTally);
             }
 

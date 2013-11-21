@@ -3,10 +3,15 @@ package com.nolanlawson.keepscore.util;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class CollectionUtil {
 
+    public static <E> List<E> nullToEmpty(List<E> input) {
+        return input == null ? Collections.<E>emptyList() : input;
+    }
+    
     public static <E, T extends Comparable<T>> T maxValue(List<E> list, Function<E, T> function) {
 
         return maxValue(list, function, null);
@@ -46,7 +51,17 @@ public class CollectionUtil {
             }
         };
     }
+    public static List<Long> stringsToLongs(List<String> list) {
 
+        List<Long> result = new ArrayList<Long>();
+
+        for (String str : list) {
+            result.add(Long.parseLong(str));
+        }
+
+        return result;
+    }
+    
     public static List<Integer> stringsToInts(List<String> list) {
 
         List<Integer> result = new ArrayList<Integer>();

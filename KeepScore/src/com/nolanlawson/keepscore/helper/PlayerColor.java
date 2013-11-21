@@ -49,5 +49,4 @@ public enum PlayerColor {
     public int getForegroundColorResId() {
         return foregroundColorResId;
     }
-    
 }

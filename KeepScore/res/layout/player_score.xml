@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:squareimage="http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_vertical|center_horizontal" >
@@ -16,123 +17,145 @@
         android:id="@+id/text_history"
         android:layout_width="@dimen/history_width"
         android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
         android:layout_above="@+id/onscreen_delta_buttons_stub"
+        android:layout_alignParentRight="true"
         android:background="@drawable/history_background"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center_horizontal|top"
         android:paddingBottom="5dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:paddingTop="5dp"
         android:textSize="@dimen/player_score_history"
-        android:typeface="monospace" 
-        android:gravity="center_horizontal|top"/>
+        android:typeface="monospace" />
 
     <View
         android:id="@+id/player_score_divider_1"
         android:layout_width="@dimen/player_score_divider"
         android:layout_height="fill_parent"
-        android:layout_marginTop="@dimen/player_score_divider_margin"
-        android:layout_marginBottom="@dimen/player_score_divider_margin"
-        android:layout_toLeftOf="@+id/text_history"
         android:layout_above="@+id/onscreen_delta_buttons_stub"
+        android:layout_marginBottom="@dimen/player_score_divider_margin"
+        android:layout_marginTop="@dimen/player_score_divider_margin"
+        android:layout_toLeftOf="@+id/text_history"
         android:background="@color/light_blue_2" />
-    
+
     <RelativeLayout
         android:id="@+id/layout_name_holder"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/player_score_divider_1">
-	    <com.nolanlawson.keepscore.widget.AutoResizeTextView
-	        android:id="@+id/text_name"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-	        android:layout_centerHorizontal="true"
-	        android:gravity="center_horizontal"
-	        android:paddingTop="1dp"
-	        android:clickable="true"
-	        android:ellipsize="none"
-	        android:focusable="true"
-	        android:singleLine="true"
-	        android:text="Fred"
-	        android:textSize="@dimen/player_name_2_to_4"
-	        android:layout_marginLeft="2dp"
-	        android:layout_marginRight="2dp"
-	        />
-	    <ImageView android:id="@+id/image_name_tag"
-	        android:layout_height="fill_parent"
-	        android:layout_width="wrap_content"
-	        android:layout_toLeftOf="@+id/text_name"
-	        android:adjustViewBounds="true"
-	        android:scaleType="fitEnd"
-	        android:src="@drawable/tag_holo_light"
-	        android:layout_alignParentTop="true"
-	        android:layout_alignBottom="@+id/text_name"
-	        android:layout_centerVertical="true"
-	        android:layout_marginTop="5dp"
-	        android:layout_marginBottom="3dp"
-	        android:layout_marginRight="3dp"
-	        />
-        </RelativeLayout>
-    <LinearLayout android:id="@+id/layout_minus"
+        android:layout_toLeftOf="@+id/player_score_divider_1" >
+
+        <com.nolanlawson.keepscore.widget.AutoResizeTextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:clickable="true"
+            android:ellipsize="none"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:paddingTop="1dp"
+            android:singleLine="true"
+            android:text="Fred"
+            android:textSize="@dimen/player_name_2_to_4" />
+
+        <LinearLayout
+            android:id="@+id/player_color_holder"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_alignBottom="@+id/text_name"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/text_name"
+            android:layout_alignParentRight="true"
+            android:paddingTop="5dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            >
+
+            <com.nolanlawson.keepscore.widget.PlayerColorView
+                android:id="@+id/player_color_image"
+                android:layout_width="10dp"
+                android:layout_height="fill_parent"
+                squareimage:fixedOnHeight="true"
+                android:src="@drawable/player_color_selector_01" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_name_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@+id/text_name"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/text_name"
+            android:adjustViewBounds="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/tag_holo_light" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_minus"
         android:layout_width="@dimen/delta_button_width"
         android:layout_height="fill_parent"
-        android:gravity="center_vertical"
+        android:layout_above="@+id/onscreen_delta_buttons_stub"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/layout_name_holder"
-        android:layout_above="@+id/onscreen_delta_buttons_stub"
-        android:paddingLeft="3dp"
+        android:gravity="center_vertical"
         android:paddingBottom="2dp"
-        >
-        
-	    <Button
-	        android:id="@+id/button_minus"
-	        android:layout_width="fill_parent"
-	        android:layout_height="@dimen/delta_button_height_2_to_4"
-	
-	        android:text="-"
-	        android:textStyle="bold"
-	        android:typeface="monospace" />
-    </LinearLayout>    
-    
-    <LinearLayout android:id="@+id/layout_plus"
+        android:paddingLeft="3dp" >
+
+        <Button
+            android:id="@+id/button_minus"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/delta_button_height_2_to_4"
+            android:text="-"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_plus"
         android:layout_width="@dimen/delta_button_width"
         android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:layout_below="@+id/layout_name_holder"
         android:layout_above="@+id/onscreen_delta_buttons_stub"
+        android:layout_below="@+id/layout_name_holder"
         android:layout_toLeftOf="@+id/player_score_divider_1"
-        android:paddingRight="3dp"
+        android:gravity="center_vertical"
         android:paddingBottom="2dp"
-        >
-	    <Button
-	        android:id="@+id/button_plus"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="@dimen/delta_button_height_2_to_4"
-	
-	        android:text="+"
-	        android:textStyle="bold"
-	        android:typeface="monospace" />
-	    </LinearLayout>    
-	    
+        android:paddingRight="3dp" >
+
+        <Button
+            android:id="@+id/button_plus"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/delta_button_height_2_to_4"
+            android:text="+"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+    </LinearLayout>
+
     <com.nolanlawson.keepscore.widget.AutoResizeTextView
         android:id="@+id/text_score"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_above="@+id/onscreen_delta_buttons_stub"
         android:layout_below="@+id/layout_name_holder"
         android:layout_centerHorizontal="true"
         android:layout_toLeftOf="@+id/layout_plus"
         android:layout_toRightOf="@+id/layout_minus"
-        android:layout_above="@+id/onscreen_delta_buttons_stub"
-        android:paddingBottom="4dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:singleLine="true"
         android:ellipsize="none"
+        android:gravity="center_horizontal|center_vertical"
+        android:paddingBottom="4dp"
+        android:singleLine="true"
         android:text="0"
-        android:textStyle="bold" />    
-        
+        android:textStyle="bold" />
+
     <LinearLayout
         android:id="@+id/linear_layout_badge"
         android:layout_width="wrap_content"
@@ -140,11 +163,11 @@
         android:layout_alignRight="@+id/text_score"
         android:layout_below="@+id/layout_name_holder"
         android:background="@drawable/badge_green_fade_out"
+        android:clickable="true"
+        android:focusable="true"
         android:paddingRight="3dp"
         android:paddingTop="3dp"
-        android:visibility="visible"
-        android:clickable="true"
-        android:focusable="true" >
+        android:visibility="visible" >
 
         <TextView
             android:id="@+id/text_badge"
@@ -160,6 +183,6 @@
             android:textStyle="bold"
             android:typeface="monospace"
             android:visibility="invisible" />
-    </LinearLayout>    
+    </LinearLayout>
 
 </RelativeLayout>

@@ -10,9 +10,9 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.nolanlawson.keepscore.R;
+import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
-import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.StringUtil;
+import com.nolanlawson.keepscore.util.Pair;
 
 /**
  * Main representation for a player in a particular game and his/her score and
@@ -27,8 +27,9 @@ public class PlayerScore implements Parcelable, Cloneable {
     private String name;
     private long score;
     private int playerNumber;
-    private List<Integer> history;
+    private List<Delta> history;
     private long lastUpdate;
+    private PlayerColor color;
 
     public PlayerScore() {
     }
@@ -38,11 +39,20 @@ public class PlayerScore implements Parcelable, Cloneable {
         name = in.readString();
         score = in.readLong();
         playerNumber = in.readInt();
-        history = CollectionUtil.stringsToInts(StringUtil.split(in.readString(), ','));
+        history = Delta.fromJoinedStrings(in.readString(), in.readString());
         lastUpdate = in.readLong();
+        color = PlayerColor.values()[in.readInt()];
 
     }
 
+    public PlayerColor getPlayerColor() {
+        return color;
+    }
+    
+    public void setPlayerColor(PlayerColor color) {
+        this.color = color;
+    }
+    
     public int getId() {
         return id;
     }
@@ -75,11 +85,11 @@ public class PlayerScore implements Parcelable, Cloneable {
         this.playerNumber = playerNumber;
     }
 
-    public List<Integer> getHistory() {
+    public List<Delta> getHistory() {
         return history;
     }
 
-    public void setHistory(List<Integer> history) {
+    public void setHistory(List<Delta> history) {
         this.history = history;
     }
 
@@ -134,12 +144,13 @@ public class PlayerScore implements Parcelable, Cloneable {
     @Override
     public Object clone() {
         PlayerScore playerScore = new PlayerScore();
-        playerScore.setHistory(new ArrayList<Integer>(history));
+        playerScore.setHistory(new ArrayList<Delta>(history));
         playerScore.setId(id);
         playerScore.setName(name);
         playerScore.setPlayerNumber(playerNumber);
         playerScore.setScore(score);
         playerScore.setLastUpdate(lastUpdate);
+        playerScore.setPlayerColor(color);
         return playerScore;
     }
 
@@ -154,8 +165,11 @@ public class PlayerScore implements Parcelable, Cloneable {
         dest.writeString(name);
         dest.writeLong(score);
         dest.writeInt(playerNumber);
-        dest.writeString(TextUtils.join(",", history));
+        Pair<String, String> historyAsStrings = Delta.toJoinedStrings(history);
+        dest.writeString(historyAsStrings.getFirst());
+        dest.writeString(historyAsStrings.getSecond());
         dest.writeLong(lastUpdate);
+        dest.writeInt(getPlayerColor().ordinal());
     }
 
     public static final Parcelable.Creator<PlayerScore> CREATOR = new Parcelable.Creator<PlayerScore>() {

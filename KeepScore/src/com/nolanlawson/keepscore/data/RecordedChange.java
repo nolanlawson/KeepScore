@@ -1,5 +1,7 @@
 package com.nolanlawson.keepscore.data;
 
+import com.nolanlawson.keepscore.db.Delta;
+
 /**
  * Simple POJO representing a change made to a PlayerScore's history
  * @author nolan
@@ -8,13 +10,13 @@ package com.nolanlawson.keepscore.data;
 public class RecordedChange {
 	
 	private Type type;
-	private int value;
+	private Delta delta;
 	private int playerNumber;
 	
-	public RecordedChange(int playerNumber, Type type, int value) {
+	public RecordedChange(int playerNumber, Type type, Delta delta) {
 	    this.playerNumber = playerNumber;
 		this.type = type;
-		this.value = value;
+		this.delta = delta;
 	}
 	
 	public int getPlayerNumber() {
@@ -25,8 +27,8 @@ public class RecordedChange {
 		return type;
 	}
 
-	public int getValue() {
-		return value;
+	public Delta getDelta() {
+		return delta;
 	}
 
 	public static enum Type {

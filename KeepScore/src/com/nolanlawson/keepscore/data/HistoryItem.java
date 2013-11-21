@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.PlayerScore;
 
 /**
@@ -49,7 +50,7 @@ public class HistoryItem {
 	 */
 	public static List<HistoryItem> createFromPlayerScore(PlayerScore playerScore, Context context) {
 		
-		List<Integer> history = playerScore.getHistory();
+		List<Delta> history = playerScore.getHistory();
 		long runningScore = getStartingScore(playerScore);
 		
 		List<HistoryItem> historyItems = new ArrayList<HistoryItem>();
@@ -57,10 +58,10 @@ public class HistoryItem {
 		// add an initial one to just show the starting score
 		historyItems.add(new HistoryItem(0, runningScore, true));
 		
-		for (Integer historyDelta : history) {
-			runningScore += historyDelta;
+		for (Delta historyDelta : history) {
+			runningScore += historyDelta.getValue();
 			
-			historyItems.add(new HistoryItem(historyDelta, runningScore, false));
+			historyItems.add(new HistoryItem(historyDelta.getValue(), runningScore, false));
 		}
 		
 		return historyItems;
@@ -69,8 +70,8 @@ public class HistoryItem {
 	private static long getStartingScore(PlayerScore playerScore) {
 		// figure out what the starting score was by just subtracting everything
 		long result = playerScore.getScore();
-		for (Integer delta : playerScore.getHistory()) {
-			result -= delta;
+		for (Delta delta : playerScore.getHistory()) {
+			result -= delta.getValue();
 		}
 		return result;
 	}	

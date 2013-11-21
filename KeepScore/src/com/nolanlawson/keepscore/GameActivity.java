@@ -40,6 +40,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.data.RecordedChange;
 import com.nolanlawson.keepscore.data.RecordedChange.Type;
+import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
@@ -485,7 +486,7 @@ public class GameActivity extends SherlockActivity {
 
             playerScore.setName(playerNames[i]);
             playerScore.setPlayerNumber(i);
-            playerScore.setHistory(new ArrayList<Integer>());
+            playerScore.setHistory(new ArrayList<Delta>());
             playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
                     R.string.CONSTANT_pref_initial_score_default, GameActivity.this));
 
@@ -683,7 +684,7 @@ public class GameActivity extends SherlockActivity {
 
             @Override
             public Integer apply(PlayerScore obj) {
-                return obj.getHistory().size() >= round ? obj.getHistory().get(round - 1) : 0;
+                return obj.getHistory().size() >= round ? obj.getHistory().get(round - 1).getValue() : 0;
             }
         });
 

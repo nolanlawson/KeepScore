@@ -13,8 +13,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 
+import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
+import com.nolanlawson.keepscore.util.Pair;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
@@ -23,7 +25,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
     private static UtilLogger log = new UtilLogger(GameDBHelper.class);
 
     private static final String DB_NAME = "games.db";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     private static final String TABLE_GAMES = "Games";
     private static final String TABLE_PLAYER_SCORES = "PlayerScores";
@@ -38,6 +40,8 @@ public class GameDBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_GAME_ID = "gameId";
     private static final String COLUMN_HISTORY = "history";
     private static final String COLUMN_LAST_UPDATE = "lastUpdate";
+    private static final String COLUMN_HISTORY_TIMESTAMPS = "historyTimestamps";
+    private static final String COLUMN_COLOR = "color";
 
     private static final String JOINED_TABLES = TABLE_GAMES + " g join " + TABLE_PLAYER_SCORES + " ps ON " + "g."
             + COLUMN_ID + "=ps." + COLUMN_GAME_ID;
@@ -51,7 +55,10 @@ public class GameDBHelper extends SQLiteOpenHelper {
         "ps." + COLUMN_SCORE,
         "ps." + COLUMN_PLAYER_NUMBER, 
         "ps." + COLUMN_HISTORY, 
-        "ps." + COLUMN_LAST_UPDATE };
+        "ps." + COLUMN_HISTORY_TIMESTAMPS,
+        "ps." + COLUMN_LAST_UPDATE,
+        "ps." + COLUMN_COLOR
+        };
 
     private ThreadLocal<SQLiteStatement> updateGame = new ThreadLocal<SQLiteStatement>() {
 
@@ -68,7 +75,10 @@ public class GameDBHelper extends SQLiteOpenHelper {
         @Override
         protected SQLiteStatement initialValue() {
             String sql = "update " + TABLE_PLAYER_SCORES + " set " + COLUMN_NAME + "=?," + COLUMN_SCORE + "=?,"
-                    + COLUMN_PLAYER_NUMBER + "=?," + COLUMN_HISTORY + "=?," + COLUMN_LAST_UPDATE + "=? " + "where "
+                    + COLUMN_PLAYER_NUMBER + "=?," + COLUMN_HISTORY + "=?," + COLUMN_HISTORY_TIMESTAMPS + "=?,"
+                    + COLUMN_LAST_UPDATE + "=?," 
+                    + COLUMN_COLOR + "=? "
+                    + "where "
                     + COLUMN_ID + "=?";
             return db.compileStatement(sql);
         }
@@ -93,6 +103,8 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 + " integer not null primary key autoincrement, " + COLUMN_NAME + " text not null, " + COLUMN_SCORE
                 + " int not null, " + COLUMN_PLAYER_NUMBER + " int not null, " + COLUMN_HISTORY + " text, "
                 + COLUMN_LAST_UPDATE + " int not null default 0, "
+                + COLUMN_HISTORY_TIMESTAMPS + " text, "
+                + COLUMN_COLOR + " int not null default -1, "
                 + COLUMN_GAME_ID + " int not null);";
 
         db.execSQL(createSql2);
@@ -107,7 +119,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        if (oldVersion == 1) {
+        if (oldVersion <= 1) {
         
             // add an index for the startTime
             String index = "create index if not exists index_date_started on " + TABLE_GAMES + "(" + COLUMN_DATE_STARTED
@@ -116,11 +128,23 @@ public class GameDBHelper extends SQLiteOpenHelper {
             db.execSQL(index);
         }
         
-        if (oldVersion == 2) {
+        if (oldVersion <= 2) {
             // add a lastUpdate time for each playerScore
             String addColumn = "alter table " + TABLE_PLAYER_SCORES + " add column " + COLUMN_LAST_UPDATE 
                     + " int not null default 0";
             db.execSQL(addColumn);
+        }
+        
+        if (oldVersion <= 3) {
+            // add history timestamps and color
+            db.execSQL("alter table " + TABLE_PLAYER_SCORES + " add column " + COLUMN_HISTORY_TIMESTAMPS
+                    + " text;");
+            db.execSQL("alter table " + TABLE_PLAYER_SCORES + " add column " + COLUMN_COLOR
+                    + " int not null default 0;");
+            
+            // older versions of keepscore only had 8 players, and there are 16 colors, so using the player
+            // number as an ordinal is fine here
+            db.execSQL("update " + TABLE_PLAYER_SCORES + " set " + COLUMN_COLOR + "=" + COLUMN_PLAYER_NUMBER + ";");
         }
         
     }
@@ -321,14 +345,15 @@ public class GameDBHelper extends SQLiteOpenHelper {
 
             for (PlayerScore playerScore : playerScores) {
 
-                String historyAsString = playerScore.getHistory() != null ? TextUtils.join(",",
-                        playerScore.getHistory()) : null;
+                Pair<String, String> historyAsStrings = Delta.toJoinedStrings(playerScore.getHistory());
 
                 if (playerScore.getId() != -1) {
                     // already exists; update
 
                     updatePlayerScore(playerScore.getId(), playerScore.getName(), playerScore.getScore(),
-                            playerScore.getPlayerNumber(), historyAsString, playerScore.getLastUpdate());
+                            playerScore.getPlayerNumber(), historyAsStrings.getFirst(), 
+                            historyAsStrings.getSecond(), playerScore.getLastUpdate(), 
+                            playerScore.getPlayerColor().ordinal());
 
                 } else {
                     // else insert new rows in the table
@@ -342,10 +367,12 @@ public class GameDBHelper extends SQLiteOpenHelper {
                     ContentValues values = new ContentValues();
                     values.put(COLUMN_ID, newId);
                     values.put(COLUMN_GAME_ID, gameId);
-                    values.put(COLUMN_HISTORY, historyAsString);
+                    values.put(COLUMN_HISTORY, historyAsStrings.getFirst());
+                    values.put(COLUMN_HISTORY_TIMESTAMPS, historyAsStrings.getSecond());
                     values.put(COLUMN_NAME, playerScore.getName());
                     values.put(COLUMN_PLAYER_NUMBER, playerScore.getPlayerNumber());
                     values.put(COLUMN_SCORE, playerScore.getScore());
+                    values.put(COLUMN_COLOR, playerScore.getPlayerColor().ordinal());
                     values.put(COLUMN_LAST_UPDATE, playerScore.getLastUpdate());
                     db.insert(TABLE_PLAYER_SCORES, null, values);
 
@@ -480,9 +507,11 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 playerScore.setName(cursor.getString(5));
                 playerScore.setScore(cursor.getLong(6));
                 playerScore.setPlayerNumber(cursor.getInt(7));
-                playerScore.setHistory(CollectionUtil.stringsToInts(StringUtil.split(
-                        StringUtil.nullToEmpty(cursor.getString(8)), ',')));
-                playerScore.setLastUpdate(cursor.getLong(9));
+                playerScore.setHistory(Delta.fromJoinedStrings(
+                        StringUtil.nullToEmpty(cursor.getString(8)),
+                        StringUtil.nullToEmpty(cursor.getString(9))));
+                playerScore.setLastUpdate(cursor.getLong(10));
+                playerScore.setPlayerColor(PlayerColor.values()[cursor.getInt(11)]);
                 playerScores.add(playerScore);
 
             } while (cursor.moveToNext());
@@ -516,15 +545,18 @@ public class GameDBHelper extends SQLiteOpenHelper {
         statement.execute();
     }
 
-    private void updatePlayerScore(int id, String name, long score, int playerNumber, String history, long lastUpdate) {
+    private void updatePlayerScore(int id, String name, long score, int playerNumber, String history, 
+            String historyTimestamps, long lastUpdate, int color) {
         SQLiteStatement statement = updatePlayerScore.get();
 
         bindStringOrNull(statement, 1, name);
         statement.bindLong(2, score);
         statement.bindLong(3, playerNumber);
         bindStringOrNull(statement, 4, history);
-        statement.bindLong(5, lastUpdate);
-        statement.bindLong(6, id);
+        bindStringOrNull(statement, 5, historyTimestamps);
+        statement.bindLong(6, lastUpdate);
+        statement.bindLong(7, color);
+        statement.bindLong(8, id);
 
         statement.execute();
     }

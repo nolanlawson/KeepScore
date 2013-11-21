@@ -19,6 +19,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.data.EditablePlayerAdapter;
+import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.DialogHelper;
@@ -192,7 +193,7 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
         playerScore.setPlayerNumber(adapter.getCount());
         playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
                 R.string.CONSTANT_pref_initial_score_default, this));
-        playerScore.setHistory(new ArrayList<Integer>());
+        playerScore.setHistory(new ArrayList<Delta>());
 
         adapter.add(playerScore);
         adapter.notifyDataSetChanged();

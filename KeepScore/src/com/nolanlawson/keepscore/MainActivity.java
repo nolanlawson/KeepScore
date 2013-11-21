@@ -55,6 +55,7 @@ import com.nolanlawson.keepscore.data.LoadGamesBackupResult;
 import com.nolanlawson.keepscore.data.SavedGameAdapter;
 import com.nolanlawson.keepscore.data.SeparatedListAdapter;
 import com.nolanlawson.keepscore.data.TimePeriod;
+import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
@@ -1048,7 +1049,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             for (PlayerScore playerScore : newGame.getPlayerScores()) {
                 playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
                         R.string.CONSTANT_pref_initial_score_default, this));
-                playerScore.setHistory(new ArrayList<Integer>());
+                playerScore.setHistory(new ArrayList<Delta>());
             }
         }
 

@@ -8,6 +8,7 @@ import java.util.Random;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.nolanlawson.keepscore.MainActivity;
+import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
@@ -54,7 +55,7 @@ public class SerializationTest extends ActivityInstrumentationTestCase2<MainActi
 		
 		gamesBackup.getGames().get(0).getPlayerScores().get(0).setName(null);
 		gamesBackup.getGames().get(0).getPlayerScores().get(1).setName("");
-		gamesBackup.getGames().get(0).getPlayerScores().get(0).setHistory(Collections.<Integer>emptyList());
+		gamesBackup.getGames().get(0).getPlayerScores().get(0).setHistory(Collections.<Delta>emptyList());
 				
 		testGamesBackup(gamesBackup);
 	}
@@ -143,10 +144,11 @@ public class SerializationTest extends ActivityInstrumentationTestCase2<MainActi
 		return playerScores;
 	}
 
-	private List<Integer> createRandomHistory(int score) {
-		List<Integer> history = new ArrayList<Integer>();
-		for (int delta, sum = 0; sum < score; sum += delta) {
-			history.add(delta = Math.min(random.nextInt(15) + 1, score - sum));
+	private List<Delta> createRandomHistory(int score) {
+		List<Delta> history = new ArrayList<Delta>();
+		for (int deltaValue, sum = 0; sum < score; sum += deltaValue) {
+		    deltaValue = Math.min(random.nextInt(15) + 1, score - sum);
+			history.add(new Delta(0L, deltaValue));
 		}
 		return history;
 	}
