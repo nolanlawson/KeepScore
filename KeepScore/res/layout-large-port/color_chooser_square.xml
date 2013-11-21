@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.nolanlawson.keepscore.widget.PlayerColorView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:squareimage="http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
+        android:layout_width="20dp"
+        android:layout_height="0px"
+        android:layout_weight="0.25" 
+        android:minHeight="40dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/player_color_selector_01"
+        squareimage:fixedOnHeight="true"/>
