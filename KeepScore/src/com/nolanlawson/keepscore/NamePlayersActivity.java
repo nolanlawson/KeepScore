@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PlayerNameHelper;
@@ -267,7 +268,10 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 	    int[] columns = new int[]{R.id.column_1, R.id.column_2, R.id.column_3, R.id.column_4};
 	    List<PlayerColorView> result = new ArrayList<PlayerColorView>();
         
-	    if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+	    LinearLayout allRows = (LinearLayout)(view.findViewById(R.id.all_rows));
+	    boolean portraitOrdering = allRows.getOrientation() == LinearLayout.VERTICAL;
+	    
+	    if (portraitOrdering) {
 	        // when in portrait mode, rows are rows and columns are columns
 	        for (int rowId : rows) {
 	            View row = view.findViewById(rowId);
