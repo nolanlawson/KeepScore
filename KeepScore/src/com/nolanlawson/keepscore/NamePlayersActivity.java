@@ -64,10 +64,10 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
         numPlayers = savedInstanceState.getInt(EXTRA_NUM_PLAYERS);
 
         String[] playerNames = savedInstanceState.getStringArray(GameActivity.EXTRA_PLAYER_NAMES);
-        int[] playerColors = savedInstanceState.getIntArray(GameActivity.EXTRA_PLAYER_COLORS);
+        String[] playerColors = savedInstanceState.getStringArray(GameActivity.EXTRA_PLAYER_COLORS);
         for (int i = 0; i < numPlayers; i++) {
             playerEditTexts.get(i).setText(playerNames[i]);
-            PlayerColor playerColor = PlayerColor.values()[playerColors[i]];
+            PlayerColor playerColor = PlayerColor.deserialize(playerColors[i]);
             PlayerColorView playerColorView = playerColorViews.get(i);
             playerColorView.setPlayerColor(playerColor);
         }
@@ -79,7 +79,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
                 public void run() {
                     showColorChooserDialog(
                             playerColorViews.get(savedInstanceState.getInt("colorChooserDialogSquareImage")),
-                            PlayerColor.values()[savedInstanceState.getInt("colorChooserDialogChosenColor")]);
+                            PlayerColor.deserialize(savedInstanceState.getString("colorChooserDialogChosenColor")));
 
                 }
             });
@@ -93,11 +93,11 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
         super.onSaveInstanceState(outState);
         outState.putInt(EXTRA_NUM_PLAYERS, numPlayers);
         outState.putStringArray(GameActivity.EXTRA_PLAYER_NAMES, getPlayerNames());
-        outState.putIntArray(GameActivity.EXTRA_PLAYER_COLORS, getPlayerColors());
+        outState.putStringArray(GameActivity.EXTRA_PLAYER_COLORS, getPlayerColors());
         boolean colorChooserDialogShowing = colorChooserDialog != null && colorChooserDialog.isShowing();
         outState.putBoolean("colorChooserDialog", colorChooserDialogShowing);
         if (colorChooserDialogShowing) {
-            outState.putInt("colorChooserDialogChosenColor", colorChooserDialogChosenColor.ordinal());
+            outState.putString("colorChooserDialogChosenColor", PlayerColor.serialize(colorChooserDialogChosenColor));
             outState.putInt("colorChooserDialogSquareImage", colorChooserDialogSquareImage);
         }
     }
@@ -111,7 +111,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
             View view = findViewById(id);
             playerViews.add(view);
             playerEditTexts.add((AutoCompleteTextView) view.findViewById(R.id.player_name_edit_text));
-            PlayerColor playerColor = PlayerColor.values()[i];
+            PlayerColor playerColor = PlayerColor.BUILT_INS[i];
             PlayerColorView playerColorView = (PlayerColorView) view.findViewById(R.id.player_color_image);
             playerColorView.setVisibility(PreferenceHelper.getShowColors(this) ? View.VISIBLE : View.GONE);
             playerColorView.setPlayerColor(playerColor);
@@ -179,7 +179,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
                 // ok button clicked
 
                 String[] playerNames = getPlayerNames();
-                int[] playerColors = getPlayerColors();
+                String[] playerColors = getPlayerColors();
 
                 Intent intent = new Intent(this, GameActivity.class);
 
@@ -225,11 +225,11 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
         return playerNames;
     }
 
-    private int[] getPlayerColors() {
-        int[] playerColors = new int[numPlayers];
+    private String[] getPlayerColors() {
+        String[] playerColors = new String[numPlayers];
 
         for (int i = 0; i < numPlayers; i++) {
-            playerColors[i] = playerColorViews.get(i).getPlayerColor().ordinal();
+            playerColors[i] = PlayerColor.serialize(playerColorViews.get(i).getPlayerColor());
         }
         return playerColors;
     }

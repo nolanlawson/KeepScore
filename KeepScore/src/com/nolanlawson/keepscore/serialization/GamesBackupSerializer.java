@@ -250,7 +250,7 @@ public class GamesBackupSerializer {
         if (gamesBackup.getVersion() < VERSION_FIVE) {
             for (Game game : gamesBackup.getGames()) {
                 for (PlayerScore playerScore : game.getPlayerScores()) {
-                    playerScore.setPlayerColor(PlayerColor.values()[playerScore.getPlayerNumber()]);
+                    playerScore.setPlayerColor(PlayerColor.BUILT_INS[playerScore.getPlayerNumber()]);
                 }
             }
         }
@@ -304,7 +304,7 @@ public class GamesBackupSerializer {
                 }
                 break;
             case color:
-                playerScore.setPlayerColor(PlayerColor.values()[Integer.parseInt(text)]);
+                playerScore.setPlayerColor(PlayerColor.deserialize(text));
                 break;
             case score:
                 playerScore.setScore(Long.parseLong(text));
@@ -363,6 +363,7 @@ public class GamesBackupSerializer {
                     addTag(serializer, Tag.history, historyAsStrings.getFirst());
                     addTag(serializer, Tag.historyTimestamps, historyAsStrings.getSecond());
                     addTag(serializer, Tag.lastUpdate, Long.toString(playerScore.getLastUpdate()));
+                    addTag(serializer, Tag.color, PlayerColor.serialize(playerScore.getPlayerColor()));
 
                     serializer.endTag("", Tag.PlayerScore.name());
                 }

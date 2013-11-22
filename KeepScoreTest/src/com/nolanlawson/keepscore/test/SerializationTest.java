@@ -5,12 +5,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import android.graphics.Color;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.nolanlawson.keepscore.MainActivity;
 import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.PlayerColor;
+import com.nolanlawson.keepscore.helper.PlayerColor.CustomPlayerColor;
 import com.nolanlawson.keepscore.serialization.GamesBackup;
 import com.nolanlawson.keepscore.serialization.GamesBackupSerializer;
 
@@ -54,7 +57,9 @@ public class SerializationTest extends ActivityInstrumentationTestCase2<MainActi
 		gamesBackup.getGames().get(1).setName("");
 		
 		gamesBackup.getGames().get(0).getPlayerScores().get(0).setName(null);
+		gamesBackup.getGames().get(0).getPlayerScores().get(0).setPlayerColor(PlayerColor.BUILT_INS[7]);
 		gamesBackup.getGames().get(0).getPlayerScores().get(1).setName("");
+		gamesBackup.getGames().get(0).getPlayerScores().get(1).setPlayerColor(new CustomPlayerColor(Color.parseColor("#FF00FF00")));
 		gamesBackup.getGames().get(0).getPlayerScores().get(0).setHistory(Collections.<Delta>emptyList());
 				
 		testGamesBackup(gamesBackup);
@@ -98,6 +103,7 @@ public class SerializationTest extends ActivityInstrumentationTestCase2<MainActi
 		assertEquals(first.getPlayerNumber(), second.getPlayerNumber());
 		assertEquals(first.getScore(), second.getScore());
 		assertEquals(first.getHistory(), second.getHistory());
+		assertEquals(first.getPlayerColor(), second.getPlayerColor());
 	}
 
 	private GamesBackup createRandomGamesBackup() {
@@ -105,7 +111,7 @@ public class SerializationTest extends ActivityInstrumentationTestCase2<MainActi
 		gamesBackup.setGames(new ArrayList<Game>());
 		
 		gamesBackup.setDateSaved(2437934297L);
-		gamesBackup.setVersion(1);
+		gamesBackup.setVersion(GamesBackupSerializer.CURRENT_VERSION);
 		
 		int numGames = random.nextInt(10) + 2;
 		for (int i = 0; i < numGames; i++) {
@@ -137,6 +143,7 @@ public class SerializationTest extends ActivityInstrumentationTestCase2<MainActi
 			playerScore.setHistory(createRandomHistory(score));
 			playerScore.setName(Long.toString(random.nextLong(), 16));
 			playerScore.setPlayerNumber(i);
+			playerScore.setPlayerColor(PlayerColor.BUILT_INS[random.nextInt(PlayerColor.BUILT_INS.length)]);
 			
 			playerScores.add(playerScore);
 		}

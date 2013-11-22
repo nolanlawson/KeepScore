@@ -473,7 +473,7 @@ public class GameActivity extends SherlockActivity {
     private void createNewGame() {
 
         String[] playerNames = getIntent().getStringArrayExtra(EXTRA_PLAYER_NAMES);
-        int[] playerColors = getIntent().getIntArrayExtra(EXTRA_PLAYER_COLORS);
+        String[] playerColors = getIntent().getStringArrayExtra(EXTRA_PLAYER_COLORS);
 
         game = new Game();
 
@@ -487,7 +487,7 @@ public class GameActivity extends SherlockActivity {
             PlayerScore playerScore = new PlayerScore();
 
             playerScore.setName(playerNames[i]);
-            playerScore.setPlayerColor(PlayerColor.values()[playerColors[i]]);
+            playerScore.setPlayerColor(PlayerColor.deserialize(playerColors[i]));
             playerScore.setPlayerNumber(i);
             playerScore.setHistory(new ArrayList<Delta>());
             playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,

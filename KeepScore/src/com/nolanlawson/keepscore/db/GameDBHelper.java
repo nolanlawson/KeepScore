@@ -104,7 +104,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 + " int not null, " + COLUMN_PLAYER_NUMBER + " int not null, " + COLUMN_HISTORY + " text, "
                 + COLUMN_LAST_UPDATE + " int not null default 0, "
                 + COLUMN_HISTORY_TIMESTAMPS + " text, "
-                + COLUMN_COLOR + " int not null default -1, "
+                + COLUMN_COLOR + " string, "
                 + COLUMN_GAME_ID + " int not null);";
 
         db.execSQL(createSql2);
@@ -140,7 +140,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
             db.execSQL("alter table " + TABLE_PLAYER_SCORES + " add column " + COLUMN_HISTORY_TIMESTAMPS
                     + " text;");
             db.execSQL("alter table " + TABLE_PLAYER_SCORES + " add column " + COLUMN_COLOR
-                    + " int not null default 0;");
+                    + " string;");
             
             // older versions of keepscore only had 8 players, and there are 16 colors, so using the player
             // number as an ordinal is fine here
@@ -353,7 +353,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                     updatePlayerScore(playerScore.getId(), playerScore.getName(), playerScore.getScore(),
                             playerScore.getPlayerNumber(), historyAsStrings.getFirst(), 
                             historyAsStrings.getSecond(), playerScore.getLastUpdate(), 
-                            playerScore.getPlayerColor().ordinal());
+                            PlayerColor.serialize(playerScore.getPlayerColor()));
 
                 } else {
                     // else insert new rows in the table
@@ -372,7 +372,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                     values.put(COLUMN_NAME, playerScore.getName());
                     values.put(COLUMN_PLAYER_NUMBER, playerScore.getPlayerNumber());
                     values.put(COLUMN_SCORE, playerScore.getScore());
-                    values.put(COLUMN_COLOR, playerScore.getPlayerColor().ordinal());
+                    values.put(COLUMN_COLOR, PlayerColor.serialize(playerScore.getPlayerColor()));
                     values.put(COLUMN_LAST_UPDATE, playerScore.getLastUpdate());
                     db.insert(TABLE_PLAYER_SCORES, null, values);
 
@@ -511,7 +511,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                         StringUtil.nullToEmpty(cursor.getString(8)),
                         StringUtil.nullToEmpty(cursor.getString(9))));
                 playerScore.setLastUpdate(cursor.getLong(10));
-                playerScore.setPlayerColor(PlayerColor.values()[cursor.getInt(11)]);
+                playerScore.setPlayerColor(PlayerColor.deserialize(cursor.getString(11)));
                 playerScores.add(playerScore);
 
             } while (cursor.moveToNext());
@@ -546,7 +546,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
     }
 
     private void updatePlayerScore(int id, String name, long score, int playerNumber, String history, 
-            String historyTimestamps, long lastUpdate, int color) {
+            String historyTimestamps, long lastUpdate, String color) {
         SQLiteStatement statement = updatePlayerScore.get();
 
         bindStringOrNull(statement, 1, name);
@@ -555,7 +555,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
         bindStringOrNull(statement, 4, history);
         bindStringOrNull(statement, 5, historyTimestamps);
         statement.bindLong(6, lastUpdate);
-        statement.bindLong(7, color);
+        statement.bindString(7, color);
         statement.bindLong(8, id);
 
         statement.execute();

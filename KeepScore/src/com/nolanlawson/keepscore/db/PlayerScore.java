@@ -41,7 +41,7 @@ public class PlayerScore implements Parcelable, Cloneable {
         playerNumber = in.readInt();
         history = Delta.fromJoinedStrings(in.readString(), in.readString());
         lastUpdate = in.readLong();
-        color = PlayerColor.values()[in.readInt()];
+        color = PlayerColor.deserialize(in.readString());
 
     }
 
@@ -172,7 +172,7 @@ public class PlayerScore implements Parcelable, Cloneable {
         dest.writeString(historyAsStrings.getFirst());
         dest.writeString(historyAsStrings.getSecond());
         dest.writeLong(lastUpdate);
-        dest.writeInt(getPlayerColor().ordinal());
+        dest.writeString(PlayerColor.serialize(color));
     }
 
     public static final Parcelable.Creator<PlayerScore> CREATOR = new Parcelable.Creator<PlayerScore>() {

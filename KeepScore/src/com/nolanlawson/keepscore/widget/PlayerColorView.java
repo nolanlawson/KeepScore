@@ -12,7 +12,7 @@ import com.nolanlawson.keepscore.helper.PlayerColor;
  */
 public class PlayerColorView extends SquareImage {
 
-    private PlayerColor playerColor = PlayerColor.One; // default
+    private PlayerColor playerColor = PlayerColor.BUILT_INS[0]; // default
 
     public PlayerColorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -32,6 +32,6 @@ public class PlayerColorView extends SquareImage {
 
     public void setPlayerColor(PlayerColor playerColor) {
         this.playerColor = playerColor;
-        setImageResource(playerColor.getSelectorResId());
+        setImageDrawable(playerColor.toBackgroundDrawable(getContext()));
     }
 }

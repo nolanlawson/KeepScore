@@ -3,6 +3,8 @@ package com.nolanlawson.keepscore.helper;
 import java.util.ArrayList;
 import java.util.List;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.SettingsActivity;
+import com.nolanlawson.keepscore.helper.PlayerColor.CustomPlayerColor;
 import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -166,7 +169,7 @@ public class DialogHelper {
     }
     
     public static AlertDialog showColorChooserDialog(final Context context, 
-            PlayerColor selectedColor, final Callback<PlayerColor> onColorChanged,
+            final PlayerColor selectedColor, final Callback<PlayerColor> onColorChanged,
             final Runnable onColorSelected) {
         
         final View view = createColorChooserView(context, onColorChanged, selectedColor);
@@ -176,6 +179,21 @@ public class DialogHelper {
             .setNegativeButton(android.R.string.cancel, null)
             .setTitle(R.string.title_choose_color)
             .setView(view)
+            .setNeutralButton(R.string.button_customize, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(final DialogInterface dialog, int which) {
+                    showCustomColorDialog(context, selectedColor.toColor(context), onColorChanged, new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            onColorSelected.run();
+                            dialog.dismiss();
+                        }
+                    });
+                    
+                }
+            })
             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 
                 @Override
@@ -186,6 +204,26 @@ public class DialogHelper {
             .show();
     }
     
+    private static void showCustomColorDialog(Context context, int initialColor,
+            final Callback<PlayerColor> onColorChanged, final Runnable onColorSelected) {
+        
+        AmbilWarnaDialog dialog = new AmbilWarnaDialog(context, initialColor, new OnAmbilWarnaListener() {
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                onColorChanged.onCallback(new CustomPlayerColor(color));
+                onColorSelected.run();
+            }
+                    
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+                // do nothing
+            }
+        });
+    
+        dialog.show();
+        
+    }
+
     private static View createColorChooserView(Context context, final Callback<PlayerColor> onColorChanged,
             final PlayerColor selectedColor) {
         
@@ -197,8 +235,8 @@ public class DialogHelper {
         for (int i = 0; i < playerColorViews.size(); i++) {
             PlayerColorView playerColorView = playerColorViews.get(i);
 
-            PlayerColor playerColor = PlayerColor.values()[i];
-            playerColorView.setSelected(playerColor == selectedColor);
+            PlayerColor playerColor = PlayerColor.BUILT_INS[i];
+            playerColorView.setSelected(playerColor.equals(selectedColor));
             playerColorView.setPlayerColor(playerColor);
             playerColorView.setOnClickListener(new OnClickListener() {
                 
