@@ -22,7 +22,12 @@
         android:key="@string/CONSTANT_pref_show_round_totals"
         android:persistent="true"
         android:title="@string/pref_show_round_totals_name" />
-	<CheckBoxPreference
+    <CheckBoxPreference
+        android:defaultValue="@string/CONSTANT_pref_show_colors_default"
+        android:key="@string/CONSTANT_pref_show_colors"
+        android:persistent="true"
+        android:title="@string/pref_show_colors_name" />
+    <CheckBoxPreference
 	        android:defaultValue="@string/CONSTANT_pref_disable_highlight_tag_default"
 	        android:key="@string/CONSTANT_pref_disable_highlight_tag"
 	        android:persistent="true"
@@ -36,6 +41,16 @@
         android:key="@string/CONSTANT_pref_initial_score"
         android:persistent="true"
         android:title="@string/pref_initial_score_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/CONSTANT_pref_plus_button_default"
+        android:key="@string/CONSTANT_pref_plus_button"
+        android:persistent="true"
+        android:title="@string/pref_plus_button_name" />
+    <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
+        android:defaultValue="@string/CONSTANT_pref_minus_button_default"
+        android:key="@string/CONSTANT_pref_minus_button"
+        android:persistent="true"
+        android:title="@string/pref_minus_button_name" />    
     <com.nolanlawson.keepscore.widget.IntegerEditTextPreference
         android:defaultValue="@string/CONSTANT_pref_button_1_default"
         android:key="@string/CONSTANT_pref_button_1"

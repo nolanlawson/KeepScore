@@ -250,10 +250,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_minus:
-                increment(-1);
+                increment(PreferenceHelper.getMinusButtonValue(context));
                 break;
             case R.id.button_plus:
-                increment(1);
+                increment(PreferenceHelper.getPlusButtonValue(context));
                 break;
             case R.id.text_history:
                 // do nothing - just let it flash the background, so that the
@@ -341,6 +341,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
         nameTextView.setText(playerName);
         
         playerColorView.setPlayerColor(playerScore.getPlayerColor());
+        playerColorView.setVisibility(PreferenceHelper.getShowColors(context) ? View.VISIBLE : View.GONE);
 
         scoreTextView.setText(Long.toString(playerScore.getScore()));
         scoreTextView.resizeText();

@@ -18,6 +18,7 @@ import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.DialogHelper;
 import com.nolanlawson.keepscore.helper.PlayerColor;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.widget.PlayerColorView;
 import com.nolanlawson.keepscore.widget.dragndrop.DragSortListView.DropListener;
@@ -74,6 +75,7 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements 
         TextView numberTextView = (TextView) view.findViewById(R.id.text_player_number);
         TextView scoreTextView = (TextView) view.findViewById(R.id.text_player_score);
         PlayerColorView playerColorView = (PlayerColorView) view.findViewById(R.id.player_color_image);
+        playerColorView.setVisibility(PreferenceHelper.getShowColors(getContext()) ? View.VISIBLE : View.GONE);
 
         nameTextView.setText(playerScore.toDisplayName(getContext()));
         numberTextView.setText('#' + Integer.toString(playerScore.getPlayerNumber() + 1));

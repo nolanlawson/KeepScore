@@ -9,9 +9,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
+import com.nolanlawson.keepscore.util.Callback;
 
 /**
  * Simple adapter to show some text with a delete button to the right.  Used for managing the
@@ -22,6 +24,7 @@ import com.nolanlawson.keepscore.R;
 public class TextWithDeleteAdapter extends ArrayAdapter<String> {
 
 	private OnDeleteListener onDeleteListener;
+	private Callback<Integer> onClickListener;
 	
 	public TextWithDeleteAdapter(Context context, List<String> items) {
 		super(context, R.layout.text_with_delete, items);
@@ -30,6 +33,10 @@ public class TextWithDeleteAdapter extends ArrayAdapter<String> {
 	public void setOnDeleteListener(OnDeleteListener onDeleteListener) {
 		this.onDeleteListener = onDeleteListener;
 	}
+    public void setOnItemClickedListener(Callback<Integer> onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+    
 
 	@Override
 	public boolean areAllItemsEnabled() {
@@ -42,13 +49,14 @@ public class TextWithDeleteAdapter extends ArrayAdapter<String> {
 	}
 
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
+	public View getView(final int position, View view, ViewGroup parent) {
 		
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.text_with_delete, parent, false);
 		
 		final String textItem = getItem(position);
 		TextView textView = (TextView) view.findViewById(android.R.id.text1);
+		RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.root_relative_layout);
 		
 
 		textView.setText(textItem);
@@ -63,12 +71,21 @@ public class TextWithDeleteAdapter extends ArrayAdapter<String> {
 			}
 		});
 		
+		relativeLayout.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                onClickListener.onCallback(position);
+                
+            }
+        });
+		
 		return view;
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		return 1;
+		return 0;
 	}
 
 	@Override
@@ -89,6 +106,5 @@ public class TextWithDeleteAdapter extends ArrayAdapter<String> {
 		 */
 		void onDelete(String text);
 	}
-	
 }
 

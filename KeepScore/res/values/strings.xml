@@ -16,6 +16,10 @@
     <string name="CONSTANT_link_donate">market://details?id=com.nolanlawson.keepscore.donate</string>
     <string name="CONSTANT_link_translate">https://github.com/nolanlawson/KeepScore#add-a-translation</string>
     
+    <string name="CONSTANT_pref_plus_button">plus_button</string>
+    <string name="CONSTANT_pref_plus_button_default">1</string>
+    <string name="CONSTANT_pref_minus_button">minus_button</string>
+    <string name="CONSTANT_pref_minus_button_default">-1</string>
     <string name="CONSTANT_pref_2p_button_1">2p_button1</string>
     <string name="CONSTANT_pref_2p_button_1_default">-10</string>
     <string name="CONSTANT_pref_2p_button_2">2p_button2</string>
@@ -57,6 +61,8 @@
     <string name="CONSTANT_pref_update_delay_default">10</string>
     <string name="CONSTANT_pref_use_wake_lock">use_wake_lock</string>
     <string name="CONSTANT_pref_use_wake_lock_default">true</string>
+    <string name="CONSTANT_pref_show_colors">show_colors</string>
+    <string name="CONSTANT_pref_show_colors_default">true</string>
     
     <string name="CONSTANT_text_donate_suffix">(Donate)</string>
     <string name="CONSTANT_text_epsilon">Σ</string>
@@ -96,6 +102,7 @@
     <string name="menu_sort_players">Sort by Score</string>
     <string name="menu_undo">Undo</string>
     
+    
     <string name="pref_2p_button_1_name">On-Screen Button #1</string>
     <string name="pref_2p_button_2_name">On-Screen Button #2</string>
     <string name="pref_2p_button_3_name">On-Screen Button #3</string>
@@ -113,7 +120,7 @@
     <string name="pref_color_scheme_choice_dark_name">Dark</string>
     <string name="pref_color_scheme_choice_light_name">Light</string>
     <string name="pref_color_scheme_choice_classic_light_name">Classic Light</string>
-    <string name="pref_color_scheme_name">Color Scheme</string>
+    <string name="pref_color_scheme_name">Colour Scheme</string>
     <string name="pref_disable_highlight_tag_name">Disable Bullet</string>
     <string name="pref_disable_highlight_tag_summary">Disable the bullet icon showing which player was scored last.</string>
     <string name="pref_green_text_name">Green Text</string>
@@ -122,10 +129,13 @@
     <string name="pref_initial_message_name">Show welcome message</string>
     <string name="pref_load_settings_name">Load Backup</string>
     <string name="pref_load_settings_summary">Import settings from a saved backup.</string>
+    <string name="pref_minus_button_name">- Button</string>
+    <string name="pref_plus_button_name">+ Button</string>
     <string name="pref_reset_name">Reset to defaults</string>
     <string name="pref_save_settings_name">Save Backup</string>
     <string name="pref_save_settings_summary">Save a backup of the current settings.</string>
     <string name="pref_show_round_totals_name">Show round totals</string>
+    <string name="pref_show_colors_name">Show player colours</string>
     <string name="pref_update_delay_name">Update Delay</string>
     <string name="pref_update_delay_summary">Seconds to wait before adding a new history value (default: 10)</string>
     <string name="pref_use_wake_lock_name">Keep Screen Awake</string>
@@ -172,8 +182,8 @@ Duplicates: %4$d</string>
     <string name="text_restore_initial">You seem to have existing KeepScore games. Restore from a backup?</string>
     <string name="text_round_total">Round #%1$d Total: %2$d</string>
     <plurals name="text_save_backup">
-        <item quantity="one">Backup %d game to the SD card?</item>
-        <item quantity="other">Backup %d games to the SD card?</item>
+        <item quantity="one">Backup %d game to USB storage?</item>
+        <item quantity="other">Backup %d games to USB storage?</item>
     </plurals>
     <plurals name="text_save_backup_succeeded">
         <item quantity="one">%1$d game saved to \'%2$s\'.</item>
@@ -190,7 +200,7 @@ Duplicates: %4$d</string>
         <item quantity="other">Spreadsheet with %d KeepScore games</item>
     </plurals>
     <string name="text_share_spreadsheet_body">Attached is a KeepScore spreadsheet in CSV format.\
-\n\nThis file can be opened using your favorite spreadsheet program, such as Excel, \
+\n\nThis file can be opened using your favourite spreadsheet program, such as Excel, \
 LibreOffice, or Google Docs.</string>
     <string name="text_share_spreadsheet_date_started">Start time</string>
     <string name="text_share_spreadsheet_date_modified">Last modified</string>
@@ -210,7 +220,7 @@ LibreOffice, or Google Docs.</string>
         <item quantity="other">%d KeepScore games just for you!</item>
     </plurals>
     <string name="text_share_mail_body">Attached is a KeepScore backup file.\
-\n\nTo import it into KeepScore, simply open the attachment using your favorite email app.\
+\n\nTo import it into KeepScore, simply open the attachment using your favourite email app.\
 \n\nIf that doesn\'t work, save the file to /sdcard/keepscore/backups and choose \"Restore\" from the KeepScore main  menu.
 \n\nTo get KeepScore, visit https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore .</string>
     
@@ -228,7 +238,7 @@ LibreOffice, or Google Docs.</string>
     <string name="title_add_player">Enter Player Name</string>
     <string name="title_change_name">Change Name</string>
     <string name="title_choose_backup">Restore Games from File</string>
-    <string name="title_choose_color">Choose a Color</string>
+    <string name="title_choose_color">Choose a Colour</string>
     <string name="title_confirm">Confirm</string>
     <string name="title_confirm_delete">Confirm Delete</string>
     <string name="title_confirm_reset">Confirm Reset</string>

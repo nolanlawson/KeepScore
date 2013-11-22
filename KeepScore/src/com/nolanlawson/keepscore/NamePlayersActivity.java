@@ -19,6 +19,7 @@ import android.widget.Button;
 import com.nolanlawson.keepscore.helper.DialogHelper;
 import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PlayerNameHelper;
+import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.widget.PlayerColorView;
 
@@ -104,7 +105,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
     private void setUpWidgets() {
 
         okButton = (Button) findViewById(android.R.id.button1);
-
+        
         for (int i = 0; i < PLAYER_VIEW_IDS.length; i++) {
             int id = PLAYER_VIEW_IDS[i];
             View view = findViewById(id);
@@ -112,7 +113,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
             playerEditTexts.add((AutoCompleteTextView) view.findViewById(R.id.player_name_edit_text));
             PlayerColor playerColor = PlayerColor.values()[i];
             PlayerColorView playerColorView = (PlayerColorView) view.findViewById(R.id.player_color_image);
-            ;
+            playerColorView.setVisibility(PreferenceHelper.getShowColors(this) ? View.VISIBLE : View.GONE);
             playerColorView.setPlayerColor(playerColor);
             playerColorView.setOnClickListener(this);
             playerColorViews.add(playerColorView);

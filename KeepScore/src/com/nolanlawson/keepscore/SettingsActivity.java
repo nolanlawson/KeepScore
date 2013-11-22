@@ -38,6 +38,7 @@ import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.SettingSetHelper;
 import com.nolanlawson.keepscore.helper.ToastHelper;
+import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 
 public class SettingsActivity extends SherlockPreferenceActivity implements OnPreferenceChangeListener,
@@ -48,8 +49,10 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
     public static final String EXTRA_SCROLL_TO_CONFIGURATIONS = null;
 
     private EditTextPreference button1Pref, button2Pref, button3Pref, button4Pref, twoPlayerButton1Pref,
-            twoPlayerButton2Pref, twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref, initialScorePref;
-    private CheckBoxPreference greenTextPref, showRoundTotalsPref, showInitialMessagePref, disableHighlightTagPref;
+            twoPlayerButton2Pref, twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref, initialScorePref,
+            plusButtonPref, minusButtonPref;
+    private CheckBoxPreference greenTextPref, showRoundTotalsPref, showInitialMessagePref, disableHighlightTagPref,
+            showColorsPref;
     private Preference resetPref, aboutPref, saveSettingsPref, loadSettingsPref;
     private ListPreference colorSchemePref;
 
@@ -101,6 +104,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 
     private void setUpPreferences() {
 
+        plusButtonPref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_plus_button);
+        minusButtonPref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_minus_button);
         button1Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_button_1);
         button2Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_button_2);
         button3Pref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_button_3);
@@ -113,6 +118,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         showRoundTotalsPref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_show_round_totals);
         showInitialMessagePref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_initial_message);
         disableHighlightTagPref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_disable_highlight_tag);
+        showColorsPref = (CheckBoxPreference) findPreferenceById(R.string.CONSTANT_pref_show_colors);
         
         updateDelayPref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_update_delay);
         initialScorePref = (EditTextPreference) findPreferenceById(R.string.CONSTANT_pref_initial_score);
@@ -125,7 +131,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         // update the preference's summary with whatever the value is, as it's
         // changed
         for (EditTextPreference pref : new EditTextPreference[] { button1Pref, button2Pref, button3Pref, button4Pref,
-                twoPlayerButton1Pref, twoPlayerButton2Pref, twoPlayerButton3Pref, twoPlayerButton4Pref }) {
+                twoPlayerButton1Pref, twoPlayerButton2Pref, twoPlayerButton3Pref, twoPlayerButton4Pref,
+                plusButtonPref, minusButtonPref}) {
             setDynamicSummary(pref);
         }
 
@@ -178,6 +185,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         showRoundTotalsPref.setOnPreferenceChangeListener(this);
         disableHighlightTagPref.setOnPreferenceChangeListener(this);
         showInitialMessagePref.setOnPreferenceChangeListener(this);
+        showColorsPref.setOnPreferenceChangeListener(this);
     }
 
     private void resetPreferences() {
@@ -297,22 +305,33 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
             return;
         }
 
-        final ListAdapter availableSetAdapter = createAvailableSettingSetsAdapter();
-
-        new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.pref_load_settings_name)
+        // TODO: figure out why I can't get the AlertDialog to make the items themselves clickable
+        final TextWithDeleteAdapter availableSetAdapter = createAvailableSettingSetsAdapter();
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle(R.string.pref_load_settings_name)
                 .setNegativeButton(android.R.string.cancel, null)
-                .setAdapter(availableSetAdapter, new DialogInterface.OnClickListener() {
+                .setAdapter(availableSetAdapter, null)
+                .create();
+        
+        Callback<Integer> onClickListener = new Callback<Integer>() {
 
+            @Override
+            public void onCallback(Integer which) {
+                showSavedSettingSetDialog((String) availableSetAdapter.getItem(which), new Runnable() {
+                    
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showSavedSettingSetDialog((String) availableSetAdapter.getItem(which));
+                    public void run() {
                         dialog.dismiss();
                     }
-                }).show();
-
+                });
+            }
+        };
+        availableSetAdapter.setOnItemClickedListener(onClickListener);
+        dialog.show();
     }
 
-    private void showSavedSettingSetDialog(final String settingSet) {
+    private void showSavedSettingSetDialog(final String settingSet, final Runnable onOkClicked) {
 
         new AlertDialog.Builder(this).setCancelable(true)
                 .setTitle(String.format(getString(R.string.title_load_setting_set), settingSet))
@@ -324,6 +343,9 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         loadSettingSet(settingSet);
+                        if (onOkClicked != null) {
+                            onOkClicked.run();
+                        }
                     }
                 }).show();
 
@@ -347,7 +369,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         return adapter;
     }
 
-    private ListAdapter createAvailableSettingSetsAdapter() {
+    private TextWithDeleteAdapter createAvailableSettingSetsAdapter() {
         List<String> availableSettingSets = new ArrayList<String>(SettingSetHelper.getAvailableSettingSets(this));
         Collections.sort(availableSettingSets);
         final TextWithDeleteAdapter adapter = new TextWithDeleteAdapter(this, availableSettingSets);
