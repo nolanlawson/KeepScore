@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="player_name_2_to_4">64sp</dimen>
+	<dimen name="player_name_2_to_4">54sp</dimen>
 	<dimen name="player_name_5_to_6">36sp</dimen>
 	<dimen name="player_name_7_to_8">28sp</dimen>
 	
@@ -16,9 +16,9 @@
 	<dimen name="player_onscreen_delta_button_text_size_5_to_6">28sp</dimen>
 	<dimen name="player_onscreen_delta_button_text_size_7_to_8">24sp</dimen>
 		
-	<dimen name="player_badge_2_to_4">36sp</dimen>
-	<dimen name="player_badge_5_to_6">36sp</dimen>
-	<dimen name="player_badge_7_to_8">36sp</dimen>
+	<dimen name="player_badge_2_to_4">30sp</dimen>
+	<dimen name="player_badge_5_to_6">26sp</dimen>
+	<dimen name="player_badge_7_to_8">22sp</dimen>
 	
 	<dimen name="delta_popup_text">48sp</dimen>
 	<dimen name="delta_popup_width">800dp</dimen>
@@ -40,6 +40,6 @@
 	
 	<dimen name="onscreen_delta_button_height_2_to_4">100dp</dimen>
 	<dimen name="onscreen_delta_button_height_5_to_6">64dp</dimen>
-	<dimen name="onscreen_delta_button_height_7_to_8">64dp</dimen>
+	<dimen name="onscreen_delta_button_height_7_to_8">58dp</dimen>
 	
 </resources>

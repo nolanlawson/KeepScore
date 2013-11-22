@@ -88,15 +88,15 @@
             android:id="@+id/image_name_tag"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_alignTop="@+id/text_name"
             android:layout_alignBottom="@+id/text_name"
-            android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/text_name"
             android:adjustViewBounds="true"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:src="@drawable/tag_holo_light" />
     </RelativeLayout>
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="max_players_for_onscreen_delta_buttons">6</integer>
+
+</resources>
