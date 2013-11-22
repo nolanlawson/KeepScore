@@ -17,7 +17,9 @@ import com.nolanlawson.keepscore.OrganizePlayersActivity;
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.DialogHelper;
+import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.util.Callback;
+import com.nolanlawson.keepscore.widget.PlayerColorView;
 import com.nolanlawson.keepscore.widget.dragndrop.DragSortListView.DropListener;
 
 public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements DropListener {
@@ -71,11 +73,42 @@ public class EditablePlayerAdapter extends ArrayAdapter<PlayerScore> implements 
         TextView nameTextView = (TextView) view.findViewById(R.id.text_player_name);
         TextView numberTextView = (TextView) view.findViewById(R.id.text_player_number);
         TextView scoreTextView = (TextView) view.findViewById(R.id.text_player_score);
+        PlayerColorView playerColorView = (PlayerColorView) view.findViewById(R.id.player_color_image);
 
         nameTextView.setText(playerScore.toDisplayName(getContext()));
         numberTextView.setText('#' + Integer.toString(playerScore.getPlayerNumber() + 1));
         scoreTextView.setText(Long.toString(playerScore.getScore()));
-        
+
+        playerColorView.setPlayerColor(playerScore.getPlayerColor());
+        // listen for player color clicks
+        playerColorView.setOnClickListener(new OnClickListener() {
+            
+            private PlayerColor chosenColor;
+            
+            @Override
+            public void onClick(View v) {
+                DialogHelper.showColorChooserDialog(getContext(), playerScore.getPlayerColor(), new Callback<PlayerColor>() {
+
+                    @Override
+                    public void onCallback(PlayerColor playerColor) {
+                        // color changed
+                        chosenColor = playerColor;
+                        
+                    }
+                }, new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        // color selected
+                        if (chosenColor == null) {
+                            return;
+                        }
+                        playerScore.setPlayerColor(chosenColor);
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        });
         
         // add listener to the delete button
         ImageButton deleteButton = (ImageButton) view.findViewById(R.id.button_delete_player);

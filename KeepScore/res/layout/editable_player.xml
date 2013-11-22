@@ -1,83 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- layout_centerVertical doesn't work in Android 1.5, so I need two separate chooser_row.xml files -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
+    xmlns:squareimage="http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
     android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/editable_player_background"
     android:paddingLeft="2dp"
     android:paddingRight="2dp"
-    android:paddingTop="2dp"
-    android:background="@drawable/editable_player_background"
-    >
-    
+    android:paddingTop="2dp" >
+
     <ImageButton
         android:id="@+id/button_delete_player"
-        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_menu_delete"
-        android:focusable="false"
+        android:layout_alignParentRight="true"
         android:clickable="true"
-        />
-    
+        android:focusable="false"
+        android:src="@drawable/ic_menu_delete" />
+
     <ImageButton
         android:id="@+id/button_edit_player"
-        android:layout_toLeftOf="@+id/button_delete_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_menu_edit"
-        android:focusable="false"
+        android:layout_toLeftOf="@+id/button_delete_player"
         android:clickable="true"
-        />
-    
+        android:focusable="false"
+        android:src="@drawable/ic_menu_edit" />
+
     <ImageView
+        android:id="@+id/drag"
         android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:src="@drawable/icmpmove"
-		android:id="@+id/drag"
-		/>
-	        
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icmpmove" />
+
     <TextView
         android:id="@+id/text_player_number"
         style="@style/simpleHoloLightTextView"
         android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_toRightOf="@+id/drag"
-		android:layout_centerVertical="true"
-		android:paddingRight="5dp"
-		android:paddingLeft="5dp"
-		android:text="#1"
-		/>
-    
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/drag"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="#1" />
+
     <TextView
         android:id="@+id/text_player_score"
-	    style="@style/simpleHoloLightTextView"
-	    android:layout_toLeftOf="@+id/button_edit_player"
-	    android:layout_centerVertical="true"
-	    android:singleLine="true"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:gravity="right"
-	    android:paddingRight="5dp"
-	    android:paddingLeft="5dp"
-	    android:text="125"
-	    />
-    		
-    
-    <TextView 
-	    android:id="@+id/text_player_name"
-	    style="?android:attr/spinnerDropDownItemStyle"
-	    android:layout_toRightOf="@+id/text_player_number"
-	    android:layout_toLeftOf="@+id/text_player_score"
-	    android:layout_centerVertical="true"
-	    android:singleLine="true"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:ellipsize="marquee"
-	    android:textSize="18sp"
-	    android:paddingTop="10dp"
-	    android:paddingBottom="10dp"
-	    android:text="Henry the Eighth I am, Henry the Eighth I am I am"/>
-    
+        style="@style/simpleHoloLightTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/button_edit_player"
+        android:gravity="right"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:singleLine="true"
+        android:text="125" />
+
+    <LinearLayout
+        android:id="@+id/player_color_holder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/text_player_score"
+        android:layout_toRightOf="@+id/text_player_number"
+        android:orientation="horizontal" >
+
+        <com.nolanlawson.keepscore.widget.PlayerColorView
+            android:id="@+id/player_color_image"
+            android:layout_width="20dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/player_color_selector_01"
+            squareimage:fixedOnHeight="true" />
+
+        <TextView
+            android:id="@+id/text_player_name"
+            style="?android:attr/spinnerDropDownItemStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:singleLine="true"
+            android:text="Henry the Eighth I am, Henry the Eighth I am I am"
+            android:textSize="18sp" />
+    </LinearLayout>
+
 </RelativeLayout>
