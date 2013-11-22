@@ -30,7 +30,18 @@ More details about KeepScore can also be found in [my blog posts][10].
 Build it yourself
 ------------------
 
-KeepScore is built using [Maven][8].  To build, install, and run on your device, simply cd to the ```KeepScore/``` directory and do:
+KeepScore is built using [Maven][8].
+
+KeepScore has a dependency, AmbilWarna, which is not avilable in Maven.  So you'll have to first install it manually:
+
+```
+git clone https://code.google.com/p/yuku-android-util/
+cd yuku-android-util/AmbilWarna
+zip AmbilWarna.zip *.xml *.properties res src
+mvn install:install-file -Dfile=AmbilWarna.zip -DgroupId=yuku.ambilwarna -DartifactId=yuku.ambilwarna -Dversion=1.0 -Dpackaging=apklib
+```
+
+Then, to build, install, and run KeepScore on your device, simply cd to the ```KeepScore/``` directory and do:
 
 ```mvn clean install android:deploy android:run```
 

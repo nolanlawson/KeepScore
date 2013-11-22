@@ -6,7 +6,7 @@
 	<groupId>com.nolanlawson.keepscore</groupId>
 	<artifactId>keepscore-test</artifactId>
 	<packaging>apk</packaging>
-	<version>1.2.4</version>
+	<version>1.3-SNAPSHOT</version>
 	<name>KeepScore Test</name>
 	<dependencies>
 		<dependency>
@@ -25,14 +25,14 @@
 			<groupId>com.nolanlawson.keepscore</groupId>
 			<artifactId>keepscore</artifactId>
 			<type>apk</type>
-			<version>1.2.4</version>
+			<version>1.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.nolanlawson.keepscore</groupId>
 			<artifactId>keepscore</artifactId>
 			<scope>provided</scope>
 			<type>jar</type>
-			<version>1.2.2-SNAPSHOT</version>
+			<version>1.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.actionbarsherlock</groupId>
@@ -41,6 +41,12 @@
 			<scope>provided</scope>
 			<type>apklib</type>
 		</dependency>
+		<dependency>
+            <groupId>yuku.ambilwarna</groupId>
+            <artifactId>yuku.ambilwarna</artifactId>
+            <version>1.0</version>
+            <type>apklib</type>
+        </dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>

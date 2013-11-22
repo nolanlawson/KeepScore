@@ -38,7 +38,7 @@ public class Delta {
     public void setValue(int value) {
         this.value = value;
     }
-    
+
     public static List<Delta> fromJoinedStrings(String scoresStr, String timestampsStr) {
         List<String> scores = StringUtil.split(scoresStr, ',');
         List<String> timestamps = StringUtil.split(timestampsStr, ',');
@@ -94,5 +94,31 @@ public class Delta {
         }
         
     };
+    
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (timestamp ^ (timestamp >>> 32));
+        result = prime * result + value;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Delta other = (Delta) obj;
+        if (timestamp != other.timestamp)
+            return false;
+        if (value != other.value)
+            return false;
+        return true;
+    }
     
 }
