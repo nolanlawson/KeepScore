@@ -2,9 +2,6 @@
 <resources>
     
     <string name="button_actions">Aktionen&#8230;</string>
-    <string name="button_by_chart">Grafische Darstellung</string>
-    <string name="button_by_player">Pro Spieler</string>
-    <string name="button_by_round">Pro Spielrunde</string>
     <string name="button_customize">Einstellungen anpassen&#8230;</string>
     <string name="button_deselect_all">Auswahl löschen</string>
     <string name="button_new_game">Neues Spiel</string>

@@ -19,6 +19,7 @@ public abstract class PlayerColor {
 
     public abstract Drawable toBackgroundDrawable(Context context);
     public abstract int toColor(Context context);
+    public abstract int toChartColor(Context context);
     
     @Override
     public boolean equals(Object o) {
@@ -48,6 +49,14 @@ public abstract class PlayerColor {
         
         public int toColor(Context context) {
             return context.getResources().getColor(colorResId);
+        }
+        
+        public int toChartColor(Context context) {
+            if (colorResId == R.color.player_color_10) {
+                // white is hard to see on the chart; use a cream color instead
+                return context.getResources().getColor(R.color.player_color_10_chart_line);
+            }
+            return toColor(context);
         }
         
         public int getOrdinal() {
@@ -132,6 +141,11 @@ public abstract class PlayerColor {
         }
         
         public int toColor(Context context) {
+            return color;
+        }
+        
+        public int toChartColor(Context context) {
+            // TODO: user-defined colors may not show up well on the chart
             return color;
         }
 

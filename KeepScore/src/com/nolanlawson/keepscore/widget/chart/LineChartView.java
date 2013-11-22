@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
@@ -27,22 +28,30 @@ import com.nolanlawson.keepscore.util.UtilLogger;
  */
 public class LineChartView extends View {
 
-        private static final List<Integer> LINE_COLORS = Arrays.asList(
-                R.color.chart_line_01,
-                R.color.chart_line_02,
-                R.color.chart_line_03,
-                R.color.chart_line_04,
-                R.color.chart_line_05,
-                R.color.chart_line_06,
-                R.color.chart_line_07,
-                R.color.chart_line_08
-                );
+    private static final List<Integer> DEFAULT_LINE_COLORS = Arrays.asList(
+            R.color.chart_line_01,
+            R.color.chart_line_02,
+            R.color.chart_line_03,
+            R.color.chart_line_04,
+            R.color.chart_line_05,
+            R.color.chart_line_06,
+            R.color.chart_line_07,
+            R.color.chart_line_08
+            );
     
-	private static final int MIN_INTERVAL = 5;  // round to nearest five
+    private static final int MIN_INTERVAL = 5;  // round to nearest five
 	private static final List<Integer> INTERVAL_ROUNDING_POINTS = Arrays.asList(5, 10, 50, 100, 1000); // possible roundings
 
 	private static UtilLogger log = new UtilLogger(LineChartView.class);
 	
+	private List<Integer> lineColors = CollectionUtil.transform(DEFAULT_LINE_COLORS, new Function<Integer, Integer>(){
+        @Override
+        public Integer apply(Integer colorId) {
+            return getColor(colorId);
+        }
+	});
+	
+	private boolean drawDots;
 	private Paint mainPaint;
 	private Paint secondaryPaint;
 	private Paint tertiaryPaint;
@@ -72,17 +81,17 @@ public class LineChartView extends View {
 	
 	public LineChartView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
+		init(attrs);
 	}
 
 	public LineChartView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
+		init(attrs);
 	}
 
 	public LineChartView(Context context) {
 		super(context);
-		init();
+		init(null);
 	}
 	
 	public void setZoomLevel(float zoomLevel) {
@@ -94,7 +103,23 @@ public class LineChartView extends View {
 	    return zoomLevel;
 	}
 	
-	private int getColor(int colorId) {
+	public List<Integer> getLineColors() {
+        return lineColors;
+    }
+
+    public void setLineColors(List<Integer> lineColors) {
+        this.lineColors = lineColors;
+    }
+
+    public boolean isDrawDots() {
+        return drawDots;
+    }
+
+    public void setDrawDots(boolean drawDots) {
+        this.drawDots = drawDots;
+    }
+
+    private int getColor(int colorId) {
 	    return getContext().getResources().getColor(colorId);
 	}
 	
@@ -103,7 +128,7 @@ public class LineChartView extends View {
 	    return Math.max(1, Math.round(itemWidth * zoomLevel));
 	}
 
-	private void init() {
+	private void init(AttributeSet attrs) {
 		chartPadding = getContext().getResources().getDimensionPixelSize(
 				R.dimen.chart_padding);
 		itemWidth = getContext().getResources().getDimensionPixelSize(
@@ -114,6 +139,13 @@ public class LineChartView extends View {
 				R.dimen.chart_font_size);
 		lineWidth = getContext().getResources().getDimensionPixelSize(
 				R.dimen.chart_line_width);
+		
+		if (attrs != null) {
+            TypedArray typedArray = getContext().obtainStyledAttributes(attrs,
+                    R.styleable.LineChart);
+            drawDots = typedArray.getBoolean(R.styleable.LineChart_drawDots, false);
+            typedArray.recycle();
+		}
 
 		mainPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mainPaint.setColor(getColor(R.color.chart_main));
@@ -124,35 +156,8 @@ public class LineChartView extends View {
 		secondaryPaint.setColor(getColor(R.color.chart_secondary));
 		tertiaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		tertiaryPaint.setColor(getColor(R.color.chart_tertiary));
-		
-		
-		
-		linePaints = CollectionUtil.transform(LINE_COLORS,
-				new Function<Integer, Paint>() {
 
-					@Override
-					public Paint apply(Integer colorId) {
-						Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-						paint.setColor(getColor(colorId));
-						paint.setStyle(Paint.Style.STROKE);
-						paint.setStrokeWidth(lineWidth);
-						paint.setStyle(Style.FILL_AND_STROKE);
-						paint.setTextSize(fontSize);
-						return paint;
-					}
-				});
-		
-		lineLabelPaints = CollectionUtil.transform(LINE_COLORS,
-				new Function<Integer, Paint>() {
-
-					@Override
-					public Paint apply(Integer colorId) {
-						Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-						paint.setColor(getColor(colorId));
-						paint.setTextSize(fontSize);
-						return paint;
-					}
-				});		
+        updatePaints();
 	}
 
 	/**
@@ -247,8 +252,44 @@ public class LineChartView extends View {
 		log.d("recalculated mainChartAreaWidth to %d", mainChartAreaWidth);
 	}
 	
+	private void updatePaints() {
+	       linePaints = CollectionUtil.transform(lineColors,
+	                new Function<Integer, Paint>() {
+
+	                    @Override
+	                    public Paint apply(Integer color) {
+	                        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+	                        paint.setColor(color);
+	                        paint.setStyle(Paint.Style.STROKE);
+	                        paint.setStrokeWidth(lineWidth);
+	                        paint.setStyle(Style.FILL_AND_STROKE);
+	                        paint.setTextSize(fontSize);
+	                        return paint;
+	                    }
+	                });
+	        
+	        lineLabelPaints = CollectionUtil.transform(lineColors,
+	                new Function<Integer, Paint>() {
+
+	                    @Override
+	                    public Paint apply(Integer color) {
+	                        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+	                        paint.setColor(color);
+	                        paint.setTextSize(fontSize);
+	                        return paint;
+	                    }
+	                });     
+	}
+	
+	
 
 	@Override
+    public void invalidate() {
+        super.invalidate();
+        updatePaints();
+    }
+
+    @Override
 	public void onDraw(Canvas canvas) {
 		if (data == null) {
 			return;
@@ -379,7 +420,9 @@ public class LineChartView extends View {
 				// draw a dot
 				int dataPointY = offsetY
 						+ (int) Math.round(height - (((1.0 * dataPoint - minDataPoint) / (maxDataPoint - minDataPoint)) * height));
-				canvas.drawCircle(dataPointX, dataPointY, dotRadius, lineLabelPaint);
+				if (drawDots) {
+				    canvas.drawCircle(dataPointX, dataPointY, dotRadius, lineLabelPaint);
+				}
 
 				if (!first) {
 					// draw a line to the last data point

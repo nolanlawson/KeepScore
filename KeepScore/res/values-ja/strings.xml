@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_actions">行動&#8230;</string>
-    <string name="button_by_chart">チャート</string>
-    <string name="button_by_player">選手で</string>
-    <string name="button_by_round">ラウンドで</string>
     <string name="button_customize">カスタマイズ&#8230;</string>
     <string name="button_deselect_all">全て解除</string>
     <string name="button_new_game">新しいゲーム</string>

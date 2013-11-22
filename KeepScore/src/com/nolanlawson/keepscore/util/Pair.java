@@ -23,8 +23,8 @@ public class Pair<E,T> {
 	public T getSecond() {
 		return second;
 	}
-	
-	public static <E,T> Pair<E,T> create(E first, T second) {
+
+    public static <E,T> Pair<E,T> create(E first, T second) {
 		Pair<E,T> result = new Pair<E,T>();
 		result.first = first;
 		result.second = second;

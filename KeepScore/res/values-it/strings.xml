@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>  
     <string name="button_actions">Azioni&#8230;</string>
-    <string name="button_by_chart">Grafico</string>
-    <string name="button_by_player">Per giocatore</string>
-    <string name="button_by_round">Per manche</string>
     <string name="button_customize">Personalizza&#8230;</string>
     <string name="button_deselect_all">Deseleziona tutto</string>
     <string name="button_new_game">Nuova partita</string>

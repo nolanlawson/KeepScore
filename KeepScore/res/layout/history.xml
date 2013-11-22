@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:linechart="http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center_horizontal">
+
+    <HorizontalScrollView
+        android:id="@+id/timeline_scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:padding="5dp"
+        android:fillViewport="true"
+        android:isScrollContainer="true">
+        <com.nolanlawson.keepscore.widget.chart.LineChartView    
+            android:id="@+id/timeline_view"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            linechart:drawDots="false"
+            />
+    </HorizontalScrollView>
     
     <HorizontalScrollView
         android:id="@+id/by_chart_scroll_view"
@@ -14,6 +30,7 @@
 	        android:id="@+id/by_chart_view"
 	        android:layout_width="wrap_content"
 	        android:layout_height="fill_parent"
+	        linechart:drawDots="true"
 	        />
     </HorizontalScrollView>
     

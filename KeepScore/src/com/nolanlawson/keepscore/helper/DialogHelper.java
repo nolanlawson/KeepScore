@@ -72,7 +72,7 @@ public class DialogHelper {
                         dialog.dismiss();
 
                     }
-                }).setNeutralButton(R.string.button_custom, new DialogInterface.OnClickListener() {
+                }).setNeutralButton(R.string.button_customize, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -179,7 +179,7 @@ public class DialogHelper {
             .setNegativeButton(android.R.string.cancel, null)
             .setTitle(R.string.title_choose_color)
             .setView(view)
-            .setNeutralButton(R.string.button_customize, new DialogInterface.OnClickListener() {
+            .setNeutralButton(R.string.button_custom, new DialogInterface.OnClickListener() {
                 
                 @Override
                 public void onClick(final DialogInterface dialog, int which) {

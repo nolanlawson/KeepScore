@@ -12,6 +12,13 @@ public class LineChartLine {
     private String label;
     private List<Integer> dataPoints;
     
+    public LineChartLine() {
+    }
+    
+    public LineChartLine(String label, List<Integer> dataPoints) {
+        this.label = label;
+        this.dataPoints = dataPoints;
+    }
     public String getLabel() {
         return label;
     }
