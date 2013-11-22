@@ -134,15 +134,15 @@ public class StringUtil {
 	 * @param upTo
 	 * @return
 	 */
-	public static String padLeft(String str, char padding, int upTo) {
+	public static CharSequence padLeft(CharSequence str, char padding, int upTo) {
 		
-		StringBuilder stringBuilder = new StringBuilder(str);
+		StringBuilder stringBuilder = str instanceof StringBuilder ? (StringBuilder)str : new StringBuilder(str);
 		
 		while (stringBuilder.length() < upTo) {
 			stringBuilder.insert(0, padding);
 		}
 		
-		return stringBuilder.toString();
+		return stringBuilder;
 		
 	}
 	

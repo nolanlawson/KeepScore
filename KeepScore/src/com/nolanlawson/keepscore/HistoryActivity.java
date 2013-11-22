@@ -227,11 +227,9 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
                 dataPoints.add((int) runningTally);
             }
 
-            String displayName = playerScore.toDisplayName(this);
-
             LineChartLine line = new LineChartLine();
             line.setDataPoints(dataPoints);
-            line.setLabel(displayName);
+            line.setLabel(playerScore.toDisplayName(this).toString());
 
             data.add(line);
         }
@@ -477,7 +475,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         } else {
             int delta = historyItem.getDelta();
 
-            SpannableString deltaSpannable = new SpannableString(IntegerUtil.toStringWithSign(delta));
+            SpannableString deltaSpannable = new SpannableString(IntegerUtil.toCharSequenceWithSign(delta));
 
             int colorResId = delta >= 0 
                     ? (PreferenceHelper.getGreenTextPreference(this) 

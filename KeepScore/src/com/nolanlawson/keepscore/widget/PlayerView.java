@@ -86,6 +86,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     private TextView historyTextView, badgeTextView;
     private LinearLayout badgeLinearLayout, onscreenDeltaButtonsLayout;
     private Button minusButton, plusButton, deltaButton1, deltaButton2, deltaButton3, deltaButton4;
+    private Button[] deltaButtons;
     private Context context;
     private Handler handler;
     private boolean showOnscreenDeltaButtons;
@@ -142,7 +143,12 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
         deltaButton2 = (Button) view.findViewById(android.R.id.button2);
         deltaButton3 = (Button) view.findViewById(android.R.id.button3);
         deltaButton4 = (Button) view.findViewById(R.id.button4);
-
+        deltaButtons = new Button[] { deltaButton1, deltaButton2, deltaButton3, deltaButton4 };
+        for (Button deltaButton : deltaButtons) {
+            if (deltaButton != null) {
+                deltaButton.setOnClickListener(this);
+            }
+        }
         minusButton.setOnClickListener(this);
         minusButton.setOnLongClickListener(this);
         plusButton.setOnClickListener(this);
@@ -331,7 +337,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
         }
         view.setBackgroundDrawable(borderDrawable);
 
-        String playerName = playerScore.toDisplayName(context);
+        CharSequence playerName = playerScore.toDisplayName(context);
         nameTextView.setText(playerName);
         
         playerColorView.setPlayerColor(playerScore.getPlayerColor());
@@ -346,7 +352,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
             // show badge (blibbet)
             makeBadgeVisible();
             Delta lastDelta = playerScore.getHistory().get(playerScore.getHistory().size() - 1);
-            badgeTextView.setText(IntegerUtil.toStringWithSign(lastDelta.getValue()));
+            badgeTextView.setText(IntegerUtil.toCharSequenceWithSign(lastDelta.getValue()));
             badgeLinearLayout
                     .setBackgroundResource(lastDelta.getValue() >= 0 ? getPositiveBadge() : R.drawable.badge_red_fade_out);
 
@@ -372,13 +378,10 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
         }
 
         // set values for delta buttons
-        if (deltaButton1 != null) {
-            Button[] deltaButtons = new Button[] { deltaButton1, deltaButton2, deltaButton3, deltaButton4 };
-
+        if (this.showOnscreenDeltaButtons) {
             for (int i = 0; i < deltaButtons.length; i++) {
                 Button button = deltaButtons[i];
-                button.setOnClickListener(this);
-                button.setText(IntegerUtil.toStringWithSign(PreferenceHelper.getTwoPlayerDeltaButtonValue(i, context)));
+                button.setText(IntegerUtil.toCharSequenceWithSign(PreferenceHelper.getTwoPlayerDeltaButtonValue(i, context)));
             }
         }
     }
@@ -558,8 +561,7 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
         int maxChars = Math.max(MIN_NUM_HISTORY_CHARS,
                 CollectionUtil.maxValue(history, DELTA_TO_LENGTH_WITH_SIGN));
 
-        List<Spannable> spannables = CollectionUtil.transform(history, Functions.chain(
-                Delta.GET_VALUE, historyToSpan(maxChars)));
+        List<Spannable> spannables = CollectionUtil.transform(history, historyToSpan(maxChars));
 
         Spannable result = new SpannableString(StringUtil.joinSpannables("\n",
                 CollectionUtil.toArray(spannables, Spannable.class)));
@@ -569,21 +571,21 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
     }
 
     // I don't expect most delta strings to exceed 4 characters, e.g. "+100"
-    private SparseArray<Function<Integer, Spannable>> historyToSpanLookup = 
-            new SparseArray<CollectionUtil.Function<Integer,Spannable>>(4);
+    private SparseArray<Function<Delta, Spannable>> historyToSpanLookup = 
+            new SparseArray<CollectionUtil.Function<Delta,Spannable>>(4);
     
-    private Function<Integer, Spannable> historyToSpan(final int maxChars) {
+    private Function<Delta, Spannable> historyToSpan(final int maxChars) {
         
-        Function<Integer, Spannable> function = historyToSpanLookup.get(maxChars);
+        Function<Delta, Spannable> function = historyToSpanLookup.get(maxChars);
         if (function == null) {
-            function = new Function<Integer, Spannable>() {
+            function = new Function<Delta, Spannable>() {
 
                 @Override
-                public Spannable apply(Integer value) {
+                public Spannable apply(Delta delta) {
+                    int value = delta.getValue();
                     int colorResId = (value >= 0) ? positiveTextColor : negativeTextColor;
                     ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(colorResId));
-                    String str = IntegerUtil.toStringWithSign(value);
-                    // log.v("max length is %s, str is '%s'", maxChars, str);
+                    CharSequence str = IntegerUtil.toCharSequenceWithSign(value);
                     str = StringUtil.padLeft(str, ' ', maxChars);
                     Spannable spannable = new SpannableString(str);
                     SpannableUtil.setWholeSpan(spannable, colorSpan);

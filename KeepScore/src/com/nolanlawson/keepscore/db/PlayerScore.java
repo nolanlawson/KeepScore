@@ -133,12 +133,15 @@ public class PlayerScore implements Parcelable, Cloneable {
                         R.string.CONSTANT_pref_initial_score_default, context);
     }
 
-    public String toDisplayName(Context context) {
+    public CharSequence toDisplayName(Context context) {
         if (!TextUtils.isEmpty(getName())) {
             return getName();
         }
 
-        return context.getString(R.string.text_player) + " " + (getPlayerNumber() + 1);
+        return new StringBuilder(context.getString(R.string.text_player))
+            .append(' ')
+            .append((getPlayerNumber() + 1))
+            ;
     }
 
     @Override

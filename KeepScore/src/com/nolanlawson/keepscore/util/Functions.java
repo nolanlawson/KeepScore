@@ -38,7 +38,7 @@ public class Functions {
 
         @Override
         public Integer apply(Integer obj) {
-            return IntegerUtil.toStringWithSign(obj).length();
+            return IntegerUtil.toCharSequenceWithSign(obj).length();
         }
     };
 

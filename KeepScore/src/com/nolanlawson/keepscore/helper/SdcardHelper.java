@@ -174,7 +174,7 @@ public class SdcardHelper {
         // special value for players whose names weren't specified
         for (Game game : games) {
             for (PlayerScore playerScore : game.getPlayerScores()) {
-                playerNames.add(playerScore.toDisplayName(context));
+                playerNames.add(playerScore.toDisplayName(context).toString());
             }
         }
         
@@ -225,7 +225,7 @@ public class SdcardHelper {
 
                     @Override
                     public String apply(PlayerScore obj) {
-                        return obj.toDisplayName(context);
+                        return obj.toDisplayName(context).toString();
                     }
                 };
                 
@@ -242,7 +242,7 @@ public class SdcardHelper {
                 // or the score for the actual players
                 Map<String, Long> playerScoreLookup = new HashMap<String, Long>();
                 for (PlayerScore playerScore : game.getPlayerScores()) {
-                    playerScoreLookup.put(playerScore.toDisplayName(context), playerScore.getScore());
+                    playerScoreLookup.put(playerScore.toDisplayName(context).toString(), playerScore.getScore());
                 }
 
                 for (String playerName : playerNames) {

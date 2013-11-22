@@ -91,7 +91,7 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
                 // history,
                 // i.e. there's something the user might regret deleting
                 if (playerScore.getHistory() != null && playerScore.getHistory().size() > 0) {
-                    deletedPlayersToWarnAbout.add(playerScore.toDisplayName(OrganizePlayersActivity.this));
+                    deletedPlayersToWarnAbout.add(playerScore.toDisplayName(OrganizePlayersActivity.this).toString());
                 }
             }
         });

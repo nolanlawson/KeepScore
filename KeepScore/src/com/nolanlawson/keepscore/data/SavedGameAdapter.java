@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import android.content.Context;
@@ -80,10 +81,10 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 	}
 	// Player 1, Player 2, Player3 etc.
 	gameTitle.append(TextUtils.join(", ",
-		CollectionUtil.transform(game.getPlayerScores(), new Function<PlayerScore, String>() {
+		CollectionUtil.transform(game.getPlayerScores(), new Function<PlayerScore, CharSequence>() {
 
 		    @Override
-		    public String apply(PlayerScore playerScore) {
+		    public CharSequence apply(PlayerScore playerScore) {
 			return playerScore.toDisplayName(context);
 		    }
 		})));
@@ -98,7 +99,8 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 
 	subtitleTextView.setText(rounds);
 
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getContext().getString(R.string.date_format));
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getContext().getString(R.string.date_format), 
+	        Locale.getDefault());
 
 	savedTextView.setText(simpleDateFormat.format(new Date(game.getDateSaved())));
 

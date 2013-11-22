@@ -109,10 +109,10 @@ public class DialogHelper {
 	Button button4 = (Button) view.findViewById(R.id.button4);
 	EditText editText = (EditText) view.findViewById(android.R.id.edit);
 
-	button1.setText(IntegerUtil.toStringWithSign(button1Value));
-	button2.setText(IntegerUtil.toStringWithSign(button2Value));
-	button3.setText(IntegerUtil.toStringWithSign(button3Value));
-	button4.setText(IntegerUtil.toStringWithSign(button4Value));
+	button1.setText(IntegerUtil.toCharSequenceWithSign(button1Value));
+	button2.setText(IntegerUtil.toCharSequenceWithSign(button2Value));
+	button3.setText(IntegerUtil.toCharSequenceWithSign(button3Value));
+	button4.setText(IntegerUtil.toCharSequenceWithSign(button4Value));
 
 	button1.setOnClickListener(incrementingOnClickListener(editText,
 		button1Value));
