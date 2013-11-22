@@ -82,6 +82,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
     private LayoutInflater inflater;
     
     private Game game;
+    private boolean showTimeline;
     
     private Handler handler = new Handler(Looper.getMainLooper());
     
@@ -126,6 +127,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         setContentView(R.layout.history);
 
         game = getIntent().getParcelableExtra(EXTRA_GAME);
+        showTimeline = determineIfShouldShowTimeline();
 
         log.d("intent is %s", getIntent());
         log.d("game is %s", game);
@@ -133,10 +135,28 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         setUpWidgets();
         setUpActionBar();
 
-        createTimelineLayout();
+        if (showTimeline) {
+            createTimelineLayout();
+        }
         createByChartLayout();
         createByPlayerTableLayout();
         createByRoundTableLayout();
+    }
+
+    private boolean determineIfShouldShowTimeline() {
+        
+        // on older versions of keepscore, we didn't log the timestamps of deltas.  So return true
+        // if any deltas have a timestamp on them
+        for (PlayerScore playerScore : game.getPlayerScores()) {
+            for (Delta delta : playerScore.getHistory()) {
+                if (delta.getTimestamp() > 0L) {
+                    return true;
+                }
+            }
+        }
+        return false;
+        
+        
     }
 
     private void setUpActionBar() {
@@ -153,6 +173,9 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         
         for (int i = 0; i < TabDef.values().length; i++) {
             TabDef tab = TabDef.values()[i];
+            if (!showTimeline && tab == TabDef.ChartByTime) {
+                continue;
+            }
             createTab(tab, tabContentViews[i], i == 0);
         }
     }
