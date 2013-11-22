@@ -23,10 +23,11 @@
 		</dependency>
         <dependency>
             <groupId>yuku.ambilwarna</groupId>
-            <artifactId>yuku.ambilwarna</artifactId>
+            <artifactId>yuku.ambilwarna-apk</artifactId>
             <version>1.0</version>
             <type>apklib</type>
         </dependency>
+
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

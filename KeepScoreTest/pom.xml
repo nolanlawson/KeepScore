@@ -15,7 +15,13 @@
 			<version>4.1.1.4</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+		        <dependency>
+            <groupId>yuku.ambilwarna</groupId>
+            <artifactId>yuku.ambilwarna-apk</artifactId>
+            <version>1.0</version>
+            <type>apklib</type>
+        </dependency>
+<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android-test</artifactId>
 			<version>4.1.1.4</version>
