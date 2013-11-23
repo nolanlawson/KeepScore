@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" output="bin/classes" path="src">
 		<attributes>
@@ -14,7 +14,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/AmbilWarna-library"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ActionBarSherlock-4.2.0"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/AmbilWarna-library"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ActionBarSherlock-4.2.0"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

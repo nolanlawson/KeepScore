@@ -45,6 +45,7 @@ import com.nolanlawson.keepscore.util.CollectionUtil;
 import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.SparseArrays;
+import com.nolanlawson.keepscore.util.TimeUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
 import com.nolanlawson.keepscore.widget.chart.LineChartLine;
 import com.nolanlawson.keepscore.widget.chart.LineChartView;
@@ -297,6 +298,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
 
     private void createTimelineLayout() {
         
+        List<String> xAxisLabels = new ArrayList<String>();
         SparseArray<SparseArray<Long>> smoothedData = smoothData(game);
         
         List<LineChartLine> data = new ArrayList<LineChartLine>();
@@ -308,6 +310,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         
         for (int i = 0; i < smoothedData.size(); i++) {
             int timeSinceStart = smoothedData.keyAt(i);
+            xAxisLabels.add(TimeUtil.formatSeconds(timeSinceStart));
             SparseArray<Long> scores = smoothedData.get(timeSinceStart);
             
             for (int playerIdx = 0; playerIdx < game.getPlayerScores().size(); playerIdx++){
@@ -323,12 +326,15 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         }
         
         timelineChartView.setLineColors(createLineColors());
+        timelineChartView.setxAxisLabels(xAxisLabels);
+        log.d("x labels are %s", xAxisLabels);
         timelineChartView.loadData(data);
     }
     
     private SparseArray<SparseArray<Long>> smoothData(Game game) {
         
-        long startTime = Math.round(Math.floor(game.getDateStarted() * 1.0 / TIMELINE_ROUNDING_IN_MS));
+        long roundedStartTimeInMs = Math.round(Math.floor(
+                game.getDateStarted() * 1.0 / TIMELINE_ROUNDING_IN_MS)) * TIMELINE_ROUNDING_IN_MS;
         
         // first, plot all players' deltas with their timestamps on the same timeline (x axis), rounded to
         // the nearest ten seconds
@@ -344,13 +350,24 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
             
             long runningTally = startingScore;
             for (Delta delta : playerScore.getHistory()) {
-                long roundedTimestamp = Math.round(Math.floor(delta.getTimestamp() * 1.0 / TIMELINE_ROUNDING_IN_MS));
                 runningTally += delta.getValue();
                 
-                int timeSinceStart = (int)(roundedTimestamp - startTime);
-                SparseArray<Long> existingScoresAtThisTime = timeline.get(timeSinceStart);
+                long timeSinceStartInMs = delta.getTimestamp() - roundedStartTimeInMs;
+                int roundedTimeSinceStartInSecs = (int)TimeUnit.MILLISECONDS.toSeconds(Math.round(Math.floor(
+                        timeSinceStartInMs * 1.0 / TIMELINE_ROUNDING_IN_MS)) * TIMELINE_ROUNDING_IN_MS);
+                
+                if (roundedTimeSinceStartInSecs == 0) {
+                    // just in case someone was actually fast enough to log the first score in <5 seconds, bump
+                    // it up to the first mark instead
+                    roundedTimeSinceStartInSecs = (int)TimeUnit.MILLISECONDS.toSeconds(TIMELINE_ROUNDING_IN_MS);
+                }
+                
+                log.d("roundedStartTimeInMs: %s, timeSinceStartInMs: %s, roundedTimeSinceStartInSecs: %s",
+                        roundedStartTimeInMs, timeSinceStartInMs, roundedTimeSinceStartInSecs);
+                
+                SparseArray<Long> existingScoresAtThisTime = timeline.get(roundedTimeSinceStartInSecs);
                 if (existingScoresAtThisTime == null) {
-                    timeline.put(timeSinceStart, SparseArrays.create(i, runningTally));
+                    timeline.put(roundedTimeSinceStartInSecs, SparseArrays.create(i, runningTally));
                 } else {
                     // If the same player updated his score twice within the same rounded span,
                     // then just add the two values together

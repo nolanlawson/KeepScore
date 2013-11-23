@@ -39,6 +39,8 @@ public class LineChartView extends View {
             R.color.chart_line_08
             );
     
+    private static final double X_AXIS_LABEL_PADDING_TOP_RATIO = 0.1;
+    private static final double X_AXIS_LABEL_PADDING_BOTTOM_RATIO = 1.0;
     private static final int MIN_INTERVAL = 5;  // round to nearest five
 	private static final List<Integer> INTERVAL_ROUNDING_POINTS = Arrays.asList(5, 10, 50, 100, 1000); // possible roundings
 
@@ -52,9 +54,11 @@ public class LineChartView extends View {
 	});
 	
 	private boolean drawDots;
+	private List<String> xAxisLabels;
 	private Paint mainPaint;
 	private Paint secondaryPaint;
 	private Paint tertiaryPaint;
+	private Paint xAxisLabelPaint;
 	private List<Paint> linePaints;
 	private List<Paint> lineLabelPaints;
 
@@ -69,6 +73,9 @@ public class LineChartView extends View {
 	private int legendWidth;
 	private int legendTextHeight;
 	private int mainChartAreaWidth;
+	private int xAxisAddedWidth;
+	private int xAxisLabelPaddingTop;
+	private int xAxisLabelPaddingBottom;
 	
 	// values taken from dimensions.xml
 	private int chartPadding;
@@ -77,7 +84,7 @@ public class LineChartView extends View {
 	private int dotRadius;
 	private int fontSize;
 	private int lineWidth;
-	
+	private int xAxisLabelFontSize;
 	
 	public LineChartView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -111,6 +118,14 @@ public class LineChartView extends View {
         this.lineColors = lineColors;
     }
 
+    public List<String> getxAxisLabels() {
+        return xAxisLabels;
+    }
+
+    public void setxAxisLabels(List<String> xAxisLabels) {
+        this.xAxisLabels = xAxisLabels;
+    }
+
     public boolean isDrawDots() {
         return drawDots;
     }
@@ -139,6 +154,11 @@ public class LineChartView extends View {
 				R.dimen.chart_font_size);
 		lineWidth = getContext().getResources().getDimensionPixelSize(
 				R.dimen.chart_line_width);
+		xAxisLabelFontSize = getContext().getResources().getDimensionPixelSize(
+                R.dimen.chart_x_axis_label_font_size);
+		
+		xAxisLabelPaddingTop = (int)Math.max(1, Math.round(xAxisLabelFontSize * X_AXIS_LABEL_PADDING_TOP_RATIO));
+		xAxisLabelPaddingBottom = (int) Math.round(xAxisLabelFontSize * X_AXIS_LABEL_PADDING_BOTTOM_RATIO);
 		
 		if (attrs != null) {
             TypedArray typedArray = getContext().obtainStyledAttributes(attrs,
@@ -151,11 +171,16 @@ public class LineChartView extends View {
 		mainPaint.setColor(getColor(R.color.chart_main));
 		mainPaint.setTextSize(fontSize);
 		mainPaint.setTypeface(Typeface.MONOSPACE);
-		
+        xAxisLabelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        xAxisLabelPaint.setColor(getColor(R.color.chart_main));
+        xAxisLabelPaint.setTextSize(xAxisLabelFontSize);
+        xAxisLabelPaint.setTypeface(Typeface.MONOSPACE);
+        
 		secondaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		secondaryPaint.setColor(getColor(R.color.chart_secondary));
 		tertiaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		tertiaryPaint.setColor(getColor(R.color.chart_tertiary));
+
 
         updatePaints();
 	}
@@ -170,6 +195,7 @@ public class LineChartView extends View {
 		determineMinAndMaxDataPoints();
 		determineYAxisLabelInfo();
 		determineLegendInfo();
+		determineXAxisAddedWidth();
 		determineMainChartAreaWidth();
 		invalidate();
 	}
@@ -236,6 +262,20 @@ public class LineChartView extends View {
 		}
 		
 		legendWidth = maxTextWidth;
+	}
+
+	private void determineXAxisAddedWidth() {
+	    
+	    // x axis labels are drawn with the left edge of the text at each vertical line, meaning that the final label
+	    // will be left dangling over the right edge of the chart
+	    if (xAxisLabels != null) {
+	        // figure out the length of the longest text
+	        String longestExpectedText = "00:00:00"; // very rare for a game to last >100 hours! unless it's Axis & Allies
+            Rect rect = new Rect();
+            xAxisLabelPaint.getTextBounds(longestExpectedText, 0, longestExpectedText.length(), rect);
+        
+            xAxisAddedWidth = rect.width();
+	    }
 	}
 	
 	private void determineMainChartAreaWidth() {
@@ -309,11 +349,20 @@ public class LineChartView extends View {
 		
 		List<Integer> intervalPoints = determineIntervalPoints(canvas, height);
 		
-		drawYAxisLabel(canvas, height, offsetX, offsetY, intervalPoints);
+		int heightForNonXAxisLabelArea = height;
+		if (xAxisLabels != null) {
+		    heightForNonXAxisLabelArea -= (labelTextHeight + xAxisLabelPaddingTop + xAxisLabelPaddingBottom);
+		}
+		
+		drawYAxisLabel(canvas, heightForNonXAxisLabelArea, offsetX, offsetY, intervalPoints);
 		
 		offsetX += yAxisLabelWidth + chartPadding; // pad on the right
 		
-		drawMainChartArea(canvas, height, offsetX, offsetY, intervalPoints);
+		if (xAxisLabels != null) {
+		    drawXAxisLabel(canvas, height, offsetX, offsetY, intervalPoints);
+		}
+		
+		drawMainChartArea(canvas, heightForNonXAxisLabelArea, offsetX, offsetY, intervalPoints);
 
 	}
 
@@ -347,6 +396,26 @@ public class LineChartView extends View {
 		return Collections.emptyList();
 	}
 
+	/**
+	 * Draw the x axis labels and return the height used.
+	 * @param canvas
+	 * @param height
+	 * @param offsetX
+	 * @param offsetY
+	 * @param intervalPoints
+	 */
+	private void drawXAxisLabel(Canvas canvas, int height, int offsetX, int offsetY, List<Integer> intervalPoints) {
+	    
+	    int dataPointX = offsetX;
+	    int dataPointY = offsetY + height - xAxisLabelPaddingBottom;
+	    for (int i = 0; i < xAxisLabels.size(); i++) {
+	        String label = xAxisLabels.get(i);
+	        
+	        canvas.drawText(label, dataPointX, dataPointY, xAxisLabelPaint);
+	        dataPointX += getItemWidth();
+	    }
+	}
+	
 	private void drawYAxisLabel(Canvas canvas, int height, int offsetX, int offsetY, List<Integer> intervalPoints) {
 		
 		String maxText = Integer.toString(maxDataPoint);
@@ -415,12 +484,18 @@ public class LineChartView extends View {
 			int previousDataPointX = 0;
 			int previousDataPointY = 0;
 			boolean first = true;
-			for (Integer dataPoint : line.getDataPoints()) {
+			List<Integer> dataPoints = line.getDataPoints();
+			for (int j = 0, len = dataPoints.size(); j < len; j++) {
+			    Integer dataPoint = dataPoints.get(j);
 
 				// draw a dot
 				int dataPointY = offsetY
 						+ (int) Math.round(height - (((1.0 * dataPoint - minDataPoint) / (maxDataPoint - minDataPoint)) * height));
-				if (drawDots) {
+				
+				if (drawDots || j == 0 || j == len - 1 
+				        || !dataPoint.equals(dataPoints.get(j - 1)) || !dataPoint.equals(dataPoints.get(j + 1))) {
+				    // I decided "drawDots" means "always draw dots", whereas "!drawDots" means "draw
+				    // dots only if a value changed."  TODO: rename/refactor/re-unfuckify this wording
 				    canvas.drawCircle(dataPointX, dataPointY, dotRadius, lineLabelPaint);
 				}
 
@@ -496,7 +571,8 @@ public class LineChartView extends View {
 		int expectedWidth = (4 * chartPadding) 
 				+ legendWidth
 				+ yAxisLabelWidth
-				+ mainChartAreaWidth;
+				+ mainChartAreaWidth
+				+ xAxisAddedWidth;
 				
 		log.d("expected width is %d",expectedWidth);
 		
