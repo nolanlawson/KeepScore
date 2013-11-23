@@ -72,8 +72,8 @@
     <string name="button_actions">Actions&#8230;</string>
     <string name="button_history_time_chart">Timeline</string>
     <string name="button_history_round_chart">Round by round</string>
-    <string name="button_history_round_table">Round summaries</string>
-    <string name="button_history_player_table">Player summaries</string>
+    <string name="button_history_round_table">Breakdown by round</string>
+    <string name="button_history_player_table">Breakdown by player</string>
     <string name="button_customize">Customize&#8230;</string>
     <string name="button_custom">Custom&#8230;</string>
     <string name="button_deselect_all">Deselect All</string>
