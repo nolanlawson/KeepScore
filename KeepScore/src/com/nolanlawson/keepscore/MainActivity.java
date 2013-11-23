@@ -895,7 +895,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
         Game game = (Game) adapter.getItem(position);
 
-        GameActivityHelper.openGame(this, game.getId());
+        GameActivityHelper.openGame(this, game);
 
     }
 

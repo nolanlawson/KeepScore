@@ -1,153 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
-	android:background="@drawable/main_background">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main_background"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical" >
 
-	<View android:layout_width="0px" android:layout_weight=".05"
-		android:layout_height="0px" />
+    <View
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:layout_weight=".05" />
 
-	<TextView android:layout_width="fill_parent" android:gravity="center_horizontal"
-		android:layout_height="wrap_content" android:textSize="24sp"
-		android:textStyle="bold" android:text="@string/text_player_names" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/text_player_names"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
-	<View android:layout_width="0px" android:layout_weight=".05"
-		android:layout_height="0px" />
+    <View
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:layout_weight=".05" />
 
-	<ScrollView android:layout_width="fill_parent"
-		android:layout_height="0px" android:layout_weight="0.85">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.85" >
 
-		<LinearLayout android:orientation="horizontal"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:gravity="center_horizontal">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
 
-			<View android:layout_width="0px" android:layout_weight=".125"
-				android:layout_height="0px" />
+            <View
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_weight=".125" />
 
+            <TableLayout
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight=".375"
+                android:padding="5dp"
+                android:stretchColumns="1" >
 
-			<TableLayout android:layout_width="0px"
-				android:layout_weight=".375" android:layout_height="wrap_content"
-				android:padding="5dp" android:stretchColumns="1">
+                <ViewStub
+                    android:id="@+id/player_and_color_1"
+                    android:inflatedId="@+id/player_and_color_1"
+                    android:layout="@layout/table_row_player_and_color" />
 
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_1"
-                        android:inflatedId="@+id/player_and_color_1"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_3"
-                        android:inflatedId="@+id/player_and_color_3"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_5"
-                        android:inflatedId="@+id/player_and_color_5"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_7"
-                        android:inflatedId="@+id/player_and_color_7"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_9"
-                        android:inflatedId="@+id/player_and_color_9"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_11"
-                        android:inflatedId="@+id/player_and_color_11"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_13"
-                        android:inflatedId="@+id/player_and_color_13"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_15"
-                        android:inflatedId="@+id/player_and_color_15"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_17"
-                        android:inflatedId="@+id/player_and_color_17"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_19"
-                        android:inflatedId="@+id/player_and_color_19"
-                        />
+                <ViewStub
+                    android:id="@+id/player_and_color_3"
+                    android:inflatedId="@+id/player_and_color_3"
+                    android:layout="@layout/table_row_player_and_color" />
 
-			</TableLayout>
-            <TableLayout android:layout_width="0px"
-                android:layout_weight=".375" android:layout_height="wrap_content"
-                android:padding="5dp" android:stretchColumns="1">
+                <ViewStub
+                    android:id="@+id/player_and_color_5"
+                    android:inflatedId="@+id/player_and_color_5"
+                    android:layout="@layout/table_row_player_and_color" />
 
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_2"
-                        android:inflatedId="@+id/player_and_color_2"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_4"
-                        android:inflatedId="@+id/player_and_color_4"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_6"
-                        android:inflatedId="@+id/player_and_color_6"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_8"
-                        android:inflatedId="@+id/player_and_color_8"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_10"
-                        android:inflatedId="@+id/player_and_color_10"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_12"
-                        android:inflatedId="@+id/player_and_color_12"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_14"
-                        android:inflatedId="@+id/player_and_color_14"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_16"
-                        android:inflatedId="@+id/player_and_color_16"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_18"
-                        android:inflatedId="@+id/player_and_color_18"
-                        />
-<ViewStub android:layout="@layout/table_row_player_and_color"
-                        android:id="@+id/player_and_color_20"
-                        android:inflatedId="@+id/player_and_color_20"
-                        />
+                <ViewStub
+                    android:id="@+id/player_and_color_7"
+                    android:inflatedId="@+id/player_and_color_7"
+                    android:layout="@layout/table_row_player_and_color" />
 
+                <ViewStub
+                    android:id="@+id/player_and_color_9"
+                    android:inflatedId="@+id/player_and_color_9"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_11"
+                    android:inflatedId="@+id/player_and_color_11"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_13"
+                    android:inflatedId="@+id/player_and_color_13"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_15"
+                    android:inflatedId="@+id/player_and_color_15"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_17"
+                    android:inflatedId="@+id/player_and_color_17"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_19"
+                    android:inflatedId="@+id/player_and_color_19"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_21"
+                    android:inflatedId="@+id/player_and_color_21"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_23"
+                    android:inflatedId="@+id/player_and_color_23"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_25"
+                    android:inflatedId="@+id/player_and_color_25"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_27"
+                    android:inflatedId="@+id/player_and_color_27"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_29"
+                    android:inflatedId="@+id/player_and_color_29"
+                    android:layout="@layout/table_row_player_and_color" />
             </TableLayout>
-            
 
-			<View android:layout_width="0px" android:layout_weight=".125"
-				android:layout_height="0px" />
-		</LinearLayout>
+            <TableLayout
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight=".375"
+                android:padding="5dp"
+                android:stretchColumns="1" >
 
-	</ScrollView>
+                <ViewStub
+                    android:id="@+id/player_and_color_2"
+                    android:inflatedId="@+id/player_and_color_2"
+                    android:layout="@layout/table_row_player_and_color" />
 
-	<View android:layout_width="fill_parent" android:layout_weight=".025"
-		android:layout_height="0px" />
+                <ViewStub
+                    android:id="@+id/player_and_color_4"
+                    android:inflatedId="@+id/player_and_color_4"
+                    android:layout="@layout/table_row_player_and_color" />
 
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:gravity="center_horizontal">
+                <ViewStub
+                    android:id="@+id/player_and_color_6"
+                    android:inflatedId="@+id/player_and_color_6"
+                    android:layout="@layout/table_row_player_and_color" />
 
-		<View android:layout_width="0px" android:layout_weight=".25"
-			android:layout_height="fill_parent" />
+                <ViewStub
+                    android:id="@+id/player_and_color_8"
+                    android:inflatedId="@+id/player_and_color_8"
+                    android:layout="@layout/table_row_player_and_color" />
 
-		<Button android:id="@android:id/button1" android:text="@android:string/ok"
-			android:layout_width="0px" android:layout_weight="0.75"
-			android:minWidth="200dp" android:layout_height="wrap_content"
-			android:textStyle="bold" />
+                <ViewStub
+                    android:id="@+id/player_and_color_10"
+                    android:inflatedId="@+id/player_and_color_10"
+                    android:layout="@layout/table_row_player_and_color" />
 
-		<View android:layout_width="0px" android:layout_weight=".25"
-			android:layout_height="fill_parent" />
+                <ViewStub
+                    android:id="@+id/player_and_color_12"
+                    android:inflatedId="@+id/player_and_color_12"
+                    android:layout="@layout/table_row_player_and_color" />
 
-	</LinearLayout>
+                <ViewStub
+                    android:id="@+id/player_and_color_14"
+                    android:inflatedId="@+id/player_and_color_14"
+                    android:layout="@layout/table_row_player_and_color" />
 
+                <ViewStub
+                    android:id="@+id/player_and_color_16"
+                    android:inflatedId="@+id/player_and_color_16"
+                    android:layout="@layout/table_row_player_and_color" />
 
-	<View android:layout_width="fill_parent" android:layout_weight=".025"
-		android:layout_height="0px" />
+                <ViewStub
+                    android:id="@+id/player_and_color_18"
+                    android:inflatedId="@+id/player_and_color_18"
+                    android:layout="@layout/table_row_player_and_color" />
 
+                <ViewStub
+                    android:id="@+id/player_and_color_20"
+                    android:inflatedId="@+id/player_and_color_20"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_22"
+                    android:inflatedId="@+id/player_and_color_22"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_24"
+                    android:inflatedId="@+id/player_and_color_24"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_26"
+                    android:inflatedId="@+id/player_and_color_26"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_28"
+                    android:inflatedId="@+id/player_and_color_28"
+                    android:layout="@layout/table_row_player_and_color" />
+
+                <ViewStub
+                    android:id="@+id/player_and_color_30"
+                    android:inflatedId="@+id/player_and_color_30"
+                    android:layout="@layout/table_row_player_and_color" />
+            </TableLayout>
+
+            <View
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_weight=".125" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight=".025" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="0px"
+            android:layout_height="fill_parent"
+            android:layout_weight=".25" />
+
+        <Button
+            android:id="@android:id/button1"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:minWidth="200dp"
+            android:text="@android:string/ok"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0px"
+            android:layout_height="fill_parent"
+            android:layout_weight=".25" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight=".025" />
 
 </LinearLayout>

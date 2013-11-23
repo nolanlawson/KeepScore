@@ -143,13 +143,24 @@
                 android:id="@+id/player_11"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_11"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            
+            <ViewStub
+                android:id="@+id/player_12"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:inflatedId="@+id/player_12"
                 android:layout="@layout/player_score"
                 android:paddingBottom="3dp"
                 android:paddingLeft="3dp"
                 android:paddingRight="3dp"
                 android:paddingTop="3dp" />
-
+            
             <ViewStub
                 android:id="@+id/player_13"
                 android:layout_width="fill_parent"
@@ -237,6 +248,106 @@
                 android:paddingLeft="3dp"
                 android:paddingRight="3dp"
                 android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_21"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_21"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_22"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_22"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_23"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_23"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_24"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_24"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_25"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_25"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_26"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_26"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_27"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_27"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_28"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_28"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_29"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_29"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+            <ViewStub
+                android:id="@+id/player_30"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_30"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />            
         </LinearLayout>
     </ScrollView>
 

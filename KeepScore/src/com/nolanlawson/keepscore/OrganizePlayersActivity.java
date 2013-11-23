@@ -31,7 +31,7 @@ import com.nolanlawson.keepscore.widget.dragndrop.DragSortListView;
 
 public class OrganizePlayersActivity extends SherlockListActivity implements OnClickListener {
 
-    public static final int MAX_NUM_PLAYERS = 20;
+    public static final int MAX_NUM_PLAYERS = 30;
     public static final int MIN_NUM_PLAYERS = 2;
 
     public static final String EXTRA_PLAYER_SCORES = "playerScores";

@@ -114,6 +114,7 @@ public abstract class GameActivity extends SherlockActivity {
     private DataExpiringStack<RecordedChange> redoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
 
     protected abstract void hideAbsentPlayers();
+    protected abstract boolean getShouldShowOnscreenDeltaButtons();
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -574,16 +575,16 @@ public abstract class GameActivity extends SherlockActivity {
 
         playerViews = new ArrayList<PlayerView>();
 
-        // only show the onscreen delta buttons if space allows
-        boolean showOnscreenDeltaButtons = playerScores.size() <= getResources().getInteger(
-                R.integer.max_players_for_onscreen_delta_buttons);
+        boolean showOnscreenDeltaButtons = getShouldShowOnscreenDeltaButtons();
 
         for (int i = 0; i < playerScores.size(); i++) {
 
             PlayerScore playerScore = playerScores.get(i);
             int resId = getPlayerViewResId(i);
             View view = getPlayerScoreView(resId);
-
+            if (view == null) {
+                log.e("Null pointer exception; view for player %s is null", i);
+            }
             PlayerView playerView = new PlayerView(this, view, playerScore, handler, showOnscreenDeltaButtons);
 
             playerView.setChangeRecorder(new Callback<RecordedChange>() {
@@ -804,8 +805,28 @@ public abstract class GameActivity extends SherlockActivity {
         case 18:
             return R.id.player_19;
         case 19:
-        default:
             return R.id.player_20;
+        case 20:
+            return R.id.player_21;
+        case 21:
+            return R.id.player_22;
+        case 22:
+            return R.id.player_23;
+        case 23:
+            return R.id.player_24;
+        case 24:
+            return R.id.player_25;
+        case 25:
+            return R.id.player_26;
+        case 26:
+            return R.id.player_27;
+        case 27:
+            return R.id.player_28;
+        case 28:
+            return R.id.player_29;
+        case 29:
+        default:
+            return R.id.player_30;
         }
     }
 

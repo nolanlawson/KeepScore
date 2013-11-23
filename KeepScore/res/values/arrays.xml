@@ -24,7 +24,16 @@
 	    <item>@string/text_share_spreadsheet_game_name</item>
 	    <item>@string/text_share_spreadsheet_player_with_max</item>
 	    <item>@string/text_share_spreadsheet_player_with_min</item>
-	    
     </string-array>
     
+    <string-array name="pref_orientation_entries">
+        <item>@string/pref_orientation_choice_landscape_name</item>
+        <item>@string/pref_orientation_choice_portrait_name</item>
+    </string-array>
+    
+    <string-array name="pref_orientation_entry_values">
+        <item>@string/CONSTANT_pref_orientation_choice_landscape</item>
+        <item>@string/CONSTANT_pref_orientation_choice_portrait</item>
+    </string-array>
+        
 </resources>

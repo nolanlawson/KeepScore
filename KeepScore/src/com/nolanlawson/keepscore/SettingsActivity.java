@@ -44,9 +44,7 @@ import com.nolanlawson.keepscore.util.IntegerUtil;
 public class SettingsActivity extends SherlockPreferenceActivity implements OnPreferenceChangeListener,
         OnPreferenceClickListener {
 
-    public static final String COLOR_SCHEME_CHANGED = "colorSchemeChanged";
-
-    public static final String EXTRA_SCROLL_TO_CONFIGURATIONS = null;
+    public static final String EXTRA_SCROLL_TO_CONFIGURATIONS = "scrollToConfigurations";
 
     private EditTextPreference button1Pref, button2Pref, button3Pref, button4Pref, twoPlayerButton1Pref,
             twoPlayerButton2Pref, twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref, initialScorePref,
@@ -54,7 +52,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
     private CheckBoxPreference greenTextPref, showRoundTotalsPref, showInitialMessagePref, disableHighlightTagPref,
             showColorsPref;
     private Preference resetPref, aboutPref, saveSettingsPref, loadSettingsPref;
-    private ListPreference colorSchemePref;
+    private ListPreference colorSchemePref, orientationPref;
 
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -125,6 +123,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         resetPref = findPreferenceById(R.string.CONSTANT_pref_reset);
         aboutPref = findPreferenceById(R.string.CONSTANT_pref_about);
         colorSchemePref = (ListPreference) findPreferenceById(R.string.CONSTANT_pref_color_scheme);
+        orientationPref = (ListPreference) findPreferenceById(R.string.CONSTANT_pref_orientation);
         loadSettingsPref = findPreferenceById(R.string.CONSTANT_pref_load_settings);
         saveSettingsPref = findPreferenceById(R.string.CONSTANT_pref_save_settings);
 
@@ -177,6 +176,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         saveSettingsPref.setOnPreferenceClickListener(this);
 
         setDynamicColorSchemeSummary(colorSchemePref);
+        setDynamicColorSchemeSummary(orientationPref);
 
         // go to the about activity if the about pref is pressed
         aboutPref.setOnPreferenceClickListener(this);

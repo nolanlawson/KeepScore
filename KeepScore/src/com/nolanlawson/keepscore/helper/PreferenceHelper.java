@@ -19,6 +19,7 @@ public class PreferenceHelper {
     private static Integer minusButton = null;
     private static int[] popupButtons = null;
     private static int[] twoPlayerOnscreenButtons = null;
+    private static Orientation orientation;
 
     public static void resetCache() {
         updateDelay = -1;
@@ -30,6 +31,16 @@ public class PreferenceHelper {
         minusButton = null;
         popupButtons = null;
         twoPlayerOnscreenButtons = null;
+        orientation = null;
+    }
+    
+    public static Orientation getOrientation(Context context) {
+        if (orientation == null) {
+            String orientationStr = getStringPreference(
+                    R.string.CONSTANT_pref_orientation, R.string.CONSTANT_pref_orientation_default, context);
+            orientation = Orientation.fromString(orientationStr, context);
+        }
+        return orientation;
     }
 
     public static boolean getShowColors(Context context) {

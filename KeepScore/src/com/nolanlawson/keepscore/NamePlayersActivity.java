@@ -33,7 +33,9 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
             R.id.player_and_color_7, R.id.player_and_color_8, R.id.player_and_color_9, R.id.player_and_color_10,
             R.id.player_and_color_11, R.id.player_and_color_12, R.id.player_and_color_13, R.id.player_and_color_14,
             R.id.player_and_color_15, R.id.player_and_color_16, R.id.player_and_color_17, R.id.player_and_color_18,
-            R.id.player_and_color_19, R.id.player_and_color_20
+            R.id.player_and_color_19, R.id.player_and_color_20, R.id.player_and_color_21, R.id.player_and_color_22,
+            R.id.player_and_color_23, R.id.player_and_color_24, R.id.player_and_color_25, R.id.player_and_color_26,
+            R.id.player_and_color_27, R.id.player_and_color_28, R.id.player_and_color_29, R.id.player_and_color_30
             };
 
     private List<AutoCompleteTextView> playerEditTexts = new ArrayList<AutoCompleteTextView>();

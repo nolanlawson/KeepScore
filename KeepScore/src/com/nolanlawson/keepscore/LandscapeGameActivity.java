@@ -9,6 +9,7 @@ public class LandscapeGameActivity extends GameActivity {
     private LinearLayout rowLayout3;
     private LinearLayout rowLayout4;
     
+    @Override
     public void hideAbsentPlayers() {
         
         
@@ -32,4 +33,10 @@ public class LandscapeGameActivity extends GameActivity {
         }
     }
     
+    @Override
+    public boolean getShouldShowOnscreenDeltaButtons() {
+        // only show the onscreen delta buttons if space allows
+        return playerScores.size() <= getResources().getInteger(
+                R.integer.max_players_for_onscreen_delta_buttons);
+    }
 }

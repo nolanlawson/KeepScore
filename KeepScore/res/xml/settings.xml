@@ -10,7 +10,15 @@
         android:key="@string/CONSTANT_pref_color_scheme"
         android:persistent="true"
         android:title="@string/pref_color_scheme_name" />
-
+    
+    <ListPreference
+        android:defaultValue="@string/CONSTANT_pref_orientation_default"
+        android:entries="@array/pref_orientation_entries"
+        android:entryValues="@array/pref_orientation_entry_values"
+        android:key="@string/CONSTANT_pref_orientation"
+        android:persistent="true"
+        android:title="@string/pref_orientation_name" />
+    
     <CheckBoxPreference
         android:defaultValue="@string/CONSTANT_pref_green_text_default"
         android:key="@string/CONSTANT_pref_green_text"

@@ -52,17 +52,22 @@
     <string name="CONSTANT_pref_initial_score">initial_score</string>
     <string name="CONSTANT_pref_initial_score_default">0</string>
     <string name="CONSTANT_pref_load_settings">load_settings</string>
+    <string name="CONSTANT_pref_orientation">orientation</string>
+    <string name="CONSTANT_pref_orientation_default">@string/CONSTANT_pref_orientation_choice_landscape</string>
+    <string name="CONSTANT_pref_orientation_choice_landscape">landscape</string>
+    <string name="CONSTANT_pref_orientation_choice_portrait">portrait</string>
     <string name="CONSTANT_pref_player_names">PlayerNames</string>
     <string name="CONSTANT_pref_reset">reset</string>
     <string name="CONSTANT_pref_save_settings">save_settings</string>
+    <string name="CONSTANT_pref_show_colors">show_colors</string>
+    <string name="CONSTANT_pref_show_colors_default">true</string>
     <string name="CONSTANT_pref_show_round_totals">show_round_totals</string>
     <string name="CONSTANT_pref_show_round_totals_default">false</string>
     <string name="CONSTANT_pref_update_delay">update_delay</string>
     <string name="CONSTANT_pref_update_delay_default">10</string>
     <string name="CONSTANT_pref_use_wake_lock">use_wake_lock</string>
     <string name="CONSTANT_pref_use_wake_lock_default">true</string>
-    <string name="CONSTANT_pref_show_colors">show_colors</string>
-    <string name="CONSTANT_pref_show_colors_default">true</string>
+    
     
     <string name="CONSTANT_text_donate_suffix">(Donate)</string>
     <string name="CONSTANT_text_epsilon">Σ</string>
@@ -133,6 +138,9 @@
     <string name="pref_load_settings_name">Load Backup</string>
     <string name="pref_load_settings_summary">Import settings from a saved backup.</string>
     <string name="pref_minus_button_name">- Button</string>
+    <string name="pref_orientation_choice_landscape_name">Landscape</string>
+    <string name="pref_orientation_choice_portrait_name">Portrait</string>
+    <string name="pref_orientation_name">Preferred Orientation</string>
     <string name="pref_plus_button_name">+ Button</string>
     <string name="pref_reset_name">Reset to defaults</string>
     <string name="pref_save_settings_name">Save Backup</string>
