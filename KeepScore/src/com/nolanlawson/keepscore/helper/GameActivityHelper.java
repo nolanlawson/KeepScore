@@ -9,11 +9,12 @@ import com.nolanlawson.keepscore.LandscapeGameActivity;
 import com.nolanlawson.keepscore.NewGameActivity;
 import com.nolanlawson.keepscore.PortraitGameActivity;
 import com.nolanlawson.keepscore.db.Game;
+import com.nolanlawson.keepscore.db.GameSummary;
 
 public class GameActivityHelper {
 
-    public static void openGame(Context context, Game game) {
-        Intent intent = new Intent(context, getGameActivityClass(context, game.getPlayerScores().size()));
+    public static void openGame(Context context, GameSummary game) {
+        Intent intent = new Intent(context, getGameActivityClass(context, game.getPlayerNames().size()));
         intent.putExtra(GameActivity.EXTRA_GAME_ID, game.getId());
 
         context.startActivity(intent);

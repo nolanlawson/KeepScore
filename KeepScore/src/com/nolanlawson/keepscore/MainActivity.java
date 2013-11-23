@@ -58,6 +58,7 @@ import com.nolanlawson.keepscore.data.TimePeriod;
 import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
+import com.nolanlawson.keepscore.db.GameSummary;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.GameActivityHelper;
 import com.nolanlawson.keepscore.helper.MailHelper;
@@ -93,7 +94,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     private View spacerView;
 
     private Integer lastPosition;
-    private Set<Game> lastChecked;
+    private Set<GameSummary> lastChecked;
 
     private boolean selectedMode;
     
@@ -132,7 +133,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         log.d("onPause()");
 
         // save which items were checked and where we are in the list
-        lastChecked = new HashSet<Game>();
+        lastChecked = new HashSet<GameSummary>();
         for (SavedGameAdapter subAdapter : adapter.getSubAdapters()) {
             lastChecked.addAll(subAdapter.getChecked());
         }
@@ -144,16 +145,16 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         super.onResume();
         log.d("onResume()");
 
-        List<Game> games = getAllGames();
-        Collections.sort(games, Game.byRecentlySaved());
+        List<GameSummary> games = getAllGames();
+        Collections.sort(games, GameSummary.byRecentlySaved());
         log.d("loaded games %s", games);
 
-        SortedMap<TimePeriod, List<Game>> organizedGames = organizeGamesByTimePeriod(games);
+        SortedMap<TimePeriod, List<GameSummary>> organizedGames = organizeGamesByTimePeriod(games);
 
         adapter = new SeparatedListAdapter<SavedGameAdapter>(this);
-        for (Entry<TimePeriod, List<Game>> entry : organizedGames.entrySet()) {
+        for (Entry<TimePeriod, List<GameSummary>> entry : organizedGames.entrySet()) {
             TimePeriod timePeriod = entry.getKey();
-            List<Game> gamesSection = entry.getValue();
+            List<GameSummary> gamesSection = entry.getValue();
             SavedGameAdapter subAdapter = new SavedGameAdapter(this, gamesSection);
             if (lastChecked != null) {
                 // reload the checked items from when the user last quit
@@ -859,7 +860,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     private List<Integer> getSelectedGameIds() {
         final Set<Integer> ids = new HashSet<Integer>();
         for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
-            for (Game game : subAdapter.getChecked()) {
+            for (GameSummary game : subAdapter.getChecked()) {
                 ids.add(game.getId());
             }
         }
@@ -877,11 +878,11 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         return ids;
     }
     
-    private List<Game> getAllGames() {
+    private List<GameSummary> getAllGames() {
         GameDBHelper dbHelper = null;
         try {
             dbHelper = new GameDBHelper(this);
-            return dbHelper.findAllGames();
+            return dbHelper.findAllGameSummaries();
         } finally {
             if (dbHelper != null) {
                 dbHelper.close();
@@ -893,7 +894,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        Game game = (Game) adapter.getItem(position);
+        GameSummary game = (GameSummary) adapter.getItem(position);
 
         GameActivityHelper.openGame(this, game);
 
@@ -902,7 +903,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     @Override
     public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
 
-        showOptionsMenu((Game) (this.adapter.getItem(position)));
+        showOptionsMenu((GameSummary) (this.adapter.getItem(position)));
 
         return true;
     }
@@ -927,7 +928,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     private void selectAll() {
         for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
             for (int i = 0; i < subAdapter.getCount(); i++) {
-                Game game = subAdapter.getItem(i);
+                GameSummary game = subAdapter.getItem(i);
                 subAdapter.getChecked().add(game);
             }
         }
@@ -946,7 +947,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
     }
 
     private void showDeleteSelectedDialog() {
-        final Set<Game> games = new HashSet<Game>();
+        final Set<GameSummary> games = new HashSet<GameSummary>();
         for (SavedGameAdapter subAdapter : adapter.getSectionsMap().values()) {
             games.addAll(subAdapter.getChecked());
         }
@@ -964,7 +965,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 }).show();
     }
 
-    private void deleteGames(final Set<Game> games) {
+    private void deleteGames(final Set<GameSummary> games) {
 
         // do in background to avoid jankiness
         new AsyncTask<Void, Void, Void>() {
@@ -975,7 +976,9 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 GameDBHelper dbHelper = null;
                 try {
                     dbHelper = new GameDBHelper(MainActivity.this);
-                    dbHelper.deleteGames(games);
+                    List<Integer> gameIds = CollectionUtil.transform(games, GameSummary.GET_ID);
+                    
+                    dbHelper.deleteGames(gameIds);
 
                 } finally {
                     if (dbHelper != null) {
@@ -990,7 +993,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 super.onPostExecute(result);
                 int toast = games.size() == 1 ? R.string.toast_deleted : R.string.toast_multiple_deleted;
                 Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show();
-                for (Game game : games) {
+                for (GameSummary game : games) {
                     onGameDeleted(game);
                 }
                 // clear from the selected sets
@@ -999,7 +1002,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         }.execute((Void) null);
     }
 
-    private void showOptionsMenu(final Game game) {
+    private void showOptionsMenu(final GameSummary game) {
 
         String editTitle = getString(TextUtils.isEmpty(game.getName()) ? R.string.title_name_game
                 : R.string.title_edit_game_name);
@@ -1039,8 +1042,47 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
     }
 
+    private void findGameFromGameSummary(final GameSummary gameSummary, final Callback<Game> onGameReceived) {
+        
+        new AsyncTask<Void, Void, Game>() {
+
+            @Override
+            protected Game doInBackground(Void... params) {
+                GameDBHelper dbHelper = null;
+                try {
+                    dbHelper = new GameDBHelper(MainActivity.this);
+                    return dbHelper.findGameById(gameSummary.getId());
+                } finally {
+                    if (dbHelper != null) {
+                        dbHelper.close();
+                    }
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Game result) {
+                super.onPostExecute(result);
+                onGameReceived.onCallback(result);
+            }
+
+        }.execute((Void) null);        
+        
+    }
+    
+    private void copyGame(GameSummary gameSummary, final boolean resetScores) {
+        findGameFromGameSummary(gameSummary, new Callback<Game>() {
+
+            @Override
+            public void onCallback(Game game) {
+                copyGame(game, resetScores);
+            }
+        });      
+    }
+    
     private void copyGame(Game game, final boolean resetScores) {
 
+        
+        
         final Game newGame = game.makeCleanCopy();
 
         if (resetScores) {
@@ -1080,13 +1122,15 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
     private void onNewGameCreated(Game newGame) {
 
+        GameSummary newGameSummary = GameSummary.fromGame(newGame);
+        
         // if the appropriate section doesn't exist, need to create it
-        TimePeriod timePeriodForThisGame = getTimePeriod(new Date(), newGame);
+        TimePeriod timePeriodForThisGame = getTimePeriod(new Date(), newGameSummary);
         String sectionForThisGame = getString(timePeriodForThisGame.getTitleResId());
 
         if (adapter.getCount() == 0 || !adapter.getSectionsMap().keySet().contains(sectionForThisGame)) {
-            SavedGameAdapter subAdapter = new SavedGameAdapter(MainActivity.this, new ArrayList<Game>(
-                    Collections.singleton(newGame)));
+            SavedGameAdapter subAdapter = new SavedGameAdapter(MainActivity.this, new ArrayList<GameSummary>(
+                    Collections.singleton(newGameSummary)));
             subAdapter.setOnCheckChangedRunnable(new Runnable() {
 
                 @Override
@@ -1111,8 +1155,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
             adapter.insertSection(sectionForThisGame, index, subAdapter);
         } else { // just insert it into the proper section
             SavedGameAdapter subAdapter = adapter.getSectionsMap().get(sectionForThisGame);
-            subAdapter.add(newGame);
-            subAdapter.sort(Game.byRecentlySaved());
+            subAdapter.add(newGameSummary);
+            subAdapter.sort(GameSummary.byRecentlySaved());
         }
         adapter.notifyDataSetChanged();
         adapter.refreshSections();
@@ -1218,16 +1262,22 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         buttonRow.startAnimation(animation);
     }
 
-    private void showHistory(Game game) {
+    private void showHistory(GameSummary gameSummary) {
 
-        Intent intent = new Intent(this, HistoryActivity.class);
-        intent.putExtra(HistoryActivity.EXTRA_GAME, game);
+        findGameFromGameSummary(gameSummary, new Callback<Game>() {
 
-        startActivity(intent);
+            @Override
+            public void onCallback(Game game) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                intent.putExtra(HistoryActivity.EXTRA_GAME, game);
 
+                startActivity(intent);
+                
+            }
+        });
     }
 
-    private void showEditGameNameDialog(final Game game) {
+    private void showEditGameNameDialog(final GameSummary game) {
 
         final EditText editText = new EditText(this);
         editText.setHint(R.string.hint_game_name);
@@ -1251,7 +1301,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                                 GameDBHelper dbHelper = null;
                                 try {
                                     dbHelper = new GameDBHelper(MainActivity.this);
-                                    dbHelper.updateGameName(game, newName);
+                                    dbHelper.updateGameName(game.getId(), newName);
                                 } finally {
                                     if (dbHelper != null) {
                                         dbHelper.close();
@@ -1277,7 +1327,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
     }
 
-    private void showDeleteDialog(final Game game) {
+    private void showDeleteDialog(final GameSummary game) {
         new AlertDialog.Builder(this).setCancelable(true).setTitle(R.string.title_confirm_delete)
                 .setMessage(R.string.text_game_will_be_deleted)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -1290,7 +1340,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
                 }).setNegativeButton(android.R.string.cancel, null).show();
     }
 
-    private void onGameDeleted(Game game) {
+    private void onGameDeleted(GameSummary game) {
         // delete the game from the adapter
 
         for (Entry<String, SavedGameAdapter> entry : new HashMap<String, SavedGameAdapter>(adapter.getSectionsMap())
@@ -1315,22 +1365,22 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         showOrHideButtonRow();
     }
 
-    private SortedMap<TimePeriod, List<Game>> organizeGamesByTimePeriod(List<Game> games) {
-        SortedMap<TimePeriod, List<Game>> result = new TreeMap<TimePeriod, List<Game>>();
+    private SortedMap<TimePeriod, List<GameSummary>> organizeGamesByTimePeriod(List<GameSummary> games) {
+        SortedMap<TimePeriod, List<GameSummary>> result = new TreeMap<TimePeriod, List<GameSummary>>();
 
         Iterator<TimePeriod> timePeriodIterator = Arrays.asList(TimePeriod.values()).iterator();
         TimePeriod timePeriod = timePeriodIterator.next();
         Date date = new Date();
-        for (Game game : games) {
+        for (GameSummary game : games) {
             // time periods are sorted from newest to oldest, just like the
             // games. So we can just walk through
             // them in order
             while (!timePeriodMatches(date, timePeriod, game)) {
                 timePeriod = timePeriodIterator.next();
             }
-            List<Game> existing = result.get(timePeriod);
+            List<GameSummary> existing = result.get(timePeriod);
             if (existing == null) {
-                result.put(timePeriod, new ArrayList<Game>(Collections.singleton(game)));
+                result.put(timePeriod, new ArrayList<GameSummary>(Collections.singleton(game)));
             } else {
                 existing.add(game);
             }
@@ -1338,7 +1388,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         return result;
     }
 
-    private TimePeriod getTimePeriod(Date date, Game game) {
+    private TimePeriod getTimePeriod(Date date, GameSummary game) {
         for (TimePeriod timePeriod : TimePeriod.values()) {
             if (timePeriodMatches(date, timePeriod, game)) {
                 return timePeriod;
@@ -1355,7 +1405,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
      * @param currentGame
      * @return
      */
-    private boolean timePeriodMatches(Date date, TimePeriod timePeriod, Game currentGame) {
+    private boolean timePeriodMatches(Date date, TimePeriod timePeriod, GameSummary currentGame) {
         Date start = timePeriod.getStartDateFunction().apply(date);
         Date end = timePeriod.getEndDateFunction().apply(date);
 

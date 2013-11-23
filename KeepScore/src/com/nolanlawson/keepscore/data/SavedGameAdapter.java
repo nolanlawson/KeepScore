@@ -20,161 +20,158 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.nolanlawson.keepscore.R;
-import com.nolanlawson.keepscore.db.Game;
+import com.nolanlawson.keepscore.db.GameSummary;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
-import com.nolanlawson.keepscore.util.Functions;
+import com.nolanlawson.keepscore.util.CollectionUtil.FunctionWithIndex;
 import com.nolanlawson.keepscore.util.UtilLogger;
 
-public class SavedGameAdapter extends ArrayAdapter<Game> {
+public class SavedGameAdapter extends ArrayAdapter<GameSummary> {
 
     private static UtilLogger log = new UtilLogger(SavedGameAdapter.class);
 
-    private Set<Game> checked = new HashSet<Game>();
+    private Set<GameSummary> checked = new HashSet<GameSummary>();
     private Runnable onCheckChangedRunnable;
 
-    public SavedGameAdapter(Context context, List<Game> values) {
-	super(context, R.layout.saved_game_item, values);
+    public SavedGameAdapter(Context context, List<GameSummary> values) {
+        super(context, R.layout.saved_game_item, values);
     }
 
-    public Set<Game> getChecked() {
-	return checked;
+    public Set<GameSummary> getChecked() {
+        return checked;
     }
 
     public void setOnCheckChangedRunnable(Runnable onCheckChangedRunnable) {
-	this.onCheckChangedRunnable = onCheckChangedRunnable;
+        this.onCheckChangedRunnable = onCheckChangedRunnable;
     }
 
-    public void setChecked(Set<Game> checked) {
-	this.checked = checked;
+    public void setChecked(Set<GameSummary> checked) {
+        this.checked = checked;
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-	// view wrapper optimization per Romain Guy
-	final Context context = parent.getContext();
-	ViewWrapper viewWrapper;
-	if (view == null) {
-	    LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = vi.inflate(R.layout.saved_game_item, parent, false);
-	    viewWrapper = new ViewWrapper(view);
-	    view.setTag(viewWrapper);
-	} else {
-	    viewWrapper = (ViewWrapper) view.getTag();
-	}
+        // view wrapper optimization per Romain Guy
+        final Context context = parent.getContext();
+        ViewWrapper viewWrapper;
+        if (view == null) {
+            LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = vi.inflate(R.layout.saved_game_item, parent, false);
+            viewWrapper = new ViewWrapper(view);
+            view.setTag(viewWrapper);
+        } else {
+            viewWrapper = (ViewWrapper) view.getTag();
+        }
 
-	TextView titleTextView = viewWrapper.getTitleTextView();
-	TextView numPlayersTextView = viewWrapper.getNumPlayersTextView();
-	TextView subtitleTextView = viewWrapper.getSubtitleTextView();
-	TextView savedTextView = viewWrapper.getSavedTextView();
-	CheckBox checkBox = viewWrapper.getCheckBox();
+        TextView titleTextView = viewWrapper.getTitleTextView();
+        TextView numPlayersTextView = viewWrapper.getNumPlayersTextView();
+        TextView subtitleTextView = viewWrapper.getSubtitleTextView();
+        TextView savedTextView = viewWrapper.getSavedTextView();
+        CheckBox checkBox = viewWrapper.getCheckBox();
 
-	final Game game = getItem(position);
+        final GameSummary game = getItem(position);
 
-	StringBuilder gameTitle = new StringBuilder();
-	if (!TextUtils.isEmpty(game.getName())) {
-	    gameTitle.append(game.getName())
-	    	.append(" ")
-	    	.append(context.getString(R.string.text_game_name_separator))
-	    	.append(" ");
-	}
-	// Player 1, Player 2, Player3 etc.
-	gameTitle.append(TextUtils.join(", ",
-		CollectionUtil.transform(game.getPlayerScores(), new Function<PlayerScore, CharSequence>() {
+        StringBuilder gameTitle = new StringBuilder();
+        if (!TextUtils.isEmpty(game.getName())) {
+            gameTitle.append(game.getName()).append(" ").append(context.getString(R.string.text_game_name_separator))
+                    .append(" ");
+        }
+        // Player 1, Player 2, Player3 etc.
+        gameTitle.append(TextUtils.join(", ",
+                CollectionUtil.transformWithIndices(game.getPlayerNames(), new FunctionWithIndex<String, CharSequence>() {
 
-		    @Override
-		    public CharSequence apply(PlayerScore playerScore) {
-			return playerScore.toDisplayName(context);
-		    }
-		})));
+                    @Override
+                    public CharSequence apply(String playerName, int index) {
+                        return PlayerScore.toDisplayName(playerName, index, context);
+                    }
+                })));
 
-	titleTextView.setText(gameTitle);
+        titleTextView.setText(gameTitle);
 
-	numPlayersTextView.setText(Integer.toString(game.getPlayerScores().size()));
-	numPlayersTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(
-	        game.getPlayerScores().size() >= 10 // two digit
-	                ? R.dimen.saved_game_num_players_text_size_two_digits 
-	                : R.dimen.saved_game_num_players_text_size_one_digit));
+        numPlayersTextView.setText(Integer.toString(game.getPlayerNames().size()));
+        numPlayersTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                context.getResources().getDimensionPixelSize(game.getPlayerNames().size() >= 10 // two
+                                                                                                 // digit
+                ? R.dimen.saved_game_num_players_text_size_two_digits
+                        : R.dimen.saved_game_num_players_text_size_one_digit));
 
-	int numRounds = CollectionUtil.max(game.getPlayerScores(), Functions.PLAYER_SCORE_TO_HISTORY_SIZE);
-	int roundsResId = numRounds == 1 ? R.string.text_format_rounds_singular : R.string.text_format_rounds;
-	String rounds = String.format(context.getString(roundsResId), numRounds);
+        int numRounds = game.getNumRounds();
+        int roundsResId = numRounds == 1 ? R.string.text_format_rounds_singular : R.string.text_format_rounds;
+        String rounds = String.format(context.getString(roundsResId), numRounds);
 
-	subtitleTextView.setText(rounds);
+        subtitleTextView.setText(rounds);
 
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getContext().getString(R.string.date_format), 
-	        Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getContext().getString(R.string.date_format),
+                Locale.getDefault());
 
-	savedTextView.setText(simpleDateFormat.format(new Date(game.getDateSaved())));
+        savedTextView.setText(simpleDateFormat.format(new Date(game.getDateSaved())));
 
-	checkBox.setOnCheckedChangeListener(null);
-	checkBox.setChecked(checked.contains(game));
-	checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        checkBox.setOnCheckedChangeListener(null);
+        checkBox.setChecked(checked.contains(game));
+        checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-	    @Override
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-		    checked.add(game);
-		} else {
-		    checked.remove(game);
-		}
-		if (onCheckChangedRunnable != null) {
-		    onCheckChangedRunnable.run();
-		}
-	    }
-	});
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    checked.add(game);
+                } else {
+                    checked.remove(game);
+                }
+                if (onCheckChangedRunnable != null) {
+                    onCheckChangedRunnable.run();
+                }
+            }
+        });
 
-	log.d("saved long is: %s", game.getDateSaved());
-	log.d("started long is: %s", game.getDateStarted());
+        log.d("saved long is: %s", game.getDateSaved());
 
-	return view;
+        return view;
     }
 
     private static class ViewWrapper {
 
-	private View view;
-	private TextView titleTextView, numPlayersTextView, subtitleTextView, savedTextView;
-	private CheckBox checkBox;
+        private View view;
+        private TextView titleTextView, numPlayersTextView, subtitleTextView, savedTextView;
+        private CheckBox checkBox;
 
-	public ViewWrapper(View view) {
-	    this.view = view;
-	}
+        public ViewWrapper(View view) {
+            this.view = view;
+        }
 
-	public TextView getTitleTextView() {
-	    if (titleTextView == null) {
-		titleTextView = (TextView) view.findViewById(R.id.text_game_title);
-	    }
-	    return titleTextView;
-	}
+        public TextView getTitleTextView() {
+            if (titleTextView == null) {
+                titleTextView = (TextView) view.findViewById(R.id.text_game_title);
+            }
+            return titleTextView;
+        }
 
-	public TextView getNumPlayersTextView() {
-	    if (numPlayersTextView == null) {
-		numPlayersTextView = (TextView) view.findViewById(R.id.text_num_players);
-	    }
-	    return numPlayersTextView;
-	}
+        public TextView getNumPlayersTextView() {
+            if (numPlayersTextView == null) {
+                numPlayersTextView = (TextView) view.findViewById(R.id.text_num_players);
+            }
+            return numPlayersTextView;
+        }
 
-	public TextView getSubtitleTextView() {
-	    if (subtitleTextView == null) {
-		subtitleTextView = (TextView) view.findViewById(R.id.text_game_subtitle);
-	    }
-	    return subtitleTextView;
-	}
+        public TextView getSubtitleTextView() {
+            if (subtitleTextView == null) {
+                subtitleTextView = (TextView) view.findViewById(R.id.text_game_subtitle);
+            }
+            return subtitleTextView;
+        }
 
-	public TextView getSavedTextView() {
-	    if (savedTextView == null) {
-		savedTextView = (TextView) view.findViewById(R.id.text_date_saved);
-	    }
-	    return savedTextView;
-	}
+        public TextView getSavedTextView() {
+            if (savedTextView == null) {
+                savedTextView = (TextView) view.findViewById(R.id.text_date_saved);
+            }
+            return savedTextView;
+        }
 
-	public CheckBox getCheckBox() {
-	    if (checkBox == null) {
-		checkBox = (CheckBox) view.findViewById(android.R.id.checkbox);
-	    }
-	    return checkBox;
-	}
+        public CheckBox getCheckBox() {
+            if (checkBox == null) {
+                checkBox = (CheckBox) view.findViewById(android.R.id.checkbox);
+            }
+            return checkBox;
+        }
     }
 }

@@ -134,14 +134,18 @@ public class PlayerScore implements Parcelable, Cloneable {
     }
 
     public CharSequence toDisplayName(Context context) {
-        if (!TextUtils.isEmpty(getName())) {
-            return getName();
+        return toDisplayName(getName(), getPlayerNumber(), context);
+    }
+    
+    public static CharSequence toDisplayName(String playerName, int playerNumber, Context context) {
+        if (!TextUtils.isEmpty(playerName)) {
+            return playerName;
         }
 
         return new StringBuilder(context.getString(R.string.text_player))
             .append(' ')
-            .append((getPlayerNumber() + 1))
-            ;
+            .append((playerNumber + 1))
+            ;        
     }
 
     @Override

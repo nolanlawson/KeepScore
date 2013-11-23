@@ -96,7 +96,18 @@ public class CollectionUtil {
         return filtered;
 
     }
+    
+    public static <E, T> List<T> transformWithIndices(List<E> list, FunctionWithIndex<E, T> function) {
+        List<T> result = new ArrayList<T>();
 
+        for (int i = 0, len = list.size(); i < len; i++) {
+            E object = list.get(i);
+            result.add(function.apply(object, i));
+        }
+
+        return result;
+    }
+    
     public static <E, T> List<T> transform(Collection<E> list, Function<E, T> function) {
         List<T> result = new ArrayList<T>();
 
@@ -213,7 +224,12 @@ public class CollectionUtil {
         }
         return false;
     }
+    
+    public static interface FunctionWithIndex<E, T> {
 
+        public T apply(E obj, int index);
+    }
+    
     public static interface Function<E, T> {
 
         public T apply(E obj);

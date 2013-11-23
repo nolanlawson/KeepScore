@@ -1,5 +1,9 @@
 package com.nolanlawson.keepscore.util;
 
+import java.util.Comparator;
+
+import com.nolanlawson.keepscore.util.CollectionUtil.Function;
+
 /**
  * As the old joke goes:
  * 
@@ -59,4 +63,43 @@ public class Pair<E,T> {
             return false;
         return true;
     }
+    
+    public static <E extends Comparable<E>,T> Comparator<Pair<E,T>> byFirst() {
+        return new Comparator<Pair<E,T>>() {
+
+            @Override
+            public int compare(Pair<E, T> lhs, Pair<E, T> rhs) {
+                return lhs.getFirst().compareTo(rhs.getFirst());
+            }
+        };
+    }
+    public static <E,T extends Comparable<T>> Comparator<Pair<E,T>> bySecond() {
+        return new Comparator<Pair<E,T>>() {
+
+            @Override
+            public int compare(Pair<E, T> lhs, Pair<E, T> rhs) {
+                return lhs.getSecond().compareTo(rhs.getSecond());
+            }
+        };
+    }
+    public static <E, T> Function<Pair<E,T>,E> getFirstFunction() {
+        return new Function<Pair<E,T>,E>() {
+
+            @Override
+            public E apply(Pair<E, T> obj) {
+                return obj.getFirst();
+            };
+        };
+    }
+
+    public static <E, T> Function<Pair<E,T>,T> getSecondFunction() {
+        return new Function<Pair<E,T>,T>() {
+
+            @Override
+            public T apply(Pair<E, T> obj) {
+                return obj.getSecond();
+            };
+        };
+    }
+
 }

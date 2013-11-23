@@ -27,6 +27,30 @@ public class StringUtil {
 		return true;
 	}
 	
+    public static List<String> split(String str, String delimiter) {
+        
+        if (TextUtils.isEmpty(str)) {
+            return Collections.emptyList();
+        }
+        
+        List<String> split = new LinkedList<String>();
+        
+        int index = str.indexOf(delimiter);
+        int lastIndex = 0;
+        while (index != -1) {
+                        
+            split.add(str.substring(lastIndex, index));
+            
+            lastIndex = index + delimiter.length();
+            
+            index = str.indexOf(delimiter, lastIndex);
+        }
+        
+        split.add(str.substring(lastIndex,str.length())); // add the final string after the last delimiter
+        
+        return new ArrayList<String>(split);
+    }
+    
 	public static List<String> split(String str, char delimiter) {
 		
 		if (TextUtils.isEmpty(str)) {

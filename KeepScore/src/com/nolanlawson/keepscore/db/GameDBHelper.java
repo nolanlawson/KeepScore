@@ -3,6 +3,7 @@ package com.nolanlawson.keepscore.db;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -43,6 +44,9 @@ public class GameDBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_HISTORY_TIMESTAMPS = "historyTimestamps";
     private static final String COLUMN_COLOR = "color";
 
+    private static final String GROUP_CONCAT_SEPARATOR = "__%_sep_%__";
+    private static final String GROUP_CONCAT_INNER_SEPARATOR = "__%_insep_%__";
+    
     private static final String JOINED_TABLES = TABLE_GAMES + " g join " + TABLE_PLAYER_SCORES + " ps ON " + "g."
             + COLUMN_ID + "=ps." + COLUMN_GAME_ID;
     private static final String[] JOINED_COLUMNS = new String[] { 
@@ -83,7 +87,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
             return db.compileStatement(sql);
         }
     };
-
+    
     private SQLiteDatabase db;
 
     public GameDBHelper(Context context) {
@@ -384,7 +388,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
             }
         }
     }
-
+    
     public List<Game> findAllGames() {
         synchronized (GameDBHelper.class) {
             String orderBy = COLUMN_DATE_SAVED;
@@ -396,6 +400,74 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 cursor = db.query(JOINED_TABLES, JOINED_COLUMNS, null, null, null, null, orderBy);
 
                 return convertToGames(cursor);
+
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+    }    
+
+    public List<GameSummary> findAllGameSummaries() {
+        synchronized (GameDBHelper.class) {
+            
+            String[] columns = {
+                    "g." + COLUMN_ID, 
+                    "g." + COLUMN_NAME, 
+                    "g." + COLUMN_DATE_SAVED, 
+                    // player names; the "separator" is a trick to ensure that we can cleanly separate the response,
+                    // and put it into the proper order, since group_concat is always unordered in sqlite
+                    "group_concat((ps.name || '" + GROUP_CONCAT_INNER_SEPARATOR +"' || ps.playerNumber), '" + GROUP_CONCAT_SEPARATOR + "')",
+                    "max(length(ps.history) - length(replace(ps.history, ',', '')) + 1)" // num rounds
+                    };
+            
+            String table = TABLE_GAMES + " g join " + TABLE_PLAYER_SCORES + " ps " + 
+                    " on g." + COLUMN_ID + " = ps." + COLUMN_GAME_ID;
+            String groupBy = "g." + COLUMN_ID;
+            
+            Function<String, Pair<String,Integer>> toPlayerNamesAndNumbers = new Function<String, Pair<String,Integer>>(){
+
+                @Override
+                public Pair<String, Integer> apply(String obj) {
+                    List<String> split = StringUtil.split(obj, GROUP_CONCAT_INNER_SEPARATOR);
+                    return Pair.create(split.get(0), Integer.parseInt(split.get(1)));
+                }
+            };
+            
+            Comparator<Pair<String, Integer>> bySecond = Pair.bySecond();
+            Function<Pair<String, Integer>,String> getFirst = Pair.getFirstFunction();
+            
+            Cursor cursor = null;
+            
+            try {
+
+                cursor = db.query(table, columns, null, null, groupBy, null, null);
+                
+                List<GameSummary> result = new ArrayList<GameSummary>();
+                
+                while (cursor.moveToNext()) {
+                    GameSummary gameSummary = new GameSummary();
+                    
+                    gameSummary.setId(cursor.getInt(0));
+                    gameSummary.setName(cursor.getString(1));
+                    gameSummary.setDateSaved(cursor.getLong(2));
+                    
+                    // sort by player number, get player names  in order
+                    List<Pair<String,Integer>> playerNamesAndNumbers = CollectionUtil.transform(
+                            StringUtil.split(cursor.getString(3), GROUP_CONCAT_SEPARATOR),
+                            toPlayerNamesAndNumbers
+                    );
+                    Collections.sort(playerNamesAndNumbers, bySecond);
+                    
+                    gameSummary.setPlayerNames(CollectionUtil.transform(playerNamesAndNumbers, getFirst));
+                    
+                    gameSummary.setNumRounds(cursor.getInt(4));
+                    
+                    result.add(gameSummary);
+                }
+                
+                return result;
 
             } finally {
                 if (cursor != null) {
@@ -421,12 +493,12 @@ public class GameDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void updateGameName(Game game, String newName) {
+    public void updateGameName(int gameId, String newName) {
         synchronized (GameDBHelper.class) {
             ContentValues values = new ContentValues();
             values.put(COLUMN_NAME, newName);
 
-            db.update(TABLE_GAMES, values, COLUMN_ID + "=" + game.getId(), null);
+            db.update(TABLE_GAMES, values, COLUMN_ID + "=" + gameId, null);
         }
     }
 
@@ -449,18 +521,12 @@ public class GameDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void deleteGames(Collection<Game> games) {
+    public void deleteGames(Collection<Integer> gameIds) {
         synchronized (GameDBHelper.class) {
             try {
                 db.beginTransaction();
                 String where = " in ("
-                        + TextUtils.join(",", CollectionUtil.transform(games, new Function<Game, Integer>() {
-
-                            @Override
-                            public Integer apply(Game obj) {
-                                return obj.getId();
-                            }
-                        })) + ")";
+                        + TextUtils.join(",", gameIds) + ")";
                 db.delete(TABLE_GAMES, COLUMN_ID + where, null);
                 db.delete(TABLE_PLAYER_SCORES, COLUMN_GAME_ID + where, null);
 
