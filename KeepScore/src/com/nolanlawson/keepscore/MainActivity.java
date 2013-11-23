@@ -59,6 +59,7 @@ import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
+import com.nolanlawson.keepscore.helper.GameActivityHelper;
 import com.nolanlawson.keepscore.helper.MailHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.SdcardHelper;
@@ -894,10 +895,7 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
 
         Game game = (Game) adapter.getItem(position);
 
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra(GameActivity.EXTRA_GAME_ID, game.getId());
-
-        startActivity(intent);
+        GameActivityHelper.openGame(this, game.getId());
 
     }
 

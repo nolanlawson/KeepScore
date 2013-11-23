@@ -9,6 +9,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +93,10 @@ public class SavedGameAdapter extends ArrayAdapter<Game> {
 	titleTextView.setText(gameTitle);
 
 	numPlayersTextView.setText(Integer.toString(game.getPlayerScores().size()));
+	numPlayersTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(
+	        game.getPlayerScores().size() >= 10 // two digit
+	                ? R.dimen.saved_game_num_players_text_size_two_digits 
+	                : R.dimen.saved_game_num_players_text_size_one_digit));
 
 	int numRounds = CollectionUtil.max(game.getPlayerScores(), Functions.PLAYER_SCORE_TO_HISTORY_SIZE);
 	int roundsResId = numRounds == 1 ? R.string.text_format_rounds_singular : R.string.text_format_rounds;

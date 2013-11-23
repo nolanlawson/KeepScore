@@ -39,7 +39,11 @@
             android:name=".NamePlayersActivity"
             android:label="@string/CONSTANT_app_name" />
         <activity
-            android:name=".GameActivity"
+            android:name=".PortraitGameActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LandscapeGameActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="landscape" />
         <activity

@@ -114,6 +114,16 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </TableRow>
+            <TableRow android:paddingTop="2dp" >
+
+                <Button
+                    android:id="@+id/button_more_players"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_more"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
         </TableLayout>
     </ScrollView>
 

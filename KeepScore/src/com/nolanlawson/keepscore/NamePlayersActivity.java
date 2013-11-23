@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.nolanlawson.keepscore.helper.DialogHelper;
+import com.nolanlawson.keepscore.helper.GameActivityHelper;
 import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PlayerNameHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
@@ -29,7 +29,11 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 
     private static final int[] PLAYER_VIEW_IDS = { R.id.player_and_color_1, R.id.player_and_color_2,
             R.id.player_and_color_3, R.id.player_and_color_4, R.id.player_and_color_5, R.id.player_and_color_6,
-            R.id.player_and_color_7, R.id.player_and_color_8 };
+            R.id.player_and_color_7, R.id.player_and_color_8, R.id.player_and_color_9, R.id.player_and_color_10,
+            R.id.player_and_color_11, R.id.player_and_color_12, R.id.player_and_color_13, R.id.player_and_color_14,
+            R.id.player_and_color_15, R.id.player_and_color_16, R.id.player_and_color_17, R.id.player_and_color_18,
+            R.id.player_and_color_19, R.id.player_and_color_20
+            };
 
     private List<AutoCompleteTextView> playerEditTexts = new ArrayList<AutoCompleteTextView>();
     private List<PlayerColorView> playerColorViews = new ArrayList<PlayerColorView>();
@@ -111,7 +115,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
             View view = findViewById(id);
             playerViews.add(view);
             playerEditTexts.add((AutoCompleteTextView) view.findViewById(R.id.player_name_edit_text));
-            PlayerColor playerColor = PlayerColor.BUILT_INS[i];
+            PlayerColor playerColor = PlayerColor.BUILT_INS[i % PlayerColor.BUILT_INS.length];
             PlayerColorView playerColorView = (PlayerColorView) view.findViewById(R.id.player_color_image);
             playerColorView.setVisibility(PreferenceHelper.getShowColors(this) ? View.VISIBLE : View.GONE);
             playerColorView.setPlayerColor(playerColor);
@@ -181,12 +185,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
                 String[] playerNames = getPlayerNames();
                 String[] playerColors = getPlayerColors();
 
-                Intent intent = new Intent(this, GameActivity.class);
-
-                intent.putExtra(GameActivity.EXTRA_PLAYER_NAMES, playerNames);
-                intent.putExtra(GameActivity.EXTRA_PLAYER_COLORS, playerColors);
-
-                startActivity(intent);
+                GameActivityHelper.newGame(this, playerNames, playerColors);
                 break;
             default:
                 // color square clicked

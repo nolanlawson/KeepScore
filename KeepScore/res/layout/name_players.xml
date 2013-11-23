@@ -50,6 +50,7 @@
                 android:orientation="vertical"
                 android:stretchColumns="1">
                 
+                <!-- TODO: use ViewStubs -->
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_1"/>
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_2"/>
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_3"/>
@@ -58,7 +59,18 @@
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_6"/>
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_7"/>
                 <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_8"/>
-                
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_9"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_10"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_11"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_12"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_13"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_14"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_15"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_16"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_17"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_18"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_19"/>
+                <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_20"/>
                 
             </TableLayout>
 

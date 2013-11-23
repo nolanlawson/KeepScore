@@ -45,7 +45,7 @@ import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.GameDBHelper;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.ColorScheme;
-import com.nolanlawson.keepscore.helper.CompatibilityHelper;
+import com.nolanlawson.keepscore.helper.GameActivityHelper;
 import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PlayerTextFormat;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
@@ -66,7 +66,7 @@ import com.nolanlawson.keepscore.widget.PlayerView;
  * @author nolan
  * 
  */
-public class GameActivity extends SherlockActivity {
+public abstract class GameActivity extends SherlockActivity {
 
     public static final String EXTRA_PLAYER_NAMES = "playerNames";
     public static final String EXTRA_PLAYER_COLORS = "playerColors";
@@ -95,16 +95,16 @@ public class GameActivity extends SherlockActivity {
 
     private static final UtilLogger log = new UtilLogger(GameActivity.class);
 
-    private LinearLayout rootLayout, rowLayout2, rowLayout3, rowLayout4;
+    private LinearLayout rootLayout;
     private View rootPadding1, rootPadding2;
     private ViewStub roundTotalViewStub;
     private TextView roundTotalTextView;
 
     private Game game;
-    private List<PlayerScore> playerScores;
+    protected List<PlayerScore> playerScores;
     private PowerManager.WakeLock wakeLock;
 
-    private List<PlayerView> playerViews;
+    protected List<PlayerView> playerViews;
     private Handler handler = new Handler(Looper.getMainLooper());
     private boolean paused = true;
     private GameDBHelper dbHelper;
@@ -113,6 +113,8 @@ public class GameActivity extends SherlockActivity {
     private DataExpiringStack<RecordedChange> undoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
     private DataExpiringStack<RecordedChange> redoStack = new DataExpiringStack<RecordedChange>(UNDO_STACK_SIZE);
 
+    protected abstract void hideAbsentPlayers();
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -550,14 +552,6 @@ public class GameActivity extends SherlockActivity {
     private void setUpWidgets() {
 
         rootLayout = (LinearLayout) findViewById(R.id.game_root_layout);
-        rowLayout2 = (LinearLayout) findViewById(R.id.game_row_2);
-        rowLayout3 = (LinearLayout) findViewById(R.id.game_row_3);
-        rowLayout4 = (LinearLayout) findViewById(R.id.game_row_4);
-
-        // set which rows are visible based on how many players there are
-        rowLayout2.setVisibility(playerScores.size() > 2 ? View.VISIBLE : View.GONE);
-        rowLayout3.setVisibility(playerScores.size() > 4 ? View.VISIBLE : View.GONE);
-        rowLayout4.setVisibility(playerScores.size() > 6 ? View.VISIBLE : View.GONE);
 
         // add top and bottom spacing on the two-player game. it looks nicer
         rootPadding1 = findViewById(R.id.game_root_padding_1);
@@ -620,17 +614,8 @@ public class GameActivity extends SherlockActivity {
 
             playerViews.add(playerView);
         }
-
-        if (playerScores.size() == 3) {
-            // hide the "fourth" player
-            getPlayerScoreView(R.id.player_4).setVisibility(View.INVISIBLE);
-        } else if (playerScores.size() == 5) {
-            // hide the "sixth" player
-            getPlayerScoreView(R.id.player_6).setVisibility(View.INVISIBLE);
-        } else if (playerScores.size() == 7) {
-            // hide the "eighth" player
-            getPlayerScoreView(R.id.player_8).setVisibility(View.INVISIBLE);
-        }
+        
+        hideAbsentPlayers();
     }
 
     private void updateHighlightedPlayer() {
@@ -769,7 +754,7 @@ public class GameActivity extends SherlockActivity {
 
     }
 
-    private View getPlayerScoreView(int resId) {
+    protected View getPlayerScoreView(int resId) {
         // either get the view, or inflate from the ViewStub
         View view = findViewById(resId);
         if (view instanceof ViewStub) {
@@ -795,9 +780,32 @@ public class GameActivity extends SherlockActivity {
         case 6:
             return R.id.player_7;
         case 7:
-        default:
             return R.id.player_8;
-
+        case 8:
+            return R.id.player_9;
+        case 9:
+            return R.id.player_10;
+        case 10:
+            return R.id.player_11;
+        case 11:
+            return R.id.player_12;
+        case 12:
+            return R.id.player_13;
+        case 13:
+            return R.id.player_14;
+        case 14:
+            return R.id.player_15;
+        case 15:
+            return R.id.player_16;
+        case 16:
+            return R.id.player_17;
+        case 17:
+            return R.id.player_18;
+        case 18:
+            return R.id.player_19;
+        case 19:
+        default:
+            return R.id.player_20;
         }
     }
 
@@ -870,14 +878,7 @@ public class GameActivity extends SherlockActivity {
                         // TODO: don't start a new activity; just refresh the
                         // layout
 
-                        Intent intent = new Intent(GameActivity.this, GameActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra(EXTRA_GAME, newGame);
-
-                        startActivity(intent);
-
-                        CompatibilityHelper.overridePendingTransition(GameActivity.this, android.R.anim.fade_in,
-                                android.R.anim.fade_out);
+                        GameActivityHelper.newGameWithClearTop(GameActivity.this, newGame);
                     }
 
                 };

@@ -23,6 +23,7 @@ import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 import com.nolanlawson.keepscore.helper.DialogHelper;
+import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.StringUtil;
@@ -30,7 +31,7 @@ import com.nolanlawson.keepscore.widget.dragndrop.DragSortListView;
 
 public class OrganizePlayersActivity extends SherlockListActivity implements OnClickListener {
 
-    public static final int MAX_NUM_PLAYERS = 8;
+    public static final int MAX_NUM_PLAYERS = 20;
     public static final int MIN_NUM_PLAYERS = 2;
 
     public static final String EXTRA_PLAYER_SCORES = "playerScores";
@@ -194,6 +195,7 @@ public class OrganizePlayersActivity extends SherlockListActivity implements OnC
         playerScore.setScore(PreferenceHelper.getIntPreference(R.string.CONSTANT_pref_initial_score,
                 R.string.CONSTANT_pref_initial_score_default, this));
         playerScore.setHistory(new ArrayList<Delta>());
+        playerScore.setPlayerColor(PlayerColor.BUILT_INS[playerScore.getPlayerNumber() % PlayerColor.BUILT_INS.length]);
 
         adapter.add(playerScore);
         adapter.notifyDataSetChanged();

@@ -21,10 +21,11 @@
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
         android:singleLine="true"
-        android:text="6"
+        android:text="16"
+        android:ellipsize="marquee"
         android:typeface="monospace"
         android:textColor="@android:color/darker_gray"
-        android:textSize="17sp"
+        android:textSize="@dimen/saved_game_num_players_text_size_one_digit"
         android:textStyle="bold" 
         android:layout_centerVertical="true"/>
     

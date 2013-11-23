@@ -235,7 +235,7 @@ public class DialogHelper {
         for (int i = 0; i < playerColorViews.size(); i++) {
             PlayerColorView playerColorView = playerColorViews.get(i);
 
-            PlayerColor playerColor = PlayerColor.BUILT_INS[i];
+            PlayerColor playerColor = PlayerColor.BUILT_INS[i % PlayerColor.BUILT_INS.length];
             playerColorView.setSelected(playerColor.equals(selectedColor));
             playerColorView.setPlayerColor(playerColor);
             playerColorView.setOnClickListener(new OnClickListener() {

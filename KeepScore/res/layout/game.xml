@@ -1,101 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal"
-	android:id="@+id/game_root_layout">
+    android:id="@+id/game_root_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical" >
 
-    <ViewStub android:layout="@layout/round_totals" android:id="@+id/round_totals"
-        android:inflatedId="@+id/round_totals" android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
-    
-    <View android:layout_width="0px" android:layout_height="@dimen/game_root_padding" android:id="@+id/game_root_padding_1"/>
-    
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0px"
-		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
-		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp"
-		android:id="@+id/game_row_1">
+    <ViewStub
+        android:id="@+id/round_totals"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/round_totals"
+        android:layout="@layout/round_totals" />
 
-		<ViewStub android:layout="@layout/player_score" android:id="@+id/player_1" 
-		    android:inflatedId="@+id/player_1" 
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+    <View
+        android:id="@+id/game_root_padding_1"
+        android:layout_width="0px"
+        android:layout_height="@dimen/game_root_padding" />
 
-		<View android:layout_height="0px" android:layout_width="3dp" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1" >
 
-		<ViewStub android:layout="@layout/player_score" android:id="@+id/player_2" 
-		    android:inflatedId="@+id/player_2"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical" >
 
-	</LinearLayout>
+            <ViewStub
+                android:id="@+id/player_1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_1"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
+            <ViewStub
+                android:id="@+id/player_2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_2"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0px"
-		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
-		android:paddingLeft="3dp" android:paddingBottom="3dp"
-		android:paddingRight="3dp"
-		android:id="@+id/game_row_2">
+            <ViewStub
+                android:id="@+id/player_3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_3"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
+            <ViewStub
+                android:id="@+id/player_4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_4"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-		<ViewStub android:layout="@layout/player_score" android:id="@+id/player_3" 
-		    android:inflatedId="@+id/player_3"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+            <ViewStub
+                android:id="@+id/player_5"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_5"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-		<View android:layout_height="0px" android:layout_width="3dp" />
+            <ViewStub
+                android:id="@+id/player_6"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_6"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-		<ViewStub android:layout="@layout/player_score" android:id="@+id/player_4" 
-		    android:inflatedId="@+id/player_4"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+            <ViewStub
+                android:id="@+id/player_7"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_7"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-	</LinearLayout>
-	
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0px"
-		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
-		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp"
-		android:id="@+id/game_row_3">
+            <ViewStub
+                android:id="@+id/player_8"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_8"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-		<ViewStub android:layout="@layout/player_score" android:id="@+id/player_5" 
-		    android:inflatedId="@+id/player_5"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+            <ViewStub
+                android:id="@+id/player_9"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_9"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-		<View android:layout_height="0px" android:layout_width="3dp" />
-		
-		<ViewStub android:layout="@layout/player_score" android:id="@+id/player_6" 
-		    android:inflatedId="@+id/player_6"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+            <ViewStub
+                android:id="@+id/player_10"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_10"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-	</LinearLayout>	
-	
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0px"
-		android:layout_weight="0.25" android:gravity="center_vertical|center_horizontal"
-		android:paddingTop="3dp" android:paddingLeft="3dp"
-		android:paddingBottom="3dp" android:paddingRight="3dp"
-		android:id="@+id/game_row_4">
+            <ViewStub
+                android:id="@+id/player_11"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_12"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-		<ViewStub android:layout="@layout/player_score" android:id="@+id/player_7" 
-		    android:inflatedId="@+id/player_7"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+            <ViewStub
+                android:id="@+id/player_13"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_13"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-		<View android:layout_height="0px" android:layout_width="3dp" />
+            <ViewStub
+                android:id="@+id/player_14"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_14"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-		<ViewStub android:layout="@layout/player_score" android:id="@+id/player_8" 
-		    android:inflatedId="@+id/player_8"
-			android:layout_width="0px" android:layout_weight="0.5"
-			android:layout_height="fill_parent"/>
+            <ViewStub
+                android:id="@+id/player_15"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_15"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
 
-	</LinearLayout>	
-	
-	<View android:layout_width="0px" android:layout_height="@dimen/game_root_padding" android:id="@+id/game_root_padding_2"/>
+            <ViewStub
+                android:id="@+id/player_16"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_16"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+
+            <ViewStub
+                android:id="@+id/player_17"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_17"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+
+            <ViewStub
+                android:id="@+id/player_18"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_18"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+
+            <ViewStub
+                android:id="@+id/player_19"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_19"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+
+            <ViewStub
+                android:id="@+id/player_20"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/player_20"
+                android:layout="@layout/player_score"
+                android:paddingBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/game_root_padding_2"
+        android:layout_width="0px"
+        android:layout_height="@dimen/game_root_padding" />
 
 </LinearLayout>
