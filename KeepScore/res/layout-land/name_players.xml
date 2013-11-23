@@ -29,35 +29,92 @@
 				android:layout_weight=".375" android:layout_height="wrap_content"
 				android:padding="5dp" android:stretchColumns="1">
 
-                	<!-- TODO: use ViewStubs -->
-                				
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_1"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_3"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_5"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_7"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_9"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_11"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_13"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_15"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_17"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_19"/>
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_1"
+                        android:inflatedId="@+id/player_and_color_1"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_3"
+                        android:inflatedId="@+id/player_and_color_3"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_5"
+                        android:inflatedId="@+id/player_and_color_5"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_7"
+                        android:inflatedId="@+id/player_and_color_7"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_9"
+                        android:inflatedId="@+id/player_and_color_9"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_11"
+                        android:inflatedId="@+id/player_and_color_11"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_13"
+                        android:inflatedId="@+id/player_and_color_13"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_15"
+                        android:inflatedId="@+id/player_and_color_15"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_17"
+                        android:inflatedId="@+id/player_and_color_17"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_19"
+                        android:inflatedId="@+id/player_and_color_19"
+                        />
 
 			</TableLayout>
             <TableLayout android:layout_width="0px"
                 android:layout_weight=".375" android:layout_height="wrap_content"
                 android:padding="5dp" android:stretchColumns="1">
 
-                    <!-- TODO: use ViewStubs -->
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_2"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_4"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_6"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_8"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_10"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_12"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_14"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_16"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_18"/>
-                    <include layout="@layout/table_row_player_and_color" android:id="@+id/player_and_color_20"/>
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_2"
+                        android:inflatedId="@+id/player_and_color_2"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_4"
+                        android:inflatedId="@+id/player_and_color_4"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_6"
+                        android:inflatedId="@+id/player_and_color_6"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_8"
+                        android:inflatedId="@+id/player_and_color_8"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_10"
+                        android:inflatedId="@+id/player_and_color_10"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_12"
+                        android:inflatedId="@+id/player_and_color_12"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_14"
+                        android:inflatedId="@+id/player_and_color_14"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_16"
+                        android:inflatedId="@+id/player_and_color_16"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_18"
+                        android:inflatedId="@+id/player_and_color_18"
+                        />
+<ViewStub android:layout="@layout/table_row_player_and_color"
+                        android:id="@+id/player_and_color_20"
+                        android:inflatedId="@+id/player_and_color_20"
+                        />
 
             </TableLayout>
             

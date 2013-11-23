@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -110,9 +111,9 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
 
         okButton = (Button) findViewById(android.R.id.button1);
         
-        for (int i = 0; i < PLAYER_VIEW_IDS.length; i++) {
+        for (int i = 0; i < numPlayers; i++) {
             int id = PLAYER_VIEW_IDS[i];
-            View view = findViewById(id);
+            View view = getPlayerAndColorView(id);
             playerViews.add(view);
             playerEditTexts.add((AutoCompleteTextView) view.findViewById(R.id.player_name_edit_text));
             PlayerColor playerColor = PlayerColor.BUILT_INS[i % PlayerColor.BUILT_INS.length];
@@ -122,6 +123,7 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
             playerColorView.setOnClickListener(this);
             playerColorViews.add(playerColorView);
         }
+        
 
         for (int i = 0; i < playerEditTexts.size(); i++) {
             AutoCompleteTextView playerEditText = playerEditTexts.get(i);
@@ -130,10 +132,6 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
             }
             String hint = getString(R.string.text_player) + ' ' + (i + 1);
             playerEditText.setHint(hint);
-
-            // get rid of any edit texts that don't fit given the number of
-            // players
-            playerViews.get(i).setVisibility(i >= numPlayers ? View.GONE : View.VISIBLE);
 
             // final edit text does "action done"
             if (i == numPlayers - 1) {
@@ -231,5 +229,14 @@ public class NamePlayersActivity extends Activity implements OnClickListener {
             playerColors[i] = PlayerColor.serialize(playerColorViews.get(i).getPlayerColor());
         }
         return playerColors;
+    }
+    
+    private View getPlayerAndColorView(int resId) {
+        // either get the view, or inflate from the ViewStub
+        View view = findViewById(resId);
+        if (view instanceof ViewStub) {
+            return ((ViewStub) view).inflate();
+        }
+        return view;
     }
 }
