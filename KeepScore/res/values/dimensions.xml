@@ -70,7 +70,9 @@
 	
 	<dimen name="color_selector_edge">4dp</dimen>
 	
-	<dimen name ="saved_game_num_players_text_size_one_digit">17sp</dimen>
-	<dimen name ="saved_game_num_players_text_size_two_digits">14sp</dimen>
+	<dimen name="saved_game_num_players_text_size_one_digit">17sp</dimen>
+	<dimen name="saved_game_num_players_text_size_two_digits">14sp</dimen>
+	
+	<dimen name="portrait_max_player_score_size">100dp</dimen>
 	
 </resources>

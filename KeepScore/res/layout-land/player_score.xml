@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:squareimage="http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/portrait_max_player_score_size"
+    android:layout_height="fill_parent"
     android:gravity="center_vertical|center_horizontal" >
 
     <ViewStub
@@ -16,7 +16,7 @@
     <com.nolanlawson.keepscore.widget.AutofitTextView
         android:id="@+id/text_history"
         android:layout_width="@dimen/history_width"
-        android:layout_height="@dimen/portrait_max_player_score_size"
+        android:layout_height="fill_parent"
         android:layout_above="@+id/onscreen_delta_buttons_stub"
         android:layout_alignParentRight="true"
         android:background="@drawable/history_background"
