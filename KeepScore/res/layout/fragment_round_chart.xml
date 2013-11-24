@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:linechart="http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
+    android:id="@+id/by_chart_scroll_view"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:isScrollContainer="true"
+    android:padding="5dp" >
+
+    <com.nolanlawson.keepscore.widget.chart.LineChartView
+        android:id="@+id/by_chart_view"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        linechart:drawDots="true" />
+
+</HorizontalScrollView>

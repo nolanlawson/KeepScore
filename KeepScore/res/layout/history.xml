@@ -1,67 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:linechart="http://schemas.android.com/apk/res/com.nolanlawson.keepscore"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center_horizontal">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
 
-    <HorizontalScrollView
-        android:id="@+id/timeline_scroll_view"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:padding="5dp"
-        android:fillViewport="true"
-        android:isScrollContainer="true">
-        <com.nolanlawson.keepscore.widget.chart.LineChartView    
-            android:id="@+id/timeline_view"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            linechart:drawDots="false"
-            />
-    </HorizontalScrollView>
-    
-    <HorizontalScrollView
-        android:id="@+id/by_chart_scroll_view"
-	    android:layout_width="wrap_content"
-	    android:layout_height="fill_parent"
-	    android:padding="5dp"
-	    android:fillViewport="true"
-	    android:isScrollContainer="true">
-	    <com.nolanlawson.keepscore.widget.chart.LineChartView    
-	        android:id="@+id/by_chart_view"
-	        android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        linechart:drawDots="true"
-	        />
-    </HorizontalScrollView>
-    
-    <ScrollView
-        android:id="@+id/by_round_scroll_view"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:background="@android:color/darker_gray"
-	    android:visibility="gone">
-	    <TableLayout    
-	        android:id="@+id/by_round_table"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        >
-	    </TableLayout>
-    </ScrollView>
-    
-    <ScrollView
-        android:id="@+id/by_player_scroll_view"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"	    
-	    android:background="@android:color/darker_gray"
-	    android:visibility="gone">
-	    <TableLayout    
-	        android:id="@+id/by_player_table"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:stretchColumns="0,2"
-	        android:shrinkColumns="0,2"
-	        >
-	    </TableLayout>
-    </ScrollView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

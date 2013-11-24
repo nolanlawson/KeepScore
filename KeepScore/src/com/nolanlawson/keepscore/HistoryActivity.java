@@ -1,54 +1,32 @@
 package com.nolanlawson.keepscore;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.util.SparseArray;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.nolanlawson.keepscore.data.HistoryItem;
 import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
-import com.nolanlawson.keepscore.helper.ColorScheme;
-import com.nolanlawson.keepscore.helper.PreferenceHelper;
-import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
-import com.nolanlawson.keepscore.util.IntegerUtil;
-import com.nolanlawson.keepscore.util.SparseArrays;
-import com.nolanlawson.keepscore.util.TimeUtil;
+import com.nolanlawson.keepscore.fragment.HIstoryPlayerTableFragment;
+import com.nolanlawson.keepscore.fragment.HistoryRoundChartFragment;
+import com.nolanlawson.keepscore.fragment.HistoryRoundTableFragment;
+import com.nolanlawson.keepscore.fragment.HistoryTimelineFragment;
 import com.nolanlawson.keepscore.util.UtilLogger;
-import com.nolanlawson.keepscore.widget.chart.LineChartLine;
-import com.nolanlawson.keepscore.widget.chart.LineChartView;
 
 /**
  * Activity for displaying the entire history of a game
@@ -56,36 +34,21 @@ import com.nolanlawson.keepscore.widget.chart.LineChartView;
  * @author nolan
  * 
  */
-public class HistoryActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
+public class HistoryActivity extends SherlockFragmentActivity implements ActionBar.TabListener, OnPageChangeListener {
 
     private static final UtilLogger log = new UtilLogger(HistoryActivity.class);
 
     // Public service announcement: You just lost the
     public static final String EXTRA_GAME = "game";
-    private static final int MAX_COLUMNS_FOR_WIDE_LIST_LAYOUT = 4;
-    private static final int MAX_COLUMNS_FOR_REGULAR_TALL_LIST_LAYOUT = 6;
+    private static final int MAX_PLAYERS_FOR_ROUND_TABLE = 8;
     
-    private static final long TIMELINE_ROUNDING_IN_MS = TimeUnit.SECONDS.toMillis(5);
-    
-    // valid scale values for the history item width when zooming in and out
-    private static final List<Float> ZOOM_VALUES = Arrays.asList(
-        0.1F, 0.2F, 0.3F, 0.4F, 0.5F, 0.75F, 1.0F, 1.5F, 2.0F, 2.5F, 3.0F);
-    
-    private AtomicInteger byRoundZoomIdx = new AtomicInteger(ZOOM_VALUES.indexOf(1.0F));
-    private AtomicInteger timelineZoomIdx = new AtomicInteger(ZOOM_VALUES.indexOf(1.0F));
-    
-    private static final EnumSet<TabDef> CHART_TABS = EnumSet.of(TabDef.ChartByRound, TabDef.ChartByTime);
-
-    private View byRoundChartContainer, timelineContainer, byRoundTableContainer, byPlayerTableContainer;
-    private TableLayout byRoundTableLayout, byPlayerTableLayout;
-    private LineChartView byRoundLineChartView, timelineChartView;
-    private List<ActionBar.Tab> tabs;
-    private LayoutInflater inflater;
+    private AppSectionsPagerAdapter appSectionsPagerAdapter;
+    private ViewPager viewPager;
+    private ActionBar actionBar;
     
     private Game game;
     private boolean showTimeline;
-    
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private boolean showRoundTable;
     
     private static enum TabDef {
         
@@ -105,43 +68,61 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         }
     }
     
-    private static class TabInfo {
-        private View contentView;
-        private TabDef tabDefinition;
-        
-        private TabInfo(View contentView, TabDef tabDefinition) {
-            this.contentView = contentView;
-            this.tabDefinition = tabDefinition;
-        }
-        public View getContentView() {
-            return contentView;
-        }
-        public TabDef getTabDefinition() {
-            return tabDefinition;
-        }
-    }
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.history);
-
+        
         game = getIntent().getParcelableExtra(EXTRA_GAME);
         showTimeline = determineIfShouldShowTimeline();
+        showRoundTable = determineIfShouldShowRoundTable();
+
+        // Create the adapter that will return a fragment for each of the three primary sections
+        // of the app.
+        appSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
+
+        actionBar = getSupportActionBar();
+        
+        // Specify that we will be displaying tabs in the action bar.
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(appSectionsPagerAdapter);
+        viewPager.setOnPageChangeListener(this);
+        
+        // home button goes back
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
+        for (int i = 0; i < TabDef.values().length; i++) {
+            TabDef tab = TabDef.values()[i];
+            if (!showTimeline && tab == TabDef.ChartByTime) {
+                continue;
+            } else if (!showRoundTable && tab == TabDef.TableByRound) {
+                continue;
+            }
+            actionBar.addTab(actionBar.newTab().setText(tab.getTitleResId()).setTag(tab).setTabListener(this));
+        }
 
         log.d("intent is %s", getIntent());
         log.d("game is %s", game);
-
-        setUpWidgets();
-        setUpActionBar();
-
-        if (showTimeline) {
-            createTimelineLayout();
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // go back on pressing home in the action bar
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
         }
-        createByChartLayout();
-        createByPlayerTableLayout();
-        createByRoundTableLayout();
+        return false;
+    }
+    
+    private boolean determineIfShouldShowRoundTable() {
+        // this table looks scrunched up if there are too many players.  It's not useful.
+        return game.getPlayerScores().size() <= MAX_PLAYERS_FOR_ROUND_TABLE;
     }
 
     private boolean determineIfShouldShowTimeline() {
@@ -160,573 +141,120 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
         
     }
 
-    private void setUpActionBar() {
+    private class AppSectionsPagerAdapter extends FragmentStatePagerAdapter {
 
-        tabs = new ArrayList<ActionBar.Tab>();
+        public AppSectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            
+            TabDef tabDef = (TabDef)actionBar.getTabAt(i).getTag();
+            
+            SherlockFragment fragment = createFragment(tabDef);
+            Bundle args = new Bundle();
+            args.putParcelable(GameActivity.EXTRA_GAME, game);
+            fragment.setArguments(args);
+            return fragment;
+        }
         
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        private SherlockFragment createFragment(TabDef tabDef) {
+            switch (tabDef){
+                case ChartByTime:
+                    return new HistoryTimelineFragment();
+                case ChartByRound:
+                    return new HistoryRoundChartFragment();
+                case TableByRound:
+                    return new HistoryRoundTableFragment();
+                case TableByPlayer:
+                default:
+                    return new HIstoryPlayerTableFragment();
+            }            
+        }
 
-        // home button goes back
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        @Override
+        public int getCount() {
+            return actionBar.getTabCount();
+        }
 
-        View[] tabContentViews = {timelineContainer, byRoundChartContainer, byRoundTableContainer, byPlayerTableContainer};
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return actionBar.getTabAt(position).getText();
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
+    }
+
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        // When swiping between different app sections, select the corresponding tab.
+        // We can also use ActionBar.Tab#select() to do this if we have a reference to the
+        // Tab.
+        actionBar.setSelectedNavigationItem(position);
         
-        for (int i = 0; i < TabDef.values().length; i++) {
-            TabDef tab = TabDef.values()[i];
-            if (!showTimeline && tab == TabDef.ChartByTime) {
-                continue;
+
+        /*
+         * 
+         * When paging between tabs, normally the dropdown list (spinnerAdapter) won't change properly.  This
+         * occurs on small devices in landscape mode, i.e. when the tab labels are reduced to a dropdown to save space.
+         * 
+         * Thanks to this StackOverflow discussion for figuring out how to solve this problem:
+         * http://stackoverflow.com/questions/15409330/action-bar-selecttab-and-setselectednavigationitem-not-working
+         */
+        
+        try {
+            //now use reflection to select the correct Spinner if
+            // the bar's tabs have been reduced to a Spinner
+            Activity activity = HistoryActivity.this;
+            int actionBarResId = getResources().getIdentifier("action_bar", "id", "android");
+            if (actionBarResId == 0) { // not found, use action bar sherlock
+                actionBarResId = com.actionbarsherlock.R.id.abs__action_bar;
             }
-            createTab(tab, tabContentViews[i], i == 0);
+            View action_bar_view = activity.findViewById(actionBarResId);
+            Class<?> action_bar_class = action_bar_view.getClass();
+            Field tab_scroll_view_prop = action_bar_class.getDeclaredField("mTabScrollView");
+            tab_scroll_view_prop.setAccessible(true);
+            //get the value of mTabScrollView in our action bar
+            Object tab_scroll_view = tab_scroll_view_prop.get(action_bar_view);
+            if (tab_scroll_view == null) return;
+            Field spinner_prop = tab_scroll_view.getClass().getDeclaredField("mTabSpinner");
+            spinner_prop.setAccessible(true);
+            //get the value of mTabSpinner in our scroll view
+            Object tab_spinner = spinner_prop.get(tab_scroll_view);
+            if (tab_spinner == null) return;
+            Method set_selection_method = tab_spinner.getClass().getSuperclass().getDeclaredMethod("setSelection", Integer.TYPE, Boolean.TYPE);
+            set_selection_method.invoke(tab_spinner, position, true);
+        
+        } catch (NoSuchFieldException ignore) {
+            log.d(ignore, "got exception");
+        } catch (InvocationTargetException ignore) {
+            log.d(ignore, "got exception");
+        } catch (IllegalAccessException ignore) {
+            log.d(ignore, "got exception");
+        } catch (NoSuchMethodException ignore) {
+            log.d(ignore, "got exception");
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // go back on pressing home in the action bar
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.menu_zoom_in:
-                changeZoom(1);
-                return true;
-            case R.id.menu_zoom_out:
-                changeZoom(-1);
-                return true;
-        }
-        return false;
-    }
-    
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.history_menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        
-        // only show zoom in/zoom out if the graph is visible
-        MenuItem zoomInMenuItem = menu.findItem(R.id.menu_zoom_in);
-        MenuItem zoomOutMenuItem = menu.findItem(R.id.menu_zoom_out);
-        
-        TabInfo currentTabInfo = (TabInfo)getCurrentTab().getTag();
-        
-        boolean chartVisible = CHART_TABS.contains(currentTabInfo.getTabDefinition());
-        
-        boolean isTimeline = currentTabInfo.getTabDefinition() == TabDef.ChartByTime;
-        
-        AtomicInteger zoomIdx = isTimeline ? timelineZoomIdx : byRoundZoomIdx;
-        boolean atMin = zoomIdx.get() == 0;
-        boolean atMax = zoomIdx.get() == ZOOM_VALUES.size() - 1;
-        
-        zoomInMenuItem.setEnabled(chartVisible && !atMax);
-        zoomInMenuItem.setVisible(chartVisible);
-        zoomOutMenuItem.setEnabled(chartVisible && !atMin);
-        zoomOutMenuItem.setVisible(chartVisible);
-        
-        //
-        // set the icons to be grayed out if disabled.  It looks prettier that way.  See
-        // http://stackoverflow.com/questions/9642990/is-it-possible-to-grey-out-not-just-disable-a-menuitem-in-android
-        // for details.
-        //
-        Drawable zoomInIcon = getResources().getDrawable(R.drawable.action_zoom_in);
-        Drawable zoomOutIcon = getResources().getDrawable(R.drawable.action_zoom_out);
-        
-        if (atMin) {
-            zoomOutIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
-        } else if (atMax) {
-            zoomInIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
-        }
-        
-        zoomInMenuItem.setIcon(zoomInIcon);
-        zoomOutMenuItem.setIcon(zoomOutIcon);
-        
-        return true;
-    }
-    
-    private void changeZoom(int delta) {
-        
-        ActionBar.Tab currentTab = getCurrentTab();
-        TabInfo tabInfo = (TabInfo) currentTab.getTag();
-        
-        boolean isTimeline = tabInfo.getTabDefinition() == TabDef.ChartByTime;
-        AtomicInteger zoomIdx = isTimeline ? timelineZoomIdx : byRoundZoomIdx;
-        View container = isTimeline ? timelineContainer : byRoundChartContainer;
-        LineChartView chart = isTimeline ? timelineChartView : byRoundLineChartView;
-        
-        // change the zoom on the graph, i.e. update the width of the individual history items
-        float zoomValue = ZOOM_VALUES.get(Math.min(ZOOM_VALUES.size() - 1, Math.max(0, zoomIdx.addAndGet(delta))));
-        
-        chart.setZoomLevel(zoomValue);
-        chart.requestLayout();
-        chart.invalidate();
-        container.invalidate();
-        
+    public void onTabSelected(Tab tab, FragmentTransaction ft) {
+        viewPager.setCurrentItem(tab.getPosition());
         supportInvalidateOptionsMenu();
     }
 
-    private void createTab(TabDef tabDefinition, View contentView, boolean selected) {
-        ActionBar.Tab tab = getSupportActionBar().newTab();
-        tab.setText(getString(tabDefinition.getTitleResId()));
-        tab.setTabListener(this);
-        
-        tab.setTag(new TabInfo(contentView, tabDefinition));
-        getSupportActionBar().addTab(tab, selected);
-        tabs.add(tab);
-    }
-
-    private void setUpWidgets() {
-
-        timelineContainer = findViewById(R.id.timeline_scroll_view);
-        byRoundChartContainer = findViewById(R.id.by_chart_scroll_view);
-        byRoundTableContainer = findViewById(R.id.by_round_scroll_view);
-        byPlayerTableContainer = findViewById(R.id.by_player_scroll_view);
-        
-        timelineChartView = (LineChartView) findViewById(R.id.timeline_view);
-        byRoundLineChartView = (LineChartView) findViewById(R.id.by_chart_view);
-        byRoundTableLayout = (TableLayout) findViewById(R.id.by_round_table);
-        byPlayerTableLayout = (TableLayout) findViewById(R.id.by_player_table);
-
-        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-    }
-
-    private void createTimelineLayout() {
-        
-        List<String> xAxisLabels = new ArrayList<String>();
-        SparseArray<SparseArray<Long>> smoothedData = smoothData(game);
-        
-        List<LineChartLine> data = new ArrayList<LineChartLine>();
-        for (PlayerScore playerScore : game.getPlayerScores()) {
-            data.add(new LineChartLine(playerScore.toDisplayName(this).toString(), new ArrayList<Integer>()));
-        }
-        
-        long[] lastPlayerScores = new long[game.getPlayerScores().size()];
-        
-        for (int i = 0; i < smoothedData.size(); i++) {
-            int timeSinceStart = smoothedData.keyAt(i);
-            xAxisLabels.add(TimeUtil.formatSeconds(timeSinceStart));
-            SparseArray<Long> scores = smoothedData.get(timeSinceStart);
-            
-            for (int playerIdx = 0; playerIdx < game.getPlayerScores().size(); playerIdx++){
-                Long scoreObj = scores.get(playerIdx);
-                // just give the player a zero-delta (i.e. previous score) for this "round" if no changes
-                long score = scoreObj == null ? lastPlayerScores[playerIdx] : scoreObj;
-                
-                List<Integer> dataPoints = data.get(playerIdx).getDataPoints();
-                dataPoints.add((int)score);
-                
-                lastPlayerScores[playerIdx] = score;
-            }
-        }
-        
-        timelineChartView.setLineColors(createLineColors());
-        timelineChartView.setxAxisLabels(xAxisLabels);
-        log.d("x labels are %s", xAxisLabels);
-        timelineChartView.loadData(data);
-    }
-    
-    private SparseArray<SparseArray<Long>> smoothData(Game game) {
-        
-        long roundedStartTimeInMs = Math.round(Math.floor(
-                game.getDateStarted() * 1.0 / TIMELINE_ROUNDING_IN_MS)) * TIMELINE_ROUNDING_IN_MS;
-        
-        // first, plot all players' deltas with their timestamps on the same timeline (x axis), rounded to
-        // the nearest ten seconds
-        SparseArray<SparseArray<Long>> timeline = new SparseArray<SparseArray<Long>>();
-        for (int i = 0; i < game.getPlayerScores().size(); i++) {
-            PlayerScore playerScore = game.getPlayerScores().get(i);
-            
-            // have to include the starting score as well
-            long startingScore = playerScore.getScore() - CollectionUtil.sum(CollectionUtil.transform(
-                    playerScore.getHistory(), Delta.GET_VALUE));
-            
-            timeline.put(0, SparseArrays.create(i, startingScore));
-            
-            long runningTally = startingScore;
-            for (Delta delta : playerScore.getHistory()) {
-                runningTally += delta.getValue();
-                
-                long timeSinceStartInMs = delta.getTimestamp() - roundedStartTimeInMs;
-                int roundedTimeSinceStartInSecs = (int)TimeUnit.MILLISECONDS.toSeconds(Math.round(Math.floor(
-                        timeSinceStartInMs * 1.0 / TIMELINE_ROUNDING_IN_MS)) * TIMELINE_ROUNDING_IN_MS);
-                
-                if (roundedTimeSinceStartInSecs == 0) {
-                    // just in case someone was actually fast enough to log the first score in <5 seconds, bump
-                    // it up to the first mark instead
-                    roundedTimeSinceStartInSecs = (int)TimeUnit.MILLISECONDS.toSeconds(TIMELINE_ROUNDING_IN_MS);
-                }
-                
-                log.d("roundedStartTimeInMs: %s, timeSinceStartInMs: %s, roundedTimeSinceStartInSecs: %s",
-                        roundedStartTimeInMs, timeSinceStartInMs, roundedTimeSinceStartInSecs);
-                
-                SparseArray<Long> existingScoresAtThisTime = timeline.get(roundedTimeSinceStartInSecs);
-                if (existingScoresAtThisTime == null) {
-                    timeline.put(roundedTimeSinceStartInSecs, SparseArrays.create(i, runningTally));
-                } else {
-                    // If the same player updated his score twice within the same rounded span,
-                    // then just add the two values together
-                    existingScoresAtThisTime.put(i, runningTally);
-                }
-            }
-        }
-        return timeline;
-    }
-
-    private void createByChartLayout() {
-
-        List<LineChartLine> data = new ArrayList<LineChartLine>();
-
-        for (PlayerScore playerScore : game.getPlayerScores()) {
-            List<Integer> dataPoints = new ArrayList<Integer>();
-
-            // have to include the starting score as well
-            long runningTally = playerScore.getScore() - CollectionUtil.sum(CollectionUtil.transform(
-                    playerScore.getHistory(), Delta.GET_VALUE));
-            dataPoints.add((int) runningTally);
-
-            for (Delta delta : playerScore.getHistory()) {
-                runningTally += delta.getValue();
-                dataPoints.add((int) runningTally);
-            }
-
-            LineChartLine line = new LineChartLine();
-            line.setDataPoints(dataPoints);
-            line.setLabel(playerScore.toDisplayName(this).toString());
-
-            data.add(line);
-        }
-
-        byRoundLineChartView.setLineColors(createLineColors());
-        byRoundLineChartView.loadData(data);
-    }
-
-    private List<Integer> createLineColors() {
-        
-        return CollectionUtil.transform(game.getPlayerScores(), new Function<PlayerScore, Integer>(){
-
-            @Override
-            public Integer apply(PlayerScore obj) {
-                return obj.getPlayerColor().toChartColor(HistoryActivity.this);
-            }
-        });
-    }
-
-    private void createByPlayerTableLayout() {
-
-        // 'by player' table is a simple 2-column table with a vertical divider
-        int counter = 0;
-        List<PlayerScore> playerScores = game.getPlayerScores();
-        for (int i = 0; i < playerScores.size(); i += 2) {
-            PlayerScore leftPlayer = playerScores.get(i);
-            PlayerScore rightPlayer = i + 1 < playerScores.size() ? playerScores.get(i + 1) : null;
-
-            // create the header
-            TableRow headerRow = new TableRow(this);
-            headerRow.addView(createListHeader(headerRow, leftPlayer.toDisplayName(this), true, false));
-            headerRow.addView(createDividerView(headerRow));
-            headerRow.addView(createListHeader(headerRow, rightPlayer == null ? " " : rightPlayer.toDisplayName(this),
-                    true, false));
-
-            byPlayerTableLayout.addView(headerRow);
-
-            // create the body
-            Iterator<HistoryItem> leftHistoryItems = HistoryItem.createFromPlayerScore(leftPlayer, this).iterator();
-            Iterator<HistoryItem> rightHistoryItems = rightPlayer == null ? Collections.<HistoryItem> emptyList()
-                    .iterator() : HistoryItem.createFromPlayerScore(rightPlayer, this).iterator();
-
-            while (leftHistoryItems.hasNext() || rightHistoryItems.hasNext()) {
-                HistoryItem leftItem = leftHistoryItems.hasNext() ? leftHistoryItems.next() : null;
-                HistoryItem rightItem = rightHistoryItems.hasNext() ? rightHistoryItems.next() : null;
-
-                TableRow tableRow = new TableRow(this);
-                tableRow.addView(createHistoryItemView(tableRow, leftItem, R.layout.history_item_wide, counter, true));
-                tableRow.addView(createDividerView(tableRow));
-                tableRow.addView(createHistoryItemView(tableRow, rightItem, R.layout.history_item_wide, counter, true));
-                byPlayerTableLayout.addView(tableRow);
-                counter++;
-            }
-        }
-
-    }
-
-    private void createByRoundTableLayout() {
-
-        // make all the columns that contain history information stretchable and
-        // shrinkable,
-        // i.e. not the "divider" or "row header" columns
-        for (int i = 0; i < game.getPlayerScores().size(); i++) {
-            byRoundTableLayout.setColumnShrinkable((i * 2) + 2, true);
-            byRoundTableLayout.setColumnStretchable((i * 2) + 2, true);
-        }
-
-        // the 'by round' adapter simply needs each player name as a first
-        // header row, and then after that you just go round-by-round
-        // summing up the values and displaying the diff, e.g.:
-        // p1, p2, p3, p4
-        // 0, 0, 0, 0
-        // +5, +3, -2, +10
-        // 5, 3, 2, 10
-        // etc.
-
-        List<PlayerScore> playerScores = game.getPlayerScores();
-        int historyItemLayoutId = playerScores.size() <= MAX_COLUMNS_FOR_WIDE_LIST_LAYOUT ? R.layout.history_item_wide
-                : playerScores.size() <= MAX_COLUMNS_FOR_REGULAR_TALL_LIST_LAYOUT ? R.layout.history_item_tall
-                        : R.layout.history_item_extra_tall;
-
-        // create the first row
-        TableRow headerRow = new TableRow(this);
-        headerRow.addView(createListHeader(headerRow, " ", false, false));
-
-        // add in all the section headers first, so they can be laid out across
-        // as the first row
-
-        for (PlayerScore playerScore : playerScores) {
-            headerRow.addView(createDividerView(headerRow));
-            headerRow.addView(createListHeader(headerRow, playerScore.toDisplayName(this), true, false));
-        }
-
-        // add a column to the right with an epsilon sign (for the round total
-        // sum)
-        headerRow.addView(createDividerView(headerRow));
-        headerRow.addView(createListHeader(headerRow, getString(R.string.CONSTANT_text_epsilon), false, true));
-
-        byRoundTableLayout.addView(headerRow);
-
-        List<HistoryItem> collatedHistoryItems = getCollatedHistoryItems();
-
-        for (int i = 0; i < collatedHistoryItems.size(); i += playerScores.size()) {
-
-            int rowId = (i / playerScores.size());
-
-            TableRow tableRow = new TableRow(this);
-
-            // add a column for the round number
-            String roundName = (i == 0) ? "" : Integer.toString(rowId); // first
-            // row
-            // is
-            // just
-            // the
-            // starting
-            // score
-            tableRow.addView(createRowHeader(tableRow, roundName));
-
-            // add in all the history items from this round
-            int sum = 0;
-            for (int j = i; j < i + playerScores.size(); j++) {
-                HistoryItem historyItem = collatedHistoryItems.get(j);
-                View historyItemAsView = createHistoryItemView(tableRow, historyItem, historyItemLayoutId, rowId, true);
-                tableRow.addView(createDividerView(tableRow));
-                tableRow.addView(historyItemAsView);
-
-                sum += historyItem == null ? 0 : historyItem.getDelta();
-            }
-
-            // add in the round total (sum)
-            tableRow.addView(createDividerView(tableRow));
-            if (i == 0) { // first row is just the starting score
-                HistoryItem bogusHistoryItem = new HistoryItem(0, sum, true);
-                tableRow.addView(createHistoryItemView(tableRow, bogusHistoryItem, historyItemLayoutId, rowId, false));
-            } else {
-                tableRow.addView(createSumView(tableRow, historyItemLayoutId, rowId, sum));
-            }
-
-            byRoundTableLayout.addView(tableRow);
-        }
-
-    }
-
-    private View createSumView(ViewGroup parent, int historyItemLayoutId, int rowId, int sum) {
-        // create a view that looks like a regular history item view, but is
-        // actually just
-        // the sum.
-
-        // create a bogus history item
-        View view = inflater.inflate(historyItemLayoutId, parent, false);
-
-        // alternating colors for the background, from gray to white
-        view.setBackgroundColor(getResources().getColor(
-                rowId % 2 == 0 ? android.R.color.background_light : R.color.light_gray));
-
-        TextView textView1 = (TextView) view.findViewById(android.R.id.text1);
-        TextView textView2 = (TextView) view.findViewById(android.R.id.text2);
-
-        textView1.setTextColor(getResources().getColor(android.R.color.primary_text_light_nodisable));
-        textView1.setText(Integer.toString(sum));
-
-        setDummyTextView(textView2);
-
-        return view;
-    }
-
-    private List<HistoryItem> getCollatedHistoryItems() {
-
-        // get all the iterators for the history items
-        List<Iterator<HistoryItem>> playerHistoryItems = new ArrayList<Iterator<HistoryItem>>();
-        for (PlayerScore playerScore : game.getPlayerScores()) {
-            List<HistoryItem> historyItems = HistoryItem.createFromPlayerScore(playerScore, this);
-            playerHistoryItems.add(historyItems.iterator());
-        }
-
-        List<HistoryItem> collatedItems = new ArrayList<HistoryItem>();
-
-        // collate
-        while (!allIteratorsAreEmpty(playerHistoryItems)) {
-            for (Iterator<HistoryItem> iterator : playerHistoryItems) {
-                if (iterator.hasNext()) {
-                    collatedItems.add(iterator.next());
-                } else {
-                    // add an empty item
-                    collatedItems.add(null);
-                }
-            }
-        }
-        return collatedItems;
-    }
-
-    private boolean allIteratorsAreEmpty(List<Iterator<HistoryItem>> iterators) {
-        for (Iterator<HistoryItem> iterator : iterators) {
-            if (iterator.hasNext()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private View createDividerView(ViewGroup parent) {
-        return inflater.inflate(R.layout.column_divider, parent, false);
-    }
-
-    private View createListHeader(ViewGroup parent, CharSequence text, boolean weightIsOne, boolean gravityCenter) {
-        TextView view = (TextView) inflater.inflate(R.layout.history_column_header, parent, false);
-        view.setText(text);
-        if (gravityCenter) {
-            view.setGravity(Gravity.CENTER_HORIZONTAL);
-        }
-
-        return weightIsOne ? setLayoutWeightToOne(view) : view;
-    }
-
-    private View setLayoutWeightToOne(View view) {
-        view.setLayoutParams(new TableRow.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0F));
-        return view;
-    }
-
-    private View createRowHeader(ViewGroup parent, CharSequence text) {
-        View view = inflater.inflate(R.layout.history_row_header, parent, false);
-        TextView textView = (TextView) view.findViewById(android.R.id.text1);
-        textView.setText(text);
-        return view;
-    }
-
-    public View createHistoryItemView(ViewGroup parent, HistoryItem historyItem, int layoutResId, int rowId,
-            boolean weightIsOne) {
-
-        View view = inflater.inflate(layoutResId, parent, false);
-
-        // alternating colors for the background, from gray to white
-        view.setBackgroundColor(getResources().getColor(
-                rowId % 2 == 0 ? android.R.color.background_light : R.color.light_gray));
-
-        TextView textView1 = (TextView) view.findViewById(android.R.id.text1);
-        TextView textView2 = (TextView) view.findViewById(android.R.id.text2);
-
-        if (historyItem == null) {
-            // null indicates to leave the text views empty
-            setDummyTextView(textView1);
-            setDummyTextView(textView2);
-            return weightIsOne ? setLayoutWeightToOne(view) : view;
-        }
-
-        textView2.setVisibility(View.VISIBLE);
-
-        if (historyItem.isHideDelta()) {
-            setDummyTextView(textView1);
-            textView1.setVisibility(View.GONE); // set as gone to ensure that
-            // the first line isn't too tall
-            // when we use
-            // history_item_tall.xml
-        } else {
-            int delta = historyItem.getDelta();
-
-            SpannableString deltaSpannable = new SpannableString(IntegerUtil.toCharSequenceWithSign(delta));
-
-            int colorResId = delta >= 0 
-                    ? (PreferenceHelper.getGreenTextPreference(this) 
-                            ? ColorScheme.Light.getGreenPositiveColorResId() // green
-                            : ColorScheme.Light.getPositiveColorResId()) // blue
-                    : ColorScheme.Light.getNegativeColorResId(); // red
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(colorResId));
-            deltaSpannable.setSpan(colorSpan, 0, deltaSpannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-
-            textView1.setVisibility(View.VISIBLE);
-            textView1.setText(deltaSpannable);
-        }
-
-        textView2.setText(Long.toString(historyItem.getRunningTotal()));
-
-        return weightIsOne ? setLayoutWeightToOne(view) : view;
-    }
-
-    /**
-     * For some reason, on Honeycomb tablets I have to set the text view to have
-     * a dummy value and the visibility to INVISIBLE - I can't just set the text
-     * to null or empty. If I don't, the text isn't wrapped correctly
-     * vertically.
-     * 
-     * @param textView
-     */
-    public void setDummyTextView(TextView textView) {
-        textView.setVisibility(View.INVISIBLE);
-        textView.setText("0"); // dummy value
+    @Override
+    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
 
     @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        switchToTab(tab);
+    public void onTabReselected(Tab tab, FragmentTransaction ft) {
     }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        // do nothing
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        switchToTab(tab);
-    }
-
-    private void switchToTab(ActionBar.Tab tab) {
-
-        final TabInfo tabInfo = (TabInfo)tab.getTag();
-        // do in the background to avoid jank
-        handler.post(new Runnable() {
-            
-            @Override
-            public void run() {
-                
-                // switch between the tabs
-                for (ActionBar.Tab otherTab : tabs) {
-                    TabInfo otherTabInfo = (TabInfo) otherTab.getTag();
-                    boolean selected = tabInfo.getTabDefinition().ordinal() == otherTabInfo.getTabDefinition().ordinal();
-                    otherTabInfo.getContentView().setVisibility(selected ? View.VISIBLE : View.GONE);
-                }
-                supportInvalidateOptionsMenu();
-            }
-        });
-    }
-    
-    private ActionBar.Tab getCurrentTab() {
-        for (ActionBar.Tab tab :tabs) {
-            if (((TabInfo)tab.getTag()).getContentView().getVisibility() == View.VISIBLE) {
-                return tab;
-            }
-        }
-        return null; // shouldn't happen
-    }
+     
 }
