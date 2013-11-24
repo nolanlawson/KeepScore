@@ -32,7 +32,7 @@ Build it yourself
 
 KeepScore is built using [Maven][8].
 
-KeepScore has a dependency, AmbilWarna[11], which is not avilable in Maven.  So you'll have to first install it manually:
+KeepScore has a dependency, [AmbilWarna][11], which is not avilable in Maven.  So you'll have to first install it manually:
 
 ```
 git clone https://code.google.com/p/yuku-android-util/
