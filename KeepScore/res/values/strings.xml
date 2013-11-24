@@ -129,7 +129,7 @@
     <string name="pref_color_scheme_choice_light_name">Light</string>
     <string name="pref_color_scheme_choice_classic_light_name">Classic Light</string>
     <string name="pref_color_scheme_name">Colour Scheme</string>
-    <string name="pref_disable_highlight_tag_name">Disable Bullet</string>
+    <string name="pref_disable_highlight_tag_name">Disable bullet</string>
     <string name="pref_disable_highlight_tag_summary">Disable the bullet icon showing which player was scored last.</string>
     <string name="pref_green_text_name">Green Text</string>
     <string name="pref_green_text_summary">Toggle green or blue increment text.</string>
