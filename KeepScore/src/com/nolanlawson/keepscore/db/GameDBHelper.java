@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
+import android.util.SparseArray;
 
 import com.nolanlawson.keepscore.helper.PlayerColor;
 import com.nolanlawson.keepscore.util.CollectionUtil;
@@ -44,8 +45,9 @@ public class GameDBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_HISTORY_TIMESTAMPS = "historyTimestamps";
     private static final String COLUMN_COLOR = "color";
 
-    private static final String GROUP_CONCAT_SEPARATOR = "__%_sep_%__";
-    private static final String GROUP_CONCAT_INNER_SEPARATOR = "__%_insep_%__";
+    // my crazy system for using sqlite's group_concat, since it's not ambiguous to use regular old commas
+    private static final String GROUP_CONCAT_SEPARATOR = "^__%^%__";
+    private static final String GROUP_CONCAT_INNER_SEPARATOR = "$__%$%__";
     
     private static final String JOINED_TABLES = TABLE_GAMES + " g join " + TABLE_PLAYER_SCORES + " ps ON " + "g."
             + COLUMN_ID + "=ps." + COLUMN_GAME_ID;
@@ -426,18 +428,6 @@ public class GameDBHelper extends SQLiteOpenHelper {
                     " on g." + COLUMN_ID + " = ps." + COLUMN_GAME_ID;
             String groupBy = "g." + COLUMN_ID;
             
-            Function<String, Pair<String,Integer>> toPlayerNamesAndNumbers = new Function<String, Pair<String,Integer>>(){
-
-                @Override
-                public Pair<String, Integer> apply(String obj) {
-                    List<String> split = StringUtil.split(obj, GROUP_CONCAT_INNER_SEPARATOR);
-                    return Pair.create(split.get(0), Integer.parseInt(split.get(1)));
-                }
-            };
-            
-            Comparator<Pair<String, Integer>> bySecond = Pair.bySecond();
-            Function<Pair<String, Integer>,String> getFirst = Pair.getFirstFunction();
-            
             Cursor cursor = null;
             
             try {
@@ -446,6 +436,9 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 
                 List<GameSummary> result = new ArrayList<GameSummary>();
                 
+                // re-use sparse array for performance
+                SparseArray<String> playerNumbersToNames = new SparseArray<String>();
+                
                 while (cursor.moveToNext()) {
                     GameSummary gameSummary = new GameSummary();
                     
@@ -453,14 +446,23 @@ public class GameDBHelper extends SQLiteOpenHelper {
                     gameSummary.setName(cursor.getString(1));
                     gameSummary.setDateSaved(cursor.getLong(2));
                     
-                    // sort by player number, get player names  in order
-                    List<Pair<String,Integer>> playerNamesAndNumbers = CollectionUtil.transform(
-                            StringUtil.split(cursor.getString(3), GROUP_CONCAT_SEPARATOR),
-                            toPlayerNamesAndNumbers
-                    );
-                    Collections.sort(playerNamesAndNumbers, bySecond);
+                    String playerNumbersAndNames = cursor.getString(3);
+                    // sort by player number, get player names in order (no way to do this in sqlite, unfortunately)
                     
-                    gameSummary.setPlayerNames(CollectionUtil.transform(playerNamesAndNumbers, getFirst));
+                    playerNumbersToNames.clear();
+                    for (String playerNumberAndName : StringUtil.split(playerNumbersAndNames, GROUP_CONCAT_SEPARATOR)) {
+                        int idx = playerNumberAndName.indexOf(GROUP_CONCAT_INNER_SEPARATOR);
+                        String playerName = playerNumberAndName.substring(0, idx);
+                        int playerNumber = Integer.parseInt(playerNumberAndName.substring(
+                                idx + GROUP_CONCAT_INNER_SEPARATOR.length()));
+                        playerNumbersToNames.put(playerNumber, playerName);
+                    }
+                    List<String> playerNames = new ArrayList<String>(playerNumbersToNames.size());
+                    for (int i = 0, len = playerNumbersToNames.size(); i < len; i++) {
+                        int playerNumber = playerNumbersToNames.keyAt(i);
+                        playerNames.add(playerNumbersToNames.get(playerNumber));
+                    }
+                    gameSummary.setPlayerNames(playerNames);
                     
                     gameSummary.setNumRounds(cursor.getInt(4));
                     
