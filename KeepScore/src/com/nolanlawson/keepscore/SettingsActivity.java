@@ -231,6 +231,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
                 }
 
                 preference.setSummary((CharSequence) newValue);
+                PreferenceHelper.resetCache();
                 return true;
             }
         });
