@@ -3,7 +3,6 @@ package com.nolanlawson.keepscore.db;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -16,8 +15,6 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.nolanlawson.keepscore.helper.PlayerColor;
-import com.nolanlawson.keepscore.util.CollectionUtil;
-import com.nolanlawson.keepscore.util.CollectionUtil.Function;
 import com.nolanlawson.keepscore.util.Pair;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.util.UtilLogger;
