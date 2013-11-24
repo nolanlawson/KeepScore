@@ -22,7 +22,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.db.Delta;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
-import com.nolanlawson.keepscore.fragment.HIstoryPlayerTableFragment;
+import com.nolanlawson.keepscore.fragment.HistoryPlayerTableFragment;
 import com.nolanlawson.keepscore.fragment.HistoryRoundChartFragment;
 import com.nolanlawson.keepscore.fragment.HistoryRoundTableFragment;
 import com.nolanlawson.keepscore.fragment.HistoryTimelineFragment;
@@ -169,7 +169,7 @@ public class HistoryActivity extends SherlockFragmentActivity implements ActionB
                     return new HistoryRoundTableFragment();
                 case TableByPlayer:
                 default:
-                    return new HIstoryPlayerTableFragment();
+                    return new HistoryPlayerTableFragment();
             }            
         }
 

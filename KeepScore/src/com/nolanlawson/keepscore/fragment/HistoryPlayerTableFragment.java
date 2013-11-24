@@ -18,7 +18,7 @@ import com.nolanlawson.keepscore.data.HistoryItem;
 import com.nolanlawson.keepscore.db.Game;
 import com.nolanlawson.keepscore.db.PlayerScore;
 
-public class HIstoryPlayerTableFragment extends AbstractHistoryTableFragment {
+public class HistoryPlayerTableFragment extends AbstractHistoryTableFragment {
     private Game game;
     
     private TableLayout byPlayerTableLayout;
