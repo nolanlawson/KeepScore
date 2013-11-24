@@ -74,6 +74,7 @@ public abstract class GameActivity extends SherlockActivity {
     public static final String EXTRA_GAME = "game";
 
     public static final int REQUEST_CODE_ADD_EDIT_PLAYERS = 2;
+    public static final int REQUEST_CODE_SETTINGS = 3;
 
     private static final long PERIODIC_SAVE_PERIOD = TimeUnit.SECONDS.toMillis(30);
 
@@ -283,7 +284,7 @@ public abstract class GameActivity extends SherlockActivity {
             break;
         case R.id.menu_settings:
             Intent settingsIntent = new Intent(GameActivity.this, SettingsActivity.class);
-            startActivity(settingsIntent);
+            startActivityForResult(settingsIntent, REQUEST_CODE_SETTINGS);
             break;
         case R.id.menu_add_edit_players:
             startOrganizePlayersActivity();
@@ -844,6 +845,11 @@ public abstract class GameActivity extends SherlockActivity {
                     saveWithNewPlayerScores(newPlayerScores);
                 }
             });
+        } else if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
+            if (data != null && data.getBooleanExtra(SettingsActivity.EXTRA_ORIENTATION_CHANGED, false)) {
+                // orientation changed; need to refresh this activity
+                GameActivityHelper.openGameWithClearTop(this, game);
+            }
         }
     }
     
@@ -899,7 +905,7 @@ public abstract class GameActivity extends SherlockActivity {
                         // TODO: don't start a new activity; just refresh the
                         // layout
 
-                        GameActivityHelper.newGameWithClearTop(GameActivity.this, newGame);
+                        GameActivityHelper.openGameWithClearTop(GameActivity.this, newGame);
                     }
 
                 };

@@ -25,6 +25,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -34,6 +35,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.nolanlawson.keepscore.data.SimpleTwoLineAdapter;
 import com.nolanlawson.keepscore.data.TextWithDeleteAdapter;
 import com.nolanlawson.keepscore.data.TextWithDeleteAdapter.OnDeleteListener;
+import com.nolanlawson.keepscore.helper.Orientation;
 import com.nolanlawson.keepscore.helper.PackageHelper;
 import com.nolanlawson.keepscore.helper.PreferenceHelper;
 import com.nolanlawson.keepscore.helper.SettingSetHelper;
@@ -45,6 +47,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         OnPreferenceClickListener {
 
     public static final String EXTRA_SCROLL_TO_CONFIGURATIONS = "scrollToConfigurations";
+    public static final String EXTRA_ORIENTATION_CHANGED = "orientationChanged";
 
     private EditTextPreference button1Pref, button2Pref, button3Pref, button4Pref, twoPlayerButton1Pref,
             twoPlayerButton2Pref, twoPlayerButton3Pref, twoPlayerButton4Pref, updateDelayPref, initialScorePref,
@@ -56,6 +59,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 
     private Handler handler = new Handler(Looper.getMainLooper());
 
+    private Orientation startingOrientation;
+    
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         // home button goes back
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        
+        startingOrientation = PreferenceHelper.getOrientation(this);
     }
 
     @Override
@@ -175,8 +182,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         loadSettingsPref.setOnPreferenceClickListener(this);
         saveSettingsPref.setOnPreferenceClickListener(this);
 
-        setDynamicColorSchemeSummary(colorSchemePref);
-        setDynamicColorSchemeSummary(orientationPref);
+        setDynamicListPreferenceSummary(colorSchemePref);
+        setDynamicListPreferenceSummary(orientationPref);
 
         // go to the about activity if the about pref is pressed
         aboutPref.setOnPreferenceClickListener(this);
@@ -229,7 +236,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         });
     }
 
-    private void setDynamicColorSchemeSummary(ListPreference preference) {
+    private void setDynamicListPreferenceSummary(ListPreference preference) {
         // set the summary to be whatever the value is, and change it if
         // necessary
 
@@ -252,7 +259,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
             }
         });
     }
-
+    
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         PreferenceHelper.resetCache(); // ensure that the changes get reflected
@@ -491,4 +498,21 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
         }
         return -1;
     }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+
+        // back button pressed, report if the orientation changed
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
+
+            // set result and finish
+            Intent data = new Intent();
+            Orientation endingOrientation = PreferenceHelper.getOrientation(SettingsActivity.this);
+            data.putExtra(EXTRA_ORIENTATION_CHANGED, startingOrientation != endingOrientation);
+            setResult(RESULT_OK, data);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }    
 }

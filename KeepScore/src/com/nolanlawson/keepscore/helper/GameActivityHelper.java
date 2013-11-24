@@ -29,7 +29,7 @@ public class GameActivityHelper {
         context.startActivity(intent);
     }
     
-    public static void newGameWithClearTop(Activity context, Game game) {
+    public static void openGameWithClearTop(Activity context, Game game) {
         Intent intent = new Intent(context, getGameActivityClass(context, game.getPlayerScores().size()));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(GameActivity.EXTRA_GAME, game);
