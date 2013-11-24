@@ -197,6 +197,23 @@ LibreOffice oder Google Docs.</string>
     <string name="toast_settings_reset">Einstellungen wurden zurückgesetzt.</string>
     <string name="toast_valid_initial_score">Bitte geben Sie eine gültige Zahl ein.</string>
     <string name="toast_valid_update_delay_values">Bitte geben Sie eine Zahl zwischen 1 und 600 ein.</string>
+    
+    <!-- KeepScore version 1.3.0 updates - please translate me from English!!! -->
+    <!-- 
+    <string name="pref_orientation_name">Preferred Orientation</string>
+    <string name="pref_plus_button_name">+ Button</string>
+    <string name="button_history_player_table">Player breakdown</string>
+    <string name="button_custom">Custom&#8230;</string>
+    <string name="pref_minus_button_name">- Button</string>
+    <string name="button_more">More&#8230;</string>
+    <string name="pref_orientation_choice_portrait_name">Portrait</string>
+    <string name="pref_orientation_choice_landscape_name">Landscape</string>
+    <string name="button_history_time_chart">Timeline</string>
+    <string name="title_choose_color">Choose a Colour</string>
+    <string name="button_history_round_chart">Round chart</string>
+    <string name="pref_show_colors_name">Show player colours</string>
+    <string name="button_history_round_table">Round breakdown</string>
+    -->    
 </resources>
 
 

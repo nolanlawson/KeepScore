@@ -187,5 +187,20 @@ https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore 。</str
     <string name="toast_settings_reset">設定はリセットされました。</string>
     <string name="toast_valid_initial_score">妥当な数を入力してください。</string>
     <string name="toast_valid_update_delay_values">1から600までの妥当な数を入力してください。</string>
+    
+    <!-- KeepScore version 1.3.0 updates -->
+    <string name="pref_orientation_name">好きなオリエンテーション</string>
+    <string name="pref_plus_button_name">「+」というボタン</string>
+    <string name="button_history_player_table">選手要約</string>
+    <string name="button_custom">カスタム&#8230;</string>
+    <string name="pref_minus_button_name">「-」というボタン</string>
+    <string name="button_more">それ以上&#8230;</string>
+    <string name="pref_orientation_choice_portrait_name">ポートレイト</string>
+    <string name="pref_orientation_choice_landscape_name">ランドスケープ</string>
+    <string name="button_history_time_chart"> タイムライン</string>
+    <string name="title_choose_color">色選択</string>
+    <string name="button_history_round_chart">ラウンドのチャート</string>
+    <string name="pref_show_colors_name">選手の色を表示</string>
+    <string name="button_history_round_table">ラウンド要約</string>
 </resources>
 

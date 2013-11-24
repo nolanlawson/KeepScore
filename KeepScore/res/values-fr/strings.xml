@@ -59,9 +59,9 @@
     <string name="pref_reset_name">Réinitialiser les paramètres</string>
     <string name="pref_save_settings_name">Créer une sauvegarde</string>
     <string name="pref_save_settings_summary">Sauvegarder les parametres actuelles dans un fichier.</string>
-    <string name="pref_show_round_totals_name">Afficher le nombre de tours</string>
+    <string name="pref_show_round_totals_name">Afficher la somme de la manche</string>
     <string name="pref_update_delay_name">Délai avant la mise à jour des scores</string>
-    <string name="pref_update_delay_summary">Secondes à attendre avant de mettre à jour l\'historique des tours (défaut : 10 sec)</string>
+    <string name="pref_update_delay_summary">Secondes à attendre avant de mettre à jour l\'historique des manches (défaut : 10 sec)</string>
     <string name="pref_use_wake_lock_name">Maintenir l\'écran hors veille</string>
     <string name="pref_use_wake_lock_summary">Maintenir l\'écran allumé lorsqu\'un jeu est en cours</string>
     
@@ -82,8 +82,8 @@
     <string name="text_donate_message">Merci pour le don! Vous êtes de la balle!</string>
     <string name="text_edit_name">Editer le nom</string>
     <string name="text_enter_saved_settings_name">Entrer un nom, e.g. \'carcassonne\'</string>
-    <string name="text_format_rounds">%d tours</string>
-    <string name="text_format_rounds_singular">%d tour</string>
+    <string name="text_format_rounds">%d manches</string>
+    <string name="text_format_rounds_singular">%d manche</string>
     <plurals name="text_game_count">
         <item quantity="one">%d jeu</item>
         <item quantity="other">%d jeux</item>
@@ -104,7 +104,7 @@ Doublets: %4$d</string>
     <string name="text_players">%s joueurs</string>
     <string name="text_reset_confirm">Tous les paramètres seront réinitialisés.</string>
     <string name="text_restore_initial">Il semble que vous avez déjà des parties KeepScore. Voulez-vous importer depuis un backup? </string>
-    <string  name="text_round_total">Tour #%1$d (%2$d points marqués)</string>
+    <string  name="text_round_total">Manche #%1$d (%2$d points marqués)</string>
     <plurals name="text_save_backup">
         <item quantity="one">Exporter %d jeu à la carte SD?</item>
         <item quantity="other">Exporter %d jeux à la carte SD?</item>
@@ -130,7 +130,7 @@ LibreOffice, ou Google Docs.</string>
     <string name="text_share_spreadsheet_date_modified">Date de dernière modification</string>
     <string name="text_share_spreadsheet_duration">Durée de la partie</string>
     <string name="text_share_spreadsheet_game_name">Nom de la partie</string>
-    <string name="text_share_spreadsheet_num_rounds">Nombre de tours</string>
+    <string name="text_share_spreadsheet_num_rounds">Nombre de manches</string>
     <string name="text_share_spreadsheet_num_players">Nombre de joueurs</string>
     <string name="text_share_spreadsheet_player_with_max">Joueur(s) avec le plus de points</string>
     <string name="text_share_spreadsheet_player_with_min">Joueur(s) avec le moins de points)</string>
@@ -197,6 +197,23 @@ https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore .</strin
     <string name="toast_settings_reset">Paramètres réinitialisés.</string>
     <string name="toast_valid_initial_score">Le chiffre entré n\'est pas valable.</string>
     <string name="toast_valid_update_delay_values">Entrez un chiffre entre 1 et 600.</string>
+    
+
+    <!-- KeepScore version 1.3.0 updates -->
+    <string name="pref_orientation_name">Orientation préférée</string>
+    <string name="pref_plus_button_name">Bouton +</string>
+    <string name="button_history_player_table">Résumé des joueurs</string>
+    <string name="button_custom">Custom&#8230;</string>
+    <string name="pref_minus_button_name">Bouton -</string>
+    <string name="button_more">Plus&#8230;</string>
+    <string name="pref_orientation_choice_portrait_name">Portrait</string>
+    <string name="pref_orientation_choice_landscape_name">Paysage</string>
+    <string name="button_history_time_chart">Chronologie</string>
+    <string name="title_choose_color">Choisir une couleur</string>
+    <string name="button_history_round_chart">Graphique des manches</string>
+    <string name="pref_show_colors_name">Afficher les couleurs des joueurs</string>
+    <string name="button_history_round_table">Résumé des manches</string>
+	
 </resources>
 
 
