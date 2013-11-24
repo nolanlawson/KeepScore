@@ -114,17 +114,19 @@ public class PlayerView implements OnClickListener, OnLongClickListener {
         // enable or disable onscreen delta buttons based on whether we have
         // enough room onscreen or not
         deltaButtonsViewStub = view.findViewById(R.id.onscreen_delta_buttons_stub);
-        int versionInt = VersionHelper.getVersionSdkIntCompat();
-        if (versionInt > VersionHelper.VERSION_DONUT && versionInt < VersionHelper.VERSION_FROYO) {
-            // in eclair, there's a bug where ViewStubs within ViewSubs do not
-            // render correctly, so inflate the ViewStubs no matter what
-            if (deltaButtonsViewStub instanceof ViewStub) {
-                deltaButtonsViewStub = ((ViewStub) deltaButtonsViewStub).inflate();
+        if (deltaButtonsViewStub != null) { // they're null in portrait mode
+            int versionInt = VersionHelper.getVersionSdkIntCompat();
+            if (versionInt > VersionHelper.VERSION_DONUT && versionInt < VersionHelper.VERSION_FROYO) {
+                // in eclair, there's a bug where ViewStubs within ViewSubs do not
+                // render correctly, so inflate the ViewStubs no matter what
+                if (deltaButtonsViewStub instanceof ViewStub) {
+                    deltaButtonsViewStub = ((ViewStub) deltaButtonsViewStub).inflate();
+                }
+    
             }
-
+            deltaButtonsViewStub.setVisibility(showOnscreenDeltaButtons ? View.VISIBLE : View.GONE);
+            onscreenDeltaButtonsLayout = (LinearLayout) view.findViewById(R.id.onscreen_delta_buttons_table_layout);
         }
-        deltaButtonsViewStub.setVisibility(showOnscreenDeltaButtons ? View.VISIBLE : View.GONE);
-        onscreenDeltaButtonsLayout = (LinearLayout) view.findViewById(R.id.onscreen_delta_buttons_table_layout);
 
         playerColorView = (PlayerColorView) view.findViewById(R.id.player_color_image);
         tagImageView = (ImageView) view.findViewById(R.id.image_name_tag);
