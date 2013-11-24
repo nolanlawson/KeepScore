@@ -6364,6 +6364,8 @@ com.nolanlawson.keepscore.db.GameSummary -> com.nolanlawson.keepscore.db.j:
     void setNumRounds(int) -> b
     long getDateSaved() -> e
     void setDateSaved(long) -> a
+    int hashCode() -> hashCode
+    boolean equals(java.lang.Object) -> equals
     java.util.Comparator byRecentlySaved() -> f
     com.nolanlawson.keepscore.db.GameSummary fromGame(com.nolanlawson.keepscore.db.Game) -> a
 com.nolanlawson.keepscore.db.GameSummary$1 -> com.nolanlawson.keepscore.db.k:
