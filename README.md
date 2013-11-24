@@ -58,8 +58,28 @@ KeepScore is currently localized into English, French, Japanese, Italian, and Ge
 board gamers around the world, though, I'm
 always happy to get new translations!
 
+### French and Japanese
+
+I manage these myself.  I'm not a native speaker, though, so if you have corrections to make, please fork these files:
+
+- [French](https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-fr/strings.xml)
+- [Japanese](https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-ja/strings.xml)
+
+### Italian and German
+
+Italian and German translations are needed for the 1.3.0 update! If you can help, please fork the following files.  I've marked the necessary
+translations at the bottom of each file.
+
+- [Italian](https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-it/strings.xml)
+- [German](https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-de/strings.xml)
+
+### Adding a new language
+
+New languages are always welcome!  Based on the language statistics, it would be nice to have 
+Dutch, Korean, Russian, Portoguese, and Spanish.
+
 All you need to do is add some additional files, fork the project on GitHub, and send me a pull request. 
-And thanks to GitHub [file creation][7], you can do all of this through the web interface.
+And thanks to GitHub [file creation][7], you can do all of this through the web interface!
 
 For instance,
 if your language is Esperanto (ISO code 'eo'), you would need to add the following files:
@@ -109,8 +129,7 @@ Note that not all strings in ```strings.xml``` need to be translated.  If you lo
 you'll see that I've helpfully marked constant strings with the prefix ```CONSTANT_```.  Constants do not need
 to be translated.
 
-Some languages (e.g. German, Italian) tend to be incomplete because I don't speak them.  A helpful tool
-for finding missing translations is the [Android Localization Helper][9].  
+A helpful tool for finding missing translations is the [Android Localization Helper][9].  
 
 To ignore constants while using it, you can
 run:
