@@ -871,8 +871,8 @@ public class MainActivity extends SherlockListActivity implements OnClickListene
         List<Integer> ids = new ArrayList<Integer>();
         for (int i = 0; i < adapter.getCount(); i++) {
             Object item = adapter.getItem(i);
-            if (item instanceof Game) { // else it's a subsection title
-                ids.add(((Game)item).getId());
+            if (item instanceof GameSummary) { // else it's a subsection title
+                ids.add(((GameSummary)item).getId());
             }
         }
         return ids;
