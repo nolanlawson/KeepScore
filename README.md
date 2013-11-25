@@ -93,9 +93,10 @@ documentation/description-eo.txt              # Play Store description
 documentation/donate/description-eo.txt       # Play Store description (Donate version)
 ```
 
+(Again, please read the GitHub page on [file creation][7] to understand how to do this.)
+
 I maintain the English, French, and Japanese translations myself.
-So you can use this table
-to get an idea of what you should be doing:
+So you can look to these translations as an example:
 
 <table border='0'>
 <tr>
