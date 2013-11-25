@@ -82,7 +82,7 @@ All you need to do is add some additional files, fork the project on GitHub, and
 And thanks to GitHub [file creation][7], you can do all of this through the web interface!
 
 For instance,
-if your language is Esperanto (ISO code 'eo'), you would need to add the following files:
+if your language is Esperanto (ISO code 'eo'), you would need to create the following files:
 
 ```
 KeepScore/res/values-eo/strings.xml           # Main translations
@@ -104,11 +104,6 @@ to get an idea of what you should be doing:
 <td align='center'><b>Japanese</b></td>
 </tr>
 <tr>
-<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-en.txt'>description-en.txt</a></td>
-<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-fr.txt'>description-fr.txt</a></td>
-<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-ja.txt'>description-ja.txt</a></td>
-</tr>
-<tr>
 <td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values/strings.xml'>strings.xml</a></td>
 <td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-fr/strings.xml'>strings.xml</a></td>
 <td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-ja/strings.xml'>strings.xml</a></td>
@@ -122,6 +117,16 @@ to get an idea of what you should be doing:
 <td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/raw/version_and_credits.htm'>version_and_credits.htm</a></td>
 <td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/raw-fr/version_and_credits.htm'>version_and_credits.htm</a></td>
 <td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/raw-ja/version_and_credits.htm'>version_and_credits.htm</a></td>
+</tr>
+<tr>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-en.txt'>description-en.txt</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-fr.txt'>description-fr.txt</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/description-ja.txt'>description-ja.txt</a></td>
+</tr>
+<tr>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/donate/description-en.txt'>donate/description-en.txt</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/donate/description-fr.txt'>donate/description-fr.txt</a></td>
+<td align='center'><a href='https://github.com/nolanlawson/KeepScore/blob/master/documentation/donate/description-ja.txt'>donate/description-ja.txt</a></td>
 </tr>
 </table>
 
