@@ -67,11 +67,7 @@ I manage these myself.  I'm not a native speaker, though, so if you have correct
 
 ### Italian and German
 
-Italian and German translations are needed for the 1.3.0 update! If you can help, please fork the following files.  I've marked the necessary
-translations at the bottom of each file.
-
-- [Italian](https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-it/strings.xml)
-- [German](https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-de/strings.xml)
+Italian and German translations are only needed when new feature are added.  Thanks to those who helped with the 1.3.0 translations!
 
 ### Adding a new language
 
