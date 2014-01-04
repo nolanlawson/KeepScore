@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_actions">פעולות&#8230;</string>
+    <string name="button_history_time_chart">ציר הזמן</string>
+    <string name="button_history_round_chart">סיבוב סיבוי</string>
+    <string name="button_history_round_table">פירוט סיבובים</string>
+    <string name="button_history_player_table">פירוט שחקנים</string>
+    <string name="button_customize">התאמה אישית&#8230;</string>
+    <string name="button_custom">התאמה&#8230;</string>
+    <string name="button_deselect_all">בטל בחירה להכל</string>
+    <string name="button_more">עוד&#8230;</string>
+    <string name="button_new_game">משחק חדש</string>
+    <string name="button_select_all">בחר הכל</string>
+    
+    <string name="date_format">MMM dd hh:mmaa</string>
+    
+    <string name="hint_game_name">שם המשחק</string>
+    
+    <string name="html_third_party">צד-שלישי</string>
+    <string name="html_translations">תרגומים</string>
+    
+    <string name="menu_about">אודות</string>
+    <string name="menu_add_edit_players">ערוך שחקנים</string>
+    <string name="menu_add_player">הוסף שחקן</string>
+    <string name="menu_export_to_spreadsheet">ייצא גיליון</string>
+    <string name="menu_history">היסטוריה</string>
+    <string name="menu_home">בית</string>
+    <string name="menu_load_backup">שחזר</string>
+    <string name="menu_randomize">ערבב</string>
+    <string name="menu_redo">עשה שוב</string>
+    <string name="menu_rematch">משחק חדש</string>
+    <string name="menu_reset_scores">אפס</string>
+    <string name="menu_save_backup">גבה</string>
+    <string name="menu_share">שתף</string>
+    <string name="menu_settings">הגדרות</string>
+    <string name="menu_sort_players">סדר לפי ניקוד</string>
+    <string name="menu_undo">בטל</string>
+    
+    
+    <string name="pref_2p_button_1_name">כפתור ראשון על המסך</string>
+    <string name="pref_2p_button_2_name">כפתור שני על המסך</string>
+    <string name="pref_2p_button_3_name">כפתור שלישי על המסך</string>
+    <string name="pref_2p_button_4_name">כפתור רביעי על המסך</string>
+    <string name="pref_button_1_name">כפתור קופץ ראשון</string>
+    <string name="pref_button_2_name">כפתור קופץ שני</string>
+    <string name="pref_button_3_name">כפתור קופץ שלישי</string>
+    <string name="pref_button_4_name">כפתור קופץ רביעי</string>
+    <string name="pref_cat_about">אודות</string>
+    <string name="pref_cat_advanced">מתקדם</string>
+    <string name="pref_cat_appearance">תצוגה</string>
+    <string name="pref_cat_config">תצורה</string>
+    <string name="pref_cat_manage">נהל הגדרות</string>
+    <string name="pref_color_scheme_choice_android_name">אנדרואיד</string>
+    <string name="pref_color_scheme_choice_dark_name">כהה</string>
+    <string name="pref_color_scheme_choice_light_name">בהיר</string>
+    <string name="pref_color_scheme_choice_classic_light_name">בהיר קלאסי</string>
+    <string name="pref_color_scheme_name">תכנית צבע</string>
+    <string name="pref_disable_highlight_tag_name">מנע סמן</string>
+    <string name="pref_disable_highlight_tag_summary">מנע סמן המראה מי השחקן שקיבל נקודות אחרון</string>
+    <string name="pref_green_text_name">טקסט ירוק</string>
+    <string name="pref_green_text_summary">החלף בין טקסט תוספת ירוק לכחול</string>
+    <string name="pref_initial_score_name">ניקוד ראשוני</string>
+    <string name="pref_initial_message_name">הראה מסך פתיחה</string>
+    <string name="pref_load_settings_name">טען גיבוי</string>
+    <string name="pref_load_settings_summary">ייבא הגדרות מגיבוי שמור</string>
+    <string name="pref_minus_button_name">כפתור מינוס</string>
+    <string name="pref_orientation_choice_landscape_name">אופקי</string>
+    <string name="pref_orientation_choice_portrait_name">אנכי</string>
+    <string name="pref_orientation_name">העדפת תצוגה לרוחב</string>
+    <string name="pref_plus_button_name">כפתור פלוס</string>
+    <string name="pref_reset_name">אפס לברירת מחדל</string>
+    <string name="pref_save_settings_name">שמור גיבוי</string>
+    <string name="pref_save_settings_summary">שמור גיבוי של ההגדרות הנוכחיות</string>
+    <string name="pref_show_round_totals_name">הראה סיכום סיבוב</string>
+    <string name="pref_show_colors_name">הראה צבעי שחקנים</string>
+    <string name="pref_update_delay_name">עדכן השהייה</string>
+    <string name="pref_update_delay_summary">כמה שניות לחכות לפני הוספת ערך חדש להיסטוריה (ביררת מחדל: 10)</string>
+    <string name="pref_use_wake_lock_name">השאר מסך דולק</string>
+    <string name="pref_use_wake_lock_summary">נעל מסך במצב דולק בזמן המשחק</string>
+    
+    <string name="text_about">אודות KeepScore</string>
+    <string name="text_add_zero">הוסף אפס</string>
+    <string name="text_backup_automatic">גיבוי\nאוטומטי</string>
+    <string name="text_backup_manual">גיבוי\nידני</string>
+    <string name="text_backup_date_format">MMM dd yyyy hh:mmaa</string>
+    <string name="text_confirm">אשר</string>
+    <plurals name="text_confirm_delete_player">
+        <item quantity="one">השחקן הבא יימחק: %s.</item>
+        <item quantity="other">השחקנים הבאים יימחקו: %s.</item>
+    </plurals>
+    <string name="text_confirm_rematch">התחל משחק חוזר עם אותם השחקנים?</string>
+    <string name="text_copy">העתק</string>
+    <string name="text_delete">מחק</string>
+    <string name="text_delete_saved_settings">הגיבוי \&quot;%s\&quot; יימחק.</string>
+    <string name="text_donate_message">תודה רבה על תרומתך! אתה מעולה!</string>
+    <string name="text_edit_name">ערוך שם</string>
+    <string name="text_enter_saved_settings_name">הכנס שם. לדוגמה: \'שבץ נא\'</string>
+    <string name="text_format_rounds">%d סיבובים</string>
+    <string name="text_format_rounds_singular">%d סיבוב</string>
+    <plurals name="text_game_count">
+        <item quantity="one">%d משחק</item>
+        <item quantity="other">%d משחקים</item>
+    </plurals>
+    <string name="text_game_name_separator">-</string>
+    <string name="text_game_will_be_deleted">המשחק יימחק</string>
+    <string name="text_games_will_be_deleted">%d משחקים יימחקו</string>
+    <string  name="text_load_backup">\'%1$s\' ייובא בהצלחה\n\n\
+Found: %2$d\n\
+Loaded: %3$d\n\
+Duplicates: %4$d</string>
+    <string name="text_loading">מייבא&#8230;</string>
+    <string name="text_loading_generic">טוען&#8230;</string>
+    <string name="text_no_saved_games">משחקיך השמורים יוצגו כאן</string>
+    <string name="text_num_players">מספר השחקנים</string>
+    <string name="text_player">שחקן</string>
+    <string name="text_player_names">שמות השחקנים (לא חובר)</string>
+    <string name="text_players">%s שחקנים</string>
+    <string name="text_reset_confirm">כל ההגדרות יאופסו</string>
+    <string name="text_restore_initial">נראה שיש לך משחקים קיימים. לשחזר מהגיבוי?</string>
+    <string name="text_round_total">סיבוב #%1$d סה"כ: %2$d</string>
+    <plurals name="text_save_backup">
+        <item quantity="one">לגבות %d משחק לאחסון USB?</item>
+        <item quantity="other">לגבות %d משחקים לאחסון USB?</item>
+    </plurals>
+    <plurals name="text_save_backup_succeeded">
+        <item quantity="one">%1$d משחק נשמר ל- \'%2$s\'.</item>
+        <item quantity="other">%1$d משחקים נשמרו ל- \'%2$s\'.</item>
+    </plurals>
+    <string name="text_saved_games">משחקים שמורים</string>
+    <string name="text_saving">מייצא&#8230;</string>
+    <plurals name="text_share_spreadsheet_confirm">
+        <item quantity="one">לייצא משחק זה כגיליון?</item>
+        <item quantity="other">לייצא %d משחקים כגיליון?</item>
+    </plurals>
+    <plurals name="text_share_spreadsheet_subject">
+        <item quantity="one">גיליון עם משחק אחד</item>
+        <item quantity="other">גיליון עם %d משחקים</item>
+    </plurals>
+    <string name="text_share_spreadsheet_body">מצורף גיליון בתבנית CSV.\
+\n\nקובץ זה יכול להפתח עם תכנת הגיליונות האהובה עליך, כמו אקסל, \
+ליברה אופיס או כונן גוגל.</string>
+    <string name="text_share_spreadsheet_date_started">זמן התחלה</string>
+    <string name="text_share_spreadsheet_date_modified">שונה לאחרונה</string>
+    <string name="text_share_spreadsheet_duration">משך המשחק</string>
+    <string name="text_share_spreadsheet_game_name">שם המשחק</string>
+    <string name="text_share_spreadsheet_num_rounds">מספר הסיבובים</string>
+    <string name="text_share_spreadsheet_num_players">מספר השחקנים</string>
+    <string name="text_share_spreadsheet_player_with_max">שחקנ/ים עם הכי הרבה נקודות</string>
+    <string name="text_share_spreadsheet_player_with_min">שחקנ/ים עם הכי מעט נקודות</string>
+    
+    <plurals name="text_share_with_friend">
+        <item quantity="one">שתף משחק זה עם חבר?</item>
+        <item quantity="other">שתף %d משחקים עם חבר?</item>
+    </plurals>
+    <plurals name="text_share_mail_subject">
+        <item quantity="one">משחק KeepScore במיוחד עבורך!</item>
+        <item quantity="other">%d משחקי KeepScore במיוחד עבורך!</item>
+    </plurals>
+    <string name="text_share_mail_body">מצורף קובץ גיבוי ל- KeepScore.\
+\n\nבכדי לייבא אותו ל- KeepScore, פתח את הקובץ המצורף באמצעות תוכנת הדוא"ל האהובה עליך.\
+\n\nאם זה לא מצליח, שמור את הקובץ ל- /sdcard/keepscore/backups ובחר \"שחזר\" מהתפריט הראשי של KeepScore.
+\n\nבכדי להשיג את KeepScore, בקר ב- https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore .</string>
+    
+    <string name="text_undo_last">מחק תוצאה אחרונה</string>
+    <string name="text_welcome_title">ברוך הבא ל- KeepScore!</string>
+    <string name="text_welcome_message" ><![CDATA[
+        KeepScore הוא חינם ותוכנת קוד-פתוח,
+<b>ע"י השחקנים, בשביל השחקנים</b>.
+<p/>אם אתה אוהב את KeepScore, בבקשה שקול <a href="%1$s">לתרום</a>.
+<p/>לא יכול לתרום? <a href="%2$s">עזור לנו לתרגם</a>!]]></string>
+    
+    <string name="text_version_number">גרסה %s</string>
+    
+    <string name="title_add">הוסף ערך</string>
+    <string name="title_add_player">הכנס שם שחקן</string>
+    <string name="title_change_name">שנה שם</string>
+    <string name="title_choose_backup">שחזר משחקים מקובץ</string>
+    <string name="title_choose_color">בחר צבע</string>
+    <string name="title_confirm">אשר</string>
+    <string name="title_confirm_delete">אשר מחיקה</string>
+    <string name="title_confirm_reset">אשר איפוס</string>
+    <string name="title_edit_game_name">ערוך שם משחק</string>
+    <string name="title_last_month">בחודש האחרון</string>
+    <string name="title_last_week">בשבוע האחרון</string>
+    <string name="title_last_year">בשנה האחרונה</string>
+    <string name="title_load_setting_set">טען \&quot;%s\&quot;?</string>
+    <string name="title_name_game">הכנס שם משחק</string>
+    <string name="title_older">ישן יותר</string>
+    <string name="title_save_setting_set">גבה את כל ההגדרות</string>
+    <string name="title_subtract">הפחת ערך</string>
+    <string name="title_success">הצלחה</string>
+    <string name="title_today">היום</string>
+    <string name="title_two_days_ago">ביומיים האחרונים</string>
+    <string name="title_yesterday">אתמול</string>
+    
+    <string name="toast_deleted">המשחק נמחק.</string>
+    <string name="toast_error_with_backup">שגיאה בייבוא המשחקים.</string>
+    <string name="toast_game_copied">המשחק הועתק.</string>
+    <string name="toast_game_saved">המשחק נשמר.</string>
+    <string name="toast_invalid_setting_set_name">שם לא חוקי.</string>
+    <string name="toast_loaded_setting_set">הגדרות טעונות עבור \&quot;%s\&quot;.</string>
+    <string name="toast_multiple_deleted">משחקים נמחקו.</string>
+    <string name="toast_no_backups">לא נמצאו קבצי גיבוי.</string>
+    <string name="toast_no_saved_games">אין משחקים שמורים לגיבוי.</string>
+    <string name="toast_no_saved_settings">לא נמצאו גיבויים.</string>
+    <string name="toast_no_sdcard">כרטיס SD לא נמצא.</string>
+    <string name="toast_no_zeroes">אתה חייב להכניס מספר תקני שאינו אפס.</string>
+    <string name="toast_rematch_created">נוצר משחק חוזר.</string>
+    <string name="toast_save_backup_failed">אין אפשרות לייצא את הקובץ.</string>
+    <string name="toast_saved_setting_set_name">גיבוי שמור \&quot;%s\&quot;.</string>
+    <string name="toast_share_error_no_app">לא נמצאה תוכנת דוא"ל.</string>
+    <string name="toast_settings_reset">איפוס הגדרות.</string>
+    <string name="toast_valid_initial_score">אתה חייב להכניס מספר תקני.</string>
+    <string name="toast_valid_update_delay_values">אתה חייב להכניס מספר בין 1 ל-600.</string>
+</resources>
+
