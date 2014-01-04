@@ -54,7 +54,7 @@ You must have Maven 3.0.3+ installed in order for this to work.
 Add a translation
 -------------------
 
-KeepScore is currently localized into English, French, Japanese, Italian, and German.  For the benefit of
+KeepScore is currently localized into English, French, Japanese, Hebrew, Italian, and German.  For the benefit of
 board gamers around the world, though, I'm
 always happy to get new translations!
 
@@ -65,9 +65,9 @@ I manage these myself.  I'm not a native speaker, though, so if you have correct
 - [French](https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-fr/strings.xml)
 - [Japanese](https://github.com/nolanlawson/KeepScore/blob/master/KeepScore/res/values-ja/strings.xml)
 
-### Italian and German
+### Italian, Hebrew, and German
 
-Italian and German translations are only needed when new feature are added.  Thanks to those who helped with the 1.3.0 translations!
+These translations are only needed when new feature are added.  Thanks to those who helped with the 1.3.0 translations!
 
 ### Adding a new language
 
