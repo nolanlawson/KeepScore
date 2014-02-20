@@ -27,6 +27,11 @@
             <version>1.0</version>
             <type>apklib</type>
         </dependency>
+		<dependency>
+			<groupId>de.congrace</groupId>
+			<artifactId>exp4j</artifactId>
+			<version>0.3.11</version>
+		</dependency>
 
 	</dependencies>
 	<build>
