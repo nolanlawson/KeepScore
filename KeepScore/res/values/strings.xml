@@ -286,6 +286,7 @@ LibreOffice, or Google Docs.</string>
     <string name="toast_settings_reset">Settings reset.</string>
     <string name="toast_valid_initial_score">You must enter a valid number.</string>
     <string name="toast_valid_update_delay_values">You must enter a number between 1 and 600.</string>
+    <string name="toast_calc_error">Invalid calculator entry.</string>
 </resources>
 
 

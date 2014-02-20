@@ -1,5 +1,6 @@
 package com.nolanlawson.keepscore.helper;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +12,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.KeyEvent;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.nolanlawson.keepscore.R;
 import com.nolanlawson.keepscore.SettingsActivity;
@@ -27,6 +36,9 @@ import com.nolanlawson.keepscore.util.Callback;
 import com.nolanlawson.keepscore.util.IntegerUtil;
 import com.nolanlawson.keepscore.util.StringUtil;
 import com.nolanlawson.keepscore.widget.PlayerColorView;
+
+import de.congrace.exp4j.Calculable;
+import de.congrace.exp4j.ExpressionBuilder;
 
 /**
  * Utilities for building up the delta dialog.
@@ -55,8 +67,9 @@ public class DialogHelper {
         // default for
         // easier
         // deletion
-
-        new AlertDialog.Builder(context).setCancelable(true)
+        
+        
+        final AlertDialog adlg = new AlertDialog.Builder(context).setCancelable(true)
                 .setTitle(positive ? R.string.title_add : R.string.title_subtract)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
@@ -64,6 +77,7 @@ public class DialogHelper {
                     public void onClick(DialogInterface dialog, int which) {
 
                         if (resultListener != null) {
+                        	if (!DoCalculation(editText)) return;
                             int result = IntegerUtil.parseIntOrZero(editText.getText());
 
                             resultListener.onResult(result);
@@ -82,7 +96,24 @@ public class DialogHelper {
                         context.startActivity(intent);
 
                     }
-                }).setNegativeButton(android.R.string.cancel, null).setView(view).show();
+                }).setNegativeButton(android.R.string.cancel, null).setView(view).create();
+        
+        editText.setOnEditorActionListener(new OnEditorActionListener() {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+					 if (!DoCalculation(editText)) return true;
+					 if (resultListener != null) {
+                         int result = IntegerUtil.parseIntOrZero(editText.getText());
+                         resultListener.onResult(result);
+                     }
+					adlg.dismiss();
+					return true;
+				}
+				return false;
+			}
+		});
+        
+        adlg.show();
 
     }
 
@@ -94,11 +125,11 @@ public class DialogHelper {
         int button3Value = PreferenceHelper.getPopupDeltaButtonValue(2, context);
         int button4Value = PreferenceHelper.getPopupDeltaButtonValue(3, context);
 
-        Button button1 = (Button) view.findViewById(android.R.id.button1);
-        Button button2 = (Button) view.findViewById(android.R.id.button2);
-        Button button3 = (Button) view.findViewById(android.R.id.button3);
-        Button button4 = (Button) view.findViewById(R.id.button4);
-        EditText editText = (EditText) view.findViewById(android.R.id.edit);
+        final Button button1 = (Button) view.findViewById(android.R.id.button1);
+        final Button button2 = (Button) view.findViewById(android.R.id.button2);
+        final Button button3 = (Button) view.findViewById(android.R.id.button3);
+        final Button button4 = (Button) view.findViewById(R.id.button4);
+        final EditText editText = (EditText) view.findViewById(android.R.id.edit);
 
         button1.setText(IntegerUtil.toCharSequenceWithSign(button1Value));
         button2.setText(IntegerUtil.toCharSequenceWithSign(button2Value));
@@ -109,7 +140,48 @@ public class DialogHelper {
         button2.setOnClickListener(incrementingOnClickListener(editText, button2Value));
         button3.setOnClickListener(incrementingOnClickListener(editText, button3Value));
         button4.setOnClickListener(incrementingOnClickListener(editText, button4Value));
+        
+        editText.addTextChangedListener(new TextWatcher() {
 
+			public void afterTextChanged(Editable s) {
+				button1.setVisibility(View.INVISIBLE);
+				button2.setVisibility(View.INVISIBLE);
+				button3.setVisibility(View.INVISIBLE);
+				button4.setVisibility(View.INVISIBLE);
+
+				ViewGroup.LayoutParams lp = editText.getLayoutParams();
+				lp.width = ViewGroup.LayoutParams.FILL_PARENT;
+				editText.setLayoutParams(lp);
+				
+				int eqidx = s.toString().indexOf('=');
+				if (eqidx >= 0) {
+					s.delete(eqidx, eqidx+1);
+					DoCalculation(editText);
+				}
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+			public void onTextChanged(CharSequence s, int start, int count, int after) { }
+        	
+        });
+        
+
+    }
+    
+    private static boolean DoCalculation(EditText field) {
+    	try {
+    		Calculable calc = new ExpressionBuilder(field.getText().toString()).build();
+    		Double val = calc.calculate();
+    		val = Math.ceil(val);
+    		String fmtVal = new DecimalFormat("#").format(val);
+    		field.setText(fmtVal);
+    		field.setSelection(fmtVal.length());
+    		return true;
+    	} catch(Exception ex) {
+    		Toast.makeText(field.getContext(), R.string.toast_calc_error, Toast.LENGTH_SHORT).show();
+    		return false;
+    	}
     }
 
     private static OnClickListener incrementingOnClickListener(final EditText editText, final int delta) {

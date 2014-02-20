@@ -10,7 +10,8 @@
 
 		<EditText android:id="@android:id/edit" android:layout_width="0px"
 			android:layout_weight="0.2" android:layout_height="wrap_content"
-			android:singleLine="true" android:inputType="numberSigned"
+			android:singleLine="true" android:inputType="numberSigned" android:digits="01234567890-+*/=() "
+			android:imeOptions="actionGo" android:imeActionLabel="@android:string/ok"
 			android:text="0" android:textSize="@dimen/delta_popup_text"/>
 
 		<Button android:id="@android:id/button1" android:layout_width="0px"
