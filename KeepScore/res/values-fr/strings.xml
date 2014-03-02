@@ -213,7 +213,7 @@ https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore .</strin
     <string name="button_history_round_chart">Graphique des manches</string>
     <string name="pref_show_colors_name">Afficher les couleurs des joueurs</string>
     <string name="button_history_round_table">Résumé des manches</string>
-	
+	<string name="toast_calc_error">Mauvaise donnée calculatrice.</string>
 </resources>
 
 

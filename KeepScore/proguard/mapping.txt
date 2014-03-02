@@ -6506,61 +6506,77 @@ com.nolanlawson.keepscore.helper.CompatibilityHelper -> com.nolanlawson.keepscor
     void overridePendingTransition$602ee859(android.app.Activity) -> a
 com.nolanlawson.keepscore.helper.DialogHelper -> com.nolanlawson.keepscore.b.c:
     void showAdditionalDeltasDialog(boolean,com.nolanlawson.keepscore.helper.DialogHelper$ResultListener,android.content.Context) -> a
+    boolean DoCalculation(android.widget.EditText) -> b
     android.view.View$OnClickListener incrementingOnClickListener(android.widget.EditText,int) -> a
     void showPlayerNameDialog(android.content.Context,int,java.lang.String,int,com.nolanlawson.keepscore.util.Callback) -> a
     android.app.AlertDialog showColorChooserDialog(android.content.Context,com.nolanlawson.keepscore.helper.PlayerColor,com.nolanlawson.keepscore.util.Callback,java.lang.Runnable) -> a
+    boolean access$0(android.widget.EditText) -> a
 com.nolanlawson.keepscore.helper.DialogHelper$1 -> com.nolanlawson.keepscore.b.d:
     com.nolanlawson.keepscore.helper.DialogHelper$ResultListener val$resultListener -> a
     android.widget.EditText val$editText -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.helper.DialogHelper$2 -> com.nolanlawson.keepscore.b.e:
+com.nolanlawson.keepscore.helper.DialogHelper$10 -> com.nolanlawson.keepscore.b.e:
+    com.nolanlawson.keepscore.util.Callback val$onColorChanged -> a
+    java.lang.Runnable val$onColorSelected -> b
+    void onOk$709416ad(int) -> a
+com.nolanlawson.keepscore.helper.DialogHelper$11 -> com.nolanlawson.keepscore.b.f:
+    com.nolanlawson.keepscore.util.Callback val$onColorChanged -> a
+    java.util.List val$playerColorViews -> b
+    void onClick(android.view.View) -> onClick
+com.nolanlawson.keepscore.helper.DialogHelper$2 -> com.nolanlawson.keepscore.b.g:
     android.content.Context val$context -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.helper.DialogHelper$3 -> com.nolanlawson.keepscore.b.f:
+com.nolanlawson.keepscore.helper.DialogHelper$3 -> com.nolanlawson.keepscore.b.h:
+    android.widget.EditText val$editText -> a
+    com.nolanlawson.keepscore.helper.DialogHelper$ResultListener val$resultListener -> b
+    android.app.AlertDialog val$adlg -> c
+    boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
+com.nolanlawson.keepscore.helper.DialogHelper$4 -> com.nolanlawson.keepscore.b.i:
+    android.widget.Button val$button1 -> a
+    android.widget.Button val$button2 -> b
+    android.widget.Button val$button3 -> c
+    android.widget.Button val$button4 -> d
+    android.widget.EditText val$editText -> e
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+com.nolanlawson.keepscore.helper.DialogHelper$5 -> com.nolanlawson.keepscore.b.j:
     android.widget.EditText val$editText -> a
     int val$delta -> b
     void onClick(android.view.View) -> onClick
-com.nolanlawson.keepscore.helper.DialogHelper$4 -> com.nolanlawson.keepscore.b.g:
+com.nolanlawson.keepscore.helper.DialogHelper$6 -> com.nolanlawson.keepscore.b.k:
     android.widget.AutoCompleteTextView val$editText -> a
     com.nolanlawson.keepscore.util.Callback val$onResult -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.helper.DialogHelper$5 -> com.nolanlawson.keepscore.b.h:
+com.nolanlawson.keepscore.helper.DialogHelper$7 -> com.nolanlawson.keepscore.b.l:
     android.content.Context val$context -> a
     android.widget.AutoCompleteTextView val$editText -> b
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.nolanlawson.keepscore.helper.DialogHelper$6 -> com.nolanlawson.keepscore.b.i:
+com.nolanlawson.keepscore.helper.DialogHelper$8 -> com.nolanlawson.keepscore.b.m:
     android.content.Context val$context -> a
     com.nolanlawson.keepscore.helper.PlayerColor val$selectedColor -> b
     com.nolanlawson.keepscore.util.Callback val$onColorChanged -> c
     java.lang.Runnable val$onColorSelected -> d
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.helper.DialogHelper$6$1 -> com.nolanlawson.keepscore.b.j:
-    com.nolanlawson.keepscore.helper.DialogHelper$6 this$1 -> a
+com.nolanlawson.keepscore.helper.DialogHelper$8$1 -> com.nolanlawson.keepscore.b.n:
+    com.nolanlawson.keepscore.helper.DialogHelper$8 this$1 -> a
     java.lang.Runnable val$onColorSelected -> b
     android.content.DialogInterface val$dialog -> c
     void run() -> run
-com.nolanlawson.keepscore.helper.DialogHelper$7 -> com.nolanlawson.keepscore.b.k:
+com.nolanlawson.keepscore.helper.DialogHelper$9 -> com.nolanlawson.keepscore.b.o:
     java.lang.Runnable val$onColorSelected -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.nolanlawson.keepscore.helper.DialogHelper$8 -> com.nolanlawson.keepscore.b.l:
-    com.nolanlawson.keepscore.util.Callback val$onColorChanged -> a
-    java.lang.Runnable val$onColorSelected -> b
-    void onOk$709416ad(int) -> a
-com.nolanlawson.keepscore.helper.DialogHelper$9 -> com.nolanlawson.keepscore.b.m:
-    com.nolanlawson.keepscore.util.Callback val$onColorChanged -> a
-    java.util.List val$playerColorViews -> b
-    void onClick(android.view.View) -> onClick
-com.nolanlawson.keepscore.helper.DialogHelper$ResultListener -> com.nolanlawson.keepscore.b.n:
+com.nolanlawson.keepscore.helper.DialogHelper$ResultListener -> com.nolanlawson.keepscore.b.p:
     void onResult(java.lang.Object) -> a
-com.nolanlawson.keepscore.helper.GameActivityHelper -> com.nolanlawson.keepscore.b.o:
+com.nolanlawson.keepscore.helper.GameActivityHelper -> com.nolanlawson.keepscore.b.q:
     void openGame(android.content.Context,com.nolanlawson.keepscore.db.GameSummary) -> a
     void newGame(android.content.Context,java.lang.String[],java.lang.String[]) -> a
     void openGameWithClearTop(android.app.Activity,com.nolanlawson.keepscore.db.Game) -> a
     java.lang.Class getGameActivityClass(android.content.Context,int) -> a
-com.nolanlawson.keepscore.helper.MailHelper -> com.nolanlawson.keepscore.b.p:
+com.nolanlawson.keepscore.helper.MailHelper -> com.nolanlawson.keepscore.b.r:
     void sendAsAttachment(android.content.Context,android.net.Uri,java.lang.String,java.lang.String,java.lang.String) -> a
-com.nolanlawson.keepscore.helper.Orientation -> com.nolanlawson.keepscore.b.q:
+com.nolanlawson.keepscore.helper.Orientation -> com.nolanlawson.keepscore.b.s:
     com.nolanlawson.keepscore.helper.Orientation Landsdcape -> a
     com.nolanlawson.keepscore.helper.Orientation Portrait -> b
     int prefResId -> c
@@ -6568,11 +6584,11 @@ com.nolanlawson.keepscore.helper.Orientation -> com.nolanlawson.keepscore.b.q:
     com.nolanlawson.keepscore.helper.Orientation fromString(java.lang.String,android.content.Context) -> a
     com.nolanlawson.keepscore.helper.Orientation[] values() -> values
     com.nolanlawson.keepscore.helper.Orientation valueOf(java.lang.String) -> valueOf
-com.nolanlawson.keepscore.helper.PackageHelper -> com.nolanlawson.keepscore.b.r:
+com.nolanlawson.keepscore.helper.PackageHelper -> com.nolanlawson.keepscore.b.t:
     com.nolanlawson.keepscore.util.UtilLogger log -> a
     java.lang.String getVersionName(android.content.Context) -> a
     boolean isDonateVersionInstalled(android.content.Context) -> b
-com.nolanlawson.keepscore.helper.PlayerColor -> com.nolanlawson.keepscore.b.s:
+com.nolanlawson.keepscore.helper.PlayerColor -> com.nolanlawson.keepscore.b.u:
     com.nolanlawson.keepscore.helper.PlayerColor$BuiltInPlayerColor[] BUILT_INS -> a
     android.graphics.drawable.Drawable toBackgroundDrawable(android.content.Context) -> a
     int toColor(android.content.Context) -> b
@@ -6581,7 +6597,7 @@ com.nolanlawson.keepscore.helper.PlayerColor -> com.nolanlawson.keepscore.b.s:
     int hashCode() -> hashCode
     java.lang.String serialize(com.nolanlawson.keepscore.helper.PlayerColor) -> a
     com.nolanlawson.keepscore.helper.PlayerColor deserialize(java.lang.String) -> a
-com.nolanlawson.keepscore.helper.PlayerColor$BuiltInPlayerColor -> com.nolanlawson.keepscore.b.t:
+com.nolanlawson.keepscore.helper.PlayerColor$BuiltInPlayerColor -> com.nolanlawson.keepscore.b.v:
     int backgroundResId -> b
     int colorResId -> c
     int ordinal -> d
@@ -6592,7 +6608,7 @@ com.nolanlawson.keepscore.helper.PlayerColor$BuiltInPlayerColor -> com.nolanlaws
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
     java.lang.String toString() -> toString
-com.nolanlawson.keepscore.helper.PlayerColor$CustomPlayerColor -> com.nolanlawson.keepscore.b.u:
+com.nolanlawson.keepscore.helper.PlayerColor$CustomPlayerColor -> com.nolanlawson.keepscore.b.w:
     int color -> b
     android.graphics.drawable.Drawable toBackgroundDrawable(android.content.Context) -> a
     int getColor() -> a
@@ -6600,9 +6616,9 @@ com.nolanlawson.keepscore.helper.PlayerColor$CustomPlayerColor -> com.nolanlawso
     int toChartColor(android.content.Context) -> c
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
-com.nolanlawson.keepscore.helper.PlayerNameHelper -> com.nolanlawson.keepscore.b.v:
+com.nolanlawson.keepscore.helper.PlayerNameHelper -> com.nolanlawson.keepscore.b.x:
     java.util.List getPlayerNameSuggestions(android.content.Context) -> a
-com.nolanlawson.keepscore.helper.PlayerTextFormat -> com.nolanlawson.keepscore.b.w:
+com.nolanlawson.keepscore.helper.PlayerTextFormat -> com.nolanlawson.keepscore.b.y:
     com.nolanlawson.keepscore.helper.PlayerTextFormat TwoToFourPlayers -> a
     com.nolanlawson.keepscore.helper.PlayerTextFormat FiveToSixPlayers -> b
     com.nolanlawson.keepscore.helper.PlayerTextFormat SevenToEightPlayers -> c
@@ -6632,7 +6648,7 @@ com.nolanlawson.keepscore.helper.PlayerTextFormat -> com.nolanlawson.keepscore.b
     com.nolanlawson.keepscore.helper.PlayerTextFormat forNumPlayers(int) -> a
     com.nolanlawson.keepscore.helper.PlayerTextFormat[] values() -> values
     com.nolanlawson.keepscore.helper.PlayerTextFormat valueOf(java.lang.String) -> valueOf
-com.nolanlawson.keepscore.helper.PreferenceHelper -> com.nolanlawson.keepscore.b.x:
+com.nolanlawson.keepscore.helper.PreferenceHelper -> com.nolanlawson.keepscore.b.z:
     int updateDelay -> a
     com.nolanlawson.keepscore.helper.ColorScheme colorScheme -> b
     java.lang.Boolean greenText -> c
@@ -6658,7 +6674,7 @@ com.nolanlawson.keepscore.helper.PreferenceHelper -> com.nolanlawson.keepscore.b
     int getIntPreference(int,int,android.content.Context) -> a
     boolean getBooleanPreference(int,int,android.content.Context) -> b
     java.lang.String getStringPreference(int,int,android.content.Context) -> c
-com.nolanlawson.keepscore.helper.SdcardHelper -> com.nolanlawson.keepscore.b.y:
+com.nolanlawson.keepscore.helper.SdcardHelper -> com.nolanlawson.keepscore.b.aa:
     java.text.DateFormat CSV_DATE_FORMAT -> a
     com.nolanlawson.keepscore.util.UtilLogger log -> b
     boolean isAvailable() -> a
@@ -6672,18 +6688,18 @@ com.nolanlawson.keepscore.helper.SdcardHelper -> com.nolanlawson.keepscore.b.y:
     java.lang.String createFilename(java.lang.String,java.lang.String) -> a
     java.io.File getOrCreateDir(java.io.File,java.lang.String) -> a
     java.io.File getFile(java.lang.String,com.nolanlawson.keepscore.helper.SdcardHelper$Location) -> a
-com.nolanlawson.keepscore.helper.SdcardHelper$1 -> com.nolanlawson.keepscore.b.z:
+com.nolanlawson.keepscore.helper.SdcardHelper$1 -> com.nolanlawson.keepscore.b.ab:
     int compare(java.lang.Object,java.lang.Object) -> compare
-com.nolanlawson.keepscore.helper.SdcardHelper$2 -> com.nolanlawson.keepscore.b.aa:
+com.nolanlawson.keepscore.helper.SdcardHelper$2 -> com.nolanlawson.keepscore.b.ac:
     android.content.Context val$context -> a
     java.lang.Object apply(java.lang.Object) -> a
-com.nolanlawson.keepscore.helper.SdcardHelper$Format -> com.nolanlawson.keepscore.b.ab:
+com.nolanlawson.keepscore.helper.SdcardHelper$Format -> com.nolanlawson.keepscore.b.ad:
     com.nolanlawson.keepscore.helper.SdcardHelper$Format XML -> a
     com.nolanlawson.keepscore.helper.SdcardHelper$Format GZIP -> b
     com.nolanlawson.keepscore.helper.SdcardHelper$Format[] ENUM$VALUES -> c
     com.nolanlawson.keepscore.helper.SdcardHelper$Format[] values() -> values
     com.nolanlawson.keepscore.helper.SdcardHelper$Format valueOf(java.lang.String) -> valueOf
-com.nolanlawson.keepscore.helper.SdcardHelper$Location -> com.nolanlawson.keepscore.b.ac:
+com.nolanlawson.keepscore.helper.SdcardHelper$Location -> com.nolanlawson.keepscore.b.ae:
     com.nolanlawson.keepscore.helper.SdcardHelper$Location Backups -> a
     com.nolanlawson.keepscore.helper.SdcardHelper$Location Shares -> b
     com.nolanlawson.keepscore.helper.SdcardHelper$Location Spreadsheets -> c
@@ -6692,21 +6708,21 @@ com.nolanlawson.keepscore.helper.SdcardHelper$Location -> com.nolanlawson.keepsc
     java.lang.String getDirectoryName() -> a
     com.nolanlawson.keepscore.helper.SdcardHelper$Location[] values() -> values
     com.nolanlawson.keepscore.helper.SdcardHelper$Location valueOf(java.lang.String) -> valueOf
-com.nolanlawson.keepscore.helper.SettingSetHelper -> com.nolanlawson.keepscore.b.ad:
+com.nolanlawson.keepscore.helper.SettingSetHelper -> com.nolanlawson.keepscore.b.af:
     void saveCurrentSettingSet(android.content.Context,java.lang.String) -> a
     void loadSettingSet(android.content.Context,java.lang.String) -> b
     java.util.Set getAvailableSettingSets(android.content.Context) -> a
     void copySettings(android.content.SharedPreferences,android.content.SharedPreferences) -> a
-com.nolanlawson.keepscore.helper.ToastHelper -> com.nolanlawson.keepscore.b.ae:
+com.nolanlawson.keepscore.helper.ToastHelper -> com.nolanlawson.keepscore.b.ag:
     void showLong(android.content.Context,int,java.lang.Object[]) -> a
     void showShort(android.content.Context,int,java.lang.Object[]) -> b
     void show(android.content.Context,int,int,java.lang.Object[]) -> a
-com.nolanlawson.keepscore.helper.VersionHelper -> com.nolanlawson.keepscore.b.af:
+com.nolanlawson.keepscore.helper.VersionHelper -> com.nolanlawson.keepscore.b.ah:
     java.lang.reflect.Field sdkIntField -> a
     boolean fetchedSdkIntField -> b
     int getVersionSdkIntCompat() -> a
     java.lang.reflect.Field getSdkIntField() -> b
-com.nolanlawson.keepscore.helper.XmlHelper -> com.nolanlawson.keepscore.b.ag:
+com.nolanlawson.keepscore.helper.XmlHelper -> com.nolanlawson.keepscore.b.ai:
     java.lang.String prettyPrint(java.lang.String) -> a
 com.nolanlawson.keepscore.serialization.GamesBackup -> com.nolanlawson.keepscore.c.a:
     int gameCount -> a
@@ -7299,6 +7315,159 @@ com.nolanlawson.keepscore.widget.dragndrop.DragSortListView$StateTracker -> com.
     void appendState() -> b
     void flush() -> d
     void stopTracking() -> c
+de.congrace.exp4j.Calculable -> a.a.a.a:
+    double calculate() -> a
+de.congrace.exp4j.CalculationToken -> a.a.a.b:
+    void mutateStackForCalculation(java.util.Stack,java.util.Map) -> a
+de.congrace.exp4j.CustomFunction -> a.a.a.c:
+    int argc -> a
+    java.lang.String name -> b
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.CustomOperator -> a.a.a.d:
+    boolean leftAssociative -> a
+    java.lang.String symbol -> b
+    int precedence -> c
+    int operandCount -> d
+    double applyOperation(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder -> a.a.a.e:
+    java.util.Map variables -> a
+    java.util.Map customFunctions -> b
+    java.util.Map builtInOperators -> c
+    java.util.Map customOperators -> d
+    java.util.List validOperatorSymbols -> e
+    boolean highUnaryPrecedence -> f
+    java.lang.String expression -> g
+    java.util.Map getBuiltinFunctions() -> b
+    de.congrace.exp4j.Calculable build() -> a
+    void checkVariableName(java.lang.String) -> a
+de.congrace.exp4j.ExpressionBuilder$1 -> a.a.a.f:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> e
+    double applyOperation(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$10 -> a.a.a.g:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$11 -> a.a.a.h:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$12 -> a.a.a.i:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$13 -> a.a.a.j:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$14 -> a.a.a.k:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$15 -> a.a.a.l:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$16 -> a.a.a.m:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$17 -> a.a.a.n:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$18 -> a.a.a.o:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$19 -> a.a.a.p:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$2 -> a.a.a.q:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> e
+    double applyOperation(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$20 -> a.a.a.r:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$21 -> a.a.a.s:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$22 -> a.a.a.t:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$23 -> a.a.a.u:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$24 -> a.a.a.v:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$3 -> a.a.a.w:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> e
+    double applyOperation(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$4 -> a.a.a.x:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> e
+    double applyOperation(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$5 -> a.a.a.y:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> e
+    double applyOperation(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$6 -> a.a.a.z:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> e
+    double applyOperation(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$7 -> a.a.a.aa:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> e
+    double applyOperation(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$8 -> a.a.a.ab:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.ExpressionBuilder$9 -> a.a.a.ac:
+    de.congrace.exp4j.ExpressionBuilder this$0 -> c
+    double applyFunction(double[]) -> a
+de.congrace.exp4j.FunctionSeparatorToken -> a.a.a.ad:
+    void mutateStackForInfixTranslation(java.util.Stack,java.lang.StringBuilder) -> a
+de.congrace.exp4j.FunctionToken -> a.a.a.ae:
+    java.lang.String functionName -> a
+    de.congrace.exp4j.CustomFunction function -> b
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    void mutateStackForCalculation(java.util.Stack,java.util.Map) -> a
+    void mutateStackForInfixTranslation(java.util.Stack,java.lang.StringBuilder) -> a
+de.congrace.exp4j.InvalidCustomFunctionException -> a.a.a.af:
+de.congrace.exp4j.NumberToken -> a.a.a.ag:
+    double doubleValue -> a
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    void mutateStackForCalculation(java.util.Stack,java.util.Map) -> a
+    void mutateStackForInfixTranslation(java.util.Stack,java.lang.StringBuilder) -> a
+de.congrace.exp4j.OperatorToken -> a.a.a.ah:
+    de.congrace.exp4j.CustomOperator operation -> a
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    void mutateStackForCalculation(java.util.Stack,java.util.Map) -> a
+    void mutateStackForInfixTranslation(java.util.Stack,java.lang.StringBuilder) -> a
+de.congrace.exp4j.ParenthesesToken -> a.a.a.ai:
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    boolean isOpen() -> a
+    void mutateStackForInfixTranslation(java.util.Stack,java.lang.StringBuilder) -> a
+de.congrace.exp4j.RPNConverter -> a.a.a.aj:
+    java.lang.String substituteUnaryOperators(java.lang.String,java.util.Map) -> a
+    de.congrace.exp4j.RPNExpression toRPNExpression(java.lang.String,java.util.Map,java.util.Map,java.util.Map) -> a
+    void validateRPNExpression$2804e45f(java.util.List) -> a
+    boolean isOperatorCharacter(char,java.util.Map) -> a
+de.congrace.exp4j.RPNExpression -> a.a.a.ak:
+    java.util.List tokens -> a
+    java.lang.String expression -> b
+    java.util.Map variables -> c
+    double calculate() -> a
+de.congrace.exp4j.Token -> a.a.a.al:
+    java.lang.String value -> a
+    java.lang.String getValue() -> b
+    void mutateStackForInfixTranslation(java.util.Stack,java.lang.StringBuilder) -> a
+de.congrace.exp4j.Tokenizer -> a.a.a.am:
+    java.util.Set variableNames -> a
+    java.util.Map functions -> b
+    java.util.Map operators -> c
+    boolean isVariable(java.lang.String) -> b
+    boolean isOperatorCharacter(char) -> a
+    java.util.List getTokens(java.lang.String) -> a
+    boolean isOperatorStart(java.lang.String) -> c
+de.congrace.exp4j.UnknownFunctionException -> a.a.a.an:
+de.congrace.exp4j.UnparsableExpressionException -> a.a.a.ao:
+de.congrace.exp4j.VariableToken -> a.a.a.ap:
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    void mutateStackForCalculation(java.util.Stack,java.util.Map) -> a
+    void mutateStackForInfixTranslation(java.util.Stack,java.lang.StringBuilder) -> a
 yuku.ambilwarna.AmbilWarnaDialog -> yuku.ambilwarna.a:
     android.app.AlertDialog dialog -> a
     yuku.ambilwarna.AmbilWarnaDialog$OnAmbilWarnaListener listener -> b
