@@ -68,7 +68,6 @@ public class DialogHelper {
         // easier
         // deletion
         
-        
         final AlertDialog adlg = new AlertDialog.Builder(context).setCancelable(true)
                 .setTitle(positive ? R.string.title_add : R.string.title_subtract)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -144,16 +143,23 @@ public class DialogHelper {
         editText.addTextChangedListener(new TextWatcher() {
 
 			public void afterTextChanged(Editable s) {
-				button1.setVisibility(View.INVISIBLE);
-				button2.setVisibility(View.INVISIBLE);
-				button3.setVisibility(View.INVISIBLE);
-				button4.setVisibility(View.INVISIBLE);
-
-				ViewGroup.LayoutParams lp = editText.getLayoutParams();
-				lp.width = ViewGroup.LayoutParams.FILL_PARENT;
-				editText.setLayoutParams(lp);
+				String val = s.toString();
+				if (val.indexOf('+') >= 0 || // only hide the +/- buttons if we start typing an equation
+					val.indexOf('-') >= 0 ||
+					val.indexOf('*') >= 0 ||
+					val.indexOf('/') >= 0)
+				{
+					button1.setVisibility(View.INVISIBLE);
+					button2.setVisibility(View.INVISIBLE);
+					button3.setVisibility(View.INVISIBLE);
+					button4.setVisibility(View.INVISIBLE);
+	
+					ViewGroup.LayoutParams lp = editText.getLayoutParams();
+					lp.width = ViewGroup.LayoutParams.FILL_PARENT;
+					editText.setLayoutParams(lp);
+				}
 				
-				int eqidx = s.toString().indexOf('=');
+				int eqidx = val.indexOf('=');
 				if (eqidx >= 0) {
 					s.delete(eqidx, eqidx+1);
 					DoCalculation(editText);
