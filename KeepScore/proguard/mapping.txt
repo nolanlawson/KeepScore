@@ -6506,7 +6506,7 @@ com.nolanlawson.keepscore.helper.CompatibilityHelper -> com.nolanlawson.keepscor
     void overridePendingTransition$602ee859(android.app.Activity) -> a
 com.nolanlawson.keepscore.helper.DialogHelper -> com.nolanlawson.keepscore.b.c:
     void showAdditionalDeltasDialog(boolean,com.nolanlawson.keepscore.helper.DialogHelper$ResultListener,android.content.Context) -> a
-    boolean DoCalculation(android.widget.EditText) -> b
+    boolean doCalculation(android.widget.EditText) -> b
     android.view.View$OnClickListener incrementingOnClickListener(android.widget.EditText,int) -> a
     void showPlayerNameDialog(android.content.Context,int,java.lang.String,int,com.nolanlawson.keepscore.util.Callback) -> a
     android.app.AlertDialog showColorChooserDialog(android.content.Context,com.nolanlawson.keepscore.helper.PlayerColor,com.nolanlawson.keepscore.util.Callback,java.lang.Runnable) -> a
