@@ -76,7 +76,7 @@ public class DialogHelper {
                     public void onClick(DialogInterface dialog, int which) {
 
                         if (resultListener != null) {
-                        	if (!DoCalculation(editText)) return;
+                        	if (!doCalculation(editText)) return;
                             int result = IntegerUtil.parseIntOrZero(editText.getText());
 
                             resultListener.onResult(result);
@@ -100,7 +100,7 @@ public class DialogHelper {
         editText.setOnEditorActionListener(new OnEditorActionListener() {
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
-					 if (!DoCalculation(editText)) return true;
+					 if (!doCalculation(editText)) return true;
 					 if (resultListener != null) {
                          int result = IntegerUtil.parseIntOrZero(editText.getText());
                          resultListener.onResult(result);
@@ -162,7 +162,7 @@ public class DialogHelper {
 				int eqidx = val.indexOf('=');
 				if (eqidx >= 0) {
 					s.delete(eqidx, eqidx+1);
-					DoCalculation(editText);
+					doCalculation(editText);
 				}
 			}
 
@@ -175,7 +175,7 @@ public class DialogHelper {
 
     }
     
-    private static boolean DoCalculation(EditText field) {
+    private static boolean doCalculation(EditText field) {
     	try {
     		Calculable calc = new ExpressionBuilder(field.getText().toString()).build();
     		Double val = calc.calculate();
