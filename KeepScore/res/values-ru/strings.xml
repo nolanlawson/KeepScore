@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- non-translateable strings-->
+    
+    <string name="CONSTANT_app_name">KeepScore</string>
+    
+    <string name="CONSTANT_button_2_players">2</string>
+    <string name="CONSTANT_button_3_players">3</string>
+    <string name="CONSTANT_button_4_players">4</string>
+    <string name="CONSTANT_button_5_players">5</string>
+    <string name="CONSTANT_button_6_players">6</string>
+    <string name="CONSTANT_button_7_players">7</string>
+    <string name="CONSTANT_button_8_players">8</string>
+    
+    <string name="CONSTANT_link_donate">market://details?id=com.nolanlawson.keepscore.donate</string>
+    <string name="CONSTANT_link_translate">https://github.com/nolanlawson/KeepScore#add-a-translation</string>
+    
+    <string name="CONSTANT_pref_plus_button">plus_button</string>
+    <string name="CONSTANT_pref_plus_button_default">1</string>
+    <string name="CONSTANT_pref_minus_button">minus_button</string>
+    <string name="CONSTANT_pref_minus_button_default">-1</string>
+    <string name="CONSTANT_pref_2p_button_1">2p_button1</string>
+    <string name="CONSTANT_pref_2p_button_1_default">-10</string>
+    <string name="CONSTANT_pref_2p_button_2">2p_button2</string>
+    <string name="CONSTANT_pref_2p_button_2_default">-5</string>
+    <string name="CONSTANT_pref_2p_button_3">2p_button3</string>
+    <string name="CONSTANT_pref_2p_button_3_default">5</string>
+    <string name="CONSTANT_pref_2p_button_4">2p_button4</string>
+    <string name="CONSTANT_pref_2p_button_4_default">10</string>
+    <string name="CONSTANT_pref_about">about</string>
+    <string name="CONSTANT_pref_button_1">button1</string>
+    <string name="CONSTANT_pref_button_1_default">-1</string>
+    <string name="CONSTANT_pref_button_2">button2</string>
+    <string name="CONSTANT_pref_button_2_default">1</string>
+    <string name="CONSTANT_pref_button_3">button3</string>
+    <string name="CONSTANT_pref_button_3_default">5</string>
+    <string name="CONSTANT_pref_button_4">button4</string>
+    <string name="CONSTANT_pref_button_4_default">10</string>
+    <string name="CONSTANT_pref_color_scheme">color_scheme</string>
+    <string name="CONSTANT_pref_color_scheme_choice_android">android</string>
+    <string name="CONSTANT_pref_color_scheme_choice_dark">dark</string>
+    <string name="CONSTANT_pref_color_scheme_choice_light">light</string>
+    <string name="CONSTANT_pref_color_scheme_choice_classic_light">classic_light</string>
+    <string name="CONSTANT_pref_color_scheme_default">@string/CONSTANT_pref_color_scheme_choice_light</string>
+    <string name="CONSTANT_pref_disable_highlight_tag">disable_highlight_tag</string>
+    <string name="CONSTANT_pref_disable_highlight_tag_default">false</string>
+    <string name="CONSTANT_pref_green_text">green_text</string>
+    <string name="CONSTANT_pref_green_text_default">false</string>
+    <string name="CONSTANT_pref_initial_message">initial_message</string>
+    <string name="CONSTANT_pref_initial_message_default">true</string>
+    <string name="CONSTANT_pref_initial_score">initial_score</string>
+    <string name="CONSTANT_pref_initial_score_default">0</string>
+    <string name="CONSTANT_pref_load_settings">load_settings</string>
+    <string name="CONSTANT_pref_orientation">orientation</string>
+    <string name="CONSTANT_pref_orientation_default">@string/CONSTANT_pref_orientation_choice_landscape</string>
+    <string name="CONSTANT_pref_orientation_choice_landscape">landscape</string>
+    <string name="CONSTANT_pref_orientation_choice_portrait">portrait</string>
+    <string name="CONSTANT_pref_player_names">PlayerNames</string>
+    <string name="CONSTANT_pref_reset">reset</string>
+    <string name="CONSTANT_pref_save_settings">save_settings</string>
+    <string name="CONSTANT_pref_show_colors">show_colors</string>
+    <string name="CONSTANT_pref_show_colors_default">true</string>
+    <string name="CONSTANT_pref_show_round_totals">show_round_totals</string>
+    <string name="CONSTANT_pref_show_round_totals_default">false</string>
+    <string name="CONSTANT_pref_update_delay">update_delay</string>
+    <string name="CONSTANT_pref_update_delay_default">10</string>
+    <string name="CONSTANT_pref_use_wake_lock">use_wake_lock</string>
+    <string name="CONSTANT_pref_use_wake_lock_default">true</string>
+    
+    
+    <string name="CONSTANT_text_donate_suffix">(Donate)</string>
+    <string name="CONSTANT_text_epsilon">Σ</string>
+    
+    <!-- translateable strings-->
+    
+    <string name="button_actions">Действия&#8230;</string>
+    <string name="button_history_time_chart">График (время)</string>
+    <string name="button_history_round_chart">График (раунды)</string>
+    <string name="button_history_round_table">По раундам</string>
+    <string name="button_history_player_table">По игрокам</string>
+    <string name="button_customize">Настройка&#8230;</string><!-- where this string is showing? -->
+    <string name="button_custom">Частный&#8230;</string><!-- where this string is showing? -->
+    <string name="button_deselect_all">Снять выделение</string>
+    <string name="button_more">Ещё&#8230;</string>
+    <string name="button_new_game">Новая игра</string>
+    <string name="button_select_all">Выделить всё</string>
+    
+    <string name="date_format">MMM dd hh:mmaa</string>
+    
+    <string name="hint_game_name">Название игры</string>
+    
+    <string name="html_third_party">Сторонние разработки</string>
+    <string name="html_translations">Переводы</string>
+    
+    <string name="menu_about">О программе</string>
+    <string name="menu_add_edit_players">Редактировать игроков</string>
+    <string name="menu_add_player">Добавить игрока</string>
+    <string name="menu_export_to_spreadsheet">Экспорт таблицы</string>
+    <string name="menu_history">История</string>
+    <string name="menu_home">Главная</string>
+    <string name="menu_load_backup">Восстановить</string>
+    <string name="menu_randomize">Перемешать</string>
+    <string name="menu_redo">Повторить</string>
+    <string name="menu_rematch">Переиграть</string>
+    <string name="menu_reset_scores">Сброс</string>
+    <string name="menu_save_backup">Создать резервную копию</string>
+    <string name="menu_share">Поделиться</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_sort_players">Сортировка по очкам</string>
+    <string name="menu_undo">Отменить</string>
+    
+    
+    <string name="pref_2p_button_1_name">Отображаемая кнопка #1</string>
+    <string name="pref_2p_button_2_name">Отображаемая кнопка #2</string>
+    <string name="pref_2p_button_3_name">Отображаемая кнопка #3</string>
+    <string name="pref_2p_button_4_name">Отображаемая кнопка #4</string>
+    <string name="pref_button_1_name">Вложенная кнопка #1</string>
+    <string name="pref_button_2_name">Вложенная кнопка #2</string>
+    <string name="pref_button_3_name">Вложенная кнопка #3</string>
+    <string name="pref_button_4_name">Вложенная кнопка #4</string>
+    <string name="pref_cat_about">О программе</string><!-- where this string is showing? -->
+    <string name="pref_cat_advanced">Расширенные</string>
+    <string name="pref_cat_appearance">Вид</string>
+    <string name="pref_cat_config">Настройки</string>
+    <string name="pref_cat_manage">Управление настройками</string>
+    <string name="pref_color_scheme_choice_android_name">Андроид</string>
+    <string name="pref_color_scheme_choice_dark_name">Тёмная</string>
+    <string name="pref_color_scheme_choice_light_name">Светлая</string>
+    <string name="pref_color_scheme_choice_classic_light_name">Классическая светлая</string>
+    <string name="pref_color_scheme_name">Цветовая гамма</string>
+    <string name="pref_disable_highlight_tag_name">Отключить указатель</string>
+    <string name="pref_disable_highlight_tag_summary">Не показывать значок указателя игрока, который последний начислил очки.</string>
+    <string name="pref_green_text_name">Зеленый текст</string>
+    <string name="pref_green_text_summary">Выбор зеленого или синего цвета текста увеличения очков.</string>
+    <string name="pref_initial_score_name">Начальное количество очков</string>
+    <string name="pref_initial_message_name">Показать начальное сообщение</string>
+    <string name="pref_load_settings_name">Загрузить из копии</string>
+    <string name="pref_load_settings_summary">Импорт настроек из резервной копии.</string>
+    <string name="pref_minus_button_name">- кнопка</string>
+    <string name="pref_orientation_choice_landscape_name">Альбомная</string>
+    <string name="pref_orientation_choice_portrait_name">Книжная</string>
+    <string name="pref_orientation_name">Предпочтительная ориентация</string>
+    <string name="pref_plus_button_name">+ кнопка</string>
+    <string name="pref_reset_name">Сброс настроек</string>
+    <string name="pref_save_settings_name">Сохранить настройки</string>
+    <string name="pref_save_settings_summary">Создать резервную копию текущих настроек.</string>
+    <string name="pref_show_round_totals_name">Показать итого по раундам</string>
+    <string name="pref_show_colors_name">Показать цвет игроков</string>
+    <string name="pref_update_delay_name">Отложить запоминание</string>
+    <string name="pref_update_delay_summary">Секунд ожидания перед добавлением нового значения в историю (по умолчанию: 10)</string>
+    <string name="pref_use_wake_lock_name">Не выключать экран</string>
+    <string name="pref_use_wake_lock_summary">Не выключать экран при игре</string>
+    
+    <string name="text_about">О программе KeepScore</string>
+    <string name="text_add_zero">Добавить ноль</string>
+    <string name="text_backup_automatic">Авто\nрезервирование</string>
+    <string name="text_backup_manual">Ручное\nрезервирование</string>
+    <string name="text_backup_date_format">MMM dd yyyy hh:mmaa</string>
+    <string name="text_confirm">Подтвердить</string>
+    <plurals name="text_confirm_delete_player">
+        <item quantity="one">Следующий игрок будет удален: %s.</item>
+        <item quantity="other">Следующие игроки будут удалены: %s.</item>
+    </plurals>
+    <string name="text_confirm_rematch">Начать переигровку с теми же игроками?</string>
+    <string name="text_copy">Копировать</string>
+    <string name="text_delete">Удалить</string>
+    <string name="text_delete_saved_settings">Копия \&quot;%s\&quot; будет удалена.</string>
+    <string name="text_donate_message">Огромное спасибо за помощь! Вы клёвые!</string>
+    <string name="text_edit_name">Редактировать имя</string>
+    <string name="text_enter_saved_settings_name">Введите имя, например \'криббедж\'</string>
+    <string name="text_format_rounds">%d раундов</string>
+    <string name="text_format_rounds_singular">%d раунд</string>
+    <plurals name="text_game_count">
+        <item quantity="one">%d игра</item>
+        <item quantity="other">%d игр</item>
+    </plurals>
+    <string name="text_game_name_separator">-</string>
+    <string name="text_game_will_be_deleted">Игра будет удалена.</string>
+    <string name="text_games_will_be_deleted">%d игр будут удалены.</string>
+    <string  name="text_load_backup">\'%1$s\' успешно импортирован.\n\n\
+Найдено: %2$d\n\
+Загружено: %3$d\n\
+Дубликатов: %4$d</string>
+    <string name="text_loading">Импорт&#8230;</string>
+    <string name="text_loading_generic">Загрузка&#8230;</string>
+    <string name="text_no_saved_games">Здесь отображаются ваши сохраненные игры.</string>
+    <string name="text_num_players">Количество игроков</string>
+    <string name="text_player">Игрок</string>
+    <string name="text_player_names">Имена игроков (необязательно)</string>
+    <string name="text_players">%s игроков</string>
+    <string name="text_reset_confirm">Все настройки будут сброшены.</string>
+    <string name="text_restore_initial">Кажется у вас заведены игры в KeepScore. Восстановить из копии?</string>
+    <string name="text_round_total">Раунд #%1$d Итого: %2$d</string>
+    <plurals name="text_save_backup">
+        <item quantity="one">Создать резервную копию %d игры на USB носителе?</item>
+        <item quantity="other">Создать резервную копию %d игр на USB носителе?</item>
+    </plurals>
+    <plurals name="text_save_backup_succeeded">
+        <item quantity="one">%1$d игра сохранена в \'%2$s\'.</item>
+        <item quantity="other">%1$d игр сохранены в \'%2$s\'.</item>
+    </plurals>
+    <string name="text_saved_games">Сохраненные игры</string>
+    <string name="text_saving">Экспорт&#8230;</string>
+    <plurals name="text_share_spreadsheet_confirm">
+        <item quantity="one">Экспортировать эту игру как таблицу?</item>
+        <item quantity="other">Экспортировать %d игр как таблицы?</item>
+    </plurals>
+    <plurals name="text_share_spreadsheet_subject">
+        <item quantity="one">Таблица с 1 игрой из KeepScore</item>
+        <item quantity="other">Таблица с %d игр из KeepScore</item>
+    </plurals>
+    <string name="text_share_spreadsheet_body">Приложенный файл - таблица KeepScore в CSV-формате.\
+\n\nЭтот файл можно открыть в программе электронных таблиц, такими как Excel, \
+LibreOffice, или Google Docs.</string>
+    <string name="text_share_spreadsheet_date_started">Время старта</string>
+    <string name="text_share_spreadsheet_date_modified">Последнее изменение</string>
+    <string name="text_share_spreadsheet_duration">Длительность игры</string>
+    <string name="text_share_spreadsheet_game_name">Название игры</string>
+    <string name="text_share_spreadsheet_num_rounds">Количество раундов</string>
+    <string name="text_share_spreadsheet_num_players">Количество игроков</string>
+    <string name="text_share_spreadsheet_player_with_max">Игрок(и) с наибольшим количеством очков</string>
+    <string name="text_share_spreadsheet_player_with_min">Игрок(и) с наименьшим количеством очков</string>
+    
+    <plurals name="text_share_with_friend">
+        <item quantity="one">Поделиться этой игрой с другом?</item>
+        <item quantity="other">Поделиться %d играми с другом?</item>
+    </plurals>
+    <plurals name="text_share_mail_subject">
+        <item quantity="one">Игра из KeepScore для тебя!</item>
+        <item quantity="other">%d игр KeepScore для тебя!</item>
+    </plurals>
+    <string name="text_share_mail_body">Приложенный файл - резервная копия из KeepScore.\
+\n\nДля импорта в KeepScore, просто откройте вложение, используя вашу любимую почтовую программу.\
+\n\nЕсли это не сработает, сохраните файл в /sdcard/keepscore/backups и выберите \"Восстановить\" из главного меню KeepScore.
+\n\nЧтобы скачать KeepScore, зайдите на https://play.google.com/store/apps/details?id=com.nolanlawson.keepscore.</string>
+    
+    <string name="text_undo_last">Удалить последний подсчет</string>
+    <string name="text_welcome_title">Добро пожаловать в KeepScore!</string>
+    <string name="text_welcome_message" ><![CDATA[
+        KeepScore - это бесплатное приложение с открытым кодом,
+<b>от игроков и для игроков</b>.
+<p/>Если вам понравился KeepScore, пожалуйста задумайтесь о <a href="%1$s">пожертвовании</a>.
+<p/>Не можете пожертвовать? <a href="%2$s">Помогите нам с переводом</a>!]]></string>
+    
+    <string name="text_version_number">Версия %s</string>
+    
+    <string name="title_add">Добавить очки</string>
+    <string name="title_add_player">Введите имя игрока</string>
+    <string name="title_change_name">Изменить имя</string>
+    <string name="title_choose_backup">Восстановить игру из файла</string>
+    <string name="title_choose_color">Выберите цвет</string>
+    <string name="title_confirm">Подтвердить</string>
+    <string name="title_confirm_delete">Подтвердить удаление</string>
+    <string name="title_confirm_reset">Подтвердить сброс</string>
+    <string name="title_edit_game_name">Введите название игры</string>
+    <string name="title_last_month">Последний месяц</string>
+    <string name="title_last_week">Последняя неделя</string>
+    <string name="title_last_year">Последний год</string>
+    <string name="title_load_setting_set">Загрузить \&quot;%s\&quot;?</string>
+    <string name="title_name_game">Введите имя игры</string>
+    <string name="title_older">Ранее</string>
+    <string name="title_save_setting_set">Создать резервную копию всех настроек</string>
+    <string name="title_subtract">Вычесть очки</string>
+    <string name="title_success">Успешно</string>
+    <string name="title_today">Сегодня</string>
+    <string name="title_two_days_ago">Позавчера</string>
+    <string name="title_yesterday">Вчера</string>
+    
+    <string name="toast_deleted">Игра удалена.</string>
+    <string name="toast_error_with_backup">Ошибка импорта игр.</string>
+    <string name="toast_game_copied">Игра скопирована.</string>
+    <string name="toast_game_saved">Игра сохранена.</string>
+    <string name="toast_invalid_setting_set_name">Недопустимое имя.</string>
+    <string name="toast_loaded_setting_set">Загружены настройки для \&quot;%s\&quot;.</string>
+    <string name="toast_multiple_deleted">Игры удалены.</string>
+    <string name="toast_no_backups">Резервные копии не найдены.</string>
+    <string name="toast_no_saved_games">Нет сохраненных игр для создания резервных копий.</string>
+    <string name="toast_no_saved_settings">Нет резервных копий.</string>
+    <string name="toast_no_sdcard">SD карта не найдена.</string>
+    <string name="toast_no_zeroes">Необходимо ввести ненулевое число.</string>
+    <string name="toast_rematch_created">Создана переигровка игры.</string>
+    <string name="toast_save_backup_failed">Невозможно экспортировать файл.</string>
+    <string name="toast_saved_setting_set_name">Сохраненная резервная копия \&quot;%s\&quot;.</string>
+    <string name="toast_share_error_no_app">Не найдена почтовая программа.</string>
+    <string name="toast_settings_reset">Настройки сброшены.</string>
+    <string name="toast_valid_initial_score">Необходимо ввести корректное число.</string>
+    <string name="toast_valid_update_delay_values">Введите число между 1 и 600.</string>
+    <string name="toast_calc_error">Недопустимая расчётная запись.</string>
+</resources>
+
+
