@@ -1,4 +1,4 @@
-KeepScore
+KeepScore ![project unmaintained](https://img.shields.io/badge/project-unmaintained-red.svg)
 =========
 
 Author
