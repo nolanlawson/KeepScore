@@ -62,7 +62,7 @@ public class AutofitTextView extends TextView {
                 // vertical)
 
                 // get the original color (blue or red)
-                ForegroundColorSpan[] foregroundColorSpans = ((SpannedString) getText()).getSpans(startOfLastLine + 1,
+                ForegroundColorSpan[] foregroundColorSpans = ((Spanned) getText()).getSpans(startOfLastLine + 1,
                         cutoffIndex, ForegroundColorSpan.class);
 
                 // make an alpha-ized gradient out of the original color
