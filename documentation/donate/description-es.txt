@@ -1,0 +1,7 @@
+Esto es un add-on para KeepScore. Debes tener la aplicación original instalada.
+
+Todo lo que hace esta aplicación es añadir un mensaje especial en la sección "Info" de KeepScore y te da un cálido y suave sentimiento en el pecho.
+
+¡Gracias por tu donación! También puedes usar PayPal:
+
+http://nolanlawson.com/donate/

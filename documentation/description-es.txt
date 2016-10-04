@@ -1,0 +1,32 @@
+KeepScore - Score Keeper
+Sencillo y fácil de usar Contador/Marcador para Android
+
+¿Necesitas llevar el recuento de puntos en algún juego? ¡Olvídate del papel y el lápiz!
+
+KeepScore es un contador/marcador que puede usarse en cualguier juego que implique un recuento de puntos, desde las 7 y media hasta Carcassonne. Soy un gran jugador de juegos de mesa, por lo que hice esta aplicación para facilitar el recuento de puntos en las partidas con mis amigos. 
+
+Características:
+
+- Guarda las puntuaciones automáticamente sobre la marcha.
+
+- Muestra un completo historial de resultados de cada partida.
+
+- El historial se actualiza automáticamente cada 10 segundos (configurable)
+
+- Mantiene la pantalla encendida
+
+- Admite desde 2 hasta 8 jugadores
+
+- Guarda varias partidas simultáneamente
+
+- Pulsa prolongadamente en un botón para sumar/restar diferentes valores
+
+- Se pueden configurar los botones de suma/resta
+
+- Se pueden añadir/editar/eliminar jugadores mientras se juega
+
+- Se puede hacer y restaurar copias de seguridad en tarjetas SD
+
+¡Disfruta!
+
+seo: plantilla de puntuación, panel de puntuación, tarjeta de puntaución, contador, contar, recuento, contaje, puntos, punto, marcador
